@@ -349,11 +349,14 @@
     position: sticky;
     top: 24px;
     max-height: calc(100vh - 48px);
+    max-height: calc(100dvh - 48px);
     overflow-y: auto;
+    /* Only the longest tools on short screens scroll; keep the bar out of sight until hover. */
+    scrollbar-width: none;
     background: var(--color-surface);
     border: 1px solid var(--color-line-card);
     border-radius: var(--radius-xl);
-    padding: 24px;
+    padding: 20px;
     box-shadow: var(--shadow-panel);
   }
 }
@@ -368,10 +371,23 @@
   }
 
   .panel {
-    padding: 26px;
+    padding: 22px;
   }
 
   .row {
     grid-template-columns: 190px 104px minmax(0, 1fr) 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .panel:hover {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-input) transparent;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 380px;
   }
 }

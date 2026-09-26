@@ -226,3 +226,121 @@
   flex-wrap: wrap;
   gap: 8px;
 }
+
+/* ---------- Compact side panel / bottom sheet ---------- */
+/* Tighter spacing so the whole card fits beside the grid without scrolling. */
+.panel {
+  gap: 12px;
+}
+
+.panel .head {
+  gap: 12px;
+}
+
+.panel .mono {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  font-size: 16px;
+}
+
+.panel .name {
+  font-size: 24px;
+  letter-spacing: -0.6px;
+}
+
+.panel .meta {
+  font-size: 12px;
+}
+
+.panel .plain {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.panel .boxes {
+  gap: 8px;
+}
+
+.panel .use,
+.panel .skip {
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  gap: 2px;
+}
+
+/* Area / Runs on / Cost side by side instead of three rows */
+.panel .facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px 0;
+  border-top: 1px solid var(--color-line-soft);
+  border-bottom: 1px solid var(--color-line-soft);
+  font-size: 13px;
+}
+
+.panel .facts > div {
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
+  padding: 0;
+  border-bottom: 0;
+}
+
+.panel .facts dt {
+  font-size: 12px;
+}
+
+.panel .facts dd {
+  text-align: left;
+  line-height: 1.35;
+}
+
+.panel .getIt,
+.panel .dives,
+.panel .note {
+  gap: 6px;
+}
+
+.panel .label {
+  font-size: 12px;
+}
+
+.panel .code {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.panel .dive {
+  padding: 7px 12px;
+}
+
+/* In the panel only the title shows; the track is on the deep dive itself. */
+.panel .diveTrack {
+  display: none;
+}
+
+.panel .diveTitle {
+  font-size: 15px;
+}
+
+.panel .note {
+  padding-top: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.panel .permalink {
+  min-height: 32px;
+  font-size: 13px;
+}
+
+@media (min-width: 1280px) {
+  /* Wide enough for "Use it when" and "Skip it when" side by side */
+  .panel .boxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}

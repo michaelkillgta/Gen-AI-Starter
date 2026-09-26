@@ -73,7 +73,12 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
         <span className={styles.label}>Learn it in a deep dive</span>
         {tool.dives.length > 0 ? (
           tool.dives.map((d) => (
-            <Link key={d.slug} href={links.dive(d.track_slug, d.slug)} className={styles.dive}>
+            <Link
+              key={d.slug}
+              href={links.dive(d.track_slug, d.slug)}
+              className={styles.dive}
+              title={`${d.track_name}, deep dive ${d.position}`}
+            >
               <span className={styles.diveTrack}>
                 {d.track_name}, deep dive {d.position}
               </span>

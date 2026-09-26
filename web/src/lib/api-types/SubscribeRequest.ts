@@ -4,4 +4,4 @@ export type SubscribeRequest = {
 /**
  * A WhatsApp number or an email address.
  */
-contact: string, source: string, turnstile: string, };
+contact: string, source: string, };
