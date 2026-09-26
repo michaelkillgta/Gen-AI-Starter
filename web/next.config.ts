@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import type { NextConfig } from "next";
 
 const securityHeaders = [
@@ -11,6 +13,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // The production Docker image runs the self-contained server (web/Dockerfile).
   output: process.env.BUILD_STANDALONE === "1" ? "standalone" : undefined,
+  // The web app is its own project (the repo root's package.json is only dev tooling),
+  // so server.js lands at the top of .next/standalone.
+  outputFileTracingRoot: path.join(__dirname),
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
