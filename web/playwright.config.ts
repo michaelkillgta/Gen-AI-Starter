@@ -19,11 +19,20 @@ export default defineConfig({
     baseURL: `http://localhost:${port}`,
     browserName: "chromium",
   },
-  webServer: {
-    command: `pnpm build && pnpm start -p ${port}`,
-    url: `http://localhost:${port}`,
-    reuseExistingServer: true,
-    timeout: 240_000,
-    env: { SHOW_STYLEGUIDE: "1" },
-  },
+  webServer: [
+    {
+      // The Rust API serves the content the pages render.
+      command: "cd ../api && cargo run",
+      url: "http://127.0.0.1:8080/health",
+      reuseExistingServer: true,
+      timeout: 600_000,
+    },
+    {
+      command: `pnpm build && pnpm start -p ${port}`,
+      url: `http://localhost:${port}`,
+      reuseExistingServer: true,
+      timeout: 300_000,
+      env: { SHOW_STYLEGUIDE: "1" },
+    },
+  ],
 });

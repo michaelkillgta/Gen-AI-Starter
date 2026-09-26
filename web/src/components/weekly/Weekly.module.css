@@ -1,0 +1,281 @@
+.tally {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.issue {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 56px;
+}
+
+.issueHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  background: var(--color-panel);
+  border-radius: 18px;
+}
+
+.issueHeadText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.issueLabel {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.issueTitle {
+  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.875rem);
+  letter-spacing: -0.8px;
+}
+
+.verdict {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-card);
+  border-radius: var(--radius-xl);
+  padding: 22px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "what num" "why why" "call call";
+  gap: 16px;
+}
+
+.num {
+  grid-area: num;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 28px;
+  color: var(--color-number);
+  line-height: 1;
+}
+
+.what {
+  grid-area: what;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name {
+  font-size: clamp(1.5rem, 1.35rem + 0.5vw, 1.75rem);
+  letter-spacing: -0.7px;
+}
+
+.summary {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.why {
+  grid-area: why;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.why strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.bestFor {
+  color: var(--color-muted);
+}
+
+.call {
+  grid-area: call;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+
+.callBadge {
+  font-size: 16px;
+  padding: 10px 18px;
+}
+
+.qualifier {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.toolLink {
+  font-size: 14px;
+  font-weight: 600;
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+}
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.pager a {
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+}
+
+.decideWrap {
+  padding-bottom: 56px;
+}
+
+.decide {
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+  border-radius: var(--radius-2xl);
+  padding: 28px 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+
+.decideTitle {
+  font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.125rem);
+  letter-spacing: -1px;
+}
+
+.principle {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.principleTitle {
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--color-accent);
+}
+
+.principleText {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-on-dark-muted);
+}
+
+.archive {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.archiveItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-card);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.archiveItem:hover {
+  color: var(--color-ink);
+  border-color: var(--color-ink);
+}
+
+.archiveHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: baseline;
+}
+
+.archiveNum {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.archiveDate {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.archiveNames {
+  font-size: 15px;
+  color: var(--color-muted);
+}
+
+@media (min-width: 640px) {
+  .issueHead {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 28px;
+  }
+
+  .verdict {
+    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-areas: "num what" "num why" "num call";
+    padding: 26px 28px;
+    column-gap: 20px;
+  }
+
+  .decide {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 36px;
+  }
+
+  .decideTitle {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .issue {
+    gap: 20px;
+    padding-bottom: 88px;
+  }
+
+  .verdict {
+    grid-template-columns: 56px 1.1fr 1.4fr 170px;
+    grid-template-areas: "num what why call";
+    gap: 28px;
+    padding: 30px 32px;
+    align-items: start;
+  }
+
+  .num {
+    font-size: 34px;
+  }
+
+  .call {
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .decide {
+    grid-template-columns: 0.8fr 1fr 1fr 1fr;
+    gap: 36px;
+    padding: 44px 48px;
+  }
+
+  .decideTitle {
+    grid-column: auto;
+  }
+
+  .decideWrap {
+    padding-bottom: 88px;
+  }
+}

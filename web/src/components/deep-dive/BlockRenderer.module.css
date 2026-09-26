@@ -1,0 +1,137 @@
+.p {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--color-body);
+}
+
+.h2 {
+  margin-top: 12px;
+  font-size: clamp(1.625rem, 1.3rem + 1.1vw, 2.125rem);
+  letter-spacing: -0.03em;
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.side {
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.bad {
+  border: 1px solid #f1d9cc;
+  background: #fdf6f2;
+}
+
+.good {
+  border: 1px solid #d6e4d2;
+  background: #f4f8f2;
+}
+
+.sideTitle {
+  font-weight: 600;
+}
+
+.bad .sideTitle,
+.bad .result {
+  color: var(--color-danger);
+}
+
+.good .sideTitle,
+.good .result {
+  color: var(--color-success);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.step {
+  padding: 11px 13px;
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+}
+
+.result {
+  font-weight: 600;
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-card);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cardTitle {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.cardText {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.callout {
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calloutLabel {
+  font-size: 13px;
+  color: var(--color-on-dark-muted);
+}
+
+.calloutText {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+}
+
+@media (min-width: 640px) {
+  .compare,
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .p {
+    font-size: 18px;
+  }
+
+  .callout {
+    padding: 26px 28px;
+  }
+}

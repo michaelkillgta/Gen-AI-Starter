@@ -25,11 +25,11 @@ export class ApiUnavailableError extends Error {}
  * `notFound()`. Pages are rendered per request (so builds don't need the API
  * running), while the fetch itself is cached for REVALIDATE_SECONDS.
  */
-async function apiGet<T>(path: string, revalidate = REVALIDATE_SECONDS): Promise<T | null> {
+async function apiGet<T>(path: string, revalidate = REVALIDATE_SECONDS, tags: string[] = []): Promise<T | null> {
   await connection();
   let res: Response;
   try {
-    res = await fetch(`${API_URL}${path}`, { next: { revalidate, tags: ["content"] } });
+    res = await fetch(`${API_URL}${path}`, { next: { revalidate, tags: ["content", ...tags] } });
   } catch (e) {
     throw new ApiUnavailableError(`API not reachable at ${API_URL}: ${(e as Error).message}`);
   }
@@ -54,4 +54,4 @@ export const getPosts = (category?: string) =>
 export const getPost = (slug: string) => apiGet<PostDetail>(`/posts/${encodeURIComponent(slug)}`);
 
 /** The waitlist count changes often, so it is cached for 15 seconds only. */
-export const getChallenge = () => apiGet<ChallengeResponse>("/challenge", 15);
+export const getChallenge = () => apiGet<ChallengeResponse>("/challenge", 15, ["challenge"]);

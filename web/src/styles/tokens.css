@@ -17,8 +17,8 @@
   --color-body: #2e2620;           /* long-form article text */
   --color-muted: #5e534a;
   --color-muted-2: #6e6155;
-  --color-faint: #8a7d70;
-  --color-number: #b5a898;         /* large list numbers */
+  --color-faint: #766a5d;          /* design had #8A7D70; darkened to pass 4.5:1 contrast */
+  --color-number: #948676;         /* large list numbers (design #B5A898, darkened for 3:1 contrast) */
   --color-on-dark: #fbf8f3;
   --color-on-dark-muted: #c9bbaa;
   --color-code-text: #efe6da;

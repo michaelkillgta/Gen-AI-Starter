@@ -1,0 +1,102 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  padding-bottom: 40px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: transform 0.16s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 23px;
+  line-height: 1.12;
+  letter-spacing: -0.5px;
+}
+
+.text {
+  display: none;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.cta {
+  display: none;
+  margin-top: auto;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.dark,
+.dark:hover {
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+}
+.dark .eyebrow { color: var(--color-accent); }
+.dark .text { color: var(--color-on-dark-muted); }
+
+.accent,
+.accent:hover {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+.accent .text { color: #3a2e24; }
+
+.panel,
+.panel:hover {
+  background: var(--color-panel);
+  color: var(--color-ink);
+}
+.panel .eyebrow,
+.panel .text { color: var(--color-muted); }
+
+@media (min-width: 640px) {
+  .text,
+  .cta {
+    display: block;
+  }
+
+  .card {
+    gap: 12px;
+    padding: 28px;
+    min-height: 220px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    padding-bottom: 64px;
+  }
+
+  .card {
+    padding: 32px;
+    border-radius: 22px;
+    min-height: 240px;
+  }
+
+  .title {
+    font-size: 28px;
+    letter-spacing: -0.7px;
+    line-height: 1.1;
+  }
+}

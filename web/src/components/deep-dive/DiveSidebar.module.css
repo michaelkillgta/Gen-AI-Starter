@@ -1,0 +1,128 @@
+/* ---------- Phone / tablet: folded ---------- */
+.fold {
+  background: var(--color-panel);
+  border-radius: var(--radius-lg);
+}
+
+.summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary > span {
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryTrack {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.summaryPos {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.chev {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.fold[open] .chev {
+  transform: rotate(180deg);
+}
+
+.foldBody {
+  padding: 0 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.foldBody > :first-child {
+  padding: 0 4px;
+}
+
+/* ---------- Desktop: sidebar ---------- */
+.side {
+  display: none;
+}
+
+.crumb {
+  font-size: 13px;
+  color: var(--color-muted);
+  text-decoration: none;
+  padding: 0 12px 6px;
+}
+
+.trackName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  padding: 0 12px 10px;
+}
+
+.progress {
+  padding: 0 12px 14px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.item:hover {
+  background: rgba(255, 254, 252, 0.6);
+  color: var(--color-ink);
+}
+
+.itemOn,
+.itemOn:hover {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .fold {
+    display: none;
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: sticky;
+    top: 24px;
+    background: var(--color-panel);
+    border-radius: var(--radius-xl);
+    padding: 22px 16px;
+  }
+}

@@ -1,0 +1,100 @@
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progressHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.compact .progressHead {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.progressLabel {
+  font-weight: 600;
+}
+
+.compact .progressLabel {
+  font-weight: 400;
+}
+
+.progressCount {
+  color: var(--color-muted);
+}
+
+.progressNote {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.startTag,
+.readTag,
+.doneTag {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.startTag {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.readTag {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.doneTag {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--verdict-use-bg);
+  color: var(--color-success);
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid #d6cbbc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.dotCurrent {
+  border: 2px solid var(--color-accent);
+}
+
+.dotDone {
+  border: none;
+  background: var(--color-success);
+  color: var(--color-surface);
+}
+
+.markRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
+.markNext {
+  font-weight: 600;
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+}

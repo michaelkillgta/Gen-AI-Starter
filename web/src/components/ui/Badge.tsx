@@ -28,7 +28,9 @@ export function Badge({ tone = "neutral", size = "sm", colors, children, classNa
 
 export type ToolStatus = "using" | "notes" | "tested";
 
-/** The coloured dot for "I use this" / "In my notes" / "Tested". */
+/** The coloured dot for "I use this" / "In my notes" / "Tested". An empty label makes it decorative. */
 export function StatusDot({ status, label }: { status: ToolStatus; label: string }) {
-  return <span className={cx(styles.dot, styles[`dot-${status}`])} title={label} role="img" aria-label={label} />;
+  const cls = cx(styles.dot, styles[`dot-${status}`]);
+  if (!label) return <span className={cls} aria-hidden="true" />;
+  return <span className={cls} title={label} role="img" aria-label={label} />;
 }

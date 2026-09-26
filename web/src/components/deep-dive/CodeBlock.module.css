@@ -1,0 +1,35 @@
+.wrap {
+  min-width: 0;
+}
+
+.pre {
+  margin: 0;
+  background: var(--color-dark);
+  color: var(--color-code-text);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.keyword {
+  color: #e7a55a;
+}
+
+.string {
+  color: #b9d7a8;
+}
+
+.comment {
+  color: #a89a8b;
+}
+
+@media (min-width: 640px) {
+  .pre {
+    font-size: 13.5px;
+    padding: 18px 20px;
+  }
+}

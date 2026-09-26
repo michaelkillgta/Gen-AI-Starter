@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Button } from "@/components/ui";
@@ -18,7 +19,7 @@ export default function NotFound() {
           </Button>
         </div>
       </main>
-      <SiteFooter variant="slim" message={<>Think something is missing? <a href="/suggest">Tell me</a></>} />
+      <SiteFooter variant="slim" message={<>Think something is missing? <Link href="/suggest">Tell me</Link></>} />
     </div>
   );
 }

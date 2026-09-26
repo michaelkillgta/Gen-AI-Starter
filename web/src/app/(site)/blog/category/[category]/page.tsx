@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { ComingSoon } from "@/components/layout/ComingSoon";
+import { BlogIndex } from "@/components/blog/BlogIndex";
+import { getPosts } from "@/lib/api";
 
-export const metadata: Metadata = { title: "Blog" };
+type Props = { params: Promise<{ category: string }> };
 
-export default function BlogCategoryCategoryPage() {
-  return <ComingSoon title="Blog" phase="phase 4 (Blog)" />;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const slug = (await params).category;
+  const data = await getPosts(slug);
+  const cat = data?.categories.find((c) => c.slug === slug);
+  return { title: cat ? `${cat.label} · Blog` : "Blog" };
+}
+
+export default async function BlogCategoryPage({ params }: Props) {
+  const slug = (await params).category;
+  const data = await getPosts(slug);
+  if (!data) notFound();
+  return <BlogIndex data={data} category={slug} />;
 }
