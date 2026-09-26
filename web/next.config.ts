@@ -9,6 +9,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // The production Docker image runs the self-contained server (web/Dockerfile).
+  output: process.env.BUILD_STANDALONE === "1" ? "standalone" : undefined,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

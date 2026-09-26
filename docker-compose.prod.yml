@@ -1,0 +1,76 @@
+# Production: one server runs everything. Nothing listens on a public port;
+# Cloudflare Tunnel (cloudflared) connects out to Cloudflare and brings visitors in.
+#
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+#
+# See docs/deploy.md for the full runbook.
+name: field-tested
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fieldtested
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env.production}
+      POSTGRES_DB: fieldtested
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fieldtested -d fieldtested"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [internal]
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: field-tested-api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://fieldtested:${POSTGRES_PASSWORD}@db:5432/fieldtested
+      STORAGE: postgres
+      CORS_ORIGINS: ${SITE_URL:?set SITE_URL in .env.production}
+      FORM_POSTS_PER_MINUTE: ${FORM_POSTS_PER_MINUTE:-6}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [internal]
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${SITE_URL}
+        NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY:-}
+    image: field-tested-web
+    restart: unless-stopped
+    environment:
+      API_URL: http://api:8080
+      TURNSTILE_SECRET: ${TURNSTILE_SECRET:-}
+    depends_on:
+      api:
+        condition: service_healthy
+    networks: [internal]
+
+  # Cloudflare Tunnel: public hostnames are set in the Cloudflare dashboard
+  # (infra/cloudflare/README.md). Remove this service to test locally.
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?set CLOUDFLARE_TUNNEL_TOKEN in .env.production}
+    depends_on:
+      web:
+        condition: service_healthy
+    networks: [internal]
+
+volumes:
+  db-data:
+
+networks:
+  internal:

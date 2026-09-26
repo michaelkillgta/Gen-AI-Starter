@@ -21,3 +21,4 @@ Thumbs.db
 api/.cargo/
 api/data/
 .local/
+.env.production

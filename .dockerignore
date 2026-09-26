@@ -1,0 +1,12 @@
+**/node_modules
+**/.next
+**/target
+api/.cargo
+api/data
+**/.env
+**/.env.local
+web/test-results
+web/tests/screens/output
+.git
+design-canvas
+.local

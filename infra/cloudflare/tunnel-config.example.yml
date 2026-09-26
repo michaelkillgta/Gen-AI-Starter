@@ -1,0 +1,22 @@
+# Locally managed Cloudflare Tunnel (alternative to the dashboard-managed token).
+# Only needed if you prefer a config file. Replace every value in <angle brackets>.
+#
+#   cloudflared tunnel login
+#   cloudflared tunnel create field-tested        # prints the tunnel id and writes <id>.json
+#   cloudflared tunnel route dns field-tested yoursite.in
+#
+# Then run cloudflared with:  tunnel --config /etc/cloudflared/config.yml run
+
+tunnel: <TUNNEL-ID>
+credentials-file: /etc/cloudflared/<TUNNEL-ID>.json
+
+ingress:
+  - hostname: yoursite.in
+    service: http://web:3000
+  - hostname: www.yoursite.in
+    service: http://web:3000
+  # Optional: only if something outside the server must call the API.
+  # Protect it with Cloudflare Access before enabling.
+  # - hostname: api.yoursite.in
+  #   service: http://api:8080
+  - service: http_status:404
