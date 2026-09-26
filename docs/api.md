@@ -18,4 +18,26 @@ Response types live in `web/src/lib/api-types/` (generated from `api/src/models/
 | GET | `/posts/:slug` | `PostDetail` with up to 3 related posts |
 | GET | `/challenge` | `ChallengeResponse`: challenge, waitlist count, previous projects |
 
-Form endpoints (phase 5): `POST /challenge/waitlist`, `POST /subscribe`, `POST /suggestions`, `POST /contact`.
+## Forms
+
+The website posts to these from its server (Next server actions), passing the visitor IP in `x-forwarded-for`.
+Every form: max 6 posts per visitor per minute (`429`), Cloudflare Turnstile when `TURNSTILE_SECRET` is set,
+and `422 { error, fields: { field: message } }` for bad input.
+
+| Method | Path | Body | Returns |
+|---|---|---|---|
+| POST | `/challenge/waitlist` | `{ name, phone, email, turnstile? }` | `201 { position, joined, goal, already_joined: false }`, or `200 … already_joined: true` if that phone/email already joined |
+| POST | `/subscribe` | `{ contact, source?, turnstile? }` (WhatsApp number or email) | `{ ok: true }` |
+| POST | `/suggestions` | `{ about, title, details?, link?, contact?, turnstile? }` | `{ ok: true }` |
+| POST | `/contact` | `{ name, email, college?, message, turnstile? }` | `{ ok: true }` |
+
+Phone numbers are stored as `+91XXXXXXXXXX` (Indian mobiles) or `+<country><number>`; emails lower-cased.
+No endpoint ever returns phones or emails.
+
+## Exports
+
+Personal data leaves only through the command line:
+
+```bash
+pnpm export waitlist > waitlist.csv      # also: subscribers, suggestions, contact
+```

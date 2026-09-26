@@ -3,4 +3,5 @@
 //! `TS`, so `cargo test` writes matching TypeScript into `web/src/lib/api-types/`.
 
 pub mod api;
+pub mod forms;
 pub mod seed;

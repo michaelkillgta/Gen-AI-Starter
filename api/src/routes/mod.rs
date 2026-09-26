@@ -1,4 +1,7 @@
-use axum::{Router, routing::get};
+use axum::{
+    Router,
+    routing::{get, post},
+};
 
 use crate::{handlers, middleware, state::AppState};
 
@@ -15,7 +18,11 @@ pub fn router(state: AppState) -> Router {
         .route("/weekly/{number}", get(handlers::content::issue))
         .route("/posts", get(handlers::content::posts))
         .route("/posts/{slug}", get(handlers::content::post))
-        .route("/challenge", get(handlers::content::challenge));
+        .route("/challenge", get(handlers::content::challenge))
+        .route("/challenge/waitlist", post(handlers::forms::waitlist))
+        .route("/subscribe", post(handlers::forms::subscribe))
+        .route("/suggestions", post(handlers::forms::suggestion))
+        .route("/contact", post(handlers::forms::contact));
 
     middleware::apply(api, &state.config).with_state(state)
 }

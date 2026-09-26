@@ -1,11 +1,15 @@
-use std::sync::Arc;
+use std::{sync::Arc, time::Duration};
 
 use crate::{
     config::Config,
-    repo::{BlogRepo, ChallengeRepo, ToolRepo, TrackRepo, WeeklyRepo, memory::SeedStore},
+    repo::{
+        BlogRepo, ChallengeRepo, SubmissionRepo, ToolRepo, TrackRepo, WeeklyRepo, files::FileSubmissions,
+        memory::SeedStore,
+    },
+    services::{ratelimit::RateLimiter, turnstile::Turnstile},
 };
 
-/// One handle per content area. Swapping storage (phase 8) only changes `Repos::from_seed`.
+/// One handle per content area. Swapping storage (phase 8) only changes how these are built.
 #[derive(Clone)]
 pub struct Repos {
     pub tools: Arc<dyn ToolRepo>,
@@ -31,17 +35,26 @@ impl Repos {
 #[derive(Clone)]
 pub struct AppState {
     pub repos: Repos,
-    #[allow(dead_code)] // read by the form endpoints in phase 5
+    pub submissions: Arc<dyn SubmissionRepo>,
+    pub limiter: Arc<RateLimiter>,
+    pub turnstile: Arc<Turnstile>,
     pub config: Config,
 }
 
 impl AppState {
-    pub fn new(repos: Repos, config: Config) -> Self {
-        Self { repos, config }
+    pub fn new(repos: Repos, config: Config) -> anyhow::Result<Self> {
+        Ok(Self {
+            repos,
+            submissions: Arc::new(FileSubmissions::open(&config.data_dir)?),
+            limiter: Arc::new(RateLimiter::new(config.form_posts_per_minute, Duration::from_secs(60))),
+            turnstile: Arc::new(Turnstile::new(config.turnstile_secret.clone())),
+            config,
+        })
     }
 
-    /// People on the challenge waitlist. Real count arrives with the forms in phase 5.
+    /// People on the current challenge's waitlist.
     pub async fn waitlist_count(&self) -> anyhow::Result<i32> {
-        Ok(0)
+        let challenge = self.repos.challenge.current().await?;
+        self.submissions.waitlist_count(&challenge.slug).await
     }
 }

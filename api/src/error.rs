@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use axum::{
     Json,
     http::StatusCode,
@@ -6,29 +8,40 @@ use axum::{
 use serde_json::json;
 
 /// Every handler returns `Result<T, ApiError>`, so errors reach the client as
-/// `{ "error": "..." }` with a matching status code.
+/// `{ "error": "...", "fields"?: { field: message } }` with a matching status code.
 #[derive(Debug, thiserror::Error)]
 pub enum ApiError {
     #[error("not found")]
     NotFound,
-    #[allow(dead_code)] // used by the form endpoints in phase 5
     #[error("{0}")]
     BadRequest(String),
+    /// Form field problems, keyed by field name.
+    #[error("Please check the highlighted fields.")]
+    Validation(HashMap<String, String>),
+    #[error("Too many tries. Please wait a minute and try again.")]
+    TooManyRequests,
     #[error(transparent)]
     Internal(#[from] anyhow::Error),
 }
 
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
-        let (status, message) = match &self {
-            ApiError::NotFound => (StatusCode::NOT_FOUND, self.to_string()),
-            ApiError::BadRequest(m) => (StatusCode::BAD_REQUEST, m.clone()),
+        let body = match &self {
+            ApiError::Validation(fields) => json!({ "error": self.to_string(), "fields": fields }),
             ApiError::Internal(e) => {
                 tracing::error!(error = %e, "internal error");
-                (StatusCode::INTERNAL_SERVER_ERROR, "internal error".to_string())
+                json!({ "error": "Something went wrong on our side. Please try again." })
             }
+            _ => json!({ "error": self.to_string() }),
         };
-        (status, Json(json!({ "error": message }))).into_response()
+        let status = match self {
+            ApiError::NotFound => StatusCode::NOT_FOUND,
+            ApiError::BadRequest(_) => StatusCode::BAD_REQUEST,
+            ApiError::Validation(_) => StatusCode::UNPROCESSABLE_ENTITY,
+            ApiError::TooManyRequests => StatusCode::TOO_MANY_REQUESTS,
+            ApiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
+        };
+        (status, Json(body)).into_response()
     }
 }
 

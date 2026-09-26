@@ -1,3 +1,6 @@
+import os from "node:os";
+import path from "node:path";
+
 import { defineConfig } from "@playwright/test";
 
 /** The four screen sizes every page is checked at. */
@@ -26,6 +29,8 @@ export default defineConfig({
       url: "http://127.0.0.1:8080/health",
       reuseExistingServer: true,
       timeout: 600_000,
+      // Test signups go to a throwaway folder, never the real api/data.
+      env: { DATA_DIR: path.join(os.tmpdir(), `ft-e2e-${Date.now()}`), FORM_POSTS_PER_MINUTE: "100" },
     },
     {
       command: `pnpm build && pnpm start -p ${port}`,

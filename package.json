@@ -8,7 +8,8 @@
     "types": "cd api && cargo test",
     "test": "cd api && cargo test && cd ../web && pnpm test:screens",
     "check": "pnpm --dir web lint && pnpm --dir web exec tsc --noEmit && cd api && cargo clippy -- -D warnings",
-    "db:up (phase 8)": "docker compose up -d --wait db"
+    "db:up (phase 8)": "docker compose up -d --wait db",
+    "export": "cd api && cargo run -q -- export"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

@@ -26,7 +26,11 @@ pnpm dev                        # starts the API and the website
 - API: http://127.0.0.1:8080/health (content served from `api/seed/`, no database until phase 8)
 - Database: not used until phase 8 (`docker-compose.yml` is ready for it)
 
-`pnpm check` runs lint, type checks and clippy.
+`pnpm check` runs lint, type checks and clippy. `pnpm test` runs the API tests and the
+screen tests (every page at 375/768/1024/1440 with accessibility checks, plus the forms).
+
+Export form signups as CSV: `pnpm export waitlist > waitlist.csv` (also `subscribers`,
+`suggestions`, `contact`). Signups are stored in `api/data/` until the database (phase 8).
 
 ### Windows note
 
