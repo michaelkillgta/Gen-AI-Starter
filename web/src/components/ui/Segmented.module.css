@@ -1,4 +1,6 @@
 .tray {
+  align-self: flex-start;
+  max-width: 100%;
   display: inline-flex;
   padding: 4px;
   gap: 4px;

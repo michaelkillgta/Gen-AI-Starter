@@ -27,7 +27,7 @@ for (const screen of screens) {
       // Desktop shows the full menu; phone and tablet show the pill nav.
       const menuLink = tab.locator("header nav").first().getByRole("link", { name: "Toolkit" });
       if (screen.width >= 1024) await expect(menuLink).toBeVisible();
-      else await expect(tab.getByRole("link", { name: "Home" })).toBeVisible();
+      else await expect(tab.getByRole("link", { name: "Home", exact: true })).toBeVisible();
 
       await tab.screenshot({ path: `tests/screens/output/${page.name}-${screen.width}.png`, fullPage: true });
       await context.close();
