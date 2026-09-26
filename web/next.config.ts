@@ -11,6 +11,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // No floating "N" dev badge; it gets in the way of design reviews.
+  devIndicators: false,
   // The production Docker image runs the self-contained server (web/Dockerfile).
   output: process.env.BUILD_STANDALONE === "1" ? "standalone" : undefined,
   // The web app is its own project (the repo root's package.json is only dev tooling),

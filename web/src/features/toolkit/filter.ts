@@ -90,6 +90,16 @@ export function kindCounts(base: ToolWithDives[]): Record<KindFilter, number> {
   return counts;
 }
 
+/** Tools per area for the Area chips (search and type applied, area not). */
+export function groupCounts(tools: ToolWithDives[], startLists: StartList[], query: ToolQuery): Record<GroupFilter, number> {
+  const base = baseFilter(tools, startLists, { ...query, group: "all" }).filter(
+    (t) => !query.kind || query.kind === "all" || t.kind === query.kind,
+  );
+  const counts: Record<GroupFilter, number> = { all: base.length, foundations: 0, rag: 0, agents: 0, ship: 0 };
+  for (const t of base) counts[t.group] += 1;
+  return counts;
+}
+
 /** Two-letter badge from the name, e.g. "Vercel AI SDK" → "VA", "GitHub MCP" → "G". */
 export function monogram(name: string): string {
   const parts = name.replace(/ MCP$/, "").split(/[\s-]+/).filter(Boolean);

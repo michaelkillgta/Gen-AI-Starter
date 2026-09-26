@@ -1,10 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { Badge, BottomSheet, Button, StatusDot } from "@/components/ui";
 import { GROUPS, KIND_LABEL, STATUS_LABEL, monogram } from "@/features/toolkit/filter";
 import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
+import { site } from "@/lib/site";
 import { ToolDetail } from "./ToolDetail";
 import styles from "./ToolResults.module.css";
 
@@ -113,7 +115,11 @@ export function ToolResults({ tools, grouped, view, selected, onSelect, onClear 
                           </span>
                           <span className={styles.kind}>
                             {KIND_LABEL[t.kind]}
-                            <StatusDot status={t.status} label={STATUS_LABEL[t.status]} />
+                            {t.status === "using" ? (
+                              <span className={styles.usesBadge}>{site.author.name} uses this</span>
+                            ) : (
+                              <StatusDot status={t.status} label={STATUS_LABEL[t.status]} />
+                            )}
                           </span>
                         </span>
                         <span className={styles.cardName}>{t.name}</span>
@@ -139,6 +145,18 @@ export function ToolResults({ tools, grouped, view, selected, onSelect, onClear 
                     </li>
                   );
                 })}
+                {/* Fill the gap at the end of a short last row with an invitation instead of empty space. */}
+                <li
+                  className={styles.filler}
+                  data-fill2={g.items.length % 2 !== 0}
+                  data-fill3={g.items.length % 3 !== 0}
+                >
+                  <Link href="/suggest?about=tool" className={styles.fillerLink}>
+                    <span className={styles.fillerPlus} aria-hidden="true">+</span>
+                    <span className={styles.fillerTitle}>Know a tool that belongs here?</span>
+                    <span className={styles.fillerText}>Suggest it and I&apos;ll test it for Worth It? Weekly.</span>
+                  </Link>
+                </li>
               </ul>
             </section>
           ))

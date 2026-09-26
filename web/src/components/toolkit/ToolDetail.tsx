@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Badge, StatusDot } from "@/components/ui";
+import { Badge, Button, StatusDot } from "@/components/ui";
 import { GROUPS, KIND_LABEL, STATUS_LABEL, monogram } from "@/features/toolkit/filter";
 import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 import { links } from "@/lib/links";
@@ -98,9 +98,9 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
       )}
 
       {variant === "panel" && (
-        <Link href={links.tool(tool.slug)} className={styles.permalink}>
+        <Button href={links.tool(tool.slug)} variant="light" block>
           Open the {tool.name} page
-        </Link>
+        </Button>
       )}
       {variant === "page" && tool.tags.length > 0 && (
         <div className={styles.tags}>

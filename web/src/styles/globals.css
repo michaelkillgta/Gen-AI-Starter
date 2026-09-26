@@ -94,6 +94,14 @@ textarea::placeholder {
   border: 0;
 }
 
+/* "28 tools · Last reviewed … · Nobody pays to be listed" under a page lead */
+.trust-line {
+  display: block;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--color-muted-2);
+}
+
 .skip-link {
   position: absolute;
   left: 16px;

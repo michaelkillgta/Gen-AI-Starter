@@ -20,6 +20,8 @@ export const site = {
     whatsappChannel: "#",
     github: "#",
   },
+  // TODO(uma): update whenever the toolkit is reviewed (shown under the toolkit title).
+  toolkitReviewed: "2026-09-26",
   // TODO(uma): values shown on the Weekly and Challenge pages.
   placeholders: {
     weeklyDay: "[DAY]",
