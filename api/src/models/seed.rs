@@ -113,11 +113,23 @@ pub struct CodeSample {
 #[serde(tag = "type", rename_all = "lowercase")]
 #[ts(export)]
 pub enum Block {
-    Paragraph { text: String },
-    Heading { text: String },
-    Compare { left: CompareSide, right: CompareSide },
-    Cards { items: Vec<CardItem> },
-    Callout { label: String, text: String },
+    Paragraph {
+        text: String,
+    },
+    Heading {
+        text: String,
+    },
+    Compare {
+        left: CompareSide,
+        right: CompareSide,
+    },
+    Cards {
+        items: Vec<CardItem>,
+    },
+    Callout {
+        label: String,
+        text: String,
+    },
     Code(CodeSample),
 }
 

@@ -9,15 +9,28 @@ use axum::{
 
 use crate::{
     error::ApiResult,
-    models::forms::{ContactRequest, OkResponse, SubscribeRequest, SuggestionRequest, WaitlistRequest, WaitlistResponse},
+    models::forms::{
+        ContactRequest, OkResponse, SubscribeRequest, SuggestionRequest, WaitlistRequest,
+        WaitlistResponse,
+    },
     services::forms,
     state::AppState,
 };
 
 fn client_ip(headers: &HeaderMap) -> String {
-    let get = |k: &str| headers.get(k).and_then(|v| v.to_str().ok()).map(str::trim).filter(|v| !v.is_empty());
+    let get = |k: &str| {
+        headers
+            .get(k)
+            .and_then(|v| v.to_str().ok())
+            .map(str::trim)
+            .filter(|v| !v.is_empty())
+    };
     get("cf-connecting-ip")
-        .or_else(|| get("x-forwarded-for").and_then(|v| v.split(',').next()).map(str::trim))
+        .or_else(|| {
+            get("x-forwarded-for")
+                .and_then(|v| v.split(',').next())
+                .map(str::trim)
+        })
         .unwrap_or("unknown")
         .to_string()
 }
@@ -28,7 +41,11 @@ pub async fn waitlist(
     Json(req): Json<WaitlistRequest>,
 ) -> ApiResult<(StatusCode, Json<WaitlistResponse>)> {
     let res = forms::join_waitlist(&s, &client_ip(&headers), req).await?;
-    let status = if res.already_joined { StatusCode::OK } else { StatusCode::CREATED };
+    let status = if res.already_joined {
+        StatusCode::OK
+    } else {
+        StatusCode::CREATED
+    };
     Ok((status, Json(res)))
 }
 

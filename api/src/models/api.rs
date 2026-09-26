@@ -4,8 +4,8 @@ use serde::Serialize;
 use ts_rs::TS;
 
 use super::seed::{
-    Block, Category, Challenge, Interview, Project, StartList, Tone, Tool, ToolKind, Track,
-    TryIt, VerdictKind, WeeklyIssue,
+    Block, Category, Challenge, Interview, Project, StartList, Tone, Tool, ToolKind, Track, TryIt,
+    VerdictKind, WeeklyIssue,
 };
 
 /// A short pointer to a deep dive, e.g. in a tool's "Learn it in a deep dive" list.

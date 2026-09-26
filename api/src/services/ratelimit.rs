@@ -14,7 +14,11 @@ pub struct RateLimiter {
 
 impl RateLimiter {
     pub fn new(max: usize, window: Duration) -> Self {
-        Self { max, window, hits: Mutex::new(HashMap::new()) }
+        Self {
+            max,
+            window,
+            hits: Mutex::new(HashMap::new()),
+        }
     }
 
     /// Records a hit for `key` and says whether it is allowed.
@@ -23,7 +27,10 @@ impl RateLimiter {
         let mut hits = self.hits.lock().expect("rate limiter lock");
         // Forget old visitors now and then so the map can't grow forever.
         if hits.len() > 10_000 {
-            hits.retain(|_, v| v.last().is_some_and(|t| now.duration_since(*t) < self.window));
+            hits.retain(|_, v| {
+                v.last()
+                    .is_some_and(|t| now.duration_since(*t) < self.window)
+            });
         }
         let list = hits.entry(key.to_string()).or_default();
         list.retain(|t| now.duration_since(*t) < self.window);

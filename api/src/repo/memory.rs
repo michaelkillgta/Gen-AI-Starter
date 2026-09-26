@@ -72,7 +72,10 @@ impl SeedStore {
     }
 
     fn validate(&self) -> anyhow::Result<()> {
-        fn unique<'a>(what: &str, slugs: impl Iterator<Item = &'a str>) -> anyhow::Result<HashSet<&'a str>> {
+        fn unique<'a>(
+            what: &str,
+            slugs: impl Iterator<Item = &'a str>,
+        ) -> anyhow::Result<HashSet<&'a str>> {
             let mut seen = HashSet::new();
             for s in slugs {
                 if !seen.insert(s) {
@@ -88,32 +91,87 @@ impl SeedStore {
         unique("post", self.posts.iter().map(|p| p.slug.as_str()))?;
         unique("project", self.projects.iter().map(|p| p.slug.as_str()))?;
 
-        let need = |ok: bool, msg: String| if ok { Ok(()) } else { Err(anyhow::anyhow!(msg)) };
+        let need = |ok: bool, msg: String| {
+            if ok {
+                Ok(())
+            } else {
+                Err(anyhow::anyhow!(msg))
+            }
+        };
         for l in &self.start_lists {
             for t in &l.tools {
-                need(tools.contains(t.as_str()), format!("start list {} → unknown tool {t}", l.slug))?;
+                need(
+                    tools.contains(t.as_str()),
+                    format!("start list {} → unknown tool {t}", l.slug),
+                )?;
             }
         }
         for d in &self.dives {
-            need(tracks.contains(d.track.as_str()), format!("dive {} → unknown track {}", d.slug, d.track))?;
+            need(
+                tracks.contains(d.track.as_str()),
+                format!("dive {} → unknown track {}", d.slug, d.track),
+            )?;
             for t in &d.tools {
-                need(tools.contains(t.as_str()), format!("dive {} → unknown tool {t}", d.slug))?;
+                need(
+                    tools.contains(t.as_str()),
+                    format!("dive {} → unknown tool {t}", d.slug),
+                )?;
             }
         }
         for i in &self.issues {
             for v in &i.verdicts {
                 if let Some(t) = &v.tool {
-                    need(tools.contains(t.as_str()), format!("issue {} → unknown tool {t}", i.number))?;
+                    need(
+                        tools.contains(t.as_str()),
+                        format!("issue {} → unknown tool {t}", i.number),
+                    )?;
                 }
             }
         }
         for p in &self.posts {
-            need(cats.contains(p.category.as_str()), format!("post {} → unknown category {}", p.slug, p.category))?;
+            need(
+                cats.contains(p.category.as_str()),
+                format!("post {} → unknown category {}", p.slug, p.category),
+            )?;
             if let Some(d) = &p.dive {
-                need(dives.contains(d.as_str()), format!("post {} → unknown dive {d}", p.slug))?;
+                need(
+                    dives.contains(d.as_str()),
+                    format!("post {} → unknown dive {d}", p.slug),
+                )?;
             }
         }
         Ok(())
+    }
+}
+
+/// Read-only views used when copying the seed into Postgres.
+impl SeedStore {
+    pub fn tools_ref(&self) -> &[Tool] {
+        &self.tools
+    }
+    pub fn start_lists_ref(&self) -> &[StartList] {
+        &self.start_lists
+    }
+    pub fn tracks_ref(&self) -> &[Track] {
+        &self.tracks
+    }
+    pub fn dives_ref(&self) -> &[Dive] {
+        &self.dives
+    }
+    pub fn issues_ref(&self) -> &[WeeklyIssue] {
+        &self.issues
+    }
+    pub fn categories_ref(&self) -> &[Category] {
+        &self.categories
+    }
+    pub fn posts_ref(&self) -> &[Post] {
+        &self.posts
+    }
+    pub fn challenge_ref(&self) -> &Challenge {
+        &self.challenge
+    }
+    pub fn projects_ref(&self) -> &[Project] {
+        &self.projects
     }
 }
 

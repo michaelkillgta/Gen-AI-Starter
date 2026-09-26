@@ -3,5 +3,4 @@
 pub mod content;
 pub mod forms;
 pub mod ratelimit;
-pub mod turnstile;
 pub mod validate;

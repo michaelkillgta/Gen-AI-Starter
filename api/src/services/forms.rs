@@ -21,7 +21,8 @@ struct Fields(HashMap<String, String>);
 
 impl Fields {
     fn take<T>(&mut self, field: &str, r: Result<T, &'static str>) -> Option<T> {
-        r.map_err(|m| self.0.insert(field.to_string(), m.to_string())).ok()
+        r.map_err(|m| self.0.insert(field.to_string(), m.to_string()))
+            .ok()
     }
 
     fn finish(self) -> ApiResult<()> {
@@ -33,18 +34,21 @@ impl Fields {
     }
 }
 
-async fn guard(state: &AppState, ip: &str, token: &str) -> ApiResult<()> {
+/// Rate limit per visitor. (The Cloudflare Turnstile bot check happens in the
+/// website's server before it calls the API; the API is never public.)
+fn guard(state: &AppState, ip: &str) -> ApiResult<()> {
     if !state.limiter.check(ip) {
         return Err(ApiError::TooManyRequests);
-    }
-    if !state.turnstile.verify(token, ip).await {
-        return Err(ApiError::BadRequest("Please complete the check that you're not a robot.".into()));
     }
     Ok(())
 }
 
-pub async fn join_waitlist(state: &AppState, ip: &str, req: WaitlistRequest) -> ApiResult<WaitlistResponse> {
-    guard(state, ip, &req.turnstile).await?;
+pub async fn join_waitlist(
+    state: &AppState,
+    ip: &str,
+    req: WaitlistRequest,
+) -> ApiResult<WaitlistResponse> {
+    guard(state, ip)?;
     let mut f = Fields::default();
     let name = f.take("name", validate::name(&req.name));
     let phone = f.take("phone", validate::phone(&req.phone));
@@ -73,7 +77,7 @@ pub async fn join_waitlist(state: &AppState, ip: &str, req: WaitlistRequest) -> 
 }
 
 pub async fn subscribe(state: &AppState, ip: &str, req: SubscribeRequest) -> ApiResult<()> {
-    guard(state, ip, &req.turnstile).await?;
+    guard(state, ip)?;
     let raw = req.contact.trim();
     let (kind, value) = if raw.contains('@') {
         (ContactKind::Email, validate::email(raw))
@@ -90,23 +94,42 @@ pub async fn subscribe(state: &AppState, ip: &str, req: SubscribeRequest) -> Api
     // Already subscribed is fine: same friendly answer, no duplicate row.
     state
         .submissions
-        .subscribe(Subscriber { id: Uuid::new_v4(), kind, value, source, created_at: Utc::now() })
+        .subscribe(Subscriber {
+            id: Uuid::new_v4(),
+            kind,
+            value,
+            source,
+            created_at: Utc::now(),
+        })
         .await?;
     Ok(())
 }
 
 pub async fn suggest(state: &AppState, ip: &str, req: SuggestionRequest) -> ApiResult<()> {
-    guard(state, ip, &req.turnstile).await?;
+    guard(state, ip)?;
     let mut f = Fields::default();
     let about = match req.about.as_str() {
         "tool" | "weekly" | "topic" | "fix" | "other" => req.about.clone(),
         _ => "other".to_string(),
     };
-    let title = f.take("title", validate::text(&req.title, 120, "Please keep this under 120 characters."));
+    let title = f.take(
+        "title",
+        validate::text(&req.title, 120, "Please keep this under 120 characters."),
+    );
     if title.as_deref() == Some("") {
-        f.0.insert("title".into(), "Please tell me the name of the tool or topic.".into());
+        f.0.insert(
+            "title".into(),
+            "Please tell me the name of the tool or topic.".into(),
+        );
     }
-    let details = f.take("details", validate::text(&req.details, 2000, "Please keep this under 2000 characters."));
+    let details = f.take(
+        "details",
+        validate::text(
+            &req.details,
+            2000,
+            "Please keep this under 2000 characters.",
+        ),
+    );
     let link = f.take("link", validate::url(&req.link));
     let contact = if req.contact.trim().is_empty() {
         Some(String::new())
@@ -130,12 +153,22 @@ pub async fn suggest(state: &AppState, ip: &str, req: SuggestionRequest) -> ApiR
 }
 
 pub async fn contact(state: &AppState, ip: &str, req: ContactRequest) -> ApiResult<()> {
-    guard(state, ip, &req.turnstile).await?;
+    guard(state, ip)?;
     let mut f = Fields::default();
     let name = f.take("name", validate::name(&req.name));
     let email = f.take("email", validate::email(&req.email));
-    let college = f.take("college", validate::text(&req.college, 120, "Please keep this under 120 characters."));
-    let message = f.take("message", validate::text(&req.message, 4000, "Please keep this under 4000 characters."));
+    let college = f.take(
+        "college",
+        validate::text(&req.college, 120, "Please keep this under 120 characters."),
+    );
+    let message = f.take(
+        "message",
+        validate::text(
+            &req.message,
+            4000,
+            "Please keep this under 4000 characters.",
+        ),
+    );
     if message.as_deref().is_some_and(|m| m.chars().count() < 5) {
         f.0.insert("message".into(), "Please write a short message.".into());
     }

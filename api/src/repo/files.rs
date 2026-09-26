@@ -21,7 +21,10 @@ pub struct FileSubmissions {
 impl FileSubmissions {
     pub fn open(dir: &Path) -> anyhow::Result<Self> {
         std::fs::create_dir_all(dir).with_context(|| format!("creating {}", dir.display()))?;
-        Ok(Self { dir: dir.to_path_buf(), lock: Mutex::new(()) })
+        Ok(Self {
+            dir: dir.to_path_buf(),
+            lock: Mutex::new(()),
+        })
     }
 
     fn path(&self, file: &str) -> PathBuf {
@@ -44,7 +47,11 @@ impl FileSubmissions {
         Ok(())
     }
 
-    async fn append<T: Serialize + DeserializeOwned>(&self, file: &str, item: T) -> anyhow::Result<()> {
+    async fn append<T: Serialize + DeserializeOwned>(
+        &self,
+        file: &str,
+        item: T,
+    ) -> anyhow::Result<()> {
         let _g = self.lock.lock().await;
         let mut all: Vec<T> = self.load(file).await?;
         all.push(item);
@@ -63,14 +70,23 @@ impl SubmissionRepo for FileSubmissions {
         let _g = self.lock.lock().await;
         let mut all: Vec<WaitlistEntry> = self.load(WAITLIST).await?;
         let mine = all.iter().filter(|e| e.challenge == entry.challenge);
-        if let Some(existing) = mine.clone().find(|e| e.phone == entry.phone || e.email == entry.email) {
-            return Ok(AddOutcome { position: existing.position, duplicate: true });
+        if let Some(existing) = mine
+            .clone()
+            .find(|e| e.phone == entry.phone || e.email == entry.email)
+        {
+            return Ok(AddOutcome {
+                position: existing.position,
+                duplicate: true,
+            });
         }
         entry.position = mine.count() as i32 + 1;
         let position = entry.position;
         all.push(entry);
         self.save(WAITLIST, &all).await?;
-        Ok(AddOutcome { position, duplicate: false })
+        Ok(AddOutcome {
+            position,
+            duplicate: false,
+        })
     }
 
     async fn waitlist_count(&self, challenge: &str) -> RepoResult<i32> {
@@ -82,7 +98,10 @@ impl SubmissionRepo for FileSubmissions {
     async fn waitlist(&self, challenge: &str) -> RepoResult<Vec<WaitlistEntry>> {
         let _g = self.lock.lock().await;
         let all: Vec<WaitlistEntry> = self.load(WAITLIST).await?;
-        Ok(all.into_iter().filter(|e| e.challenge == challenge).collect())
+        Ok(all
+            .into_iter()
+            .filter(|e| e.challenge == challenge)
+            .collect())
     }
 
     async fn subscribe(&self, sub: Subscriber) -> RepoResult<bool> {

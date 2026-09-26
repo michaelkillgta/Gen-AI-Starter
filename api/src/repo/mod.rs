@@ -1,11 +1,15 @@
 //! Storage interfaces, one per content area.
 //!
-//! Today everything is served by [`memory::SeedStore`], which loads `api/seed/*.json`
-//! at start-up. Phase 8 adds Postgres implementations of the same traits; handlers
-//! and services never know which one they are talking to.
+//! Two storage modes, picked by `STORAGE` (see `config.rs`):
+//! - `postgres`: [`postgres::PgStore`] for content and submissions.
+//! - `files`: [`memory::SeedStore`] (content from `api/seed/*.json`) and
+//!   [`files::FileSubmissions`] (JSON files in `api/data/`).
+//!
+//! Handlers and services never know which one they are talking to.
 
 pub mod files;
 pub mod memory;
+pub mod postgres;
 
 use async_trait::async_trait;
 

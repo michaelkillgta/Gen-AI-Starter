@@ -13,8 +13,6 @@ pub struct WaitlistRequest {
     pub name: String,
     pub phone: String,
     pub email: String,
-    #[serde(default)]
-    pub turnstile: String,
 }
 
 #[derive(Debug, Deserialize, TS)]
@@ -24,8 +22,6 @@ pub struct SubscribeRequest {
     pub contact: String,
     #[serde(default)]
     pub source: String,
-    #[serde(default)]
-    pub turnstile: String,
 }
 
 #[derive(Debug, Deserialize, TS)]
@@ -40,8 +36,6 @@ pub struct SuggestionRequest {
     pub link: String,
     #[serde(default)]
     pub contact: String,
-    #[serde(default)]
-    pub turnstile: String,
 }
 
 #[derive(Debug, Deserialize, TS)]
@@ -52,8 +46,6 @@ pub struct ContactRequest {
     #[serde(default)]
     pub college: String,
     pub message: String,
-    #[serde(default)]
-    pub turnstile: String,
 }
 
 // ---------- Responses ----------

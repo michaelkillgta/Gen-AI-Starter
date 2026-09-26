@@ -2,17 +2,25 @@
   "name": "field-tested",
   "private": true,
   "scripts": {
-    "dev": "concurrently -k -n api,web -c yellow,cyan \"pnpm dev:api\" \"pnpm dev:web\"",
+    "dev": "concurrently -k -n db,api,web -c gray,yellow,cyan \"pnpm db\" \"pnpm dev:api\" \"pnpm dev:web\"",
+    "dev:files": "concurrently -k -n api,web -c yellow,cyan \"cd api && cross-env STORAGE=files cargo run\" \"pnpm dev:web\"",
     "dev:api": "cd api && cargo run",
     "dev:web": "pnpm --dir web dev",
+    "db": "node scripts/db.mjs test",
+    "db:docker": "docker compose up -d --wait db",
+    "db:seed": "cd api && cargo run -q -- seed",
+    "db:import-files": "cd api && cargo run -q -- import-files",
     "types": "cd api && cargo test",
     "test": "cd api && cargo test && cd ../web && pnpm test:unit && pnpm test:screens",
-    "check": "pnpm --dir web lint && pnpm --dir web exec tsc --noEmit && cd api && cargo clippy -- -D warnings",
-    "db:up (phase 8)": "docker compose up -d --wait db",
+    "test:e2e:postgres": "cd web && cross-env E2E_DATABASE_URL=postgres://fieldtested:fieldtested_dev@127.0.0.1:5433/fieldtested_test pnpm test:screens",
+    "check": "pnpm --dir web lint && pnpm --dir web exec tsc --noEmit && cd api && cargo clippy --all-targets -- -D warnings",
     "export": "cd api && cargo run -q -- export"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "embedded-postgres": "17.10.0-beta.17",
+    "pg": "^8.23.0"
   },
   "packageManager": "pnpm@11.5.2"
 }

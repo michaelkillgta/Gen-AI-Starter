@@ -6,7 +6,9 @@ pub fn name(raw: &str) -> Result<String, &'static str> {
         0 => Err("Please enter your name."),
         1 => Err("Please enter your full name."),
         n if n > 80 => Err("That name is too long."),
-        _ if v.chars().any(|c| c.is_control() || "<>{}".contains(c)) => Err("Please use letters only."),
+        _ if v.chars().any(|c| c.is_control() || "<>{}".contains(c)) => {
+            Err("Please use letters only.")
+        }
         _ => Ok(v),
     }
 }
@@ -17,7 +19,10 @@ pub fn phone(raw: &str) -> Result<String, &'static str> {
     if trimmed.is_empty() {
         return Err("Please enter your WhatsApp number.");
     }
-    if trimmed.chars().any(|c| !(c.is_ascii_digit() || " +-().".contains(c))) {
+    if trimmed
+        .chars()
+        .any(|c| !(c.is_ascii_digit() || " +-().".contains(c)))
+    {
         return Err("Use digits only, for example +91 98765 43210.");
     }
     let plus = trimmed.starts_with('+');
@@ -59,7 +64,11 @@ pub fn email(raw: &str) -> Result<String, &'static str> {
         && !domain.ends_with('.')
         && !domain.contains("..")
         && v.chars().all(|c| !c.is_whitespace() && !c.is_control());
-    if ok { Ok(v) } else { Err("That email doesn't look right.") }
+    if ok {
+        Ok(v)
+    } else {
+        Err("That email doesn't look right.")
+    }
 }
 
 /// Optional free text: trimmed, capped in length.
@@ -81,7 +90,10 @@ pub fn url(raw: &str) -> Result<String, &'static str> {
     } else {
         format!("https://{v}")
     };
-    if with_scheme.len() > 500 || with_scheme.contains(char::is_whitespace) || !with_scheme[8..].contains('.') {
+    if with_scheme.len() > 500
+        || with_scheme.contains(char::is_whitespace)
+        || !with_scheme[8..].contains('.')
+    {
         return Err("That link doesn't look right.");
     }
     Ok(with_scheme)
@@ -97,14 +109,27 @@ mod tests {
 
     #[test]
     fn indian_numbers_normalise() {
-        for input in ["98765 43210", "+91 98765-43210", "919876543210", "09876543210", "(987) 654-3210"] {
+        for input in [
+            "98765 43210",
+            "+91 98765-43210",
+            "919876543210",
+            "09876543210",
+            "(987) 654-3210",
+        ] {
             assert_eq!(phone(input).unwrap(), "+919876543210", "{input}");
         }
     }
 
     #[test]
     fn bad_numbers_are_rejected() {
-        for input in ["", "12345", "5876543210", "+91 12345 67890", "98765abc10", "+91"] {
+        for input in [
+            "",
+            "12345",
+            "5876543210",
+            "+91 12345 67890",
+            "98765abc10",
+            "+91",
+        ] {
             assert!(phone(input).is_err(), "{input}");
         }
     }
@@ -117,7 +142,15 @@ mod tests {
     #[test]
     fn emails() {
         assert_eq!(email(" Uma@Example.COM ").unwrap(), "uma@example.com");
-        for bad in ["", "uma", "uma@", "@x.com", "uma@x", "a b@x.com", "uma@x..com"] {
+        for bad in [
+            "",
+            "uma",
+            "uma@",
+            "@x.com",
+            "uma@x",
+            "a b@x.com",
+            "uma@x..com",
+        ] {
             assert!(email(bad).is_err(), "{bad}");
         }
     }

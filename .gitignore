@@ -20,3 +20,4 @@ Thumbs.db
 # machine-local cargo settings
 api/.cargo/
 api/data/
+.local/

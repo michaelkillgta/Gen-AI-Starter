@@ -2,9 +2,9 @@ use crate::{
     error::{ApiError, ApiResult},
     models::{
         api::{
-            ChallengeResponse, DiveDetail, DiveRef, DiveSummary, IssueDetail, IssueSummary, PostDetail,
-            PostRef, PostSummary, PostsResponse, Tally, ToolRef, ToolWithDives, ToolsResponse, TrackDetail,
-            TrackOutline, TrackSummary,
+            ChallengeResponse, DiveDetail, DiveRef, DiveSummary, IssueDetail, IssueSummary,
+            PostDetail, PostRef, PostSummary, PostsResponse, Tally, ToolRef, ToolWithDives,
+            ToolsResponse, TrackDetail, TrackOutline, TrackSummary,
         },
         seed::{Block, Category, Dive, Post, Track, WeeklyIssue},
     },
@@ -41,7 +41,11 @@ fn blocks_words(blocks: &[Block]) -> usize {
             Block::Callout { label, text } => words(label) + words(text),
             Block::Compare { left, right } => [left, right]
                 .iter()
-                .map(|s| words(&s.title) + s.steps.iter().map(|x| words(x)).sum::<usize>() + words(&s.result))
+                .map(|s| {
+                    words(&s.title)
+                        + s.steps.iter().map(|x| words(x)).sum::<usize>()
+                        + words(&s.result)
+                })
                 .sum(),
             Block::Cards { items } => items.iter().map(|c| words(&c.title) + words(&c.text)).sum(),
             Block::Code(c) => words(&c.code),
@@ -81,7 +85,10 @@ pub async fn tools(state: &AppState) -> ApiResult<ToolsResponse> {
             ToolWithDives { tool, dives }
         })
         .collect();
-    Ok(ToolsResponse { tools, start_lists: state.repos.tools.start_lists().await? })
+    Ok(ToolsResponse {
+        tools,
+        start_lists: state.repos.tools.start_lists().await?,
+    })
 }
 
 pub async fn tool(state: &AppState, slug: &str) -> ApiResult<ToolWithDives> {
@@ -145,17 +152,30 @@ pub async fn track(state: &AppState, slug: &str) -> ApiResult<TrackDetail> {
 pub async fn dive(state: &AppState, slug: &str) -> ApiResult<DiveDetail> {
     let tracks = state.repos.tracks.tracks().await?;
     let all = state.repos.tracks.dives().await?;
-    let dive = all.iter().find(|d| d.slug == slug).ok_or(ApiError::NotFound)?;
-    let track = tracks.iter().find(|t| t.slug == dive.track).ok_or(ApiError::NotFound)?;
+    let dive = all
+        .iter()
+        .find(|d| d.slug == slug)
+        .ok_or(ApiError::NotFound)?;
+    let track = tracks
+        .iter()
+        .find(|t| t.slug == dive.track)
+        .ok_or(ApiError::NotFound)?;
     let siblings: Vec<&Dive> = all.iter().filter(|d| d.track == dive.track).collect();
-    let idx = siblings.iter().position(|d| d.slug == dive.slug).unwrap_or(0);
+    let idx = siblings
+        .iter()
+        .position(|d| d.slug == dive.slug)
+        .unwrap_or(0);
 
     let tool_list = state.repos.tools.tools().await?;
     let tools = dive
         .tools
         .iter()
         .filter_map(|s| tool_list.iter().find(|t| &t.slug == s))
-        .map(|t| ToolRef { slug: t.slug.clone(), name: t.name.clone(), kind: t.kind })
+        .map(|t| ToolRef {
+            slug: t.slug.clone(),
+            name: t.name.clone(),
+            kind: t.kind,
+        })
         .collect();
 
     let blog_post = state
@@ -165,7 +185,10 @@ pub async fn dive(state: &AppState, slug: &str) -> ApiResult<DiveDetail> {
         .await?
         .into_iter()
         .find(|p| p.dive.as_deref() == Some(dive.slug.as_str()))
-        .map(|p| PostRef { slug: p.slug, title: p.title });
+        .map(|p| PostRef {
+            slug: p.slug,
+            title: p.title,
+        });
 
     Ok(DiveDetail {
         slug: dive.slug.clone(),
@@ -221,7 +244,10 @@ pub async fn issue(state: &AppState, number: Option<i32>) -> ApiResult<IssueDeta
     let idx = match number {
         None if !all.is_empty() => 0,
         None => return Err(ApiError::NotFound),
-        Some(n) => all.iter().position(|i| i.number == n).ok_or(ApiError::NotFound)?,
+        Some(n) => all
+            .iter()
+            .position(|i| i.number == n)
+            .ok_or(ApiError::NotFound)?,
     };
     let issue = all[idx].clone();
     Ok(IssueDetail {
@@ -241,13 +267,17 @@ fn post_summary(p: &Post, cats: &[Category], dives: &[Dive], tracks: &[Track]) -
         excerpt: p.excerpt.clone(),
         cover: p.cover.clone(),
         featured: p.featured.clone(),
-        category: cats.iter().find(|c| c.slug == p.category).cloned().unwrap_or_else(|| Category {
-            slug: p.category.clone(),
-            label: p.category.clone(),
-            bg: "#F3ECE1".into(),
-            fg: "#3E352E".into(),
-            position: 0,
-        }),
+        category: cats
+            .iter()
+            .find(|c| c.slug == p.category)
+            .cloned()
+            .unwrap_or_else(|| Category {
+                slug: p.category.clone(),
+                label: p.category.clone(),
+                bg: "#F3ECE1".into(),
+                fg: "#3E352E".into(),
+                position: 0,
+            }),
         published_on: p.published_on.clone(),
         has_body: !p.body.is_empty() || p.dive.is_some(),
         dive: p
@@ -284,11 +314,17 @@ pub async fn post(state: &AppState, slug: &str) -> ApiResult<PostDetail> {
     let dives = state.repos.tracks.dives().await?;
     let tracks = state.repos.tracks.tracks().await?;
     let all = state.repos.blog.posts().await?;
-    let post = all.iter().find(|p| p.slug == slug).ok_or(ApiError::NotFound)?;
+    let post = all
+        .iter()
+        .find(|p| p.slug == slug)
+        .ok_or(ApiError::NotFound)?;
     let related = all
         .iter()
         .filter(|p| p.slug != post.slug && p.category == post.category)
-        .chain(all.iter().filter(|p| p.slug != post.slug && p.category != post.category))
+        .chain(
+            all.iter()
+                .filter(|p| p.slug != post.slug && p.category != post.category),
+        )
         .take(3)
         .map(|p| post_summary(p, &categories, &dives, &tracks))
         .collect();

@@ -24,13 +24,16 @@ export default defineConfig({
   },
   webServer: [
     {
-      // The Rust API serves the content the pages render.
-      command: "cd ../api && cargo run",
+      // The Rust API serves the content the pages render. With E2E_DATABASE_URL set it
+      // runs on Postgres (seeded first); otherwise on the seed files, with test
+      // signups in a throwaway folder, never the real api/data.
+      command: process.env.E2E_DATABASE_URL ? "cd ../api && cargo run -q -- seed && cargo run" : "cd ../api && cargo run",
       url: "http://127.0.0.1:8080/health",
       reuseExistingServer: true,
       timeout: 600_000,
-      // Test signups go to a throwaway folder, never the real api/data.
-      env: { DATA_DIR: path.join(os.tmpdir(), `ft-e2e-${Date.now()}`), FORM_POSTS_PER_MINUTE: "100" },
+      env: process.env.E2E_DATABASE_URL
+        ? { STORAGE: "postgres", DATABASE_URL: process.env.E2E_DATABASE_URL, FORM_POSTS_PER_MINUTE: "100" }
+        : { STORAGE: "files", DATA_DIR: path.join(os.tmpdir(), `ft-e2e-${Date.now()}`), FORM_POSTS_PER_MINUTE: "100" },
     },
     {
       command: `pnpm build && pnpm start -p ${port}`,

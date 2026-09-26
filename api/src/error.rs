@@ -13,8 +13,6 @@ use serde_json::json;
 pub enum ApiError {
     #[error("not found")]
     NotFound,
-    #[error("{0}")]
-    BadRequest(String),
     /// Form field problems, keyed by field name.
     #[error("Please check the highlighted fields.")]
     Validation(HashMap<String, String>),
@@ -36,7 +34,6 @@ impl IntoResponse for ApiError {
         };
         let status = match self {
             ApiError::NotFound => StatusCode::NOT_FOUND,
-            ApiError::BadRequest(_) => StatusCode::BAD_REQUEST,
             ApiError::Validation(_) => StatusCode::UNPROCESSABLE_ENTITY,
             ApiError::TooManyRequests => StatusCode::TOO_MANY_REQUESTS,
             ApiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
