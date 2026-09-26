@@ -6,25 +6,26 @@ AI tools, tracks and honest verdicts for freshers and students in India.
 |---|---|---|
 | Website | Next.js 16 (App Router) + React + TypeScript, plain CSS | `web/` |
 | API | Rust + Axum + Tokio + sqlx | `api/` |
-| Database | PostgreSQL 17 + pgvector (Docker, temporary) | `docker-compose.yml` |
+| Database | PostgreSQL 17 (`pnpm db` locally; Docker with pgvector in production) | `api/migrations/` |
 | Hosting (later) | One server + Cloudflare Tunnel | `infra/` |
 
 The original designs are in `design-canvas/` (reference only).
 
 ## Run it locally
 
-Needs: Node 24 + pnpm, Rust (stable, via rustup), Docker Desktop.
+Needs: Node 24 + pnpm and Rust (stable, via rustup). Docker is optional.
 
 ```bash
 cp .env.example api/.env        # first time only
 pnpm install                    # first time only
 pnpm --dir web install          # first time only
-pnpm dev                        # starts the API and the website
+pnpm dev                        # starts the database, the API and the website
 ```
 
 - Website: http://localhost:3000 (style guide: http://localhost:3000/styleguide)
-- API: http://127.0.0.1:8080/health (content served from `api/seed/`, no database until phase 8)
-- Database: not used until phase 8 (`docker-compose.yml` is ready for it)
+- API: http://127.0.0.1:8080/health
+- Database: PostgreSQL 17 on `localhost:5433` (user `fieldtested`, password `fieldtested_dev`); an empty database is filled from `api/seed/` automatically
+- No database? `pnpm dev:files` runs on the seed files instead
 
 `pnpm check` runs lint, type checks and clippy. `pnpm test` runs the API tests and the
 screen tests (every page at 375/768/1024/1440 with accessibility checks, plus the forms).
