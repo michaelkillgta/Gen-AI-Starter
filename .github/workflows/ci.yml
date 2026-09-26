@@ -22,22 +22,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm exec tsc --noEmit
+      - run: pnpm test:unit
       - run: pnpm build
 
   api:
     runs-on: ubuntu-latest
-    services:
-      db:
-        image: pgvector/pgvector:pg17
-        env:
-          POSTGRES_USER: fieldtested
-          POSTGRES_PASSWORD: fieldtested_dev
-          POSTGRES_DB: fieldtested
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U fieldtested" --health-interval 3s --health-timeout 3s --health-retries 20
-    env:
-      DATABASE_URL: postgres://fieldtested:fieldtested_dev@localhost:5432/fieldtested
     defaults:
       run:
         working-directory: api

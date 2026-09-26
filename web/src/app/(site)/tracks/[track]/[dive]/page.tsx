@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { BlockRenderer } from "@/components/deep-dive/BlockRenderer";
 import { CodeBlock } from "@/components/deep-dive/CodeBlock";
 import { DiveSidebar } from "@/components/deep-dive/DiveSidebar";
+import { JsonLd } from "@/components/layout/JsonLd";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { MarkDone } from "@/components/tracks/ProgressWidgets";
 import { Avatar, Badge } from "@/components/ui";
@@ -37,6 +38,19 @@ export default async function DivePage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          headline: dive.title,
+          description: dive.tldr.join(" "),
+          author: { "@type": "Person", name: site.author.name },
+          publisher: { "@type": "Organization", name: site.name },
+          isPartOf: { "@type": "Course", name: dive.track.name },
+          timeRequired: `PT${dive.read_minutes}M`,
+          url: `${site.url}${links.dive(dive.track.slug, dive.slug)}`,
+        }}
+      />
       <div className={`container ${styles.layout}`}>
         <DiveSidebar track={dive.track} current={dive.slug} />
 

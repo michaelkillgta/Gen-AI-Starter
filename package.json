@@ -6,15 +6,13 @@
     "dev:api": "cd api && cargo run",
     "dev:web": "pnpm --dir web dev",
     "types": "cd api && cargo test",
-    "test": "cd api && cargo test && cd ../web && pnpm test:screens",
+    "test": "cd api && cargo test && cd ../web && pnpm test:unit && pnpm test:screens",
     "check": "pnpm --dir web lint && pnpm --dir web exec tsc --noEmit && cd api && cargo clippy -- -D warnings",
     "db:up (phase 8)": "docker compose up -d --wait db",
     "export": "cd api && cargo run -q -- export"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.13.0",
-    "concurrently": "^9.2.1",
-    "vitest": "^5.0.2"
+    "concurrently": "^9.2.1"
   },
   "packageManager": "pnpm@11.5.2"
 }

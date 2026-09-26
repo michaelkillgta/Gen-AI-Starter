@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PostGrid } from "@/components/blog/Blog";
 import { SubscribeBox } from "@/components/blog/SubscribeBox";
 import { BlockRenderer } from "@/components/deep-dive/BlockRenderer";
+import { JsonLd } from "@/components/layout/JsonLd";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Avatar, Badge, Button } from "@/components/ui";
 import { getPost } from "@/lib/api";
@@ -30,6 +31,18 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.excerpt,
+          datePublished: post.published_on,
+          author: { "@type": "Person", name: site.author.name },
+          publisher: { "@type": "Organization", name: site.name },
+          url: `${site.url}${links.post(post.slug)}`,
+        }}
+      />
       <article className={`container ${styles.article}`}>
         <nav aria-label="Breadcrumb" className={styles.crumbs}>
           <Link href="/blog">Blog</Link>
