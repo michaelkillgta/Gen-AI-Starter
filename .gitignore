@@ -16,3 +16,6 @@ api/.env
 Thumbs.db
 .vscode/
 .idea/
+
+# machine-local cargo settings
+api/.cargo/

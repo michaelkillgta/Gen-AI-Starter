@@ -1,0 +1,69 @@
+[
+  {
+    "number": 1,
+    "week_of": "2026-09-21",
+    "published": true,
+    "verdicts": [
+      {
+        "position": 1,
+        "name": "CodeGraph",
+        "kind": "package",
+        "summary": "Maps your whole codebase so AI assistants understand how files connect.",
+        "why": "It uses Tree-sitter, a real code parser, instead of AI calls, so indexing is fast and predictable.",
+        "best_for_label": "Best for",
+        "best_for": "projects big enough that your AI assistant keeps losing track of files.",
+        "verdict": "use",
+        "qualifier": null,
+        "tool": "codegraph"
+      },
+      {
+        "position": 2,
+        "name": "Graphify",
+        "kind": "package",
+        "summary": "Builds a map of your code, images and documents for your AI assistant.",
+        "why": "Genuinely helpful context, but it spends API tokens, so the bill grows with project size.",
+        "best_for_label": "Best for",
+        "best_for": "small projects. For big codebases, CodeGraph is the cheaper choice.",
+        "verdict": "use",
+        "qualifier": "small projects only",
+        "tool": "graphify"
+      },
+      {
+        "position": 3,
+        "name": "ManimCat",
+        "kind": "tool",
+        "summary": "Turns plain-language requests into math animations.",
+        "why": "It checks and auto-fixes generated Python before running it, which is clever. But each output takes 15 to 90 seconds, and it depends on Redis and Bull, which makes serverless hosting hard.",
+        "best_for_label": "Best for",
+        "best_for": "trying locally for fun. Not ready to build a product on yet.",
+        "verdict": "wait",
+        "qualifier": null,
+        "tool": null
+      },
+      {
+        "position": 4,
+        "name": "RAG-Anything",
+        "kind": "library",
+        "summary": "Ask questions over PDFs, images, tables and formulas together.",
+        "why": "Powerful, but it's a heavy framework built on LightRAG and MinerU, not a simple building block. Beginners will get lost.",
+        "best_for_label": "Best for",
+        "best_for": "after you've built a plain text RAG app and understand how it works.",
+        "verdict": "wait",
+        "qualifier": null,
+        "tool": "raganything"
+      },
+      {
+        "position": 5,
+        "name": "Anti-detect browsers",
+        "kind": "tool",
+        "summary": "Modified browsers that hide automation from websites' bot checks.",
+        "why": "They're trending with AI agents, but their main job is getting around website protections. That easily breaks a site's terms of service.",
+        "best_for_label": "Instead",
+        "best_for": "use official APIs, or test browser automation on your own site.",
+        "verdict": "skip",
+        "qualifier": null,
+        "tool": null
+      }
+    ]
+  }
+]

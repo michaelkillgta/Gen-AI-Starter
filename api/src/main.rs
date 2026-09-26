@@ -11,29 +11,28 @@ mod state;
 
 use std::net::SocketAddr;
 
-use sqlx::postgres::PgPoolOptions;
 use tracing_subscriber::EnvFilter;
 
-use crate::{config::Config, state::AppState};
+use crate::{
+    config::Config,
+    repo::memory::SeedStore,
+    state::{AppState, Repos},
+};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     dotenvy::dotenv().ok();
     tracing_subscriber::fmt()
         .with_env_filter(
-            EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| "api=debug,tower_http=info".into()),
+            EnvFilter::try_from_default_env().unwrap_or_else(|_| "api=debug,tower_http=info".into()),
         )
         .init();
 
     let config = Config::from_env()?;
-    let db = PgPoolOptions::new()
-        .max_connections(10)
-        .connect(&config.database_url)
-        .await?;
-    sqlx::migrate!("./migrations").run(&db).await?;
+    let store = SeedStore::load(&config.seed_dir)?;
+    tracing::info!("content loaded from {}", config.seed_dir.display());
 
-    let state = AppState::new(db, config.clone());
+    let state = AppState::new(Repos::from_seed(store), config.clone());
     let app = routes::router(state);
 
     let addr: SocketAddr = config.bind_addr.parse()?;

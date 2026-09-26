@@ -2,12 +2,13 @@
   "name": "field-tested",
   "private": true,
   "scripts": {
-    "db": "docker compose up -d --wait db",
-    "db:stop": "docker compose stop db",
-    "dev": "pnpm db && concurrently -k -n api,web -c yellow,cyan \"pnpm dev:api\" \"pnpm dev:web\"",
+    "dev": "concurrently -k -n api,web -c yellow,cyan \"pnpm dev:api\" \"pnpm dev:web\"",
     "dev:api": "cd api && cargo run",
     "dev:web": "pnpm --dir web dev",
-    "check": "pnpm --dir web lint && pnpm --dir web exec tsc --noEmit && cd api && cargo clippy -- -D warnings"
+    "types": "cd api && cargo test",
+    "test": "cd api && cargo test && cd ../web && pnpm test:screens",
+    "check": "pnpm --dir web lint && pnpm --dir web exec tsc --noEmit && cd api && cargo clippy -- -D warnings",
+    "db:up (phase 8)": "docker compose up -d --wait db"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

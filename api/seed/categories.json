@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "learning-with-ai",
+    "label": "Learning with AI",
+    "bg": "#FBEBC8",
+    "fg": "#6E4A0B",
+    "position": 1
+  },
+  {
+    "slug": "agents",
+    "label": "Agents",
+    "bg": "#E3EDDF",
+    "fg": "#2A5233",
+    "position": 2
+  },
+  {
+    "slug": "rag-and-documents",
+    "label": "RAG and documents",
+    "bg": "#EDE3D6",
+    "fg": "#5A4636",
+    "position": 3
+  },
+  {
+    "slug": "careers",
+    "label": "Careers",
+    "bg": "#F2E3EC",
+    "fg": "#6B2F50",
+    "position": 4
+  },
+  {
+    "slug": "ideas",
+    "label": "Ideas",
+    "bg": "#FBE6DC",
+    "fg": "#8E3413",
+    "position": 5
+  },
+  {
+    "slug": "staying-safe",
+    "label": "Staying safe",
+    "bg": "#E6ECEF",
+    "fg": "#35505C",
+    "position": 6
+  }
+]

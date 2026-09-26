@@ -1,0 +1,155 @@
+[
+  {
+    "slug": "does-ai-make-you-a-lazy-learner",
+    "category": "learning-with-ai",
+    "title": "Does AI make you a lazy learner, or a faster one?",
+    "excerpt": "A study of 52 junior engineers found that how you use AI matters more than whether you use it. Here's what the high learners did differently, and how I'd use AI if I were starting today.",
+    "cover": {
+      "text": "17%",
+      "bg": "#211913",
+      "fg": "#F2A93B"
+    },
+    "featured": {
+      "stat": "17%",
+      "caption": "lower understanding scores for engineers who let AI write their code"
+    },
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-20"
+  },
+  {
+    "slug": "an-ai-agent-is-more-than-a-chatbot",
+    "category": "agents",
+    "title": "An AI agent is more than a chatbot",
+    "excerpt": "LLM plus goal plus tools plus memory plus a feedback loop. The simple mental model that makes every agent framework make sense.",
+    "cover": {
+      "text": "Goal → act → check",
+      "bg": "#F2A93B",
+      "fg": "#1C1713"
+    },
+    "featured": null,
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-19"
+  },
+  {
+    "slug": "why-your-agent-should-know-when-to-stop",
+    "category": "agents",
+    "title": "Why your agent should know when to stop",
+    "excerpt": "Most agents are built to keep going. The useful ones stop and ask when instructions conflict or the risk is high.",
+    "cover": {
+      "text": "Stop. Ask.",
+      "bg": "#211913",
+      "fg": "#F2A93B"
+    },
+    "featured": null,
+    "dive": "know-when-to-stop",
+    "body": [],
+    "published_on": "2026-09-18"
+  },
+  {
+    "slug": "docling-vs-mineru-which-pdf-parser-should-students-use",
+    "category": "rag-and-documents",
+    "title": "Docling vs MinerU: which PDF parser should students use?",
+    "excerpt": "One is fast and light, one reads formulas and complex tables. What I found when I ran both on the same college paper.",
+    "cover": {
+      "text": "Docling vs MinerU",
+      "bg": "#EDE3D6",
+      "fg": "#1C1713"
+    },
+    "featured": null,
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-17"
+  },
+  {
+    "slug": "five-agents-agreeing-can-still-be-one-mistake",
+    "category": "agents",
+    "title": "Five agents agreeing can still be one mistake",
+    "excerpt": "Same model, same prompt, same context means one opinion copied five times. How to get real independent checks.",
+    "cover": {
+      "text": "5 × 1 mistake",
+      "bg": "#E3EDDF",
+      "fg": "#1C1713"
+    },
+    "featured": null,
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-16"
+  },
+  {
+    "slug": "dont-let-ai-generate-your-passwords",
+    "category": "staying-safe",
+    "title": "Don't let AI generate your passwords",
+    "excerpt": "LLM passwords look random but follow patterns, and coding agents sometimes slip them into your code. What to use instead.",
+    "cover": {
+      "text": "Looks random. Isn't.",
+      "bg": "#E6ECEF",
+      "fg": "#1C1713"
+    },
+    "featured": null,
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-15"
+  },
+  {
+    "slug": "my-idea-a-truth-agent-that-checks-ai-written-content",
+    "category": "ideas",
+    "title": "My idea: a Truth Agent that checks AI-written content",
+    "excerpt": "What if an agent checked every AI-written post against your own trusted data before you published it? My rough plan.",
+    "cover": {
+      "text": "Truth Agent",
+      "bg": "#FBE6DC",
+      "fg": "#1C1713"
+    },
+    "featured": null,
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-14"
+  },
+  {
+    "slug": "memory-is-not-truth",
+    "category": "agents",
+    "title": "Memory is not truth",
+    "excerpt": "An agent's memory can be wrong, outdated or poisoned. Why important memories need a source, a scope and an owner.",
+    "cover": {
+      "text": "Memory ≠ truth",
+      "bg": "#211913",
+      "fg": "#FBF8F3"
+    },
+    "featured": null,
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-13"
+  },
+  {
+    "slug": "what-production-ready-really-means-for-a-college-project",
+    "category": "careers",
+    "title": "What “production-ready” really means for a college project",
+    "excerpt": "Not just a demo that works once. The few extra things that make interviewers take your project seriously.",
+    "cover": {
+      "text": "Demo → product",
+      "bg": "#F2E3EC",
+      "fg": "#1C1713"
+    },
+    "featured": null,
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-12"
+  },
+  {
+    "slug": "the-story-of-ai-in-9-lessons-you-can-use-in-life",
+    "category": "learning-with-ai",
+    "title": "The story of AI in 9 lessons you can use in life",
+    "excerpt": "From the first artificial neuron to ChatGPT, told as a story, with one practical lesson from each chapter.",
+    "cover": {
+      "text": "1943 → today",
+      "bg": "#FBEBC8",
+      "fg": "#1C1713"
+    },
+    "featured": null,
+    "dive": null,
+    "body": [],
+    "published_on": "2026-09-11"
+  }
+]

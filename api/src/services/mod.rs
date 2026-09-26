@@ -1,1 +1,3 @@
-// Filled in from phase 3 onward.
+//! Business rules: turn repository data into the shapes the website needs.
+
+pub mod content;

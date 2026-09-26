@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "foundations",
+    "name": "Foundations",
+    "who": "For freshers",
+    "tone": "light",
+    "blurb": "How AI actually works, told as stories, not jargon. You finish with your first working agent.",
+    "start_if": "Start here if you're new to AI, or know a little coding but feel lost.",
+    "position": 1
+  },
+  {
+    "slug": "agents-that-dont-break",
+    "name": "Agents that don't break",
+    "who": "Flagship track",
+    "tone": "dark",
+    "blurb": "The production principles most courses skip: when to stop, who has authority, budgets, failures and attacks.",
+    "start_if": "Start here once you've built one simple agent and want it to work in the real world.",
+    "position": 2
+  },
+  {
+    "slug": "rag-and-documents",
+    "name": "RAG and documents",
+    "who": "For college projects",
+    "tone": "light",
+    "blurb": "Make AI answer accurately from your own notes, PDFs and papers, and prove that it's right.",
+    "start_if": "Start here if you know basic Python and want a strong portfolio project.",
+    "position": 3
+  }
+]

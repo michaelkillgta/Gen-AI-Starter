@@ -1,0 +1,28 @@
+{
+  "slug": "weekend-build-1",
+  "status": "waitlist",
+  "goal": 50,
+  "title": "Build one real AI project this weekend.",
+  "blurb": "A free, guided build with a small group. You finish with a live project on your GitHub that you understand and can explain.",
+  "facts": [
+    {
+      "label": "Cost",
+      "value": "Free"
+    },
+    {
+      "label": "Length",
+      "value": "1 day"
+    },
+    {
+      "label": "Where",
+      "value": "Online"
+    },
+    {
+      "label": "You'll build",
+      "value": "A study assistant for your notes"
+    }
+  ],
+  "date": "[DATE]",
+  "time": "[TIME]",
+  "meet_link": "[MEET LINK]"
+}
