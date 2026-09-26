@@ -1,0 +1,63 @@
+.chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--tap);
+  padding: 0 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-line-input);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.chip:hover {
+  border-color: var(--color-ink);
+}
+
+.on-ink {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-on-dark);
+}
+
+.on-accent {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.count {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* let the row run to the screen edge while scrolling */
+  margin-inline: calc(var(--gutter) * -1);
+  padding: 2px var(--gutter);
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .row {
+    flex-wrap: wrap;
+    overflow: visible;
+    margin-inline: 0;
+    padding: 0;
+  }
+}

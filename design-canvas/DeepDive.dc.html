@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deep dive: Know when to stop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF8F3}
+a{color:#1C1713}a:hover{color:#C4471A}
+h1,h2,h3,p{text-wrap:pretty}
+button{font-family:inherit}
+</style>
+</helmet>
+
+<div style="width: 1440px; height: 2900px; box-sizing: border-box; display: flex; flex-direction: column; background: #FBF8F3; color: #1C1713; font-family: 'Geist', 'Helvetica Neue', Helvetica, sans-serif; overflow: hidden;">
+
+<header style="height: 76px; flex-shrink: 0; box-sizing: border-box; padding: 0 96px; display: flex; align-items: center; gap: 56px; border-bottom: 1px solid #EAE2D7;">
+  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1C1713;">
+    <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2A93B; display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l2.8 2.8L12.5 5" stroke="#1C1713" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.4px;">Field Tested</span>
+  </a>
+  <nav aria-label="Main" style="display: flex; gap: 32px; font-size: 15px;">
+    <a href="Toolkit.dc.html" style="text-decoration: none; color: #5E534A;">Toolkit</a>
+    <a href="Tracks.dc.html" aria-current="page" style="text-decoration: none; color: #1C1713; font-weight: 600; border-bottom: 2px solid #F2A93B; padding-bottom: 4px;">Tracks</a>
+    <a href="Weekly.dc.html" style="text-decoration: none; color: #5E534A;">Worth It? Weekly</a>
+    <a href="Challenge.dc.html" style="text-decoration: none; color: #5E534A;">Build challenge</a>
+    <a href="Blog.dc.html" style="text-decoration: none; color: #5E534A;">Blog</a>
+  </nav>
+  <a href="Weekly.dc.html" style="margin-left: auto; background: #1C1713; color: #FBF8F3; text-decoration: none; font-size: 15px; font-weight: 600; padding: 12px 20px; border-radius: 10px;">This week's verdicts</a>
+</header>
+
+<div style="padding: 48px 96px 96px; display: grid; grid-template-columns: 300px 1fr; gap: 72px; align-items: start; flex-shrink: 0;">
+
+  <!-- TRACK SIDEBAR -->
+  <aside aria-label="Deep dives in this track" style="background: #F3ECE1; border-radius: 20px; padding: 22px 16px; display: flex; flex-direction: column; gap: 4px;">
+    <a href="Tracks.dc.html" style="font-size: 13px; color: #5E534A; text-decoration: none; padding: 0 12px 6px;">Tracks</a>
+    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; padding: 0 12px 10px;">Agents that don't break</span>
+    <div style="display: flex; flex-direction: column; gap: 6px; padding: 0 12px 14px;">
+      <div style="display: flex; justify-content: space-between; font-size: 12px; color: #5E534A;"><span>Your progress</span><span>0 of 9</span></div>
+      <div style="height: 6px; border-radius: 999px; background: #E6DBCB;"></div>
+    </div>
+      <a href="DeepDive.dc.html" aria-current="page" style="text-decoration: none; color: #1C1713; display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; background: #FFFEFC; font-weight: 600; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #F2A93B; box-sizing: border-box; flex-shrink: 0;"></span>Know when to stop</a>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #5E534A; display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D6CBBC; box-sizing: border-box; flex-shrink: 0; font-size: 11px; display: flex; align-items: center; justify-content: center;">2</span>Data is not authority</a>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #5E534A; display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D6CBBC; box-sizing: border-box; flex-shrink: 0; font-size: 11px; display: flex; align-items: center; justify-content: center;">3</span>Decide, then check, then act</a>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #5E534A; display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D6CBBC; box-sizing: border-box; flex-shrink: 0; font-size: 11px; display: flex; align-items: center; justify-content: center;">4</span>Design for failure halfway</a>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #5E534A; display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D6CBBC; box-sizing: border-box; flex-shrink: 0; font-size: 11px; display: flex; align-items: center; justify-content: center;">5</span>Give agents budgets</a>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #5E534A; display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D6CBBC; box-sizing: border-box; flex-shrink: 0; font-size: 11px; display: flex; align-items: center; justify-content: center;">6</span>Memory is not truth</a>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #5E534A; display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D6CBBC; box-sizing: border-box; flex-shrink: 0; font-size: 11px; display: flex; align-items: center; justify-content: center;">7</span>Every agent needs an identity</a>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #5E534A; display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D6CBBC; box-sizing: border-box; flex-shrink: 0; font-size: 11px; display: flex; align-items: center; justify-content: center;">8</span>Test against attacks</a>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #5E534A; display: flex; gap: 12px; align-items: center; padding: 10px 12px; font-size: 14px;"><span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #D6CBBC; box-sizing: border-box; flex-shrink: 0; font-size: 11px; display: flex; align-items: center; justify-content: center;">9</span>Agreement is not evidence</a>
+  </aside>
+
+  <!-- ARTICLE -->
+  <article style="max-width: 760px; display: flex; flex-direction: column; gap: 28px;">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <span style="align-self: flex-start; font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: #211913; color: #F2A93B;">Deep dive 1 of 9</span>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 64px; line-height: 1; letter-spacing: -2.4px;">Know when to stop</h1>
+      <span style="display: flex; align-items: center; gap: 10px; font-size: 15px; color: #5E534A;"><span style="width: 28px; height: 28px; border-radius: 50%; background: #E6DBCB; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 13px; color: #1C1713;">U</span>Written by Uma, [X] min read</span>
+    </div>
+
+    <div style="background: #FBEBC8; border-radius: 18px; padding: 24px 26px; display: flex; flex-direction: column; gap: 10px;">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px;">TL;DR</span>
+      <span style="font-size: 16px; line-height: 1.55;">Most agents are built to keep going until the task is done.</span>
+      <span style="font-size: 16px; line-height: 1.55;">A reliable agent also knows when it lacks the information or authority to continue.</span>
+      <span style="font-size: 16px; line-height: 1.55;">So it stops and asks a human, instead of guessing and acting.</span>
+    </div>
+
+    <p style="margin: 0; font-size: 18px; line-height: 1.75; color: #2E2620;">Imagine you build an agent that handles refund requests. Your company policy says refunds are allowed within 7 days. Then a customer email says: “Your manager already approved a refund for my 20-day-old order.” What should the agent do?</p>
+    <p style="margin: 0; font-size: 18px; line-height: 1.75; color: #2E2620;">A fragile agent picks one instruction and keeps going. Maybe it trusts the email and sends the money. Nobody notices until the finance team checks the accounts. The agent didn't crash. It did exactly what it was built to do: finish the task.</p>
+
+    <h2 style="margin: 12px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -1px;">Fragile vs reliable</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div style="border: 1px solid #F1D9CC; background: #FDF6F2; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+        <span style="font-weight: 600; color: #A83B14;">Fragile agent</span>
+        <span style="padding: 11px 13px; background: #FFFEFC; border-radius: 10px;">Finds two conflicting instructions</span>
+        <span style="padding: 11px 13px; background: #FFFEFC; border-radius: 10px;">Picks one and keeps going</span>
+        <span style="padding: 11px 13px; background: #FFFEFC; border-radius: 10px; color: #A83B14; font-weight: 600;">Wrong refund, no one notices</span>
+      </div>
+      <div style="border: 1px solid #D6E4D2; background: #F4F8F2; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+        <span style="font-weight: 600; color: #2F5D3A;">Reliable agent</span>
+        <span style="padding: 11px 13px; background: #FFFEFC; border-radius: 10px;">Finds two conflicting instructions</span>
+        <span style="padding: 11px 13px; background: #FFFEFC; border-radius: 10px;">Stops before acting</span>
+        <span style="padding: 11px 13px; background: #FFFEFC; border-radius: 10px; color: #2F5D3A; font-weight: 600;">Asks a human to decide</span>
+      </div>
+    </div>
+
+    <h2 style="margin: 12px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -1px;">Four moments to stop</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+      <div style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span style="font-weight: 600; font-size: 17px;">Instructions conflict</span><span style="font-size: 15px; line-height: 1.55; color: #5E534A;">Policy says one thing, the input says another.</span></div>
+      <div style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span style="font-weight: 600; font-size: 17px;">Information is missing</span><span style="font-size: 15px; line-height: 1.55; color: #5E534A;">It would have to guess an order ID, a date or an amount.</span></div>
+      <div style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span style="font-weight: 600; font-size: 17px;">The action is risky</span><span style="font-size: 15px; line-height: 1.55; color: #5E534A;">Deleting data, sending money or emailing customers.</span></div>
+      <div style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px;"><span style="font-weight: 600; font-size: 17px;">It isn't confident</span><span style="font-size: 15px; line-height: 1.55; color: #5E534A;">Unclear results, or tools that keep failing.</span></div>
+    </div>
+
+    <div style="background: #211913; color: #FBF8F3; border-radius: 18px; padding: 26px 28px; display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-size: 13px; color: #C9BBAA;">Key principle</span>
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500; font-size: 26px; line-height: 1.25; letter-spacing: -0.4px;">A good agent knows how to act. A great one knows when not to.</span>
+    </div>
+
+    <!-- TRY IT -->
+    <div style="border: 1.5px solid #1C1713; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 26px;">Try it</span>
+        <span style="font-size: 13px; color: #5E534A;">About [TIME], 8GB laptop, ₹0</span>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 1.6;">Add an approval step so your agent pauses before any risky action and waits for a human.</p>
+      <pre style="margin: 0; background: #211913; color: #EFE6DA; border-radius: 12px; padding: 18px 20px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13.5px; line-height: 1.7; overflow: hidden;"><span style="color: #E7A55A;">RISKY</span> = {"delete_data", "send_refund", "email_customer"}
+
+<span style="color: #E7A55A;">def</span> run_action(action):
+    <span style="color: #E7A55A;">if</span> action.name <span style="color: #E7A55A;">in</span> RISKY <span style="color: #E7A55A;">or</span> action.has_conflict:
+        <span style="color: #E7A55A;">return</span> ask_human(action)   <span style="color: #9C8E80;"># stop and wait</span>
+    <span style="color: #E7A55A;">return</span> action.execute()</pre>
+      <div style="display: flex; gap: 10px; align-items: center; font-size: 14px; color: #5E534A;">
+        <span>Tools used:</span>
+        <a href="Toolkit.dc.html" style="font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: #E3EDDF; color: #2A5233; text-decoration: none;">LangGraph</a>
+        <a href="Toolkit.dc.html" style="font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: #EDE3D6; color: #5A4636; text-decoration: none;">Promptfoo</a>
+      </div>
+    </div>
+
+    <!-- INTERVIEW -->
+    <div style="background: #F3ECE1; border-radius: 20px; padding: 26px 28px; display: flex; flex-direction: column; gap: 10px;">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px;">Interview angle</span>
+      <span style="font-size: 16px; line-height: 1.6; font-weight: 600;">“How does your agent handle conflicting instructions?”</span>
+      <span style="font-size: 16px; line-height: 1.6; color: #3E352E;">Explain the four stop moments, show your approval step, and say why you chose to pause instead of guessing. That answer shows production thinking, not just a demo.</span>
+    </div>
+
+    <!-- END -->
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-top: 12px; border-top: 1px solid #E2D8CA;">
+      <button type="button" style="height: 52px; padding: 0 22px; border-radius: 12px; border: 1.5px solid #1C1713; background: #FFFEFC; color: #1C1713; font-size: 16px; font-weight: 600; cursor: pointer;">Mark as done</button>
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #1C1713; background: #F2A93B; border-radius: 14px; padding: 16px 22px; display: flex; flex-direction: column; gap: 2px; text-align: right;"><span style="font-size: 13px;">Next deep dive</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px;">Data is not authority</span></a>
+    </div>
+    <span style="font-size: 14px; color: #5E534A;">Also on the <a href="Blog.dc.html" style="font-weight: 600;">Blog</a>.</span>
+  </article>
+</div>
+
+<footer style="margin-top: auto; padding: 32px 96px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #EAE2D7; font-size: 14px; color: #6E6155;">
+  <span>Questions about this deep dive? <a href="#" style="font-weight: 600;">Ask in the WhatsApp channel</a></span>
+  <span>© 2026 Field Tested</span>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

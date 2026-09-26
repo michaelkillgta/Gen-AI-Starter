@@ -1,0 +1,98 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Blog.dc.html": {
+      "h": 3000,
+      "is_interactive": true,
+      "title": "Blog, desktop",
+      "w": 1440,
+      "x": 6550,
+      "y": 0
+    },
+    "Challenge.dc.html": {
+      "h": 2980,
+      "is_interactive": true,
+      "title": "Build Challenge, desktop",
+      "w": 1440,
+      "x": 5053,
+      "y": 0
+    },
+    "DeepDive.dc.html": {
+      "h": 2900,
+      "title": "Deep dive template, desktop",
+      "w": 1440,
+      "x": 9590,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "h": 4460,
+      "is_interactive": true,
+      "title": "Homepage, desktop (toolkit first)",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Mobile.dc.html": {
+      "h": 6660,
+      "is_interactive": true,
+      "title": "Homepage, mobile (toolkit first)",
+      "w": 390,
+      "x": 1520,
+      "y": 0
+    },
+    "Toolkit.dc.html": {
+      "h": 3000,
+      "is_interactive": true,
+      "title": "Toolkit, desktop",
+      "w": 1440,
+      "x": 1990,
+      "y": 0
+    },
+    "ToolkitMobile.dc.html": {
+      "h": 5660,
+      "is_interactive": true,
+      "title": "Toolkit, mobile",
+      "w": 390,
+      "x": 1990,
+      "y": 3120
+    },
+    "Tracks.dc.html": {
+      "h": 2000,
+      "is_interactive": true,
+      "title": "Tracks, desktop",
+      "w": 1440,
+      "x": 8070,
+      "y": 0
+    },
+    "Weekly.dc.html": {
+      "h": 2600,
+      "title": "Worth It? Weekly, desktop",
+      "w": 1440,
+      "x": 3510,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-09-23T10:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {},
+  "order": [
+    "Main.dc.html",
+    "Mobile.dc.html",
+    "Toolkit.dc.html",
+    "Weekly.dc.html",
+    "Challenge.dc.html",
+    "Blog.dc.html",
+    "ToolkitMobile.dc.html",
+    "Tracks.dc.html",
+    "DeepDive.dc.html"
+  ],
+  "pages": [],
+  "title": "Field Tested homepage"
+}

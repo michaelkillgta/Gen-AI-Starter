@@ -1,0 +1,31 @@
+/*
+ * Screen sizes used across the site. CSS can't put variables inside media
+ * queries, so components repeat these exact values:
+ *
+ *   phone     0 – 639px     one column, pill nav, details expand in the card
+ *   tablet    640 – 1023px  two columns, pill nav, details in a bottom sheet
+ *   desktop   1024 – 1439px full top menu, three columns, side detail panel
+ *   large     1440px +      same as desktop, content capped at 1440px, centred
+ *
+ *   @media (min-width: 640px)  { tablet and up }
+ *   @media (min-width: 1024px) { desktop and up }
+ *   @media (min-width: 1440px) { large }
+ */
+@media (min-width: 640px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 48px;
+    --header-h: 76px;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --gutter: 96px;
+  }
+}

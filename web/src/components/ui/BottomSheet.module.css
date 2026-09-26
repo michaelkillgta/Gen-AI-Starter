@@ -1,0 +1,75 @@
+.sheet {
+  position: fixed;
+  inset: auto 0 0 0;
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  margin: 0 auto;
+  padding: 0;
+  border: none;
+  border-radius: 22px 22px 0 0;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: 0 -20px 60px -20px rgba(60, 40, 20, 0.4);
+}
+
+.sheet[open] {
+  animation: slide-up 0.22s ease-out;
+}
+
+.sheet::backdrop {
+  background: rgba(33, 25, 19, 0.45);
+}
+
+.inner {
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 8px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.handleRow {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: var(--tap);
+  background: var(--color-surface);
+}
+
+.handle {
+  width: 44px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--color-line-input);
+}
+
+.close {
+  position: absolute;
+  right: -8px;
+  top: 0;
+  width: var(--tap);
+  height: var(--tap);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-panel);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

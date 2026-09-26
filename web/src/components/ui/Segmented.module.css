@@ -1,0 +1,25 @@
+.tray {
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  background: var(--color-panel);
+  border-radius: var(--radius-md);
+}
+
+.option {
+  min-height: 40px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.on {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-seg);
+}

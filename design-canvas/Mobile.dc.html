@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Field Tested homepage, mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF8F3}
+a{color:#1C1713}a:hover{color:#C4471A}
+h1,h2,h3,p{text-wrap:pretty}
+button{font-family:inherit}
+input::placeholder{color:#8A7D70}
+</style>
+</helmet>
+
+<div style="width: 390px; height: 6660px; box-sizing: border-box; display: flex; flex-direction: column; background: #FBF8F3; color: #1C1713; font-family: 'Geist', 'Helvetica Neue', Helvetica, sans-serif; overflow: hidden;">
+
+<header style="height: 64px; flex-shrink: 0; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; border-bottom: 1px solid #EAE2D7;">
+  <a href="Mobile.dc.html" style="display: flex; align-items: center; gap: 9px; text-decoration: none; color: #1C1713;">
+    <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2A93B; display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l2.8 2.8L12.5 5" stroke="#1C1713" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.3px;">Field Tested</span>
+  </a>
+</header>
+<nav aria-label="Main" style="flex-shrink: 0; display: flex; gap: 8px; overflow-x: auto; padding: 10px 20px; border-bottom: 1px solid #EAE2D7;">
+    <a href="Mobile.dc.html" aria-current="page" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 999px; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600; background: #1C1713; color: #FBF8F3; border: 1px solid #1C1713;">Home</a>
+    <a href="ToolkitMobile.dc.html" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 999px; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600; background: #FFFEFC; color: #1C1713; border: 1px solid #E2D8CA;">Toolkit</a>
+    <a href="Tracks.dc.html" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 999px; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600; background: #FFFEFC; color: #1C1713; border: 1px solid #E2D8CA;">Tracks</a>
+    <a href="Weekly.dc.html" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 999px; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600; background: #FFFEFC; color: #1C1713; border: 1px solid #E2D8CA;">Worth It? Weekly</a>
+    <a href="Challenge.dc.html" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 999px; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600; background: #FFFEFC; color: #1C1713; border: 1px solid #E2D8CA;">Build challenge</a>
+    <a href="Blog.dc.html" style="flex-shrink: 0; height: 36px; padding: 0 14px; border-radius: 999px; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600; background: #FFFEFC; color: #1C1713; border: 1px solid #E2D8CA;">Blog</a>
+</nav>
+
+<section style="padding: 32px 20px 24px; display: flex; flex-direction: column; gap: 16px; flex-shrink: 0;">
+  <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #5E534A;"><span style="width: 24px; height: 24px; border-radius: 50%; background: #E6DBCB; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 11px; color: #1C1713;">U</span>Curated by Uma, an AI lead</span>
+  <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 44px; line-height: 0.98; letter-spacing: -1.7px;">Find the right AI tool, explained simply.</h1>
+  <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #5E534A;">Tools, libraries, packages and MCP servers for freshers and students in India, with when to use each one and when to skip it.</p>
+  <label for="homem-search" style="position: absolute; left: -9999px;">Search tools</label>
+  <div style="display: flex; align-items: center; gap: 10px; height: 54px; box-sizing: border-box; padding: 0 16px; background: #FFFEFC; border: 1.5px solid #1C1713; border-radius: 14px;">
+    <svg width="20" height="20" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="#1C1713" stroke-width="1.6"></circle><path d="M12.2 12.2L16 16" stroke="#1C1713" stroke-width="1.6" stroke-linecap="round"></path></svg>
+    <input id="homem-search" type="search" value="{{query}}" onChange="{{onQuery}}" placeholder="Try “read PDFs” or “agent”" style="flex-grow: 1; min-width: 0; border: none; outline: none; background: transparent; font-family: 'Geist', sans-serif; font-size: 16px; color: #1C1713;">
+  </div>
+  <span style="font-size: 14px; color: #5E534A;">Start here:</span>
+  <div style="display: flex; gap: 8px; overflow-x: auto; margin-top: -8px; padding-bottom: 2px;">
+    <sc-for list="{{startChips}}" as="chip" hint-placeholder-count="3">
+      <button onClick="{{chip.pick}}" aria-pressed="{{chip.pressed}}" style="flex-shrink: 0; height: 44px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 600; white-space: nowrap; background: {{chip.bg}}; color: {{chip.fg}}; border: 1px solid {{chip.border}};">{{chip.label}}</button>
+    </sc-for>
+  </div>
+</section>
+
+<section style="padding: 0 20px 20px; flex-shrink: 0;">
+  <a href="Weekly.dc.html" style="text-decoration: none; color: #1C1713; font-size: 13px; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; padding: 6px 6px 6px 14px; box-sizing: border-box; border: 1px solid #E2D8CA; border-radius: 999px; background: #FFFEFC;">
+    <span><span style="font-weight: 600;">Worth It? Weekly</span><span style="color: #5E534A;"> · 2 use · 2 wait · 1 skip</span></span>
+    <span style="flex-shrink: 0; font-weight: 600; padding: 6px 10px; border-radius: 999px; background: #F3ECE1;">See</span>
+  </a>
+</section>
+
+<section style="padding: 0 20px 16px; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0;">
+  <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px;">
+    <sc-for list="{{typeChips}}" as="chip" hint-placeholder-count="5">
+      <button onClick="{{chip.pick}}" aria-pressed="{{chip.pressed}}" style="flex-shrink: 0; height: 44px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 500; white-space: nowrap; background: {{chip.bg}}; color: {{chip.fg}}; border: 1px solid {{chip.border}};">{{chip.label}}</button>
+    </sc-for>
+  </div>
+  <div style="display: flex; justify-content: space-between; font-size: 13px; color: #5E534A;"><span style="font-weight: 600; color: #1C1713;">{{shownCount}} of {{totalCount}} tools</span><span style="display: flex; gap: 10px;"><span style="display: flex; align-items: center; gap: 5px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #2F5D3A;"></span>I use this</span><span style="display: flex; align-items: center; gap: 5px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #C98A1B;"></span>In my notes</span></span></div>
+</section>
+
+<section style="padding: 0 20px 40px; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0;">
+  <sc-if value="{{hasResults}}" hint-placeholder-val="{{ true }}">
+    <sc-for list="{{cards}}" as="card" hint-placeholder-count="6">
+      <div style="background: #FFFEFC; border: 1px solid {{card.border}}; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: {{card.typeBg}}; color: {{card.typeFg}};">{{card.typeLabel}}</span><span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #5E534A;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{card.statusColor}};"></span>{{card.statusLabel}}</span></div>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 21px; letter-spacing: -0.4px;">{{card.name}}</span>
+        <span style="font-size: 14px; line-height: 1.5; color: #5E534A;">{{card.short}}</span>
+        <sc-if value="{{card.open}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 10px; padding-top: 6px;">
+            <span style="font-size: 14px; line-height: 1.55; color: #3E352E;">{{card.plain}}</span>
+            <div style="padding: 12px 14px; border-radius: 12px; background: #F2F6EF; display: flex; flex-direction: column; gap: 3px; font-size: 13px; line-height: 1.5;"><span style="font-weight: 600; color: #2F5D3A;">Use it when</span><span style="color: #33402F;">{{card.useWhen}}</span></div>
+            <div style="padding: 12px 14px; border-radius: 12px; background: #FBEFE8; display: flex; flex-direction: column; gap: 3px; font-size: 13px; line-height: 1.5;"><span style="font-weight: 600; color: #A83B14;">Skip it when</span><span style="color: #5A3B2E;">{{card.skipWhen}}</span></div>
+            <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px;">
+              <span style="font-size: 13px; font-weight: 600;">Learn it in a deep dive</span>
+              <sc-if value="{{card.hasDives}}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{card.dives}}" as="dive" hint-placeholder-count="1">
+                  <a href="DeepDive.dc.html" style="text-decoration: none; color: #1C1713; background: #FBEBC8; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 12px; color: #6E4A0B;">{{dive.track}}</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; line-height: 1.25;">{{dive.t}}</span></a>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{card.noDives}}" hint-placeholder-val="{{ false }}">
+                <span style="font-size: 14px; color: #5E534A;">Deep dive coming soon.</span>
+              </sc-if>
+            </div>
+            <span style="background: #211913; color: #EFE6DA; border-radius: 10px; padding: 11px 13px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 12px; line-height: 1.5; word-break: break-all;">{{card.get}}</span>
+          </div>
+        </sc-if>
+        <button onClick="{{card.toggle}}" aria-expanded="{{card.expanded}}" style="align-self: flex-start; height: 44px; padding: 0; border: none; background: transparent; font-size: 14px; font-weight: 600; color: #A83B14; cursor: pointer;">{{card.toggleLabel}}</button>
+      </div>
+    </sc-for>
+  </sc-if>
+  <sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+    <div style="background: #F3ECE1; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px;"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px;">Nothing matches that yet.</span><span style="font-size: 15px; color: #5E534A;">Try a simpler word, or clear the filters.</span><button onClick="{{clearAll}}" style="align-self: flex-start; height: 46px; padding: 0 18px; border-radius: 10px; border: none; background: #1C1713; color: #FBF8F3; font-size: 15px; font-weight: 600;">Clear filters</button></div>
+  </sc-if>
+</section>
+
+<section style="padding: 0 20px 40px; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0;">
+  <a href="Tracks.dc.html" style="text-decoration: none; color: #FBF8F3; background: #211913; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 13px; color: #F2A93B; font-weight: 600;">Tracks</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 23px; line-height: 1.12;">Know exactly what to learn next.</span></a>
+  <a href="Challenge.dc.html" style="text-decoration: none; color: #1C1713; background: #F2A93B; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 13px; font-weight: 600;">Build challenge</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 23px; line-height: 1.12;">Build one real AI project this weekend.</span></a>
+  <a href="Blog.dc.html" style="text-decoration: none; color: #1C1713; background: #F3ECE1; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 13px; color: #5E534A; font-weight: 600;">Blog</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 23px; line-height: 1.12;">My honest perspective on AI.</span></a>
+  <span style="margin-top: 12px; font-size: 15px; line-height: 1.5; color: #5E534A; text-align: center;">Every pick is explained in plain words. Nobody pays to be listed.</span>
+</section>
+
+<footer style="margin-top: auto; padding: 28px 20px 36px; display: flex; flex-direction: column; gap: 24px; border-top: 1px solid #EAE2D7;">
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; font-size: 15px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;"><span style="font-weight: 600;">Learn</span><a href="ToolkitMobile.dc.html" style="text-decoration: none; color: #5E534A;">Toolkit</a><a href="Tracks.dc.html" style="text-decoration: none; color: #5E534A;">Tracks</a><a href="Weekly.dc.html" style="text-decoration: none; color: #5E534A;">Worth It? Weekly</a><a href="Challenge.dc.html" style="text-decoration: none; color: #5E534A;">Build challenge</a><a href="Blog.dc.html" style="text-decoration: none; color: #5E534A;">Blog</a></div>
+    <div style="display: flex; flex-direction: column; gap: 12px;"><span style="font-weight: 600;">Follow</span><a href="#" style="text-decoration: none; color: #5E534A;">YouTube</a><a href="#" style="text-decoration: none; color: #5E534A;">LinkedIn</a><a href="#" style="text-decoration: none; color: #5E534A;">WhatsApp channel</a></div>
+  </div>
+  <div style="display: flex; justify-content: space-between; font-size: 13px; color: #6E6155; padding-top: 18px; border-top: 1px solid #EAE2D7;"><span>© 2026 Field Tested</span><span>Made in India</span></div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":6660}}'>
+
+const TK_ITEMS = [
+  { id: "docling", name: "Docling", type: "package", track: "rag", short: "Turns PDFs into clean text and tables, on your own laptop.", plain: "IBM's open-source converter that reads PDFs the way you see them, so tables, headings and code blocks come out cleanly for your RAG app.", useWhen: "Your documents are mostly text and simple tables, and you don't want to send files to the cloud.", skipWhen: "Your papers are full of maths formulas or complex tables. Try MinerU instead.", runsOn: "Your laptop (heavy install)", cost: "Free, MIT licence", get: "pip install docling", status: "notes", note: "Needs PyTorch, which is a big download. It eats your RAM, not an API bill.", tags: "pdf documents parsing ocr tables" },
+  { id: "mineru", name: "MinerU", type: "package", track: "rag", short: "Reads complex PDFs, turns formulas into LaTeX.", plain: "A document parser that uses a vision model to understand layouts, converting equations to LaTeX and complex tables to Markdown.", useWhen: "You work with STEM, economics or medical papers full of formulas and dense tables.", skipWhen: "You need to process lots of simple documents fast.", runsOn: "Your laptop or a GPU", cost: "Free, open source", get: "github.com/opendatalab/MinerU", status: "notes", note: "For college papers with maths, accuracy matters more than speed. Worth testing side by side with Docling.", tags: "pdf latex math tables parsing" },
+  { id: "ragatouille", name: "RAGatouille", type: "library", track: "rag", short: "ColBERT retrieval in a few lines of Python.", plain: "Makes ColBERT, a very precise search model that keeps every word's meaning, easy to use in your own RAG pipeline.", useWhen: "You need highly precise search over detailed text and have spare disk space.", skipWhen: "Storage is tight. Plain embeddings plus a reranker is simpler and close in accuracy.", runsOn: "Your laptop", cost: "Free, open source", get: "pip install ragatouille", status: "notes", note: "ColBERT stores a vector for every word, so indexes get big. Great accuracy, real storage cost.", tags: "colbert search retrieval embeddings" },
+  { id: "raganything", name: "RAG-Anything", type: "library", track: "rag", short: "Multimodal RAG over text, images and LaTeX.", plain: "A heavy framework built on LightRAG that parses PDFs, images and formulas with MinerU and builds a knowledge graph you can ask questions over.", useWhen: "Your answers live in diagrams, tables and images, not just paragraphs.", skipWhen: "It's your first RAG project. Start with plain text RAG first.", runsOn: "Laptop with good RAM, or cloud", cost: "Free, open source", get: "github.com/HKUDS/RAG-Anything", status: "notes", note: "Not a small building block. It's a full orchestration layer, so expect a learning curve.", tags: "multimodal images knowledge graph lightrag" },
+  { id: "langgraph", name: "LangGraph", type: "library", track: "agents", short: "Build agents as a graph of visible steps.", plain: "Lets you design an agent as steps and connections, so loops, waiting, memory and approvals are explicit instead of hidden.", useWhen: "Your agent needs loops, memory, or a human approval step before acting.", skipWhen: "You're making a single AI call. Plain API code is enough.", runsOn: "Your laptop, any server", cost: "Free, open source", get: "pip install langgraph", status: "notes", note: "Harder to learn than no-code builders, but it shows you the agent loop, which is the point.", tags: "agents orchestration graph state" },
+  { id: "crewai", name: "CrewAI", type: "library", track: "agents", short: "Teams of agents with roles like researcher and writer.", plain: "A framework for multi-agent teams where each agent has a role and they hand work to each other.", useWhen: "Your task splits naturally into roles, such as research, write, then review.", skipWhen: "One agent can do the job. More agents means more cost and more ways to fail.", runsOn: "Your laptop, any server", cost: "Free, open source", get: "pip install crewai", status: "notes", note: "Remember: agents that share the same model and context can repeat the same mistake.", tags: "multi-agent roles teams" },
+  { id: "aisdk", name: "Vercel AI SDK", type: "library", track: "ship", short: "One TypeScript API for OpenAI, Claude, Gemini and more.", plain: "A JavaScript and TypeScript toolkit for chat apps and agents, with streaming, tool calling and structured JSON output, and one interface across model providers.", useWhen: "You're building a web app that streams answers or switches between models.", skipWhen: "It's a small single-model script. Direct API calls are enough.", runsOn: "Any Node.js or Next.js app", cost: "Free, open source", get: "npm install ai", status: "notes", note: "Lightweight and frontend-friendly compared with LangChain.", tags: "typescript nextjs streaming tools providers" },
+  { id: "temporal", name: "Temporal", type: "library", track: "agents", short: "Makes long-running agents crash-proof.", plain: "Records every step your agent takes, so if the server crashes or an API times out, it resumes exactly where it stopped.", useWhen: "Your agent runs for minutes or days, or waits for a human to approve something.", skipWhen: "Your agent finishes in a few seconds. The extra setup isn't worth it yet.", runsOn: "Your server plus a Temporal server", cost: "Free to self-host", get: "pip install temporalio", status: "notes", note: "Retries with backoff and human-in-the-loop waits that use no compute while waiting.", tags: "durable crash retries workflows" },
+  { id: "promptfoo", name: "Promptfoo", type: "package", track: "agents", short: "Automated tests and red-teaming for AI apps.", plain: "Runs automatic tests on your prompts, agents and RAG pipelines, including attack tests that try to trick your AI, instead of manual trial and error.", useWhen: "Before you share an agent with real users, and after every prompt change.", skipWhen: "You're still on your very first hello-world call.", runsOn: "Your terminal", cost: "Free, open source", get: "npx promptfoo@latest init", status: "notes", note: "Red-teaming means trying to break your own AI before a real attacker does.", tags: "testing evaluation red team security prompts" },
+  { id: "llmrouter", name: "LLM Router", type: "package", track: "agents", short: "Sends easy questions to cheap models.", plain: "Routes simple queries to cheaper models and hard ones to stronger models, and can learn from your usage over time.", useWhen: "Your app makes many AI calls and the bill is growing.", skipWhen: "You're learning and making a handful of calls a day.", runsOn: "Plugs into your app", cost: "Free, open source", get: "Search: LLM Router open source", status: "notes", note: "Savings claims of 30 to 50 percent are the project's own numbers. Test on your own traffic.", tags: "cost routing models" },
+  { id: "codegraph", name: "CodeGraph", type: "package", track: "ship", short: "Maps your whole codebase for AI tools.", plain: "Scans every file in your project with Tree-sitter, a fast code parser, so AI assistants understand how your code connects.", useWhen: "Your project is big enough that the AI keeps losing track of files.", skipWhen: "Your project is a few files. The AI can read them directly.", runsOn: "Your laptop", cost: "Free, open source", get: "github.com/colbymchenry/codegraph", status: "notes", note: "It avoids slow, unpredictable AI calls by using a real parser.", tags: "code index tree-sitter" },
+  { id: "hivemind", name: "HiveMind", type: "package", track: "agents", short: "Remembers why decisions were made.", plain: "Keeps the history behind decisions, discussions and changes, so future agents don't rediscover why something was done.", useWhen: "You use coding agents across many sessions on the same project.", skipWhen: "Your project is short-lived.", runsOn: "Your laptop", cost: "Check the project", get: "npm i -g @deeplake/hivemind && hivemind install", status: "notes", note: "Memory is state, not truth. Check what it stores and who can read it.", tags: "memory agents history" },
+  { id: "graphify", name: "Graphify", type: "package", track: "ship", short: "Helps AI understand code, images and documents.", plain: "Builds a map of your code, images and documents that an AI assistant can use as context.", useWhen: "Small projects where you want the AI to see how pieces connect.", skipWhen: "Big projects. It spends tokens, so costs grow with size.", runsOn: "Your laptop plus an AI API", cost: "Uses API tokens", get: "github.com/safishamsi/graphify", status: "notes", note: "Good for small projects and history, not for big codebases.", tags: "code documents context" },
+  { id: "arize", name: "Arize Phoenix", type: "package", track: "agents", short: "See every step your agent took, privately.", plain: "An open-source tool that shows traces of your agent's steps, tool calls and errors, running locally so your data stays with you.", useWhen: "Your agent gives a wrong answer and you need to see where it went wrong.", skipWhen: "You haven't built an agent yet.", runsOn: "Your laptop", cost: "Free, open source", get: "pip install arize-phoenix", status: "notes", note: "The privacy-friendly choice for observability.", tags: "observability tracing debugging" },
+  { id: "supabase", name: "Supabase", type: "tool", track: "ship", short: "Database, login and storage in one place.", plain: "A hosted Postgres database with login, file storage and row-level security, the rules that decide who can read which rows.", useWhen: "Your project needs real users, saved data, or login.", skipWhen: "You're only experimenting in a notebook.", runsOn: "Cloud", cost: "Free tier, check limits", get: "supabase.com", status: "using", note: "I use it in production. Learn row-level security early; it's where most beginner bugs hide.", tags: "database auth postgres backend" },
+  { id: "modal", name: "Modal", type: "tool", track: "ship", short: "Run Python in the cloud, pay per second.", plain: "Write a Python function, and Modal runs it on cloud machines, including GPUs, without you setting up a server.", useWhen: "Your model or RAG service is too heavy for your laptop.", skipWhen: "Your code runs fine locally or on a free host.", runsOn: "Cloud", cost: "Pay per use, check free credits", get: "pip install modal", status: "using", note: "I run a RAG service on it. No server to babysit.", tags: "cloud gpu python hosting" },
+  { id: "n8n", name: "n8n", type: "tool", track: "ship", short: "Drag-and-drop workflows with AI agent steps.", plain: "A workflow builder where you connect apps like Gmail, Slack and Supabase with AI steps, without writing a backend.", useWhen: "You want to automate a real task this week.", skipWhen: "Your goal is to understand how agents work inside. Code one first.", runsOn: "Cloud or self-hosted", cost: "Free if self-hosted", get: "n8n.io", status: "notes", note: "Connects to a huge number of real apps out of the box.", tags: "automation workflow no-code" },
+  { id: "dify", name: "Dify", type: "tool", track: "agents", short: "Visual builder for AI apps and RAG.", plain: "An open-source platform to build chat apps, RAG pipelines and agents with a visual editor.", useWhen: "You need a working internal tool or MVP fast.", skipWhen: "You're learning the fundamentals of agents in code.", runsOn: "Cloud or self-hosted", cost: "Free if self-hosted", get: "dify.ai", status: "notes", note: "Self-hosting keeps control and avoids per-agent fees.", tags: "no-code rag agents builder" },
+  { id: "langsmith", name: "LangSmith", type: "tool", track: "agents", short: "Replay and debug failed agent runs.", plain: "A dashboard that records your agent's runs so you can replay a failure step by step and fix it.", useWhen: "You build with LangChain or LangGraph and need to debug.", skipWhen: "You want everything local and private. Try Arize Phoenix.", runsOn: "Cloud", cost: "Free tier, check limits", get: "smith.langchain.com", status: "notes", note: "Very polished for debugging.", tags: "debugging observability tracing" },
+  { id: "agentops", name: "AgentOps", type: "tool", track: "agents", short: "Catches agents burning money in loops.", plain: "Tracks your agent's tool calls, API costs and loops, and warns you before a runaway agent drains your budget.", useWhen: "Your agent runs on its own and you pay per call.", skipWhen: "You're running a few manual tests.", runsOn: "Cloud", cost: "Check pricing", get: "agentops.ai", status: "notes", note: "Autonomy without a budget is an uncontrolled process.", tags: "cost monitoring agents" },
+  { id: "twentyfirst", name: "21st.dev", type: "tool", track: "ship", short: "UI components from a prompt.", plain: "Describe the component you need and get ready-made interface pieces for your React app.", useWhen: "You need a polished UI fast for a project demo.", skipWhen: "You're learning CSS and layout basics.", runsOn: "Browser", cost: "Check pricing", get: "21st.dev", status: "notes", note: "Great for speed. Still read the code it gives you.", tags: "ui components react frontend" },
+  { id: "teachable", name: "Teachable Machine", type: "tool", track: "foundations", short: "Train an image or sound model, no code.", plain: "Google's browser tool where you teach a model to recognise your own images, sounds or poses in minutes.", useWhen: "You want to feel how machine learning learns from examples.", skipWhen: "You need a production model.", runsOn: "Browser", cost: "Free", get: "teachablemachine.withgoogle.com", status: "notes", note: "The fastest way to understand training data before any theory.", tags: "machine learning beginner images" },
+  { id: "alphaxiv", name: "alphaXiv", type: "tool", track: "foundations", short: "Read and discuss research papers.", plain: "A place to read AI research papers with discussion alongside, so hard papers are easier to follow.", useWhen: "You want to go from blog posts to the original research.", skipWhen: "You're still learning the basics.", runsOn: "Browser", cost: "Free", get: "alphaxiv.org", status: "notes", note: "", tags: "papers research reading" },
+  { id: "mcp-notion", name: "Notion MCP", type: "mcp", track: "ship", short: "Your AI assistant reads and writes Notion.", plain: "Connects Notion to your AI assistant so it can search your pages, read notes and draft new pages for you.", useWhen: "Your notes and plans live in Notion and you want the AI to use them.", skipWhen: "Your workspace has private pages you don't want an assistant to see. Limit access first.", runsOn: "Connects through your AI app", cost: "Depends on your plans", get: "Add Notion in your AI app's connectors", status: "using", note: "I use this daily. Decide which pages it can see before you connect.", tags: "notion notes connector" },
+  { id: "mcp-github", name: "GitHub MCP", type: "mcp", track: "ship", short: "Your AI assistant works with your repos.", plain: "Lets an AI assistant read issues, pull requests and code in your GitHub repositories.", useWhen: "You want the assistant to review PRs or summarise issues.", skipWhen: "You haven't set permissions. Start with read-only access.", runsOn: "Connects through your AI app", cost: "Free to connect", get: "github.com/github/github-mcp-server", status: "notes", note: "Every new tool is a new attack surface. A malicious issue can carry instructions.", tags: "github code review connector" },
+  { id: "mcp-supabase", name: "Supabase MCP", type: "mcp", track: "ship", short: "Your AI assistant queries your database.", plain: "Lets an AI assistant look at your Supabase tables, run queries and help manage your project.", useWhen: "You want help writing queries or understanding your schema.", skipWhen: "It's pointed at production data. Use a development project and read-only mode.", runsOn: "Connects through your AI app", cost: "Free to connect", get: "Search: Supabase MCP server", status: "notes", note: "Decision is not authority. Don't let an assistant change production data unchecked.", tags: "database supabase connector" },
+  { id: "mcp-playwright", name: "Playwright MCP", type: "mcp", track: "ship", short: "Your AI assistant controls a browser.", plain: "Lets an AI assistant open a real browser, click and type, so it can test your web app like a user would.", useWhen: "You want an assistant to check that your site's main flows still work.", skipWhen: "Using it on sites you don't own or against their terms.", runsOn: "Your laptop", cost: "Free, open source", get: "Search: Playwright MCP server", status: "notes", note: "", tags: "browser testing automation connector" },
+  { id: "mcp-context7", name: "Context7 MCP", type: "mcp", track: "ship", short: "Up-to-date library docs for your assistant.", plain: "Feeds current documentation for libraries into your AI assistant, so it stops suggesting outdated code.", useWhen: "The assistant keeps using old versions of a library's API.", skipWhen: "You're using stable, older tools the assistant already knows well.", runsOn: "Connects through your AI app", cost: "Check the project", get: "Search: Context7 MCP server", status: "notes", note: "", tags: "docs documentation connector" }
+];
+
+const TK_TYPES = { tool: { label: "Tool", bg: "#FBEBC8", fg: "#6E4A0B" }, library: { label: "Library", bg: "#E3EDDF", fg: "#2A5233" }, "package": { label: "Package", bg: "#EDE3D6", fg: "#5A4636" }, mcp: { label: "MCP server", bg: "#F2E3EC", fg: "#6B2F50" } };
+const TK_TRACKS = { foundations: "Foundations", agents: "Agents that don't break", rag: "RAG and documents", ship: "Build and ship" };
+const TK_STATUS = { using: { label: "I use this", color: "#2F5D3A" }, notes: { label: "In my notes", color: "#C98A1B" }, tested: { label: "Tested", color: "#1C1713" } };
+
+const TK_DIVES = [
+  { t: "Why AI only learns from its mistakes", track: "Foundations, deep dive 2", tools: ["teachable"] },
+  { t: "Your first LLM API call", track: "Foundations, deep dive 4", tools: ["aisdk"] },
+  { t: "An agent is more than a chatbot", track: "Foundations, deep dive 5", tools: ["langgraph", "n8n", "dify"] },
+  { t: "Know when to stop", track: "Agents that don't break, deep dive 1", tools: ["langgraph", "promptfoo"] },
+  { t: "Data is not authority", track: "Agents that don't break, deep dive 2", tools: ["mcp-github", "mcp-notion"] },
+  { t: "Decide, then check, then act", track: "Agents that don't break, deep dive 3", tools: ["langgraph", "mcp-supabase"] },
+  { t: "Design for failure halfway", track: "Agents that don't break, deep dive 4", tools: ["temporal"] },
+  { t: "Give agents budgets", track: "Agents that don't break, deep dive 5", tools: ["agentops", "llmrouter"] },
+  { t: "Memory is not truth", track: "Agents that don't break, deep dive 6", tools: ["hivemind"] },
+  { t: "Every agent needs an identity", track: "Agents that don't break, deep dive 7", tools: ["arize", "langsmith"] },
+  { t: "Test against attacks", track: "Agents that don't break, deep dive 8", tools: ["promptfoo"] },
+  { t: "Agreement is not evidence", track: "Agents that don't break, deep dive 9", tools: ["crewai"] },
+  { t: "What RAG is, and why models need it", track: "RAG and documents, deep dive 1", tools: ["raganything"] },
+  { t: "Reading PDFs: PyMuPDF, Docling or MinerU?", track: "RAG and documents, deep dive 2", tools: ["docling", "mineru"] },
+  { t: "Why ColBERT keeps every word", track: "RAG and documents, deep dive 4", tools: ["ragatouille"] },
+  { t: "Test your answers automatically", track: "RAG and documents, deep dive 6", tools: ["promptfoo"] }
+];
+const tkDivesFor = (id) => TK_DIVES.filter((d) => d.tools.indexOf(id) !== -1).map((d) => ({ t: d.t, track: d.track }));
+
+const HOME_START = {
+  "new": ["teachable", "alphaxiv", "n8n", "supabase", "aisdk", "langgraph", "docling", "mcp-notion", "mcp-context7"],
+  "project": ["supabase", "modal", "aisdk", "langgraph", "docling", "mineru", "promptfoo", "arize", "mcp-github", "mcp-supabase", "temporal"]
+};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { start: "all", type: "all", q: "", open: "", limit: 0 };
+  }
+  renderVals() {
+    const start = this.state.start;
+    const type = this.state.type;
+    const q = (this.state.q || "").toLowerCase().trim();
+    // The homepage always shows the FULL list of tools. No pagination, no "show more".
+    const base = TK_ITEMS.filter((i) => (start === "all" || HOME_START[start].indexOf(i.id) !== -1) && (!q || (i.name + " " + i.short + " " + i.plain + " " + i.tags).toLowerCase().indexOf(q) !== -1));
+    const filtered = base.filter((i) => type === "all" || i.type === type);
+    const chip = (key, label, current, field, activeBg, count) => {
+      const on = key === current;
+      return { label: count === undefined ? label : label + " " + count, pressed: on ? "true" : "false", bg: on ? (activeBg || "#1C1713") : "#FFFEFC", fg: on ? (activeBg ? "#1C1713" : "#FBF8F3") : "#1C1713", border: on ? (activeBg || "#1C1713") : "#E2D8CA", pick: () => { const next = { limit: 0 }; next[field] = key; this.setState(next); } };
+    };
+    const startChips = [["all", "Show everything"], ["new", "I'm new to AI"], ["project", "I'm building a project"]].map((c) => chip(c[0], c[1], start, "start", "#F2A93B"));
+    const typeChips = [["all", "All"], ["tool", "Tools"], ["library", "Libraries"], ["package", "Packages"], ["mcp", "MCP servers"]].map((c) => chip(c[0], c[1], type, "type", null, c[0] === "all" ? base.length : base.filter((i) => i.type === c[0]).length));
+    const decorate = (i) => {
+      const t = TK_TYPES[i.type];
+      const s = TK_STATUS[i.status];
+      return Object.assign({}, i, { typeLabel: t.label, typeBg: t.bg, typeFg: t.fg, statusLabel: s.label, statusColor: s.color, trackLabel: TK_TRACKS[i.track], hasNote: !!i.note, dives: tkDivesFor(i.id), hasDives: tkDivesFor(i.id).length > 0, noDives: tkDivesFor(i.id).length === 0 });
+    };
+    const rank = { using: 0, tested: 1, notes: 2 };
+    const ranked = filtered.map((i, n) => ({ i: i, n: n })).sort((a, b) => ((rank[a.i.status] ?? 3) - (rank[b.i.status] ?? 3)) || (a.n - b.n)).map((x) => x.i);
+    const visible = ranked;
+    const cards = visible.map((i) => {
+      const d = decorate(i);
+      const on = this.state.open === i.id;
+      d.open = on; d.expanded = on ? "true" : "false";
+      d.toggleLabel = on ? "Hide details" : "Show details";
+      d.border = on ? "#1C1713" : "#E6DDD0";
+      d.toggle = () => this.setState({ open: on ? "" : i.id });
+      return d;
+    });
+    return {
+      query: this.state.q,
+      onQuery: (e) => this.setState({ q: e.target.value, limit: 0 }),
+      clearAll: () => this.setState({ start: "all", type: "all", q: "", limit: 0 }),
+      startChips: startChips, typeChips: typeChips, cards: cards,
+      shownCount: filtered.length, totalCount: TK_ITEMS.length, visibleCount: visible.length,
+      hasResults: filtered.length > 0, isEmpty: filtered.length === 0
+    };
+  }
+}
+</script>
+</body>
+</html>

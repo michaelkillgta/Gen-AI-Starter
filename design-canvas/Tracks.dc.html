@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Field Tested tracks</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF8F3}
+a{color:#1C1713}a:hover{color:#C4471A}
+h1,h2,h3,p{text-wrap:pretty}
+button{font-family:inherit}
+</style>
+</helmet>
+
+<div style="width: 1440px; height: 2000px; box-sizing: border-box; display: flex; flex-direction: column; background: #FBF8F3; color: #1C1713; font-family: 'Geist', 'Helvetica Neue', Helvetica, sans-serif; overflow: hidden;">
+
+<header style="height: 76px; flex-shrink: 0; box-sizing: border-box; padding: 0 96px; display: flex; align-items: center; gap: 56px; border-bottom: 1px solid #EAE2D7;">
+  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1C1713;">
+    <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2A93B; display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l2.8 2.8L12.5 5" stroke="#1C1713" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.4px;">Field Tested</span>
+  </a>
+  <nav aria-label="Main" style="display: flex; gap: 32px; font-size: 15px;">
+    <a href="Toolkit.dc.html" style="text-decoration: none; color: #5E534A;">Toolkit</a>
+    <a href="Tracks.dc.html" aria-current="page" style="text-decoration: none; color: #1C1713; font-weight: 600; border-bottom: 2px solid #F2A93B; padding-bottom: 4px;">Tracks</a>
+    <a href="Weekly.dc.html" style="text-decoration: none; color: #5E534A;">Worth It? Weekly</a>
+    <a href="Challenge.dc.html" style="text-decoration: none; color: #5E534A;">Build challenge</a>
+    <a href="Blog.dc.html" style="text-decoration: none; color: #5E534A;">Blog</a>
+  </nav>
+  <a href="Weekly.dc.html" style="margin-left: auto; background: #1C1713; color: #FBF8F3; text-decoration: none; font-size: 15px; font-weight: 600; padding: 12px 20px; border-radius: 10px;">This week's verdicts</a>
+</header>
+
+<!-- INTRO -->
+<section style="padding: 72px 96px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: end; flex-shrink: 0;">
+  <div style="display: flex; flex-direction: column; gap: 18px;">
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 84px; line-height: 0.96; letter-spacing: -3.2px;">Tracks</h1>
+    <p style="margin: 0; font-size: 20px; line-height: 1.55; color: #5E534A;">Clear paths, so you always know what comes next. Each track is a set of deep dives in order: read one, try it, move to the next.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+    <div style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 13px; font-weight: 600; color: #8A5A10;">1</span><span style="font-weight: 600; font-size: 15px;">TL;DR</span><span style="font-size: 13px; line-height: 1.45; color: #5E534A;">The idea in three lines</span></div>
+    <div style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 13px; font-weight: 600; color: #8A5A10;">2</span><span style="font-weight: 600; font-size: 15px;">Deep dive</span><span style="font-size: 13px; line-height: 1.45; color: #5E534A;">The full explanation</span></div>
+    <div style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 13px; font-weight: 600; color: #8A5A10;">3</span><span style="font-weight: 600; font-size: 15px;">Try it</span><span style="font-size: 13px; line-height: 1.45; color: #5E534A;">One small build step</span></div>
+    <div style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 13px; font-weight: 600; color: #8A5A10;">4</span><span style="font-weight: 600; font-size: 15px;">Next</span><span style="font-size: 13px; line-height: 1.45; color: #5E534A;">On to the next one</span></div>
+  </div>
+</section>
+
+<!-- TRACK TABS -->
+<section style="padding: 0 96px 32px; flex-shrink: 0;">
+  <div role="tablist" aria-label="Tracks" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;">
+    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
+      <button role="tab" onClick="{{tab.pick}}" aria-selected="{{tab.pressed}}" style="text-align: left; cursor: pointer; padding: 22px 24px; border-radius: 18px; background: {{tab.bg}}; color: {{tab.fg}}; border: 1px solid {{tab.border}}; display: flex; flex-direction: column; gap: 6px;">
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 24px; letter-spacing: -0.5px;">{{tab.label}}</span>
+        <span style="font-size: 14px; color: {{tab.sub}};">{{tab.count}}</span>
+      </button>
+    </sc-for>
+  </div>
+</section>
+
+<!-- SELECTED TRACK -->
+<section style="padding: 0 96px 72px; display: grid; grid-template-columns: 380px 1fr; gap: 48px; align-items: start; flex-shrink: 0;">
+  <aside style="background: #F3ECE1; border-radius: 22px; padding: 32px; display: flex; flex-direction: column; gap: 16px;">
+    <span style="font-size: 14px; font-weight: 600; color: #8A5A10;">{{trackWho}}</span>
+    <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 36px; line-height: 1.05; letter-spacing: -1.2px;">{{trackName}}</h2>
+    <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3E352E;">{{trackBlurb}}</p>
+    <div style="padding: 14px 16px; background: #FFFEFC; border-radius: 12px; font-size: 14px; line-height: 1.5; color: #3E352E;">{{trackStart}}</div>
+    <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px;">
+      <div style="display: flex; justify-content: space-between; font-size: 13px;"><span style="font-weight: 600;">Your progress</span><span style="color: #5E534A;">0 of {{diveCount}} done</span></div>
+      <div style="height: 6px; border-radius: 999px; background: #E6DBCB;"></div>
+    </div>
+    <a href="DeepDive.dc.html" style="margin-top: 6px; text-align: center; background: #1C1713; color: #FBF8F3; text-decoration: none; font-size: 16px; font-weight: 600; padding: 15px; border-radius: 12px;">Start the first deep dive</a>
+  </aside>
+
+  <div style="display: flex; flex-direction: column;">
+    <sc-for list="{{dives}}" as="dive" hint-placeholder-count="6">
+      <a href="DeepDive.dc.html" style="text-decoration: none; color: #1C1713; display: grid; grid-template-columns: 64px 1fr auto; gap: 20px; align-items: center; padding: 22px 8px; border-bottom: 1px solid #E6DDD0;">
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; color: #B5A898;">{{dive.num}}</span>
+        <span style="display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.4px;">{{dive.t}}</span>
+          <span style="font-size: 15px; line-height: 1.5; color: #5E534A;"><span style="font-weight: 600; color: #8A5A10;">TL;DR </span>{{dive.tldr}}</span>
+        </span>
+        <sc-if value="{{dive.first}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #F2A93B; color: #1C1713;">Start here</span></sc-if>
+        <sc-if value="{{dive.notFirst}}" hint-placeholder-val="{{ true }}"><span style="font-size: 14px; font-weight: 600; color: #5E534A;">Read</span></sc-if>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<!-- NOT SURE -->
+<section style="padding: 0 96px 88px; flex-shrink: 0;">
+  <div style="background: #211913; color: #FBF8F3; border-radius: 24px; padding: 40px 44px; display: grid; grid-template-columns: 0.9fr 1fr 1fr 1fr; gap: 28px; align-items: start;">
+    <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 32px; line-height: 1.05; letter-spacing: -1px;">Not sure where to start?</h2>
+    <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-weight: 600; font-size: 17px; color: #F2A93B;">New to coding or AI</span><span style="font-size: 15px; line-height: 1.55; color: #C9BBAA;">Start with Foundations. No experience assumed.</span></div>
+    <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-weight: 600; font-size: 17px; color: #F2A93B;">Know Python, want a project</span><span style="font-size: 15px; line-height: 1.55; color: #C9BBAA;">Start with RAG and documents.</span></div>
+    <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-weight: 600; font-size: 17px; color: #F2A93B;">Built an agent already</span><span style="font-size: 15px; line-height: 1.55; color: #C9BBAA;">Go straight to Agents that don't break.</span></div>
+  </div>
+</section>
+
+<footer style="margin-top: auto; padding: 32px 96px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #EAE2D7; font-size: 14px; color: #6E6155;">
+  <span>Every deep dive is also on the <a href="Blog.dc.html" style="font-weight: 600;">Blog</a>.</span>
+  <span>© 2026 Field Tested</span>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2000}}'>
+const TRACKS = {
+  foundations: {
+    name: "Foundations", who: "For freshers", tone: "light",
+    blurb: "How AI actually works, told as stories, not jargon. You finish with your first working agent.",
+    startIf: "Start here if you're new to AI, or know a little coding but feel lost.",
+    dives: [
+      { t: "How AI learns: the story from 1943 to ChatGPT", tldr: "Eighty years of AI in one read, with one life lesson from each chapter." },
+      { t: "Why AI only learns from its mistakes", tldr: "How a model improves by measuring how wrong it was, and why that's how you learn too." },
+      { t: "What an LLM actually is", tldr: "A next-word predictor trained on huge amounts of text. What that means, and what it can't do." },
+      { t: "Your first LLM API call", tldr: "Get a free key, send one message from Python, and read the reply. About 20 lines of code." },
+      { t: "An agent is more than a chatbot", tldr: "LLM plus a goal, tools, memory and a loop. The mental model behind every agent framework." },
+      { t: "Use AI to learn, not to copy", tldr: "The habits that separate people who learn with AI from people who stop understanding their own code." }
+    ]
+  },
+  agents: {
+    name: "Agents that don't break", who: "Flagship track", tone: "dark",
+    blurb: "The production principles most courses skip: when to stop, who has authority, budgets, failures and attacks.",
+    startIf: "Start here once you've built one simple agent and want it to work in the real world.",
+    dives: [
+      { t: "Know when to stop", tldr: "A useful agent stops and asks when instructions conflict or the risk is high." },
+      { t: "Data is not authority", tldr: "Text inside a PDF or email is information, not an instruction your agent must follow." },
+      { t: "Decide, then check, then act", tldr: "Separate what the agent wants to do from what it's allowed to do, with a check in between." },
+      { t: "Design for failure halfway", tldr: "What happens when step 3 of 5 fails? Plan retries, rollbacks and safe pauses." },
+      { t: "Give agents budgets", tldr: "Limits on tokens, time, tool calls and money, so a loop can't drain your account." },
+      { t: "Memory is not truth", tldr: "Stored memories can be wrong or outdated. Important ones need a source and an owner." },
+      { t: "Every agent needs an identity", tldr: "Who is acting, for whom, with which permissions, and a log you can audit later." },
+      { t: "Test against attacks", tldr: "Try to break your own agent with malicious documents before someone else does." },
+      { t: "Agreement is not evidence", tldr: "Five agents with the same model and context can repeat the same mistake five times." }
+    ]
+  },
+  rag: {
+    name: "RAG and documents", who: "For college projects", tone: "light",
+    blurb: "Make AI answer accurately from your own notes, PDFs and papers, and prove that it's right.",
+    startIf: "Start here if you know basic Python and want a strong portfolio project.",
+    dives: [
+      { t: "What RAG is, and why models need it", tldr: "Models don't know your notes. RAG finds the right passages and hands them over before answering." },
+      { t: "Reading PDFs: PyMuPDF, Docling or MinerU?", tldr: "Fast and simple, clean and structured, or strong on formulas. Which to pick for your documents." },
+      { t: "Chunks and embeddings, simply", tldr: "How text is split into pieces and turned into numbers, so search finds meaning, not just words." },
+      { t: "Why ColBERT keeps every word", tldr: "More precise search by keeping a vector for every word, and the storage cost that comes with it." },
+      { t: "Make it say \u201cI don't know\u201d", tldr: "A good RAG app admits when the answer isn't in your documents, instead of guessing." },
+      { t: "Test your answers automatically", tldr: "A small test set that catches wrong answers before your users do." }
+    ]
+  }
+};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { track: "agents" };
+  }
+  renderVals() {
+    const cur = this.state.track;
+    const tr = TRACKS[cur];
+    const tabs = [["foundations", "Foundations"], ["agents", "Agents that don't break"], ["rag", "RAG and documents"]].map((c) => {
+      const on = c[0] === cur;
+      return { label: c[1], count: TRACKS[c[0]].dives.length + " deep dives", pressed: on ? "true" : "false", bg: on ? "#1C1713" : "#FFFEFC", fg: on ? "#FBF8F3" : "#1C1713", sub: on ? "#C9BBAA" : "#5E534A", border: on ? "#1C1713" : "#E2D8CA", pick: () => this.setState({ track: c[0] }) };
+    });
+    const dives = tr.dives.map((d, i) => ({ num: String(i + 1).padStart(2, "0"), t: d.t, tldr: d.tldr, first: i === 0, notFirst: i !== 0 }));
+    return {
+      tabs: tabs,
+      trackName: tr.name, trackWho: tr.who, trackBlurb: tr.blurb, trackStart: tr.startIf,
+      diveCount: tr.dives.length,
+      dives: dives
+    };
+  }
+}
+</script>
+</body>
+</html>

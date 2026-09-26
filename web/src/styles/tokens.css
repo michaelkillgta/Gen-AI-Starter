@@ -1,0 +1,92 @@
+/*
+ * Design tokens, taken from the Field Tested design canvas (design-canvas/*.dc.html).
+ * Every colour, font and radius used by components comes from here.
+ */
+:root {
+  /* Surfaces */
+  --color-bg: #fbf8f3;
+  --color-surface: #fffefc;
+  --color-panel: #f3ece1;          /* tan panels, segmented controls */
+  --color-dark: #211913;           /* dark feature panels, code blocks */
+  --color-dark-raised: #2e241c;
+  --color-dark-border: #45372b;
+
+  /* Text */
+  --color-ink: #1c1713;
+  --color-ink-soft: #3e352e;
+  --color-body: #2e2620;           /* long-form article text */
+  --color-muted: #5e534a;
+  --color-muted-2: #6e6155;
+  --color-faint: #8a7d70;
+  --color-number: #b5a898;         /* large list numbers */
+  --color-on-dark: #fbf8f3;
+  --color-on-dark-muted: #c9bbaa;
+  --color-code-text: #efe6da;
+
+  /* Brand */
+  --color-accent: #f2a93b;         /* marigold */
+  --color-accent-ink: #8a5a10;     /* amber text on light */
+  --color-hover: #c4471a;
+  --color-danger: #a83b14;
+  --color-success: #2f5d3a;
+
+  /* Lines */
+  --color-line: #eae2d7;
+  --color-line-card: #e6ddd0;
+  --color-line-input: #e2d8ca;
+  --color-line-soft: #f0e9df;
+  --color-line-dashed: #d9cdbd;
+  --color-avatar: #e6dbcb;
+
+  /* Tool types (chip background / text) */
+  --type-tool-bg: #fbebc8;    --type-tool-fg: #6e4a0b;
+  --type-library-bg: #e3eddf; --type-library-fg: #2a5233;
+  --type-package-bg: #ede3d6; --type-package-fg: #5a4636;
+  --type-mcp-bg: #f2e3ec;     --type-mcp-fg: #6b2f50;
+
+  /* Tool status dots */
+  --status-using: #2f5d3a;
+  --status-notes: #c98a1b;
+  --status-tested: #1c1713;
+
+  /* Weekly verdicts */
+  --verdict-use-bg: #e6efe3;  --verdict-use-fg: #2f5d3a;
+  --verdict-wait-bg: #f7ebcf; --verdict-wait-fg: #7a5410;
+  --verdict-skip-bg: #fbe6dc; --verdict-skip-fg: #a83b14;
+
+  /* Use it / skip it boxes */
+  --use-bg: #f2f6ef;  --use-fg: #33402f;
+  --skip-bg: #fbefe8; --skip-fg: #5a3b2e;
+  --highlight-bg: #fbebc8;          /* deep dive links, TL;DR box */
+
+  /* Fonts (set by next/font in app/layout.tsx) */
+  --font-display: var(--font-bricolage), "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: var(--font-geist), "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, monospace;
+
+  /* Radii */
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-float: 0 24px 50px -30px rgba(60, 40, 20, 0.45);
+  --shadow-panel: 0 30px 60px -40px rgba(60, 40, 20, 0.35);
+  --shadow-seg: 0 1px 3px rgba(60, 40, 20, 0.18);
+
+  /* Layout */
+  --content-max: 1440px;
+  --gutter: 20px;                  /* phone; widened in breakpoints.css */
+  --header-h: 64px;
+  --tap: 44px;                     /* minimum tap target */
+
+  /* Fluid type: phone size → desktop size */
+  --fs-hero: clamp(2.75rem, 1.6rem + 4.2vw, 3.75rem);       /* 44 → 60 */
+  --fs-page-title: clamp(2.875rem, 1.5rem + 5vw, 5.25rem);  /* 46 → 84 */
+  --fs-h2: clamp(1.75rem, 1.3rem + 1.6vw, 2.25rem);         /* 28 → 36 */
+  --fs-h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);        /* 22 → 28 */
+  --fs-lead: clamp(1rem, 0.93rem + 0.3vw, 1.25rem);         /* 16 → 20 */
+}

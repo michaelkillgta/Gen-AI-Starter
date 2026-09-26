@@ -1,0 +1,36 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sm { font-size: 12px; padding: 4px 10px; }
+.md { font-size: 13px; padding: 5px 12px; }
+.lg { font-size: 15px; padding: 9px 16px; }
+
+.tool    { background: var(--type-tool-bg);    color: var(--type-tool-fg); }
+.library { background: var(--type-library-bg); color: var(--type-library-fg); }
+.package { background: var(--type-package-bg); color: var(--type-package-fg); }
+.mcp     { background: var(--type-mcp-bg);     color: var(--type-mcp-fg); }
+.use     { background: var(--verdict-use-bg);  color: var(--verdict-use-fg); }
+.wait    { background: var(--verdict-wait-bg); color: var(--verdict-wait-fg); }
+.skip    { background: var(--verdict-skip-bg); color: var(--verdict-skip-fg); }
+.neutral { background: var(--color-panel);     color: var(--color-ink-soft); }
+.dark    { background: var(--color-dark);      color: var(--color-accent); }
+.accent  { background: var(--color-accent);    color: var(--color-ink); }
+
+.dot {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.dot-using  { background: var(--status-using); }
+.dot-notes  { background: var(--status-notes); }
+.dot-tested { background: transparent; border: 2px solid var(--status-tested); }

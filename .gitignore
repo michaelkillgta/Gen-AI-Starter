@@ -1,0 +1,18 @@
+# dependencies and builds
+node_modules/
+api/target/
+web/.next/
+web/out/
+web/test-results/
+web/playwright-report/
+
+# local secrets
+.env
+.env.local
+api/.env
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

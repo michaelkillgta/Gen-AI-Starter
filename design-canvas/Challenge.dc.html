@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Build Challenge</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF8F3}
+a{color:#1C1713}a:hover{color:#C4471A}
+h1,h2,h3,p{text-wrap:pretty}
+input::placeholder{color:#8A7D70}
+button{font-family:inherit}
+</style>
+</helmet>
+
+<div style="width: 1440px; height: 2980px; box-sizing: border-box; display: flex; flex-direction: column; background: #FBF8F3; color: #1C1713; font-family: 'Geist', 'Helvetica Neue', Helvetica, sans-serif; overflow: hidden;">
+
+<!-- NAV -->
+<header style="height: 76px; flex-shrink: 0; box-sizing: border-box; padding: 0 96px; display: flex; align-items: center; gap: 56px; border-bottom: 1px solid #EAE2D7;">
+  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1C1713;">
+    <span style="width: 30px; height: 30px; border-radius: 9px; background: #F2A93B; display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l2.8 2.8L12.5 5" stroke="#1C1713" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+    <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.4px;">Field Tested</span>
+  </a>
+  <nav aria-label="Main" style="display: flex; gap: 32px; font-size: 15px;">
+    <a href="Toolkit.dc.html" style="text-decoration: none; color: #5E534A;">Toolkit</a>
+    <a href="Tracks.dc.html" style="text-decoration: none; color: #5E534A;">Tracks</a>
+    <a href="Weekly.dc.html" style="text-decoration: none; color: #5E534A;">Worth It? Weekly</a>
+    <a href="Challenge.dc.html" aria-current="page" style="text-decoration: none; color: #1C1713; font-weight: 600; border-bottom: 2px solid #F2A93B; padding-bottom: 4px;">Build challenge</a>
+    <a href="Blog.dc.html" style="text-decoration: none; color: #5E534A;">Blog</a>
+  </nav>
+  <a href="Weekly.dc.html" style="margin-left: auto; background: #1C1713; color: #FBF8F3; text-decoration: none; font-size: 15px; font-weight: 600; padding: 12px 20px; border-radius: 10px;">This week's verdicts</a>
+</header>
+
+<!-- HERO + WAITLIST FORM -->
+<section style="padding: 80px 96px 72px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 72px; align-items: center; flex-shrink: 0;">
+  <div style="display: flex; flex-direction: column; gap: 26px;">
+    <span style="align-self: flex-start; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; padding: 8px 14px; border-radius: 999px; background: #FFFEFC; border: 1px solid #E6DDD0;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #2F5D3A;"></span>Waitlist open · date announced at 50</span>
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 88px; line-height: 0.96; letter-spacing: -3.4px;">Build one real AI project this weekend.</h1>
+    <p style="margin: 0; font-size: 20px; line-height: 1.6; color: #5E534A; max-width: 600px;">A free, guided build with a small group. You finish with a live project on your GitHub that you understand and can explain.</p>
+    <div style="display: flex; gap: 40px; padding-top: 8px;">
+      <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 13px; color: #5E534A;">Cost</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px;">Free</span></div>
+      <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 13px; color: #5E534A;">Length</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px;">1 day</span></div>
+      <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 13px; color: #5E534A;">Where</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px;">Online</span></div>
+      <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 13px; color: #5E534A;">You'll build</span><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px;">A study assistant for your notes</span></div>
+    </div>
+  </div>
+
+  <sc-if value="{{notJoined}}" hint-placeholder-val="{{ true }}">
+    <form style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 22px; padding: 34px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 40px 80px -45px rgba(60,40,20,0.4);">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.7px;">Join the waitlist</span>
+        <span style="font-size: 15px; line-height: 1.5; color: #5E534A;">When we reach 50, you'll get a personal invite with the date and timings.</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <label for="ch-name" style="font-size: 14px; font-weight: 600;">Your name</label>
+        <input id="ch-name" type="text" placeholder="Your full name" style="height: 50px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #E2D8CA; background: #FBF8F3; font-family: 'Geist', sans-serif; font-size: 16px; color: #1C1713;">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <label for="ch-phone" style="font-size: 14px; font-weight: 600;">WhatsApp number</label>
+        <input id="ch-phone" type="tel" placeholder="+91" style="height: 50px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #E2D8CA; background: #FBF8F3; font-family: 'Geist', sans-serif; font-size: 16px; color: #1C1713;">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <label for="ch-email" style="font-size: 14px; font-weight: 600;">Email</label>
+        <input id="ch-email" type="email" placeholder="you@example.com" style="height: 50px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #E2D8CA; background: #FBF8F3; font-family: 'Geist', sans-serif; font-size: 16px; color: #1C1713;">
+      </div>
+      <button type="button" onClick="{{join}}" style="height: 54px; border-radius: 12px; border: none; background: #F2A93B; color: #1C1713; font-size: 17px; font-weight: 600; cursor: pointer;">Join the waitlist</button>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; font-size: 14px;">
+          <span><span style="font-weight: 600;">{{count}} of 50</span> <span style="color: #5E534A;">people have joined</span></span>
+          <span style="font-size: 13px; color: #5E534A;">{{shortStatus}}</span>
+        </div>
+        <div role="progressbar" aria-label="Waitlist progress" aria-valuemin="0" aria-valuemax="50" aria-valuenow="{{count}}" style="height: 6px; border-radius: 999px; background: #EFE8DE; overflow: hidden;">
+          <div style="width: {{pct}}; height: 6px; border-radius: 999px; background: #F2A93B;"></div>
+        </div>
+      </div>
+    </form>
+  </sc-if>
+
+  <sc-if value="{{hasJoined}}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="background: #FFFEFC; border: 1.5px solid #2F5D3A; border-radius: 22px; padding: 34px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 40px 80px -45px rgba(60,40,20,0.4);">
+      <span style="width: 48px; height: 48px; border-radius: 50%; background: #2F5D3A; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 5.2l2 2L8 3" stroke="#FFFEFC" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 30px; letter-spacing: -0.7px;">You're on the list.</span>
+      <span style="font-size: 16px; line-height: 1.6; color: #3E352E;">You're number {{count}}. When we reach 50, I'll announce the date and send your invite with the timings.</span>
+      <span style="font-size: 14px; line-height: 1.5; color: #5E534A;">Know a friend who'd join? Share this page to help us reach 50 sooner.</span>
+    </div>
+  </sc-if>
+</section>
+
+<!-- WHAT HAPPENS NEXT -->
+<section style="padding: 0 96px 96px; flex-shrink: 0;">
+  <div style="background: #211913; color: #FBF8F3; border-radius: 32px; padding: 56px 56px 60px; display: flex; flex-direction: column; gap: 44px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px;">
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 56px; line-height: 1; letter-spacing: -2px; max-width: 620px;">From waitlist to your invite.</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C9BBAA; max-width: 400px;">Three steps. The only thing you do is the first one.</p>
+    </div>
+    <div style="position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <div style="position: absolute; left: 40px; right: 40px; top: 27px; border-top: 2px dashed #5A4636;"></div>
+
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px;">
+        <span style="width: 56px; height: 56px; border-radius: 50%; background: #F2A93B; color: #1C1713; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px;">1</span>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.6px;">You join</span>
+        <span style="font-size: 16px; line-height: 1.6; color: #C9BBAA;">Name, WhatsApp and email. Free, in a few seconds.</span>
+        <div style="margin-top: 6px; background: #2E241C; border: 1px solid #45372B; border-radius: 16px; padding: 16px 18px; display: flex; align-items: center; gap: 12px;">
+          <span style="width: 26px; height: 26px; border-radius: 50%; background: #2F5D3A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="12" height="12" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 5.2l2 2L8 3" stroke="#FFFEFC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600; font-size: 15px;">You're on the list</span><span style="font-size: 13px; color: #C9BBAA;">You're number [N]</span></span>
+        </div>
+      </div>
+
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px;">
+        <span style="width: 56px; height: 56px; border-radius: 50%; background: #F2A93B; color: #1C1713; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px;">2</span>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.6px;">We hit 50</span>
+        <span style="font-size: 16px; line-height: 1.6; color: #C9BBAA;">Share it with friends to get there faster. At 50, I lock the date.</span>
+        <div style="margin-top: 6px; background: #2E241C; border: 1px solid #45372B; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
+          <span style="display: flex; justify-content: space-between; font-size: 14px;"><span style="font-weight: 600;">50 of 50 joined</span><span style="color: #F2A93B; font-weight: 600;">Unlocked</span></span>
+          <span style="height: 6px; border-radius: 999px; background: #F2A93B;"></span>
+        </div>
+      </div>
+
+      <div style="position: relative; display: flex; flex-direction: column; gap: 18px;">
+        <span style="width: 56px; height: 56px; border-radius: 50%; background: #F2A93B; color: #1C1713; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px;">3</span>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.6px;">Your invite arrives</span>
+        <span style="font-size: 16px; line-height: 1.6; color: #C9BBAA;">On WhatsApp or email, with everything you need.</span>
+        <div style="margin-top: 6px; align-self: flex-start; max-width: 340px; background: #FBF8F3; color: #1C1713; border-radius: 16px 16px 16px 4px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5;">
+          <span style="font-weight: 600;">You're invited to the Build Challenge</span>
+          <span><span style="color: #5E534A;">Date: </span>[DATE]</span>
+          <span><span style="color: #5E534A;">Time: </span>[TIME]</span>
+          <span><span style="color: #5E534A;">Join: </span><span style="color: #A83B14; font-weight: 600;">[MEET LINK]</span></span>
+          <span style="align-self: flex-end; font-size: 11px; color: #8A7D70;">from Uma</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIOUS PROJECTS -->
+<section style="padding: 0 96px 104px; display: flex; flex-direction: column; gap: 36px; flex-shrink: 0;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span style="font-size: 15px; font-weight: 600; color: #A83B14;">Previous projects</span>
+      <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 56px; line-height: 1; letter-spacing: -2px; max-width: 720px;">Things I've built, so you know who's guiding you.</h2>
+    </div>
+    <a href="Blog.dc.html" style="flex-shrink: 0; font-weight: 600; font-size: 16px;">Read my blog</a>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
+    <article style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="height: 200px; background: #2F5D3A; color: #FBF8F3; padding: 26px 28px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+        <span style="font-size: 13px; font-weight: 600; opacity: 0.8;">iQOO Hackathon 2026 · Team Vector</span>
+        <div style="display: flex; gap: 10px;">
+          <span style="flex: 1; background: rgba(255,254,252,0.14); border-radius: 12px; padding: 12px; font-size: 13px;">Patients</span>
+          <span style="flex: 1; background: rgba(255,254,252,0.14); border-radius: 12px; padding: 12px; font-size: 13px;">Providers</span>
+          <span style="flex: 1; background: rgba(255,254,252,0.14); border-radius: 12px; padding: 12px; font-size: 13px;">Hospital admins</span>
+        </div>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -1px;">Vector Health</span>
+      </div>
+      <div style="padding: 26px 28px 30px; display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 13px; font-weight: 600; color: #8A5A10;">Hackathon build</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.6px;">A health platform for three kinds of users</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #5E534A;">One web app that connects patients, healthcare providers and hospital admins, with a built-in rewards system.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px;"><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">React</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">TypeScript</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Vite</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Gemini API</span></div>
+      </div>
+    </article>
+    <article style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="height: 200px; background: #211913; color: #FBF8F3; padding: 26px 28px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+        <span style="font-size: 13px; font-weight: 600; color: #F2A93B;">Automated Q&amp;A agent</span>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+          <span style="align-self: flex-start; background: #3A2E24; border-radius: 12px 12px 12px 4px; padding: 9px 12px;">Why does the moon show phases?</span>
+          <span style="align-self: flex-end; background: #F2A93B; color: #1C1713; border-radius: 12px 12px 4px 12px; padding: 9px 12px;">Answer from the textbook, page cited</span>
+        </div>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -1px;">Gyan++ Bot</span>
+      </div>
+      <div style="padding: 26px 28px 30px; display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 13px; font-weight: 600; color: #8A5A10;">Edublast, team product</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.6px;">A bot that asks and answers study doubts</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #5E534A;">Posts exam-style questions on a schedule and answers student doubts from textbook passages, reusing past answers to save cost.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px;"><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">RAG</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Gemini</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Sarvam AI</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Supabase</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Cron jobs</span></div>
+      </div>
+    </article>
+    <article style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="height: 200px; background: #E3EDDF; color: #1C1713; padding: 26px 28px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+        <span style="font-size: 13px; font-weight: 600; color: #2A5233;">PDF to database</span>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 600;">
+          <span style="background: #FFFEFC; border-radius: 10px; padding: 10px 12px;">463-page PDF</span>
+          <svg width="28" height="14" viewBox="0 0 28 14" fill="none" aria-hidden="true"><path d="M1 7h24M19 1l6 6-6 6" stroke="#2A5233" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span style="background: #FFFEFC; border-radius: 10px; padding: 10px 12px;">Questions · diagrams · answers</span>
+        </div>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -1px;">JEE question bank</span>
+      </div>
+      <div style="padding: 26px 28px 30px; display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 13px; font-weight: 600; color: #8A5A10;">Data pipeline</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.6px;">Turning a PYQ book into a question bank</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #5E534A;">Extracting JEE Main physics questions, diagrams and answers from a large PDF into a structured, searchable database.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px;"><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">PDF parsing</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Supabase</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Storage</span></div>
+      </div>
+    </article>
+    <article style="background: #FFFEFC; border: 1px solid #E6DDD0; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="height: 200px; background: #FBEBC8; color: #1C1713; padding: 26px 28px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+        <span style="font-size: 13px; font-weight: 600; color: #6E4A0B;">Runs every evening, on its own</span>
+        <div style="display: flex; gap: 8px; font-size: 12px; font-weight: 600;">
+          <span style="background: #FFFEFC; border-radius: 999px; padding: 7px 11px;">9 AI newsletters</span>
+          <span style="background: #FFFEFC; border-radius: 999px; padding: 7px 11px;">read</span>
+          <span style="background: #FFFEFC; border-radius: 999px; padding: 7px 11px;">summarised</span>
+          <span style="background: #1C1713; color: #FBF8F3; border-radius: 999px; padding: 7px 11px;">published</span>
+        </div>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -1px;">Morning Signal</span>
+      </div>
+      <div style="padding: 26px 28px 30px; display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 13px; font-weight: 600; color: #8A5A10;">Personal automation</span>
+        <h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.6px;">My daily AI news, summarised for me</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #5E534A;">Reads nine AI newsletters every evening and publishes one visual digest, with bigger summaries for bigger news and every link kept.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px;"><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Gmail</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Scheduled agent</span><span style="font-size: 13px; padding: 5px 11px; border-radius: 999px; background: #F3ECE1; color: #3E352E;">Web dashboard</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer style="margin-top: auto; padding: 32px 96px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #EAE2D7; font-size: 14px; color: #6E6155;">
+  <span>Want to run this at your college? <a href="#" style="font-weight: 600;">Get in touch</a></span>
+  <span>© 2026 Field Tested</span>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"joined":{"editor":"int","default":0,"min":0,"max":80,"section":"Preview"},"$preview":{"width":1440,"height":2980}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { added: 0 };
+  }
+  renderVals() {
+    const goal = 50;
+    const count = (this.props.joined ?? 0) + this.state.added;
+    const left = Math.max(goal - count, 0);
+    let shortStatus;
+    if (count >= goal) {
+      shortStatus = "Goal reached, date coming soon";
+    } else if (count === 0) {
+      shortStatus = "Be one of the first";
+    } else {
+      shortStatus = left + " more to announce the date";
+    }
+    return {
+      count: count,
+      pct: Math.min(count / goal * 100, 100) + "%",
+      shortStatus: shortStatus,
+      hasJoined: this.state.added > 0,
+      notJoined: this.state.added === 0,
+      join: () => { if (this.state.added === 0) this.setState({ added: 1 }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
