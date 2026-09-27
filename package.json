@@ -5,7 +5,7 @@
     "dev": "concurrently -k -n db,api,web -c gray,yellow,cyan \"pnpm db\" \"pnpm dev:api\" \"pnpm dev:web\"",
     "dev:files": "concurrently -k -n api,web -c yellow,cyan \"cd api && cross-env STORAGE=files cargo run\" \"pnpm dev:web\"",
     "dev:api": "cd api && cargo run",
-    "dev:web": "pnpm --dir web dev",
+    "dev:web": "pnpm --dir web dev -p 3001",
     "db": "node scripts/db.mjs test",
     "db:docker": "docker compose up -d --wait db",
     "db:seed": "cd api && cargo run -q -- seed",
