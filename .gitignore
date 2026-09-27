@@ -23,3 +23,6 @@ api/.cargo/
 api/data/
 .local/
 .env.production
+
+# Python
+__pycache__/
