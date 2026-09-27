@@ -62,9 +62,22 @@ test.describe("seo and basics", () => {
     await expect(cta).toHaveAttribute("href", "/challenge");
     await cta.click();
     await expect(page).toHaveURL(/\/challenge$/);
-    // On the challenge page itself it points somewhere new instead.
-    await expect(page.getByRole("link", { name: "Build with us, free" })).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "This week's verdicts" })).toHaveAttribute("href", "/weekly");
+
+    // Same button on the challenge page: it jumps to the waitlist form, cursor in the name field.
+    const again = page.getByRole("link", { name: "Build with us, free" });
+    await expect(again).toHaveAttribute("href", "/challenge#waitlist");
+    await expect(page.getByRole("link", { name: "This week's verdicts" })).toHaveCount(0);
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await again.click();
+    await expect(page).toHaveURL(/\/challenge#waitlist$/);
+    await expect(page.getByLabel("Your name")).toBeFocused();
+    await expect(page.locator("#waitlist")).toBeInViewport();
+
+    // From the "you're on the list" page it goes to the form too.
+    await page.goto("/challenge/joined");
+    await page.getByRole("link", { name: "Build with us, free" }).click();
+    await expect(page).toHaveURL(/\/challenge#waitlist$/);
+    await expect(page.getByLabel("Your name")).toBeFocused();
   });
 
   test("security headers are set", async ({ request }) => {

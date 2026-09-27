@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 
 import { Button, ProgressBar, TextField } from "@/components/ui";
 import { FormMessage, Honeypot, Turnstile } from "@/components/ui/FormBits";
 import { waitlistStatus } from "@/features/challenge/status";
 import { joinWaitlist, type FormState } from "@/features/forms/actions";
 import styles from "./Challenge.module.css";
+import { focusWaitlist, WAITLIST_ID } from "./waitlist-anchor";
 
 const initial: FormState = { status: "idle" };
 
@@ -16,8 +17,13 @@ export function WaitlistForm({ joined, goal }: { joined: number; goal: number })
   const [state, action, pending] = useActionState(joinWaitlist, initial);
   const err = state.fieldErrors ?? {};
 
+  // Arriving from a "Build with us, free" link (/challenge#waitlist): start in the name field.
+  useEffect(() => {
+    if (window.location.hash === `#${WAITLIST_ID}`) focusWaitlist();
+  }, []);
+
   return (
-    <form action={action} className={styles.form} noValidate aria-labelledby="waitlist-title">
+    <form id={WAITLIST_ID} action={action} className={styles.form} noValidate aria-labelledby="waitlist-title">
       <div className={styles.formHead}>
         <h2 id="waitlist-title" className={styles.formTitle}>
           Join the waitlist

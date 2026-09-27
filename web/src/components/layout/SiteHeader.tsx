@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { focusWaitlist, WAITLIST_ID } from "@/components/challenge/waitlist-anchor";
 import { isActive, mainNav } from "@/lib/site";
 import { Logo } from "./Logo";
 import styles from "./SiteHeader.module.css";
@@ -13,11 +14,11 @@ import styles from "./SiteHeader.module.css";
  */
 export function SiteHeader() {
   const pathname = usePathname() ?? "/";
-  // The button invites people to the free build challenge; on the challenge pages
-  // themselves it points to this week's verdicts instead of the page you're on.
-  const cta = isActive(pathname, "/challenge")
-    ? { href: "/weekly", label: "This week's verdicts" }
-    : { href: "/challenge", label: "Build with us, free" };
+  // The button invites people to the free build challenge. Elsewhere it opens the
+  // challenge page from the top (the pitch first); on the challenge pages it goes
+  // straight to the waitlist form.
+  const onChallenge = isActive(pathname, "/challenge");
+  const ctaHref = onChallenge ? `/challenge#${WAITLIST_ID}` : "/challenge";
 
   return (
     <header className={styles.header}>
@@ -39,8 +40,15 @@ export function SiteHeader() {
             );
           })}
         </nav>
-        <Link href={cta.href} className={styles.cta}>
-          {cta.label}
+        <Link
+          href={ctaHref}
+          className={styles.cta}
+          onClick={(e) => {
+            // Already on the page with the form: scroll to it and start typing.
+            if (pathname === "/challenge" && focusWaitlist()) e.preventDefault();
+          }}
+        >
+          Build with us, free
         </Link>
       </div>
       </div>

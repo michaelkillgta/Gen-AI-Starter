@@ -76,6 +76,10 @@
 
 /* ---------- Form ---------- */
 
+.form {
+  scroll-margin-top: 24px;
+}
+
 .form,
 .joined {
   background: var(--color-surface);

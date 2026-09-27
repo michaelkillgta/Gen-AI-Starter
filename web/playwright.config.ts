@@ -12,6 +12,10 @@ export const screens = [
 ] as const;
 
 const port = 3100;
+// The tests run their own API on 8090, never the dev API on 8080, so test signups
+// don't end up in the local database behind the dev site.
+const apiPort = 8090;
+const apiUrl = `http://127.0.0.1:${apiPort}`;
 
 export default defineConfig({
   testDir: "./tests/screens",
@@ -28,12 +32,12 @@ export default defineConfig({
       // runs on Postgres (seeded first); otherwise on the seed files, with test
       // signups in a throwaway folder, never the real api/data.
       command: process.env.E2E_DATABASE_URL ? "cd ../api && cargo run -q -- seed && cargo run" : "cd ../api && cargo run",
-      url: "http://127.0.0.1:8080/health",
+      url: `${apiUrl}/health`,
       reuseExistingServer: true,
       timeout: 600_000,
       env: process.env.E2E_DATABASE_URL
-        ? { STORAGE: "postgres", DATABASE_URL: process.env.E2E_DATABASE_URL, FORM_POSTS_PER_MINUTE: "100" }
-        : { STORAGE: "files", DATA_DIR: path.join(os.tmpdir(), `ft-e2e-${Date.now()}`), FORM_POSTS_PER_MINUTE: "100" },
+        ? { API_BIND: `127.0.0.1:${apiPort}`, STORAGE: "postgres", DATABASE_URL: process.env.E2E_DATABASE_URL, FORM_POSTS_PER_MINUTE: "100" }
+        : { API_BIND: `127.0.0.1:${apiPort}`, STORAGE: "files", DATA_DIR: path.join(os.tmpdir(), `ft-e2e-${Date.now()}`), FORM_POSTS_PER_MINUTE: "100" },
     },
     {
       command: `pnpm build && pnpm start -p ${port}`,
@@ -42,7 +46,7 @@ export default defineConfig({
       timeout: 900_000,
       // Own build folder: `next build` into .next would replace the files a running
       // dev server is serving, and the dev site would lose its CSS.
-      env: { SHOW_STYLEGUIDE: "1", NEXT_DIST_DIR: ".next-e2e" },
+      env: { SHOW_STYLEGUIDE: "1", NEXT_DIST_DIR: ".next-e2e", API_URL: apiUrl },
     },
   ],
 });
