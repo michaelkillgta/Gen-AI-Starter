@@ -1,3 +1,4 @@
+import * as crypto from "node:crypto";
 import os from "node:os";
 import path from "node:path";
 
@@ -16,6 +17,26 @@ const port = 3100;
 // don't end up in the local database behind the dev site.
 const apiPort = 8090;
 const apiUrl = `http://127.0.0.1:${apiPort}`;
+
+/** Admin password for the throwaway test API only (tests/screens/admin.spec.ts). */
+export const E2E_ADMIN_PASSWORD = "e2e-only admin password";
+
+// Node 24's built-in argon2 (newer than the installed @types/node).
+type Argon2Sync = (
+  algorithm: "argon2id",
+  opts: { message: string; nonce: Buffer; tagLength: number; memory: number; passes: number; parallelism: number },
+) => Buffer;
+const argon2Sync = (crypto as unknown as { argon2Sync: Argon2Sync }).argon2Sync;
+
+/** argon2id hash in PHC form, the same format `pnpm admin:password` writes. */
+function adminHash(password: string): string {
+  const salt = crypto.randomBytes(16);
+  const params = { memory: 19456, passes: 2, parallelism: 1 };
+  const hash = argon2Sync("argon2id", { message: password, nonce: salt, tagLength: 32, ...params });
+  const b64 = (b: Buffer) => b.toString("base64").replace(/=+$/, "");
+  return `$argon2id$v=19$m=${params.memory},t=${params.passes},p=${params.parallelism}$${b64(salt)}$${b64(hash)}`;
+}
+const e2eAdminHash = adminHash(E2E_ADMIN_PASSWORD);
 
 export default defineConfig({
   testDir: "./tests/screens",
@@ -36,8 +57,8 @@ export default defineConfig({
       reuseExistingServer: true,
       timeout: 600_000,
       env: process.env.E2E_DATABASE_URL
-        ? { API_BIND: `127.0.0.1:${apiPort}`, STORAGE: "postgres", DATABASE_URL: process.env.E2E_DATABASE_URL, FORM_POSTS_PER_MINUTE: "100" }
-        : { API_BIND: `127.0.0.1:${apiPort}`, STORAGE: "files", DATA_DIR: path.join(os.tmpdir(), `ft-e2e-${Date.now()}`), FORM_POSTS_PER_MINUTE: "100" },
+        ? { API_BIND: `127.0.0.1:${apiPort}`, STORAGE: "postgres", DATABASE_URL: process.env.E2E_DATABASE_URL, FORM_POSTS_PER_MINUTE: "100", ADMIN_PASSWORD_HASH: e2eAdminHash }
+        : { API_BIND: `127.0.0.1:${apiPort}`, STORAGE: "files", DATA_DIR: path.join(os.tmpdir(), `ft-e2e-${Date.now()}`), FORM_POSTS_PER_MINUTE: "100", ADMIN_PASSWORD_HASH: e2eAdminHash },
     },
     {
       command: `pnpm build && pnpm start -p ${port}`,

@@ -22,7 +22,11 @@ pub fn router(state: AppState) -> Router {
         .route("/challenge/waitlist", post(handlers::forms::waitlist))
         .route("/subscribe", post(handlers::forms::subscribe))
         .route("/suggestions", post(handlers::forms::suggestion))
-        .route("/contact", post(handlers::forms::contact));
+        .route("/contact", post(handlers::forms::contact))
+        .route("/admin/status", get(handlers::admin::status))
+        .route("/admin/login", post(handlers::admin::login))
+        .route("/admin/logout", post(handlers::admin::logout))
+        .route("/admin/data", get(handlers::admin::data));
 
     middleware::apply(api, &state.config).with_state(state)
 }

@@ -32,11 +32,28 @@ The Cloudflare Turnstile check happens in the website's server before it calls t
 | POST | `/contact` | `{ name, email, college?, message }` | `{ ok: true }` |
 
 Phone numbers are stored as `+91XXXXXXXXXX` (Indian mobiles) or `+<country><number>`; emails lower-cased.
-No endpoint ever returns phones or emails.
+No public endpoint returns phones or emails; only the signed-in admin endpoints below do.
+
+## Admin
+
+For the private `/admin` pages. The website calls these from its server and keeps the session token in an
+httpOnly, SameSite=Strict cookie scoped to `/admin` (Secure except on localhost).
+
+| Method | Path | Needs | Returns |
+|---|---|---|---|
+| GET | `/admin/status` | nothing | `{ configured }` (false until `pnpm admin:password` has been run) |
+| POST | `/admin/login` | `Origin` in `ADMIN_ORIGINS`, `{ password }` | `{ token, expires_in_secs: 43200 }` + cookie; `401 { error, tries_left }`; `429` (locked, `Retry-After`); `503` (not set up) |
+| POST | `/admin/logout` | `Origin` in `ADMIN_ORIGINS`, session | `{ ok: true }`, clears the cookie |
+| GET | `/admin/data` | session (`Authorization: Bearer …` or the `ft_admin` cookie) | waitlist (current challenge), suggestions, subscribers and contact messages, newest first; `Cache-Control: no-store`; `401` without a session |
+
+Rules: the password is checked against the argon2id hash in `ADMIN_PASSWORD_HASH`; 5 wrong passwords from one IP
+lock it out for 15 minutes (even for the right password); sessions last 12 hours and live in memory (an API
+restart signs you out); POSTs from any other origin get `403`.
 
 ## Exports
 
-Personal data leaves only through the command line:
+Personal data leaves through the signed-in admin area (`/admin`, a "Download CSV" button per table) or the
+command line:
 
 ```bash
 pnpm export waitlist > waitlist.csv      # also: subscribers, suggestions, contact
@@ -53,5 +70,6 @@ pnpm export waitlist > waitlist.csv      # also: subscribers, suggestions, conta
 | `pnpm db:seed` | Load `api/seed/*.json` into Postgres (safe to repeat; signups untouched) |
 | `pnpm db:import-files` | Copy `api/data/*.json` signups into Postgres, keeping waitlist positions |
 | `pnpm export waitlist` | CSV of signups (also `subscribers`, `suggestions`, `contact`) |
+| `pnpm admin:password` | Set the `/admin` password: asks twice (hidden), at least 12 characters, writes only its hash to `api/.env` |
 
 Tables: see `api/migrations/`.

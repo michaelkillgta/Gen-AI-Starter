@@ -2,6 +2,7 @@
 //! database rows); `api` types are what the endpoints return. Every type derives
 //! `TS`, so `cargo test` writes matching TypeScript into `web/src/lib/api-types/`.
 
+pub mod admin;
 pub mod api;
 pub mod forms;
 pub mod seed;

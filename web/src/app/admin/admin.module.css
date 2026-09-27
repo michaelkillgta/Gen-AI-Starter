@@ -1,0 +1,141 @@
+.shell {
+  min-height: 100dvh;
+  background: var(--color-bg);
+}
+
+.main {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px 56px;
+}
+
+/* ---------- Sign in and notices ---------- */
+
+.center {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 28px 24px;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-line-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-panel);
+}
+
+.loginTitle {
+  font-size: 28px;
+  letter-spacing: -0.6px;
+}
+
+/* ---------- Dashboard ---------- */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 68px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.signOut {
+  min-height: var(--tap);
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-line-input);
+  background: var(--color-surface);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.signOut:hover {
+  border-color: var(--color-ink);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  letter-spacing: -0.04em;
+}
+
+.lead {
+  font-size: 15px;
+  color: var(--color-muted);
+}
+
+.counts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.count {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  background: var(--color-panel);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.count:hover {
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1.5px var(--color-accent);
+}
+
+.countNum {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.countLabel {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding: 0 32px 72px;
+  }
+
+  .loginCard {
+    padding: 36px 32px;
+  }
+
+  .counts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+}

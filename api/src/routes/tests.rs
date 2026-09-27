@@ -18,7 +18,14 @@ use crate::{
 /// A fresh app with empty submissions. Runs against Postgres when
 /// `TEST_DATABASE_URL` is set (each app gets its own schema), otherwise files mode.
 async fn app() -> axum::Router {
+    app_with(|_| {}).await
+}
+
+/// Like `app()`, with a chance to change the config first.
+async fn app_with(change: impl FnOnce(&mut Config)) -> axum::Router {
     let mut config = Config::from_env().unwrap();
+    config.admin_password_hash = None;
+    change(&mut config);
     let state = match std::env::var("TEST_DATABASE_URL")
         .ok()
         .filter(|v| !v.is_empty())
@@ -308,4 +315,149 @@ async fn subscribe_suggest_and_contact() {
         send(&app, "POST", "/contact", "5.5.5.5", msg).await.0,
         StatusCode::OK
     );
+}
+
+// ---------- Admin ----------
+
+const ADMIN_PW: &str = "correct horse battery";
+const SITE: &str = "http://localhost:3001";
+
+async fn admin_app() -> axum::Router {
+    let hash = crate::services::admin::hash_password(ADMIN_PW).unwrap();
+    app_with(|c| {
+        c.admin_password_hash = Some(hash);
+        c.admin_origins = vec![SITE.into()];
+    })
+    .await
+}
+
+/// A request with extra headers; returns status, headers and JSON body.
+async fn call(
+    app: &axum::Router,
+    method: &str,
+    path: &str,
+    headers: &[(&str, &str)],
+    body: Option<Value>,
+) -> (StatusCode, axum::http::HeaderMap, Value) {
+    let mut req = Request::builder().method(method).uri(path);
+    for (k, v) in headers {
+        req = req.header(*k, *v);
+    }
+    let req = match body {
+        Some(b) => req
+            .header("content-type", "application/json")
+            .body(Body::from(b.to_string())),
+        None => req.body(Body::empty()),
+    }
+    .unwrap();
+    let res = app.clone().oneshot(req).await.unwrap();
+    let (status, headers) = (res.status(), res.headers().clone());
+    let bytes = res.into_body().collect().await.unwrap().to_bytes();
+    (
+        status,
+        headers,
+        serde_json::from_slice(&bytes).unwrap_or(Value::Null),
+    )
+}
+
+async fn admin_login(app: &axum::Router, ip: &str, pw: &str) -> (StatusCode, axum::http::HeaderMap, Value) {
+    call(
+        app,
+        "POST",
+        "/admin/login",
+        &[("origin", SITE), ("x-forwarded-for", ip)],
+        Some(serde_json::json!({ "password": pw })),
+    )
+    .await
+}
+
+#[tokio::test]
+async fn admin_data_needs_a_session() {
+    let app = admin_app().await;
+    let (s, _, _) = call(&app, "GET", "/admin/data", &[], None).await;
+    assert_eq!(s, StatusCode::UNAUTHORIZED);
+    let (s, _, _) = call(&app, "GET", "/admin/data", &[("authorization", "Bearer forged")], None).await;
+    assert_eq!(s, StatusCode::UNAUTHORIZED);
+
+    // A sign-up, then the admin sees it.
+    let (s, _) = send(
+        &app,
+        "POST",
+        "/challenge/waitlist",
+        "9.9.9.9",
+        serde_json::json!({ "name": "Asha", "phone": "9876543210", "email": "asha@example.com" }),
+    )
+    .await;
+    assert_eq!(s, StatusCode::CREATED);
+
+    let (s, headers, body) = admin_login(&app, "10.0.0.1", ADMIN_PW).await;
+    assert_eq!(s, StatusCode::OK);
+    let token = body["token"].as_str().unwrap().to_string();
+    let cookie = headers["set-cookie"].to_str().unwrap();
+    assert!(cookie.contains("HttpOnly") && cookie.contains("SameSite=Strict") && cookie.contains("Max-Age=43200"));
+    assert!(!cookie.contains("Secure"), "no Secure flag on http://localhost");
+
+    let bearer = format!("Bearer {token}");
+    let (s, headers, data) = call(&app, "GET", "/admin/data", &[("authorization", &bearer)], None).await;
+    assert_eq!(s, StatusCode::OK);
+    assert_eq!(headers["cache-control"], "no-store");
+    assert_eq!(data["waitlist"][0]["name"], "Asha");
+    assert!(data["suggestions"].is_array() && data["subscribers"].is_array() && data["contacts"].is_array());
+    // The cookie works as well as the header.
+    let cookie_header = format!("ft_admin={token}");
+    let (s, _, _) = call(&app, "GET", "/admin/data", &[("cookie", &cookie_header)], None).await;
+    assert_eq!(s, StatusCode::OK);
+
+    // Signing out ends the session.
+    let (s, _, _) = call(&app, "POST", "/admin/logout", &[("origin", SITE), ("authorization", &bearer)], None).await;
+    assert_eq!(s, StatusCode::OK);
+    let (s, _, _) = call(&app, "GET", "/admin/data", &[("authorization", &bearer)], None).await;
+    assert_eq!(s, StatusCode::UNAUTHORIZED);
+}
+
+#[tokio::test]
+async fn admin_wrong_password_then_lockout() {
+    let app = admin_app().await;
+    let (s, _, body) = admin_login(&app, "10.0.0.2", "wrong password!").await;
+    assert_eq!(s, StatusCode::UNAUTHORIZED);
+    assert_eq!(body["tries_left"], 4);
+    for _ in 0..3 {
+        assert_eq!(admin_login(&app, "10.0.0.2", "wrong password!").await.0, StatusCode::UNAUTHORIZED);
+    }
+    // The fifth wrong try locks the IP, and then even the right password is refused.
+    let (s, headers, _) = admin_login(&app, "10.0.0.2", "wrong password!").await;
+    assert_eq!(s, StatusCode::TOO_MANY_REQUESTS);
+    assert_eq!(headers["retry-after"], "900");
+    assert_eq!(admin_login(&app, "10.0.0.2", ADMIN_PW).await.0, StatusCode::TOO_MANY_REQUESTS);
+    // Someone else is fine.
+    assert_eq!(admin_login(&app, "10.0.0.3", ADMIN_PW).await.0, StatusCode::OK);
+}
+
+#[tokio::test]
+async fn admin_posts_must_come_from_the_site() {
+    let app = admin_app().await;
+    let body = Some(serde_json::json!({ "password": ADMIN_PW }));
+    let (s, _, _) = call(&app, "POST", "/admin/login", &[], body.clone()).await;
+    assert_eq!(s, StatusCode::FORBIDDEN);
+    let (s, _, _) = call(&app, "POST", "/admin/login", &[("origin", "https://evil.example")], body).await;
+    assert_eq!(s, StatusCode::FORBIDDEN);
+    let (s, _, _) = call(&app, "POST", "/admin/logout", &[("origin", "https://evil.example")], None).await;
+    assert_eq!(s, StatusCode::FORBIDDEN);
+}
+
+#[tokio::test]
+async fn admin_not_set_up_without_a_hash() {
+    let app = app().await;
+    let (_, _, status) = call(&app, "GET", "/admin/status", &[], None).await;
+    assert_eq!(status["configured"], false);
+    let (s, _, body) = call(
+        &app,
+        "POST",
+        "/admin/login",
+        &[("origin", "http://localhost:3001")],
+        Some(serde_json::json!({ "password": ADMIN_PW })),
+    )
+    .await;
+    assert_eq!(s, StatusCode::SERVICE_UNAVAILABLE);
+    assert_eq!(body["error"], "Admin not set up yet: run pnpm admin:password");
 }

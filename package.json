@@ -10,6 +10,7 @@
     "db:docker": "docker compose up -d --wait db",
     "db:seed": "cd api && cargo run -q -- seed",
     "db:import-files": "cd api && cargo run -q -- import-files",
+    "admin:password": "cd api && cargo run -q -- admin-password",
     "types": "cd api && cargo test",
     "test": "cd api && cargo test && cd ../web && pnpm test:unit && pnpm test:screens",
     "test:e2e:postgres": "cd web && cross-env E2E_DATABASE_URL=postgres://fieldtested:fieldtested_dev@127.0.0.1:5433/fieldtested_test pnpm test:screens",

@@ -3,8 +3,10 @@
 //! - `seed`: load `api/seed/*.json` into Postgres (safe to repeat; never touches signups).
 //! - `import-files`: copy form submissions from `api/data/*.json` into Postgres,
 //!   keeping waitlist positions (safe to repeat).
-//! - `export <waitlist|subscribers|suggestions|contact>`: CSV to stdout. The only
-//!   way to read personal data out; no endpoint exposes it.
+//! - `export <waitlist|subscribers|suggestions|contact>`: CSV to stdout. (The
+//!   signed-in admin area at /admin shows the same data.)
+//! - `admin-password`: set the admin password (`pnpm admin:password`). Asks for it
+//!   twice without showing it and writes only its argon2id hash to `api/.env`.
 
 use anyhow::Context;
 
@@ -155,4 +157,57 @@ mod tests {
             "\"a\"\"b\",\"'=SUM(A1)\",\"+919876543210\""
         );
     }
+}
+
+/// `pnpm admin:password`: asks for the admin password twice (never shown, printed or
+/// logged) and stores only its hash as `ADMIN_PASSWORD_HASH` in `api/.env`.
+pub fn admin_password() -> anyhow::Result<()> {
+    use crate::services::admin::{MIN_PASSWORD_LEN, hash_password};
+
+    println!("Set the admin password for /admin.");
+    println!("Use at least {MIN_PASSWORD_LEN} characters. Nothing shows while you type.");
+    let password = loop {
+        let first = rpassword::prompt_password("Password: ")
+            .context("could not read the password (run this in a normal terminal)")?;
+        if first.chars().count() < MIN_PASSWORD_LEN {
+            println!("That's shorter than {MIN_PASSWORD_LEN} characters. Try again.");
+            continue;
+        }
+        let again = rpassword::prompt_password("Same password again: ")
+            .context("could not read the password")?;
+        if first != again {
+            println!("The two didn't match. Try again.");
+            continue;
+        }
+        break first;
+    };
+
+    let hash = hash_password(&password)?;
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(".env");
+    let existing = std::fs::read_to_string(&path).unwrap_or_default();
+    let mut out: String = existing
+        .lines()
+        .filter(|l| {
+            !l.trim_start().starts_with("ADMIN_PASSWORD_HASH=")
+                && !l.starts_with("# Admin password hash")
+        })
+        .map(|l| format!("{l}
+"))
+        .collect();
+    if !out.is_empty() && !out.ends_with("
+
+") {
+        out.push('
+');
+    }
+    // Single quotes: the hash contains '$', which .env loaders would otherwise expand.
+    out.push_str("# Admin password hash (set with pnpm admin:password; never commit this file).
+");
+    out.push_str(&format!("ADMIN_PASSWORD_HASH='{hash}'
+"));
+    std::fs::write(&path, out).with_context(|| format!("could not write {}", path.display()))?;
+
+    println!("Done. The password's hash is saved in api/.env (the password itself isn't stored).");
+    println!("Restart the API (pnpm dev) and sign in at /admin.");
+    Ok(())
 }

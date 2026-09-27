@@ -16,7 +16,7 @@ use tracing_subscriber::EnvFilter;
 use crate::{config::Config, state::AppState};
 
 const USAGE: &str =
-    "usage: api [serve | seed | import-files | export <waitlist|subscribers|suggestions|contact>]";
+    "usage: api [serve | seed | import-files | export <waitlist|subscribers|suggestions|contact> | admin-password]";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -29,9 +29,13 @@ async fn main() -> anyhow::Result<()> {
         .with_writer(std::io::stderr)
         .init();
 
-    let config = Config::from_env()?;
     let args: Vec<String> = std::env::args().skip(1).collect();
     let args: Vec<&str> = args.iter().map(String::as_str).collect();
+    // Needs no database or config: it only asks for a password and writes its hash.
+    if args.as_slice() == ["admin-password"] {
+        return jobs::admin_password();
+    }
+    let config = Config::from_env()?;
 
     match args.as_slice() {
         [] | ["serve"] => serve(config).await,

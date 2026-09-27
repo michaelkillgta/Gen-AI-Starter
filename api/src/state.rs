@@ -8,7 +8,7 @@ use crate::{
         BlogRepo, ChallengeRepo, SubmissionRepo, ToolRepo, TrackRepo, WeeklyRepo,
         files::FileSubmissions, memory::SeedStore, postgres::PgStore,
     },
-    services::ratelimit::RateLimiter,
+    services::{admin::AdminAuth, ratelimit::RateLimiter},
 };
 
 /// One handle per content area. Which store backs them is decided in `AppState::build`.
@@ -41,6 +41,8 @@ pub struct AppState {
     pub repos: Repos,
     pub submissions: Arc<dyn SubmissionRepo>,
     pub limiter: Arc<RateLimiter>,
+    /// Admin sign-in, sessions and lockouts.
+    pub admin: Arc<AdminAuth>,
     pub config: Config,
     /// Set in postgres mode (first-run seeding, tests).
     pub pg: Option<Arc<PgStore>>,
@@ -113,6 +115,7 @@ impl AppState {
                 config.form_posts_per_minute,
                 Duration::from_secs(60),
             )),
+            admin: Arc::new(AdminAuth::new(config.admin_password_hash.clone())),
             config,
             pg,
         }

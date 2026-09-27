@@ -17,7 +17,7 @@ use crate::{
     state::AppState,
 };
 
-fn client_ip(headers: &HeaderMap) -> String {
+pub(crate) fn client_ip(headers: &HeaderMap) -> String {
     let get = |k: &str| {
         headers
             .get(k)

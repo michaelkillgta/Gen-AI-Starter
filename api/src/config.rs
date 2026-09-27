@@ -26,6 +26,11 @@ pub struct Config {
     pub data_dir: PathBuf,
     /// Form posts allowed per visitor per minute.
     pub form_posts_per_minute: usize,
+    /// The admin password as an argon2id hash (`pnpm admin:password` writes it to api/.env).
+    /// `None` means the admin area isn't set up yet.
+    pub admin_password_hash: Option<String>,
+    /// Site origins allowed to send admin POSTs (login, logout).
+    pub admin_origins: Vec<String>,
 }
 
 impl Config {
@@ -45,12 +50,11 @@ impl Config {
         }
         Ok(Self {
             bind_addr: var("API_BIND").unwrap_or_else(|| "127.0.0.1:8080".into()),
-            cors_origins: var("CORS_ORIGINS")
-                .unwrap_or_else(|| "http://localhost:3000".into())
-                .split(',')
-                .map(|s| s.trim().to_string())
-                .filter(|s| !s.is_empty())
-                .collect(),
+            cors_origins: list(
+                var("CORS_ORIGINS")
+                    .as_deref()
+                    .unwrap_or("http://localhost:3000"),
+            ),
             storage,
             database_url,
             seed_dir: var("SEED_DIR")
@@ -62,6 +66,20 @@ impl Config {
             form_posts_per_minute: var("FORM_POSTS_PER_MINUTE")
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(6),
+            admin_password_hash: var("ADMIN_PASSWORD_HASH"),
+            admin_origins: list(
+                var("ADMIN_ORIGINS").as_deref().unwrap_or(
+                    "http://localhost:3000,http://localhost:3001,http://localhost:3100",
+                ),
+            ),
         })
     }
+}
+
+/// "a, b,,c" -> ["a", "b", "c"]
+fn list(v: &str) -> Vec<String> {
+    v.split(',')
+        .map(|s| s.trim().to_string())
+        .filter(|s| !s.is_empty())
+        .collect()
 }
