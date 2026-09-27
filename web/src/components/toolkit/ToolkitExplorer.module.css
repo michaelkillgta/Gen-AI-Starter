@@ -80,8 +80,11 @@
 
 .resultsTools {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
+  gap: 8px 14px;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .clear {

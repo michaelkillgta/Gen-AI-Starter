@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Chip, ChipRow, SearchField, Segmented } from "@/components/ui";
 import {
   GROUP_CHIPS,
-  KIND_LABEL,
+  KIND_PLURAL,
   SORT_OPTIONS,
   baseFilter,
   filterTools,
@@ -112,7 +112,7 @@ export function ToolkitExplorer({ tools, startLists, initial }: Props) {
           <span aria-live="polite">
             {shown.length === tools.length ? `All ${tools.length} tools` : `${shown.length} of ${tools.length} tools`}
           </span>
-          {kind !== "all" && <span className={styles.resultsKind}> · {KIND_LABEL[kind]}s only</span>}
+          {kind !== "all" && <span className={styles.resultsKind}> · {KIND_PLURAL[kind]} only</span>}
         </h2>
         <div className={styles.resultsTools}>
           {filtered && (

@@ -15,6 +15,13 @@ export const KIND_LABEL: Record<ToolKind, string> = {
   mcp: "MCP server",
 };
 
+export const KIND_PLURAL: Record<ToolKind, string> = {
+  tool: "Tools",
+  library: "Libraries",
+  package: "Packages",
+  mcp: "MCP servers",
+};
+
 export const KIND_CHIPS: { value: KindFilter; label: string }[] = [
   { value: "all", label: "All" },
   { value: "tool", label: "Tools" },

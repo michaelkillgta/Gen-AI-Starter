@@ -39,7 +39,7 @@ export default defineConfig({
       command: `pnpm build && pnpm start -p ${port}`,
       url: `http://localhost:${port}`,
       reuseExistingServer: true,
-      timeout: 300_000,
+      timeout: 900_000,
       env: { SHOW_STYLEGUIDE: "1" },
     },
   ],
