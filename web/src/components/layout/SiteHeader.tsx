@@ -13,10 +13,11 @@ import styles from "./SiteHeader.module.css";
  */
 export function SiteHeader() {
   const pathname = usePathname() ?? "/";
-  // On the Weekly page the button points onward to the challenge instead of back to Weekly.
-  const cta = isActive(pathname, "/weekly")
-    ? { href: "/challenge", label: "Join the build challenge" }
-    : { href: "/weekly", label: "This week's verdicts" };
+  // The button invites people to the free build challenge; on the challenge pages
+  // themselves it points to this week's verdicts instead of the page you're on.
+  const cta = isActive(pathname, "/challenge")
+    ? { href: "/weekly", label: "This week's verdicts" }
+    : { href: "/challenge", label: "Build with us, free" };
 
   return (
     <header className={styles.header}>

@@ -55,6 +55,18 @@ test.describe("seo and basics", () => {
     await expect(page).toHaveURL(/#main$/);
   });
 
+  test("header button invites people to the free build challenge", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    const cta = page.getByRole("link", { name: "Build with us, free" });
+    await expect(cta).toHaveAttribute("href", "/challenge");
+    await cta.click();
+    await expect(page).toHaveURL(/\/challenge$/);
+    // On the challenge page itself it points somewhere new instead.
+    await expect(page.getByRole("link", { name: "Build with us, free" })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "This week's verdicts" })).toHaveAttribute("href", "/weekly");
+  });
+
   test("security headers are set", async ({ request }) => {
     const res = await request.get("/");
     expect(res.headers()["x-content-type-options"]).toBe("nosniff");
