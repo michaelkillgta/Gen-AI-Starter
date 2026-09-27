@@ -14,7 +14,7 @@ import styles from "./toolkit.module.css";
 export const metadata: Metadata = {
   title: "The toolkit",
   description:
-    "Every AI tool, library, package and MCP server I recommend, with all the details on one page: what it does, when to use it, when to skip it, what it costs and how to get it.",
+    "Every AI tool, library, package and MCP server I recommend. Pick one to see what it does, when to use it, when to skip it, what it costs and how to get it.",
 };
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
@@ -24,6 +24,7 @@ export default async function ToolkitPage({ searchParams }: { searchParams: Prom
   const data = await getTools();
   const type = one(sp.type);
   const track = one(sp.track);
+  const tool = one(sp.tool);
 
   return (
     <>
@@ -31,8 +32,8 @@ export default async function ToolkitPage({ searchParams }: { searchParams: Prom
         title="The toolkit."
         lead={
           <>
-            Every tool I recommend, with all the details on one page: what it does, when to use it, when to skip it, what
-            it costs and how to get it.
+            Every tool I recommend. Pick one to see what it does, when to use it, when to skip it, what it costs and how to
+            get it.
             <span className="trust-line">
               {data?.tools.length ?? 0} tools <span aria-hidden="true">·</span> Last reviewed {formatDate(site.toolkitReviewed)}{" "}
               <span aria-hidden="true">·</span> Nobody pays to be listed
@@ -57,6 +58,7 @@ export default async function ToolkitPage({ searchParams }: { searchParams: Prom
           kind: isKind(type) ? type : "all",
           group: isGroup(track) ? track : "all",
           sort: isSort(one(sp.sort)) ? (one(sp.sort) as SortOrder) : "picks",
+          tool: data?.tools.some((t) => t.slug === tool) ? tool! : null,
         }}
       />
       <SiteFooter variant="slim" message={<>Missing something useful? <Link href="/suggest?about=tool">Suggest a tool</Link></>} />

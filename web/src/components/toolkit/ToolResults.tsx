@@ -17,6 +17,11 @@ type Props = {
   selected: string | null;
   onSelect: (slug: string) => void;
   onClear: () => void;
+  /**
+   * Show at most this many blocks per area (grouped) or this many x4 in one list,
+   * with buttons to show the rest. Leave it out to show everything.
+   */
+  limit?: number;
 };
 
 const PHONE = "(max-width: 639px)";
@@ -26,13 +31,22 @@ const TABLET = "(min-width: 640px) and (max-width: 1023px)";
  * The tool grid (or list) plus the details, which show up differently per screen:
  * desktop: sticky side panel · tablet: bottom sheet · phone: the card opens in place.
  */
-export function ToolResults({ tools, grouped, view, selected, onSelect, onClear }: Props) {
+export function ToolResults({ tools, grouped, view, selected, onSelect, onClear, limit }: Props) {
   const [openInline, setOpenInline] = useState<string | null>(null);
   const [sheet, setSheet] = useState<string | null>(null);
+  // Areas opened with "Show all", and how many extra rows of the flat list are showing.
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [flatShown, setFlatShown] = useState(limit ? limit * 4 : Infinity);
 
   const groups = grouped
     ? GROUPS.map((g) => ({ ...g, items: tools.filter((t) => t.group === g.value) })).filter((g) => g.items.length)
     : [{ value: "all", title: "", sub: "", label: "", items: tools }];
+  const visible = (g: (typeof groups)[number]) => {
+    if (!limit) return g.items;
+    if (!grouped) return g.items.slice(0, flatShown);
+    return expanded.has(g.value) ? g.items : g.items.slice(0, limit);
+  };
+  const listTools = limit ? tools.slice(0, flatShown) : tools;
   // Nothing picked yet: show the first card on screen in the side panel.
   const firstShown = view === "list" ? tools[0] : groups[0]?.items[0];
   const current = tools.find((t) => t.slug === selected) ?? firstShown;
@@ -59,7 +73,7 @@ export function ToolResults({ tools, grouped, view, selected, onSelect, onClear 
       <div className={styles.results}>
         {view === "list" ? (
           <ul className={styles.list} aria-label="Tools">
-            {tools.map((t) => (
+            {listTools.map((t) => (
               <li key={t.slug} className={styles.listItem}>
                 <button
                   type="button"
@@ -97,7 +111,7 @@ export function ToolResults({ tools, grouped, view, selected, onSelect, onClear 
                 </div>
               )}
               <ul className={styles.grid}>
-                {g.items.map((t) => {
+                {visible(g).map((t) => {
                   const open = openInline === t.slug;
                   return (
                     <li key={t.slug} className={`${styles.card} ${t.slug === current?.slug ? styles.cardOn : ""}`}>
@@ -145,8 +159,22 @@ export function ToolResults({ tools, grouped, view, selected, onSelect, onClear 
                   );
                 })}
               </ul>
+              {grouped && visible(g).length < g.items.length && (
+                <button
+                  type="button"
+                  className={styles.more}
+                  onClick={() => setExpanded((s) => new Set(s).add(g.value))}
+                >
+                  Show all {g.items.length} tools in {g.label}
+                </button>
+              )}
             </section>
           ))
+        )}
+        {limit && (view === "list" || !grouped) && flatShown < tools.length && (
+          <button type="button" className={styles.more} onClick={() => setFlatShown((n) => n + limit * 4)}>
+            Show more ({tools.length - flatShown} left)
+          </button>
         )}
       </div>
 

@@ -287,6 +287,29 @@
 }
 
 /* ---------- Tablet ---------- */
+/* "Show all N tools in …" under an area, and "Show more" under a flat list. */
+.more {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap);
+  margin-top: 4px;
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-ink);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.more:hover {
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+}
+
 @media (min-width: 640px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

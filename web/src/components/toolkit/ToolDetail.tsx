@@ -4,6 +4,7 @@ import { Badge, Button, StatusDot } from "@/components/ui";
 import { GROUPS, KIND_LABEL, STATUS_LABEL, monogram } from "@/features/toolkit/filter";
 import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 import { links } from "@/lib/links";
+import { CopyButton } from "./CopyButton";
 import styles from "./ToolDetail.module.css";
 
 type Props = {
@@ -66,7 +67,10 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
 
       <div className={styles.getIt}>
         <span className={styles.label}>Get it</span>
-        <code className={styles.code}>{tool.get_it}</code>
+        <div className={styles.codeRow}>
+          <code className={styles.code}>{tool.get_it}</code>
+          <CopyButton text={tool.get_it} label={`how to get ${tool.name}`} />
+        </div>
       </div>
 
       <div className={styles.dives}>

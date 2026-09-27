@@ -159,8 +159,16 @@
   gap: 8px;
 }
 
+.codeRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .code {
   display: block;
+  flex: 1;
+  min-width: 0;
   background: var(--color-dark);
   color: var(--color-code-text);
   border-radius: var(--radius-sm);

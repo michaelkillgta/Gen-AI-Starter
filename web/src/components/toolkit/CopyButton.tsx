@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import styles from "./ToolDirectory.module.css";
+import styles from "./CopyButton.module.css";
 
 /** Copies an install command or link, and says so. */
 export function CopyButton({ text, label }: { text: string; label: string }) {
