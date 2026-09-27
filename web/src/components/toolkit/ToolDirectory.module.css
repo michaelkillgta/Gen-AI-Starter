@@ -104,8 +104,40 @@
 }
 
 .plain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   font-size: 14px;
   line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+
+.short {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 20px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag {
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-panel);
+  font-size: 12px;
   color: var(--color-ink-soft);
 }
 

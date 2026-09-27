@@ -49,11 +49,15 @@ function GetIt({ tool }: { tool: ToolWithDives }) {
   );
 }
 
-/** Explanation, use/skip, deep dives and notes: the second line of every tool. */
+/** Everything else about a tool: the second line of every row. Nothing in the data is left out. */
 function Details({ tool }: { tool: ToolWithDives }) {
+  const area = GROUPS.find((g) => g.value === tool.group);
   return (
     <div className={styles.details}>
-      <p className={styles.plain}>{tool.plain}</p>
+      <div className={styles.plain}>
+        <p className={styles.short}>{tool.short}</p>
+        <p>{tool.plain}</p>
+      </div>
       <div className={styles.useSkip}>
         <div className={styles.use}>
           <span className={styles.boxTitle}>Use it when</span>
@@ -83,6 +87,24 @@ function Details({ tool }: { tool: ToolWithDives }) {
             {tool.note}
           </p>
         )}
+        <div className={styles.meta}>
+          {area && (
+            <span>
+              <span className={styles.extraLabel}>Area </span>
+              {area.label}
+            </span>
+          )}
+          {tool.tags.length > 0 && (
+            <span className={styles.tags}>
+              <span className={styles.extraLabel}>Good for </span>
+              {tool.tags.map((t) => (
+                <span key={t} className={styles.tag}>
+                  {t}
+                </span>
+              ))}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
