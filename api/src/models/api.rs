@@ -52,12 +52,15 @@ pub struct TrackSummary {
     pub track: Track,
     pub dive_count: i32,
     pub first_dive: Option<String>,
+    pub stage_count: i32,
+    pub resource_count: i32,
 }
 
 #[derive(Clone, Debug, Serialize, TS)]
 #[ts(export)]
 pub struct DiveSummary {
     pub slug: String,
+    pub stage: String,
     pub position: i32,
     pub title: String,
     pub tldr: String,
@@ -105,10 +108,15 @@ pub struct DiveDetail {
 /// The track sidebar on a deep dive page.
 #[derive(Debug, Serialize, TS)]
 #[ts(export)]
+/// The deep dive sidebar: the track, and the dives in this dive's stage.
 pub struct TrackOutline {
     pub slug: String,
     pub name: String,
     pub tone: Tone,
+    pub stage_slug: String,
+    pub stage_title: String,
+    /// e.g. 5 for "Stage 5".
+    pub stage_position: i32,
     pub dives: Vec<DiveRef>,
 }
 

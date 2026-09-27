@@ -14,7 +14,7 @@ use crate::models::{
     forms::{ContactKind, ContactMessage, Subscriber, Suggestion, WaitlistEntry},
     seed::{
         Block, Category, Challenge, Cover, Dive, Fact, Featured, Interview, Post, Project,
-        ProjectCover, StartList, Tool, Track, TryIt, Verdict, WeeklyIssue,
+        ProjectCover, Stage, StartList, Tool, Track, TryIt, Verdict, WeeklyIssue,
     },
 };
 
@@ -129,7 +129,9 @@ impl TrackRepo for PgStore {
                     tone: from_text(r.try_get::<&str, _>("tone")?)?,
                     blurb: r.try_get("blurb")?,
                     start_if: r.try_get("start_if")?,
+                    duration: r.try_get("duration")?,
                     position: r.try_get("position")?,
+                    stages: r.try_get::<Json<Vec<Stage>>, _>("stages")?.0,
                 })
             })
             .collect()
@@ -150,6 +152,7 @@ impl TrackRepo for PgStore {
                 Ok(Dive {
                     slug: r.try_get("slug")?,
                     track: r.try_get("track_slug")?,
+                    stage: r.try_get("stage")?,
                     position: r.try_get("position")?,
                     title: r.try_get("title")?,
                     tldr: r.try_get("tldr")?,
@@ -599,21 +602,23 @@ async fn insert_tools(tx: &mut Transaction<'_, Postgres>, seed: &SeedStore) -> a
 
 async fn insert_tracks(tx: &mut Transaction<'_, Postgres>, seed: &SeedStore) -> anyhow::Result<()> {
     for t in seed.tracks_ref() {
-        sqlx::query("INSERT INTO tracks (slug, name, who, tone, blurb, start_if, position) VALUES ($1,$2,$3,$4,$5,$6,$7)")
+        sqlx::query("INSERT INTO tracks (slug, name, who, tone, blurb, start_if, duration, position, stages) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)")
             .bind(&t.slug)
             .bind(&t.name)
             .bind(&t.who)
             .bind(to_text(&t.tone))
             .bind(&t.blurb)
             .bind(&t.start_if)
+            .bind(&t.duration)
             .bind(t.position)
+            .bind(Json(&t.stages))
             .execute(&mut **tx)
             .await?;
     }
     for d in seed.dives_ref() {
         sqlx::query(
-            "INSERT INTO dives (slug, track_slug, position, title, tldr, read_minutes, body, try_it, interview, published)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
+            "INSERT INTO dives (slug, track_slug, position, title, tldr, read_minutes, body, try_it, interview, published, stage)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)",
         )
         .bind(&d.slug)
         .bind(&d.track)
@@ -625,6 +630,7 @@ async fn insert_tracks(tx: &mut Transaction<'_, Postgres>, seed: &SeedStore) -> 
         .bind(d.try_it.as_ref().map(Json))
         .bind(d.interview.as_ref().map(Json))
         .bind(d.published)
+        .bind(&d.stage)
         .execute(&mut **tx)
         .await?;
         for (i, tool) in d.tools.iter().enumerate() {

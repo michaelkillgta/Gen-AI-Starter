@@ -125,15 +125,31 @@ async fn tools_include_deep_dive_links() {
 #[tokio::test]
 async fn tracks_and_dives() {
     let (_, tracks) = get("/tracks").await;
-    assert_eq!(tracks.as_array().unwrap().len(), 3);
-    let (s, track) = get("/tracks/agents-that-dont-break").await;
+    assert_eq!(tracks.as_array().unwrap().len(), 2);
+    assert_eq!(tracks[0]["slug"], "ai-ml");
+    assert_eq!(tracks[1]["stage_count"], 9);
+
+    let (s, track) = get("/tracks/gen-ai").await;
     assert_eq!(s, StatusCode::OK);
-    assert_eq!(track["dives"].as_array().unwrap().len(), 9);
+    assert_eq!(track["stages"].as_array().unwrap().len(), 9);
+    assert_eq!(track["dives"].as_array().unwrap().len(), 18);
+    // Every stage has resources, a project and a checklist.
+    for stage in track["stages"].as_array().unwrap() {
+        assert!(!stage["resources"].as_array().unwrap().is_empty());
+        assert!(stage["project"]["title"].is_string());
+        assert!(!stage["done_when"].as_array().unwrap().is_empty());
+    }
+    assert_eq!(
+        get("/tracks/agents-that-dont-break").await.0,
+        StatusCode::NOT_FOUND
+    );
 
     let (s, dive) = get("/dives/know-when-to-stop").await;
     assert_eq!(s, StatusCode::OK);
-    assert_eq!(dive["track"]["dives"].as_array().unwrap().len(), 9);
-    assert!(dive["prev"].is_null());
+    assert_eq!(dive["track"]["slug"], "gen-ai");
+    assert_eq!(dive["track"]["stage_slug"], "agents-and-mcp");
+    assert_eq!(dive["track"]["dives"].as_array().unwrap().len(), 8);
+    assert_eq!(dive["prev"]["slug"], "an-agent-is-more-than-a-chatbot");
     assert_eq!(dive["next"]["slug"], "data-is-not-authority");
     assert_eq!(
         dive["blog_post"]["slug"],

@@ -106,7 +106,27 @@ impl SeedStore {
                 )?;
             }
         }
+        for t in &self.tracks {
+            for s in &t.stages {
+                for r in &s.resources {
+                    if let Some(tool) = &r.tool {
+                        need(
+                            tools.contains(tool.as_str()),
+                            format!("track {} stage {} → unknown tool {tool}", t.slug, s.slug),
+                        )?;
+                    }
+                }
+            }
+        }
         for d in &self.dives {
+            let track = self.tracks.iter().find(|t| t.slug == d.track);
+            need(
+                track.is_some_and(|t| t.stages.iter().any(|s| s.slug == d.stage)),
+                format!(
+                    "dive {} → unknown stage {} in track {}",
+                    d.slug, d.stage, d.track
+                ),
+            )?;
             need(
                 tracks.contains(d.track.as_str()),
                 format!("dive {} → unknown track {}", d.slug, d.track),
@@ -231,7 +251,11 @@ mod tests {
         let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("seed");
         let store = SeedStore::load(&dir).expect("seed should load");
         assert_eq!(store.tools.len(), 28);
-        assert_eq!(store.tracks.len(), 3);
+        assert_eq!(store.tracks.len(), 2);
+        assert_eq!(
+            store.tracks.iter().map(|t| t.stages.len()).sum::<usize>(),
+            16
+        );
         assert_eq!(store.dives.len(), 21);
         assert_eq!(store.issues[0].verdicts.len(), 5);
         assert_eq!(store.projects.len(), 4);

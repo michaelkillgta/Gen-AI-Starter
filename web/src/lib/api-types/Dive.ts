@@ -3,7 +3,11 @@ import type { Block } from "./Block";
 import type { Interview } from "./Interview";
 import type { TryIt } from "./TryIt";
 
-export type Dive = { slug: string, track: string, position: number, title: string, tldr: Array<string>, 
+export type Dive = { slug: string, track: string, 
+/**
+ * The stage of the track this deep dive belongs to.
+ */
+stage: string, position: number, title: string, tldr: Array<string>, 
 /**
  * Set by hand, or worked out from the body length when empty.
  */

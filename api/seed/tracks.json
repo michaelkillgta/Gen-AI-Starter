@@ -1,29 +1,1222 @@
 [
   {
-    "slug": "foundations",
-    "name": "Foundations",
-    "who": "For freshers",
+    "slug": "ai-ml",
+    "name": "AI/ML track",
+    "who": "The big one · from zero",
     "tone": "light",
-    "blurb": "How AI actually works, told as stories, not jargon. You finish with your first working agent.",
-    "start_if": "Start here if you're new to AI, or know a little coding but feel lost.",
-    "position": 1
+    "duration": "About 6 months at 8–10 hours a week",
+    "blurb": "Python, the maths you actually need, classic machine learning, deep learning and shipping models. The foundation every AI job assumes.",
+    "start_if": "Start here if you're new to coding or AI, or you want ML engineer or data scientist roles.",
+    "position": 1,
+    "stages": [
+      {
+        "slug": "python-and-tools",
+        "title": "Python and the everyday tools",
+        "weeks": "3 weeks",
+        "why": "Every model, notebook and API you'll touch is Python. Get comfortable before anything else.",
+        "topics": [
+          "Python basics and functions",
+          "Classes and modules",
+          "NumPy arrays",
+          "Pandas dataframes",
+          "Plotting with Matplotlib",
+          "Jupyter and Google Colab",
+          "Git and GitHub"
+        ],
+        "resources": [
+          {
+            "title": "CS50's Introduction to Programming with Python",
+            "by": "Harvard",
+            "url": "https://cs50.harvard.edu/python/",
+            "kind": "course",
+            "cost": "free",
+            "note": "The clearest start if you've never coded.",
+            "tool": null
+          },
+          {
+            "title": "Kaggle Learn: Python",
+            "by": "Kaggle",
+            "url": "https://www.kaggle.com/learn/python",
+            "kind": "course",
+            "cost": "free",
+            "note": "Short lessons with exercises in the browser.",
+            "tool": null
+          },
+          {
+            "title": "Kaggle Learn: Pandas",
+            "by": "Kaggle",
+            "url": "https://www.kaggle.com/learn/pandas",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "NumPy: the absolute basics for beginners",
+            "by": "NumPy",
+            "url": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Automate the Boring Stuff with Python",
+            "by": "Al Sweigart",
+            "url": "https://automatetheboringstuff.com/",
+            "kind": "book",
+            "cost": "free",
+            "note": "Free to read online.",
+            "tool": null
+          },
+          {
+            "title": "GitHub Skills",
+            "by": "GitHub",
+            "url": "https://skills.github.com/",
+            "kind": "practice",
+            "cost": "free",
+            "note": "Learn Git by doing it in a real repo.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Explore a real dataset",
+          "text": "Pick a dataset you care about (IPL matches, your city's weather, exam results from Kaggle). Clean it with Pandas, make 5 charts, write what you found, and push the notebook to GitHub."
+        },
+        "done_when": [
+          "You can write functions and a small class without looking things up",
+          "You can load, clean and group a CSV in Pandas",
+          "Your notebook is on GitHub with a readable README"
+        ],
+        "position": 1
+      },
+      {
+        "slug": "maths-you-need",
+        "title": "The maths you actually need",
+        "weeks": "4 weeks (alongside stage 1)",
+        "why": "Not a maths degree: just enough linear algebra, calculus and probability to understand what a model is doing.",
+        "topics": [
+          "Vectors, matrices and dot products",
+          "Derivatives and the chain rule",
+          "Gradient descent",
+          "Mean, variance and distributions",
+          "Probability and Bayes' rule",
+          "Why softmax and cross-entropy"
+        ],
+        "resources": [
+          {
+            "title": "Essence of Linear Algebra",
+            "by": "3Blue1Brown",
+            "url": "https://www.3blue1brown.com/topics/linear-algebra",
+            "kind": "video",
+            "cost": "free",
+            "note": "Watch this first: pictures before formulas.",
+            "tool": null
+          },
+          {
+            "title": "Essence of Calculus",
+            "by": "3Blue1Brown",
+            "url": "https://www.3blue1brown.com/topics/calculus",
+            "kind": "video",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Statistics and Probability",
+            "by": "Khan Academy",
+            "url": "https://www.khanacademy.org/math/statistics-probability",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "StatQuest",
+            "by": "Josh Starmer",
+            "url": "https://www.youtube.com/@statquest",
+            "kind": "video",
+            "cost": "free",
+            "note": "Short, friendly explanations of every stats and ML idea.",
+            "tool": null
+          },
+          {
+            "title": "Mathematics for Machine Learning",
+            "by": "Deisenroth, Faisal, Ong",
+            "url": "https://mml-book.github.io/",
+            "kind": "book",
+            "cost": "free",
+            "note": "Free PDF. Use as a reference, not cover to cover.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Gradient descent by hand",
+          "text": "Implement linear regression with gradient descent in plain NumPy. Plot the loss going down, then try a learning rate that's too big and explain what happens."
+        },
+        "done_when": [
+          "You can explain a dot product and a gradient in your own words",
+          "You can say why we take small steps downhill to train a model",
+          "You know what mean, variance and a normal distribution are"
+        ],
+        "position": 2
+      },
+      {
+        "slug": "classic-ml",
+        "title": "Classic machine learning",
+        "weeks": "6 weeks",
+        "why": "Most real business problems are still solved with these models. They also teach you how to test any model honestly.",
+        "topics": [
+          "Supervised vs unsupervised learning",
+          "Linear and logistic regression",
+          "Decision trees, random forests, gradient boosting",
+          "Train, validation and test splits",
+          "Cross-validation and overfitting",
+          "Metrics: accuracy, precision, recall, RMSE",
+          "Feature engineering",
+          "Clustering and PCA"
+        ],
+        "resources": [
+          {
+            "title": "Machine Learning Specialization",
+            "by": "Andrew Ng · DeepLearning.AI",
+            "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+            "kind": "course",
+            "cost": "free-audit",
+            "note": "Audit for free, or apply for Coursera financial aid for the certificate.",
+            "tool": null
+          },
+          {
+            "title": "Machine Learning Crash Course",
+            "by": "Google",
+            "url": "https://developers.google.com/machine-learning/crash-course",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Kaggle Learn: Intro to Machine Learning",
+            "by": "Kaggle",
+            "url": "https://www.kaggle.com/learn/intro-to-machine-learning",
+            "kind": "course",
+            "cost": "free",
+            "note": "Then take Intermediate Machine Learning.",
+            "tool": null
+          },
+          {
+            "title": "scikit-learn User Guide",
+            "by": "scikit-learn",
+            "url": "https://scikit-learn.org/stable/user_guide.html",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Hands-On Machine Learning (3rd edition) notebooks",
+            "by": "Aurélien Géron",
+            "url": "https://github.com/ageron/handson-ml3",
+            "kind": "book",
+            "cost": "free",
+            "note": "The notebooks are free; the book itself is paid and worth it.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Two Kaggle problems, done properly",
+          "text": "Solve Kaggle's Titanic (classification) and House Prices (regression). Use cross-validation, compare 3 models, and write down which features mattered and why."
+        },
+        "done_when": [
+          "You never judge a model on the data it trained on",
+          "You can choose a metric that fits the problem",
+          "You can explain why a random forest beat (or lost to) logistic regression"
+        ],
+        "position": 3
+      },
+      {
+        "slug": "deep-learning",
+        "title": "Deep learning",
+        "weeks": "8 weeks",
+        "why": "Neural networks power everything in the Gen AI track. Build one from scratch once, and nothing after feels like magic.",
+        "topics": [
+          "Neurons, layers and activations",
+          "Backpropagation",
+          "Training loops in PyTorch",
+          "CNNs for images",
+          "Overfitting fixes: augmentation, dropout, weight decay",
+          "Transfer learning",
+          "GPUs on Colab and Kaggle"
+        ],
+        "resources": [
+          {
+            "title": "Neural Networks: Zero to Hero",
+            "by": "Andrej Karpathy",
+            "url": "https://karpathy.ai/zero-to-hero.html",
+            "kind": "video",
+            "cost": "free",
+            "note": "Builds a neural network engine from scratch. The single best resource here.",
+            "tool": null
+          },
+          {
+            "title": "Practical Deep Learning for Coders",
+            "by": "fast.ai",
+            "url": "https://course.fast.ai/",
+            "kind": "course",
+            "cost": "free",
+            "note": "Top-down and practical: working models from lesson one.",
+            "tool": null
+          },
+          {
+            "title": "PyTorch: Learn the Basics",
+            "by": "PyTorch",
+            "url": "https://docs.pytorch.org/tutorials/beginner/basics/intro.html",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Dive into Deep Learning",
+            "by": "Zhang, Lipton, Li, Smola",
+            "url": "https://d2l.ai/",
+            "kind": "book",
+            "cost": "free",
+            "note": "Free interactive book with runnable code.",
+            "tool": null
+          },
+          {
+            "title": "MIT 6.S191: Introduction to Deep Learning",
+            "by": "MIT",
+            "url": "https://introtodeeplearning.com/",
+            "kind": "video",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Deep Learning Specialization",
+            "by": "Andrew Ng · DeepLearning.AI",
+            "url": "https://www.coursera.org/specializations/deep-learning",
+            "kind": "course",
+            "cost": "free-audit",
+            "note": null,
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "From micrograd to a real classifier",
+          "text": "Follow Karpathy's micrograd lecture and build it yourself. Then train a CNN in PyTorch on a small image dataset you collect (for example, Indian dishes), first from scratch and then with transfer learning."
+        },
+        "done_when": [
+          "You can write a PyTorch training loop without copying it",
+          "You can explain backpropagation with a small example",
+          "You know how to spot and fix overfitting"
+        ],
+        "position": 4
+      },
+      {
+        "slug": "vision-and-language",
+        "title": "Vision and language",
+        "weeks": "4 weeks",
+        "why": "Most AI products see images or read text. Learn the standard models and how to adapt them with Hugging Face.",
+        "topics": [
+          "Image classification and detection",
+          "Tokenization and embeddings",
+          "Transformers for text and images",
+          "The Hugging Face Hub, Datasets and Transformers libraries",
+          "Fine-tuning a pretrained model"
+        ],
+        "resources": [
+          {
+            "title": "CS231n: Deep Learning for Computer Vision",
+            "by": "Stanford",
+            "url": "https://cs231n.stanford.edu/",
+            "kind": "course",
+            "cost": "free",
+            "note": "Lectures and notes are free online.",
+            "tool": null
+          },
+          {
+            "title": "CS224n: Natural Language Processing with Deep Learning",
+            "by": "Stanford",
+            "url": "https://web.stanford.edu/class/cs224n/",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "LLM Course",
+            "by": "Hugging Face",
+            "url": "https://huggingface.co/learn/llm-course",
+            "kind": "course",
+            "cost": "free",
+            "note": "Transformers, tokenizers and fine-tuning, hands-on.",
+            "tool": null
+          },
+          {
+            "title": "Computer Vision Course",
+            "by": "Hugging Face",
+            "url": "https://huggingface.co/learn/computer-vision-course",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Fine-tune and publish",
+          "text": "Fine-tune a pretrained model (a small vision transformer or DistilBERT) on your own dataset, then publish the model with a proper model card on the Hugging Face Hub."
+        },
+        "done_when": [
+          "You can load any model from the Hub and run it",
+          "You have fine-tuned a pretrained model on your own data",
+          "Your model is public with a model card"
+        ],
+        "position": 5
+      },
+      {
+        "slug": "ship-ml",
+        "title": "Ship it: data, MLOps and deployment",
+        "weeks": "4 weeks",
+        "why": "A model in a notebook helps nobody. Learn to serve it, version it and watch it once people use it.",
+        "topics": [
+          "APIs with FastAPI",
+          "Docker containers",
+          "Demos with Gradio",
+          "Hosting on Hugging Face Spaces",
+          "Experiment tracking",
+          "Data and model versioning",
+          "Monitoring and drift"
+        ],
+        "resources": [
+          {
+            "title": "Made With ML",
+            "by": "Goku Mohandas",
+            "url": "https://madewithml.com/",
+            "kind": "course",
+            "cost": "free",
+            "note": "Production ML end to end, written for engineers.",
+            "tool": null
+          },
+          {
+            "title": "MLOps Zoomcamp",
+            "by": "DataTalks.Club",
+            "url": "https://github.com/DataTalksClub/mlops-zoomcamp",
+            "kind": "course",
+            "cost": "free",
+            "note": "Free cohort course with homework and a community.",
+            "tool": null
+          },
+          {
+            "title": "FastAPI Tutorial",
+            "by": "FastAPI",
+            "url": "https://fastapi.tiangolo.com/tutorial/",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Docker: Get started",
+            "by": "Docker",
+            "url": "https://docs.docker.com/get-started/",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Gradio Quickstart",
+            "by": "Gradio",
+            "url": "https://www.gradio.app/guides/quickstart",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Hugging Face Spaces",
+            "by": "Hugging Face",
+            "url": "https://huggingface.co/docs/hub/spaces",
+            "kind": "docs",
+            "cost": "free-tier",
+            "note": "Free hosting for demos.",
+            "tool": null
+          },
+          {
+            "title": "Modal",
+            "by": "Modal",
+            "url": "https://modal.com/",
+            "kind": "practice",
+            "cost": "free-tier",
+            "note": "Run heavy models on cloud GPUs by the second.",
+            "tool": "modal"
+          }
+        ],
+        "project": {
+          "title": "Put your model on the internet",
+          "text": "Take your stage 4 or 5 model, wrap it in a FastAPI service inside Docker, add a Gradio demo on Hugging Face Spaces, and log every prediction so you can spot problems."
+        },
+        "done_when": [
+          "Anyone can try your model from a link",
+          "Your service runs the same on your laptop and in the cloud",
+          "You can tell when it starts getting worse"
+        ],
+        "position": 6
+      },
+      {
+        "slug": "portfolio-and-jobs",
+        "title": "Portfolio and interviews",
+        "weeks": "Ongoing",
+        "why": "Turn what you built into proof. Recruiters look for finished projects you can explain, not certificates.",
+        "topics": [
+          "Writing a strong README",
+          "Explaining trade-offs",
+          "Kaggle competitions",
+          "ML system design interviews",
+          "Reading papers"
+        ],
+        "resources": [
+          {
+            "title": "Kaggle Competitions",
+            "by": "Kaggle",
+            "url": "https://www.kaggle.com/competitions",
+            "kind": "practice",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Introduction to Machine Learning Interviews",
+            "by": "Chip Huyen",
+            "url": "https://huyenchip.com/ml-interviews-book/",
+            "kind": "book",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Designing Machine Learning Systems",
+            "by": "Chip Huyen · O'Reilly",
+            "url": "https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/",
+            "kind": "book",
+            "cost": "paid",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Daily Papers",
+            "by": "Hugging Face",
+            "url": "https://huggingface.co/papers",
+            "kind": "community",
+            "cost": "free",
+            "note": "The easiest way to follow new research.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Three projects you can explain",
+          "text": "Polish three projects from this track: each with a clear README, a live demo link, what you tried that didn't work, and what you'd do next. Then enter one Kaggle competition."
+        },
+        "done_when": [
+          "Three projects with live demos and honest READMEs",
+          "You can walk an interviewer through one project's trade-offs in five minutes"
+        ],
+        "position": 7
+      }
+    ]
   },
   {
-    "slug": "agents-that-dont-break",
-    "name": "Agents that don't break",
-    "who": "Flagship track",
+    "slug": "gen-ai",
+    "name": "Gen AI track",
+    "who": "Flagship · build with LLMs",
     "tone": "dark",
-    "blurb": "The production principles most courses skip: when to stop, who has authority, budgets, failures and attacks.",
-    "start_if": "Start here once you've built one simple agent and want it to work in the real world.",
-    "position": 2
-  },
-  {
-    "slug": "rag-and-documents",
-    "name": "RAG and documents",
-    "who": "For college projects",
-    "tone": "light",
-    "blurb": "Make AI answer accurately from your own notes, PDFs and papers, and prove that it's right.",
-    "start_if": "Start here if you know basic Python and want a strong portfolio project.",
-    "position": 3
+    "duration": "About 4 months at 8–10 hours a week",
+    "blurb": "How LLMs really work, then using them well: APIs, RAG, agents, evals, fine-tuning and shipping real AI products.",
+    "start_if": "Start here if you know basic Python. Do AI/ML stages 1 to 4 first if you want to understand what's underneath.",
+    "position": 2,
+    "stages": [
+      {
+        "slug": "how-llms-work",
+        "title": "How LLMs actually work",
+        "weeks": "2 weeks",
+        "why": "Before building with LLMs, know what they are: next-word predictors trained on huge amounts of text. It explains both their magic and their mistakes.",
+        "topics": [
+          "Tokens and tokenization",
+          "Embeddings",
+          "Attention and the Transformer",
+          "Pre-training vs fine-tuning",
+          "Why models hallucinate",
+          "Context windows"
+        ],
+        "resources": [
+          {
+            "title": "Intro to Large Language Models",
+            "by": "Andrej Karpathy",
+            "url": "https://www.youtube.com/watch?v=zjkBMFhNj_g",
+            "kind": "video",
+            "cost": "free",
+            "note": "One hour, the best overview there is.",
+            "tool": null
+          },
+          {
+            "title": "Deep Dive into LLMs like ChatGPT",
+            "by": "Andrej Karpathy",
+            "url": "https://www.youtube.com/watch?v=7xTGNNLPyMI",
+            "kind": "video",
+            "cost": "free",
+            "note": "Longer and deeper: pre-training to reasoning models.",
+            "tool": null
+          },
+          {
+            "title": "Neural Networks (Transformer chapters)",
+            "by": "3Blue1Brown",
+            "url": "https://www.3blue1brown.com/topics/neural-networks",
+            "kind": "video",
+            "cost": "free",
+            "note": "Beautiful visual explanations of attention.",
+            "tool": null
+          },
+          {
+            "title": "The Illustrated Transformer",
+            "by": "Jay Alammar",
+            "url": "https://jalammar.github.io/illustrated-transformer/",
+            "kind": "book",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Tiktokenizer",
+            "by": "Community tool",
+            "url": "https://tiktokenizer.vercel.app/",
+            "kind": "practice",
+            "cost": "free",
+            "note": "Type text and see exactly how a model splits it into tokens.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Explain it to a friend",
+          "text": "Write a one-page explainer (with pictures) of how an LLM turns your question into an answer, token by token. Use Tiktokenizer to show real tokens."
+        },
+        "done_when": [
+          "You can explain tokens, embeddings and attention without jargon",
+          "You can say why an LLM confidently makes things up"
+        ],
+        "position": 1
+      },
+      {
+        "slug": "llm-apis",
+        "title": "Use LLM APIs well",
+        "weeks": "2 weeks",
+        "why": "Most Gen AI products are built on APIs. Learn prompting, structured outputs, streaming and costs properly.",
+        "topics": [
+          "Prompt engineering basics",
+          "System prompts and few-shot examples",
+          "Structured JSON outputs",
+          "Streaming responses",
+          "Tokens, cost and rate limits",
+          "Handling errors and retries"
+        ],
+        "resources": [
+          {
+            "title": "Google AI Studio",
+            "by": "Google",
+            "url": "https://aistudio.google.com/",
+            "kind": "practice",
+            "cost": "free-tier",
+            "note": "A free Gemini API key: the easiest way to start without paying.",
+            "tool": null
+          },
+          {
+            "title": "Prompt engineering overview",
+            "by": "Anthropic",
+            "url": "https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Prompt engineering guide",
+            "by": "OpenAI",
+            "url": "https://platform.openai.com/docs/guides/prompt-engineering",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "ChatGPT Prompt Engineering for Developers",
+            "by": "DeepLearning.AI",
+            "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Pydantic",
+            "by": "Pydantic",
+            "url": "https://docs.pydantic.dev/latest/",
+            "kind": "docs",
+            "cost": "free",
+            "note": "Validate the JSON a model gives you.",
+            "tool": null
+          },
+          {
+            "title": "Vercel AI SDK",
+            "by": "Vercel",
+            "url": "https://ai-sdk.dev/",
+            "kind": "docs",
+            "cost": "free",
+            "note": "If you build in TypeScript.",
+            "tool": "aisdk"
+          }
+        ],
+        "project": {
+          "title": "A study helper that returns clean data",
+          "text": "Build a command-line helper that turns a chapter of your notes into flashcards as validated JSON, streams the answer, retries on errors, and prints what each run cost."
+        },
+        "done_when": [
+          "Your app never crashes on a bad model reply",
+          "You get the same JSON shape every time",
+          "You know roughly what 1,000 requests would cost"
+        ],
+        "position": 2
+      },
+      {
+        "slug": "build-a-gpt",
+        "title": "Build a small GPT from scratch",
+        "weeks": "4 weeks",
+        "why": "Code the Transformer yourself once. After this, papers, model cards and fine-tuning all make sense.",
+        "topics": [
+          "Self-attention in code",
+          "Causal masking",
+          "Byte-pair encoding tokenizers",
+          "Training a tiny language model",
+          "Sampling: temperature, top-k, top-p",
+          "The KV cache"
+        ],
+        "resources": [
+          {
+            "title": "Let's build GPT: from scratch, in code",
+            "by": "Andrej Karpathy",
+            "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+            "kind": "video",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Let's build the GPT Tokenizer",
+            "by": "Andrej Karpathy",
+            "url": "https://www.youtube.com/watch?v=zduSFxRajkE",
+            "kind": "video",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Build a Large Language Model (From Scratch)",
+            "by": "Sebastian Raschka",
+            "url": "https://github.com/rasbt/LLMs-from-scratch",
+            "kind": "book",
+            "cost": "free",
+            "note": "The code and videos are free; the book is paid.",
+            "tool": null
+          },
+          {
+            "title": "nanoGPT",
+            "by": "Andrej Karpathy",
+            "url": "https://github.com/karpathy/nanoGPT",
+            "kind": "practice",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Attention Is All You Need",
+            "by": "Vaswani et al.",
+            "url": "https://arxiv.org/abs/1706.03762",
+            "kind": "paper",
+            "cost": "free",
+            "note": "The original Transformer paper. Read it after the videos.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Your own tiny GPT",
+          "text": "Train a small GPT on text in your own language (Hindi, Tamil, Telugu…) or on your favourite author, on a free Colab GPU. Add temperature and top-k sampling and compare the outputs."
+        },
+        "done_when": [
+          "Your model generates text that looks like the training data",
+          "You can explain every line of your attention code"
+        ],
+        "position": 3
+      },
+      {
+        "slug": "rag",
+        "title": "RAG: answers from your own documents",
+        "weeks": "4 weeks",
+        "why": "Models don't know your notes, PDFs or company data. RAG finds the right passages and hands them to the model, with citations.",
+        "topics": [
+          "Parsing PDFs and documents",
+          "Chunking",
+          "Embeddings and vector search",
+          "Hybrid search (keywords + meaning)",
+          "Reranking",
+          "Citations and saying “I don't know”",
+          "Measuring answer quality"
+        ],
+        "resources": [
+          {
+            "title": "RAG From Scratch",
+            "by": "LangChain (Lance Martin)",
+            "url": "https://github.com/langchain-ai/rag-from-scratch",
+            "kind": "video",
+            "cost": "free",
+            "note": "Short videos that build every RAG technique step by step.",
+            "tool": null
+          },
+          {
+            "title": "Advanced RAG on Hugging Face documentation",
+            "by": "Hugging Face Cookbook",
+            "url": "https://huggingface.co/learn/cookbook/advanced_rag",
+            "kind": "practice",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Sentence Transformers",
+            "by": "SBERT",
+            "url": "https://sbert.net/",
+            "kind": "docs",
+            "cost": "free",
+            "note": "Free, local embedding models.",
+            "tool": null
+          },
+          {
+            "title": "pgvector",
+            "by": "pgvector",
+            "url": "https://github.com/pgvector/pgvector",
+            "kind": "docs",
+            "cost": "free",
+            "note": "Vector search inside PostgreSQL.",
+            "tool": null
+          },
+          {
+            "title": "Qdrant documentation",
+            "by": "Qdrant",
+            "url": "https://qdrant.tech/documentation/",
+            "kind": "docs",
+            "cost": "free-tier",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Docling",
+            "by": "IBM",
+            "url": "https://github.com/docling-project/docling",
+            "kind": "docs",
+            "cost": "free",
+            "note": "Turn PDFs into clean text and tables.",
+            "tool": "docling"
+          },
+          {
+            "title": "Ragas",
+            "by": "Ragas",
+            "url": "https://docs.ragas.io/",
+            "kind": "docs",
+            "cost": "free",
+            "note": "Metrics for RAG quality.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "A study assistant for your notes",
+          "text": "Build a chat app over your own college notes and PDFs that cites the page for every answer and says “I don't know” when the notes don't cover it. (This is the Build Challenge project.)"
+        },
+        "done_when": [
+          "Every answer shows where it came from",
+          "It refuses to guess when the answer isn't in your documents",
+          "You have 20 test questions with expected answers"
+        ],
+        "position": 4
+      },
+      {
+        "slug": "agents-and-mcp",
+        "title": "Agents and MCP",
+        "weeks": "4 weeks",
+        "why": "Agents let a model take steps: call tools, read results and decide what's next. Learn to build ones that don't break.",
+        "topics": [
+          "The agent loop: reason, act, observe",
+          "Tool calling",
+          "Workflows vs agents",
+          "State machines with LangGraph",
+          "Model Context Protocol (MCP)",
+          "Human approval steps",
+          "Budgets and limits"
+        ],
+        "resources": [
+          {
+            "title": "Building effective agents",
+            "by": "Anthropic",
+            "url": "https://www.anthropic.com/engineering/building-effective-agents",
+            "kind": "book",
+            "cost": "free",
+            "note": "Read this before any framework.",
+            "tool": null
+          },
+          {
+            "title": "AI Agents Course",
+            "by": "Hugging Face",
+            "url": "https://huggingface.co/learn/agents-course",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Introduction to LangGraph",
+            "by": "LangChain Academy",
+            "url": "https://academy.langchain.com/courses/intro-to-langgraph",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": "langgraph"
+          },
+          {
+            "title": "Model Context Protocol",
+            "by": "MCP",
+            "url": "https://modelcontextprotocol.io/",
+            "kind": "docs",
+            "cost": "free",
+            "note": "The standard way to plug tools and data into AI apps.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "An agent that asks before it acts",
+          "text": "Build an agent that plans your study week from your notes and calendar through MCP, stops for your approval before changing anything, and has a hard limit on steps and cost."
+        },
+        "done_when": [
+          "Your agent stops and asks when it isn't sure",
+          "It can't loop forever or spend without limit",
+          "You can replay every step it took"
+        ],
+        "position": 5
+      },
+      {
+        "slug": "evals-and-safety",
+        "title": "Evals, safety and security",
+        "weeks": "2 weeks",
+        "why": "You can't improve what you don't measure, and every AI app can be attacked. Test before your users do.",
+        "topics": [
+          "Writing test cases for AI",
+          "LLM-as-judge (and its limits)",
+          "Regression testing prompts",
+          "Prompt injection",
+          "OWASP Top 10 for LLM apps",
+          "Tracing and debugging"
+        ],
+        "resources": [
+          {
+            "title": "Your AI Product Needs Evals",
+            "by": "Hamel Husain",
+            "url": "https://hamel.dev/blog/posts/evals/",
+            "kind": "book",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "OWASP Top 10 for LLM Applications",
+            "by": "OWASP",
+            "url": "https://genai.owasp.org/llm-top-10/",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Prompt injection series",
+            "by": "Simon Willison",
+            "url": "https://simonwillison.net/series/prompt-injection/",
+            "kind": "book",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Promptfoo",
+            "by": "Promptfoo",
+            "url": "https://www.promptfoo.dev/docs/intro/",
+            "kind": "docs",
+            "cost": "free",
+            "note": "Automated tests and red-teaming.",
+            "tool": "promptfoo"
+          },
+          {
+            "title": "Arize Phoenix",
+            "by": "Arize",
+            "url": "https://arize.com/docs/phoenix",
+            "kind": "docs",
+            "cost": "free",
+            "note": "See every step your app took, locally.",
+            "tool": "arize"
+          }
+        ],
+        "project": {
+          "title": "Break your own app",
+          "text": "Write 30 test cases for your RAG app and 10 attack prompts (for example, a PDF that says “ignore your instructions”). Run them on every change and fix what fails."
+        },
+        "done_when": [
+          "You run your evals with one command",
+          "You know your app's weakest spot and have a fix for it"
+        ],
+        "position": 6
+      },
+      {
+        "slug": "fine-tuning",
+        "title": "Fine-tuning and open models",
+        "weeks": "3 weeks",
+        "why": "Sometimes prompting isn't enough. Learn when to fine-tune, and how to do it cheaply on a free GPU.",
+        "topics": [
+          "When to fine-tune vs prompt vs RAG",
+          "LoRA and QLoRA",
+          "Preparing a dataset",
+          "Running open models locally",
+          "Quantization",
+          "Reasoning models and RL (overview)"
+        ],
+        "resources": [
+          {
+            "title": "Unsloth documentation and free notebooks",
+            "by": "Unsloth",
+            "url": "https://docs.unsloth.ai/",
+            "kind": "docs",
+            "cost": "free",
+            "note": "Fine-tune on a free Colab GPU.",
+            "tool": null
+          },
+          {
+            "title": "PEFT",
+            "by": "Hugging Face",
+            "url": "https://huggingface.co/docs/peft",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "LLM Course: fine-tuning chapters",
+            "by": "Hugging Face",
+            "url": "https://huggingface.co/learn/llm-course",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "LoRA paper",
+            "by": "Hu et al.",
+            "url": "https://arxiv.org/abs/2106.09685",
+            "kind": "paper",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "QLoRA paper",
+            "by": "Dettmers et al.",
+            "url": "https://arxiv.org/abs/2305.14314",
+            "kind": "paper",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Ollama",
+            "by": "Ollama",
+            "url": "https://ollama.com/",
+            "kind": "practice",
+            "cost": "free",
+            "note": "Run open models on your own laptop.",
+            "tool": null
+          },
+          {
+            "title": "DeepSeek-R1 paper",
+            "by": "DeepSeek",
+            "url": "https://arxiv.org/abs/2501.12948",
+            "kind": "paper",
+            "cost": "free",
+            "note": "How reasoning models are trained with reinforcement learning.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Beat the prompt",
+          "text": "Fine-tune a small open model (1–3B parameters) with QLoRA on a narrow task, such as turning messy notes into your college's exam format. Compare it with plain prompting, then run it locally with Ollama."
+        },
+        "done_when": [
+          "You can say when fine-tuning is worth it and when it isn't",
+          "Your fine-tuned model beats the base model on your test set"
+        ],
+        "position": 7
+      },
+      {
+        "slug": "images-and-multimodal",
+        "title": "Images, audio and multimodal",
+        "weeks": "2 weeks (optional)",
+        "why": "Text is only one kind of generation. See how image, speech and vision-language models work, and where GANs and VAEs came from.",
+        "topics": [
+          "Diffusion models",
+          "Text-to-image with Diffusers",
+          "CLIP and image-text matching",
+          "Speech-to-text with Whisper",
+          "GANs and VAEs (the history)"
+        ],
+        "resources": [
+          {
+            "title": "Diffusion Models Course",
+            "by": "Hugging Face",
+            "url": "https://github.com/huggingface/diffusion-models-class",
+            "kind": "course",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Diffusers documentation",
+            "by": "Hugging Face",
+            "url": "https://huggingface.co/docs/diffusers",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "CLIP paper",
+            "by": "Radford et al. · OpenAI",
+            "url": "https://arxiv.org/abs/2103.00020",
+            "kind": "paper",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Whisper",
+            "by": "OpenAI",
+            "url": "https://github.com/openai/whisper",
+            "kind": "practice",
+            "cost": "free",
+            "note": "Open speech-to-text you can run yourself.",
+            "tool": null
+          },
+          {
+            "title": "DCGAN tutorial",
+            "by": "PyTorch",
+            "url": "https://docs.pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html",
+            "kind": "docs",
+            "cost": "free",
+            "note": "Build a GAN once to see how generation started.",
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Lecture to notes",
+          "text": "Build a demo that turns a recorded lecture into notes with Whisper, then generates a diagram for one key idea with a diffusion model. Host it on Hugging Face Spaces."
+        },
+        "done_when": [
+          "You can explain how diffusion turns noise into an image",
+          "Your demo works on a real recording"
+        ],
+        "position": 8
+      },
+      {
+        "slug": "ship-ai",
+        "title": "Ship a real AI product",
+        "weeks": "3 weeks",
+        "why": "Put it in front of real users: logins, limits, costs, speed and monitoring. This is what makes a project production-ready.",
+        "topics": [
+          "Serving open models (vLLM)",
+          "Latency and cost",
+          "Auth, rate limits and abuse",
+          "Monitoring in production",
+          "Staying current with research"
+        ],
+        "resources": [
+          {
+            "title": "AI Engineering",
+            "by": "Chip Huyen · O'Reilly",
+            "url": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/",
+            "kind": "book",
+            "cost": "paid",
+            "note": "The best single book on building AI products.",
+            "tool": null
+          },
+          {
+            "title": "vLLM documentation",
+            "by": "vLLM",
+            "url": "https://docs.vllm.ai/",
+            "kind": "docs",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          },
+          {
+            "title": "Supabase",
+            "by": "Supabase",
+            "url": "https://supabase.com/docs",
+            "kind": "docs",
+            "cost": "free-tier",
+            "note": "Database, login and storage for your app.",
+            "tool": "supabase"
+          },
+          {
+            "title": "LMArena",
+            "by": "LMArena",
+            "url": "https://lmarena.ai/",
+            "kind": "community",
+            "cost": "free",
+            "note": "Compare models on real prompts.",
+            "tool": null
+          },
+          {
+            "title": "Artificial Analysis",
+            "by": "Artificial Analysis",
+            "url": "https://artificialanalysis.ai/",
+            "kind": "community",
+            "cost": "free",
+            "note": "Speed and price of every model.",
+            "tool": null
+          },
+          {
+            "title": "r/LocalLLaMA",
+            "by": "Reddit",
+            "url": "https://www.reddit.com/r/LocalLLaMA/",
+            "kind": "community",
+            "cost": "free",
+            "note": null,
+            "tool": null
+          }
+        ],
+        "project": {
+          "title": "Launch it",
+          "text": "Deploy your RAG or agent app for real users with login, rate limits, a cost dashboard and your evals running on every change. Get 10 people to use it and fix what they hit."
+        },
+        "done_when": [
+          "Real people use your app from a link",
+          "You know your cost per user and your slowest step",
+          "Your evals run before every deploy"
+        ],
+        "position": 9
+      }
+    ]
   }
 ]

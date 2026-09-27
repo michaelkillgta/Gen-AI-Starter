@@ -81,7 +81,72 @@ pub struct Track {
     pub tone: Tone,
     pub blurb: String,
     pub start_if: String,
+    /// e.g. "About 6 months at 8–10 hours a week".
+    pub duration: String,
     pub position: i32,
+    /// The step-by-step plan, in order.
+    pub stages: Vec<Stage>,
+}
+
+/// One step of a track: what to learn, the best resources, a project and a checklist.
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct Stage {
+    pub slug: String,
+    pub position: i32,
+    pub title: String,
+    /// e.g. "4 weeks".
+    pub weeks: String,
+    pub why: String,
+    pub topics: Vec<String>,
+    pub resources: Vec<Resource>,
+    pub project: StageProject,
+    pub done_when: Vec<String>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "lowercase")]
+#[ts(export)]
+pub enum ResourceKind {
+    Course,
+    Video,
+    Book,
+    Docs,
+    Paper,
+    Practice,
+    Community,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "kebab-case")]
+#[ts(export)]
+pub enum ResourceCost {
+    Free,
+    /// Free to audit; paid for a certificate.
+    FreeAudit,
+    /// Has a free plan with limits.
+    FreeTier,
+    Paid,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct Resource {
+    pub title: String,
+    pub by: String,
+    pub url: String,
+    pub kind: ResourceKind,
+    pub cost: ResourceCost,
+    pub note: Option<String>,
+    /// Toolkit slug, when the resource is a tool we cover.
+    pub tool: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct StageProject {
+    pub title: String,
+    pub text: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, TS)]
@@ -155,6 +220,8 @@ pub struct Interview {
 pub struct Dive {
     pub slug: String,
     pub track: String,
+    /// The stage of the track this deep dive belongs to.
+    pub stage: String,
     pub position: i32,
     pub title: String,
     pub tldr: Vec<String>,

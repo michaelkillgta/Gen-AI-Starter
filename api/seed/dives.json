@@ -1,8 +1,24 @@
 [
   {
-    "slug": "how-ai-learns-the-story-from-1943-to-chatgpt",
-    "track": "foundations",
+    "slug": "use-ai-to-learn-not-to-copy",
+    "track": "ai-ml",
     "position": 1,
+    "title": "Use AI to learn, not to copy",
+    "tldr": [
+      "The habits that separate people who learn with AI from people who stop understanding their own code."
+    ],
+    "read_minutes": null,
+    "tools": [],
+    "body": [],
+    "try_it": null,
+    "interview": null,
+    "published": true,
+    "stage": "python-and-tools"
+  },
+  {
+    "slug": "how-ai-learns-the-story-from-1943-to-chatgpt",
+    "track": "ai-ml",
+    "position": 2,
     "title": "How AI learns: the story from 1943 to ChatGPT",
     "tldr": [
       "Eighty years of AI in one read, with one life lesson from each chapter."
@@ -12,12 +28,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "classic-ml"
   },
   {
     "slug": "why-ai-only-learns-from-its-mistakes",
-    "track": "foundations",
-    "position": 2,
+    "track": "ai-ml",
+    "position": 3,
     "title": "Why AI only learns from its mistakes",
     "tldr": [
       "How a model improves by measuring how wrong it was, and why that's how you learn too."
@@ -29,12 +46,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "deep-learning"
   },
   {
     "slug": "what-an-llm-actually-is",
-    "track": "foundations",
-    "position": 3,
+    "track": "gen-ai",
+    "position": 1,
     "title": "What an LLM actually is",
     "tldr": [
       "A next-word predictor trained on huge amounts of text. What that means, and what it can't do."
@@ -44,12 +62,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "how-llms-work"
   },
   {
     "slug": "your-first-llm-api-call",
-    "track": "foundations",
-    "position": 4,
+    "track": "gen-ai",
+    "position": 2,
     "title": "Your first LLM API call",
     "tldr": [
       "Get a free key, send one message from Python, and read the reply. About 20 lines of code."
@@ -61,12 +80,100 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "llm-apis"
+  },
+  {
+    "slug": "what-rag-is-and-why-models-need-it",
+    "track": "gen-ai",
+    "position": 3,
+    "title": "What RAG is, and why models need it",
+    "tldr": [
+      "Models don't know your notes. RAG finds the right passages and hands them over before answering."
+    ],
+    "read_minutes": null,
+    "tools": [
+      "raganything"
+    ],
+    "body": [],
+    "try_it": null,
+    "interview": null,
+    "published": true,
+    "stage": "rag"
+  },
+  {
+    "slug": "reading-pdfs-pymupdf-docling-or-mineru",
+    "track": "gen-ai",
+    "position": 4,
+    "title": "Reading PDFs: PyMuPDF, Docling or MinerU?",
+    "tldr": [
+      "Fast and simple, clean and structured, or strong on formulas. Which to pick for your documents."
+    ],
+    "read_minutes": null,
+    "tools": [
+      "docling",
+      "mineru"
+    ],
+    "body": [],
+    "try_it": null,
+    "interview": null,
+    "published": true,
+    "stage": "rag"
+  },
+  {
+    "slug": "chunks-and-embeddings-simply",
+    "track": "gen-ai",
+    "position": 5,
+    "title": "Chunks and embeddings, simply",
+    "tldr": [
+      "How text is split into pieces and turned into numbers, so search finds meaning, not just words."
+    ],
+    "read_minutes": null,
+    "tools": [],
+    "body": [],
+    "try_it": null,
+    "interview": null,
+    "published": true,
+    "stage": "rag"
+  },
+  {
+    "slug": "why-colbert-keeps-every-word",
+    "track": "gen-ai",
+    "position": 6,
+    "title": "Why ColBERT keeps every word",
+    "tldr": [
+      "More precise search by keeping a vector for every word, and the storage cost that comes with it."
+    ],
+    "read_minutes": null,
+    "tools": [
+      "ragatouille"
+    ],
+    "body": [],
+    "try_it": null,
+    "interview": null,
+    "published": true,
+    "stage": "rag"
+  },
+  {
+    "slug": "make-it-say-i-dont-know",
+    "track": "gen-ai",
+    "position": 7,
+    "title": "Make it say “I don't know”",
+    "tldr": [
+      "A good RAG app admits when the answer isn't in your documents, instead of guessing."
+    ],
+    "read_minutes": null,
+    "tools": [],
+    "body": [],
+    "try_it": null,
+    "interview": null,
+    "published": true,
+    "stage": "rag"
   },
   {
     "slug": "an-agent-is-more-than-a-chatbot",
-    "track": "foundations",
-    "position": 5,
+    "track": "gen-ai",
+    "position": 8,
     "title": "An agent is more than a chatbot",
     "tldr": [
       "LLM plus a goal, tools, memory and a loop. The mental model behind every agent framework."
@@ -80,27 +187,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
-  },
-  {
-    "slug": "use-ai-to-learn-not-to-copy",
-    "track": "foundations",
-    "position": 6,
-    "title": "Use AI to learn, not to copy",
-    "tldr": [
-      "The habits that separate people who learn with AI from people who stop understanding their own code."
-    ],
-    "read_minutes": null,
-    "tools": [],
-    "body": [],
-    "try_it": null,
-    "interview": null,
-    "published": true
+    "published": true,
+    "stage": "agents-and-mcp"
   },
   {
     "slug": "know-when-to-stop",
-    "track": "agents-that-dont-break",
-    "position": 1,
+    "track": "gen-ai",
+    "position": 9,
     "title": "Know when to stop",
     "tldr": [
       "Most agents are built to keep going until the task is done.",
@@ -191,12 +284,13 @@
       "question": "How does your agent handle conflicting instructions?",
       "answer": "Explain the four stop moments, show your approval step, and say why you chose to pause instead of guessing. That answer shows production thinking, not just a demo."
     },
-    "published": true
+    "published": true,
+    "stage": "agents-and-mcp"
   },
   {
     "slug": "data-is-not-authority",
-    "track": "agents-that-dont-break",
-    "position": 2,
+    "track": "gen-ai",
+    "position": 10,
     "title": "Data is not authority",
     "tldr": [
       "Text inside a PDF or email is information, not an instruction your agent must follow."
@@ -209,12 +303,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "agents-and-mcp"
   },
   {
     "slug": "decide-then-check-then-act",
-    "track": "agents-that-dont-break",
-    "position": 3,
+    "track": "gen-ai",
+    "position": 11,
     "title": "Decide, then check, then act",
     "tldr": [
       "Separate what the agent wants to do from what it's allowed to do, with a check in between."
@@ -227,12 +322,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "agents-and-mcp"
   },
   {
     "slug": "design-for-failure-halfway",
-    "track": "agents-that-dont-break",
-    "position": 4,
+    "track": "gen-ai",
+    "position": 12,
     "title": "Design for failure halfway",
     "tldr": [
       "What happens when step 3 of 5 fails? Plan retries, rollbacks and safe pauses."
@@ -244,12 +340,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "agents-and-mcp"
   },
   {
     "slug": "give-agents-budgets",
-    "track": "agents-that-dont-break",
-    "position": 5,
+    "track": "gen-ai",
+    "position": 13,
     "title": "Give agents budgets",
     "tldr": [
       "Limits on tokens, time, tool calls and money, so a loop can't drain your account."
@@ -262,12 +359,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "agents-and-mcp"
   },
   {
     "slug": "memory-is-not-truth",
-    "track": "agents-that-dont-break",
-    "position": 6,
+    "track": "gen-ai",
+    "position": 14,
     "title": "Memory is not truth",
     "tldr": [
       "Stored memories can be wrong or outdated. Important ones need a source and an owner."
@@ -279,12 +377,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "agents-and-mcp"
   },
   {
     "slug": "every-agent-needs-an-identity",
-    "track": "agents-that-dont-break",
-    "position": 7,
+    "track": "gen-ai",
+    "position": 15,
     "title": "Every agent needs an identity",
     "tldr": [
       "Who is acting, for whom, with which permissions, and a log you can audit later."
@@ -297,12 +396,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "agents-and-mcp"
   },
   {
     "slug": "test-against-attacks",
-    "track": "agents-that-dont-break",
-    "position": 8,
+    "track": "gen-ai",
+    "position": 16,
     "title": "Test against attacks",
     "tldr": [
       "Try to break your own agent with malicious documents before someone else does."
@@ -314,12 +414,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "evals-and-safety"
   },
   {
     "slug": "agreement-is-not-evidence",
-    "track": "agents-that-dont-break",
-    "position": 9,
+    "track": "gen-ai",
+    "position": 17,
     "title": "Agreement is not evidence",
     "tldr": [
       "Five agents with the same model and context can repeat the same mistake five times."
@@ -331,94 +432,13 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
-  },
-  {
-    "slug": "what-rag-is-and-why-models-need-it",
-    "track": "rag-and-documents",
-    "position": 1,
-    "title": "What RAG is, and why models need it",
-    "tldr": [
-      "Models don't know your notes. RAG finds the right passages and hands them over before answering."
-    ],
-    "read_minutes": null,
-    "tools": [
-      "raganything"
-    ],
-    "body": [],
-    "try_it": null,
-    "interview": null,
-    "published": true
-  },
-  {
-    "slug": "reading-pdfs-pymupdf-docling-or-mineru",
-    "track": "rag-and-documents",
-    "position": 2,
-    "title": "Reading PDFs: PyMuPDF, Docling or MinerU?",
-    "tldr": [
-      "Fast and simple, clean and structured, or strong on formulas. Which to pick for your documents."
-    ],
-    "read_minutes": null,
-    "tools": [
-      "docling",
-      "mineru"
-    ],
-    "body": [],
-    "try_it": null,
-    "interview": null,
-    "published": true
-  },
-  {
-    "slug": "chunks-and-embeddings-simply",
-    "track": "rag-and-documents",
-    "position": 3,
-    "title": "Chunks and embeddings, simply",
-    "tldr": [
-      "How text is split into pieces and turned into numbers, so search finds meaning, not just words."
-    ],
-    "read_minutes": null,
-    "tools": [],
-    "body": [],
-    "try_it": null,
-    "interview": null,
-    "published": true
-  },
-  {
-    "slug": "why-colbert-keeps-every-word",
-    "track": "rag-and-documents",
-    "position": 4,
-    "title": "Why ColBERT keeps every word",
-    "tldr": [
-      "More precise search by keeping a vector for every word, and the storage cost that comes with it."
-    ],
-    "read_minutes": null,
-    "tools": [
-      "ragatouille"
-    ],
-    "body": [],
-    "try_it": null,
-    "interview": null,
-    "published": true
-  },
-  {
-    "slug": "make-it-say-i-dont-know",
-    "track": "rag-and-documents",
-    "position": 5,
-    "title": "Make it say “I don't know”",
-    "tldr": [
-      "A good RAG app admits when the answer isn't in your documents, instead of guessing."
-    ],
-    "read_minutes": null,
-    "tools": [],
-    "body": [],
-    "try_it": null,
-    "interview": null,
-    "published": true
+    "published": true,
+    "stage": "evals-and-safety"
   },
   {
     "slug": "test-your-answers-automatically",
-    "track": "rag-and-documents",
-    "position": 6,
+    "track": "gen-ai",
+    "position": 18,
     "title": "Test your answers automatically",
     "tldr": [
       "A small test set that catches wrong answers before your users do."
@@ -430,6 +450,7 @@
     "body": [],
     "try_it": null,
     "interview": null,
-    "published": true
+    "published": true,
+    "stage": "evals-and-safety"
   }
 ]

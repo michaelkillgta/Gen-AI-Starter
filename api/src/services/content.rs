@@ -115,6 +115,8 @@ pub async fn tracks(state: &AppState) -> ApiResult<Vec<TrackSummary>> {
             TrackSummary {
                 dive_count: mine.len() as i32,
                 first_dive: mine.first().map(|d| d.slug.clone()),
+                stage_count: track.stages.len() as i32,
+                resource_count: track.stages.iter().map(|s| s.resources.len() as i32).sum(),
                 track,
             }
         })
@@ -141,6 +143,7 @@ pub async fn track(state: &AppState, slug: &str) -> ApiResult<TrackDetail> {
             read_minutes: read_minutes(&d),
             has_body: !d.body.is_empty(),
             tldr: d.tldr.first().cloned().unwrap_or_default(),
+            stage: d.stage,
             slug: d.slug,
             position: d.position,
             title: d.title,
@@ -200,11 +203,21 @@ pub async fn dive(state: &AppState, slug: &str) -> ApiResult<DiveDetail> {
         try_it: dive.try_it.clone(),
         interview: dive.interview.clone(),
         tools,
-        track: TrackOutline {
-            slug: track.slug.clone(),
-            name: track.name.clone(),
-            tone: track.tone,
-            dives: siblings.iter().map(|d| dive_ref(d, &tracks)).collect(),
+        track: {
+            let stage = track.stages.iter().find(|s| s.slug == dive.stage);
+            TrackOutline {
+                slug: track.slug.clone(),
+                name: track.name.clone(),
+                tone: track.tone,
+                stage_slug: dive.stage.clone(),
+                stage_title: stage.map(|s| s.title.clone()).unwrap_or_default(),
+                stage_position: stage.map_or(0, |s| s.position),
+                dives: siblings
+                    .iter()
+                    .filter(|d| d.stage == dive.stage)
+                    .map(|d| dive_ref(d, &tracks))
+                    .collect(),
+            }
         },
         prev: idx.checked_sub(1).map(|i| dive_ref(siblings[i], &tracks)),
         next: siblings.get(idx + 1).map(|d| dive_ref(d, &tracks)),

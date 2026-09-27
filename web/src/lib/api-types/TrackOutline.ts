@@ -4,5 +4,10 @@ import type { Tone } from "./Tone";
 
 /**
  * The track sidebar on a deep dive page.
+ * The deep dive sidebar: the track, and the dives in this dive's stage.
  */
-export type TrackOutline = { slug: string, name: string, tone: Tone, dives: Array<DiveRef>, };
+export type TrackOutline = { slug: string, name: string, tone: Tone, stage_slug: string, stage_title: string, 
+/**
+ * e.g. 5 for "Stage 5".
+ */
+stage_position: number, dives: Array<DiveRef>, };
