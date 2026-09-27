@@ -156,10 +156,11 @@ function ToolsUsed({ tools }: { tools: { slug: string; name: string; kind: "tool
         {tools.map((t) => (
           <li key={t.slug}>
             <Link href={links.tool(t.slug)} className={styles.toolLink}>
-              <span className={`${styles.toolKind} ${styles[t.kind]}`}>{KIND_LABEL[t.kind]}</span>
+              <span className={`${styles.toolKind} ${styles[t.kind]}`}>{KIND_LABEL[t.kind]}</span>{" "}
               <span className={styles.toolName}>{t.name}</span>
-              <svg className={styles.toolArrow} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              <svg className={styles.toolIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
           </li>

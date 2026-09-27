@@ -11,6 +11,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // The screen tests build into their own folder, so a test run never overwrites
+  // the files (and CSS) a running `next dev` is serving from .next.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   // No floating "N" dev badge; it gets in the way of design reviews.
   devIndicators: false,
   // The production Docker image runs the self-contained server (web/Dockerfile).

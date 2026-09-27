@@ -2,6 +2,7 @@
 node_modules/
 api/target/
 web/.next/
+web/.next-e2e/
 web/out/
 web/test-results/
 web/playwright-report/

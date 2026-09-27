@@ -40,7 +40,9 @@ export default defineConfig({
       url: `http://localhost:${port}`,
       reuseExistingServer: true,
       timeout: 900_000,
-      env: { SHOW_STYLEGUIDE: "1" },
+      // Own build folder: `next build` into .next would replace the files a running
+      // dev server is serving, and the dev site would lose its CSS.
+      env: { SHOW_STYLEGUIDE: "1", NEXT_DIST_DIR: ".next-e2e" },
     },
   ],
 });
