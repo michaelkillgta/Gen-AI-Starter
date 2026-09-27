@@ -1,0 +1,24 @@
+.suggest {
+  gap: 8px;
+  max-width: 340px;
+}
+
+.suggestTitle {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.suggestText {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-muted);
+  padding-bottom: 4px;
+}
+
+@media (min-width: 1024px) {
+  .suggest {
+    width: 320px;
+  }
+}

@@ -3,13 +3,13 @@ import type { Metadata } from "next";
 
 import { PageIntro } from "@/components/layout/PageIntro";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { StatusLegend } from "@/components/toolkit/StatusLegend";
 import { ToolkitExplorer } from "@/components/toolkit/ToolkitExplorer";
-import { Card } from "@/components/ui";
+import { Button, Card } from "@/components/ui";
 import { isGroup, isKind, isSort, type SortOrder } from "@/features/toolkit/filter";
 import { getTools } from "@/lib/api";
 import { formatDate } from "@/lib/links";
 import { site } from "@/lib/site";
+import styles from "./toolkit.module.css";
 
 export const metadata: Metadata = {
   title: "The toolkit",
@@ -40,9 +40,12 @@ export default async function ToolkitPage({ searchParams }: { searchParams: Prom
           </>
         }
         aside={
-          <Card padding="sm">
-            <strong style={{ fontSize: 14 }}>What the labels mean</strong>
-            <StatusLegend withTested />
+          <Card padding="md" className={styles.suggest}>
+            <strong className={styles.suggestTitle}>Know a tool I should try?</strong>
+            <span className={styles.suggestText}>I test it myself. If it&apos;s worth it, it shows up in Worth It? Weekly.</span>
+            <Button href="/suggest?about=tool" block>
+              Suggest a tool
+            </Button>
           </Card>
         }
       />
