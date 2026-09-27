@@ -1,35 +1,31 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { TrackView } from "@/components/tracks/TrackView";
-import { TracksIntro, WhereToStart } from "@/components/tracks/TracksIntro";
-import { getTrack, getTracks } from "@/lib/api";
-import { links } from "@/lib/links";
+import { TrackCards, TracksIntro, WhereToStart } from "@/components/tracks/TracksIntro";
+import { getTracks } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Tracks",
-  description: "Clear learning paths from your first AI call to agents and RAG, each deep dive ending with something you build.",
+  description:
+    "Two step-by-step plans, AI/ML and Gen AI, with the best resources for every stage, a project to build and a checklist.",
 };
 
 export default async function TracksPage() {
   const tracks = (await getTracks()) ?? [];
-  // The flagship (dark) track is open by default, as in the design.
-  const first = tracks.find((t) => t.tone === "dark") ?? tracks[0];
-  const track = first ? await getTrack(first.slug) : null;
-
   return (
     <>
       <TracksIntro />
-      {track && <TrackView tracks={tracks} track={track} />}
-      <WhereToStart
-        links={{
-          foundations: links.track("foundations"),
-          rag: links.track("rag-and-documents"),
-          agents: links.track("agents-that-dont-break"),
-        }}
+      <TrackCards tracks={tracks} />
+      <WhereToStart />
+      <SiteFooter
+        variant="slim"
+        message={
+          <>
+            Know a great free resource I missed? <Link href="/suggest?about=topic">Suggest it</Link>
+          </>
+        }
       />
-      <SiteFooter variant="slim" message={<>Every deep dive is also on the <Link href="/blog">Blog</Link>.</>} />
     </>
   );
 }

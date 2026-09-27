@@ -34,6 +34,7 @@ export default async function DivePage({ params }: Props) {
   if (dive.track.slug !== trackSlug) redirect(links.dive(dive.track.slug, dive.slug));
 
   const total = dive.track.dives.length;
+  const indexInStage = Math.max(0, dive.track.dives.findIndex((d) => d.slug === dive.slug)) + 1;
   const nextHref = dive.next ? links.dive(dive.next.track_slug, dive.next.slug) : undefined;
 
   return (
@@ -57,7 +58,7 @@ export default async function DivePage({ params }: Props) {
         <article className={styles.article}>
           <header className={styles.head}>
             <Badge tone="dark" size="md">
-              Deep dive {dive.position} of {total}
+              Stage {dive.track.stage_position} · deep dive {indexInStage} of {total}
             </Badge>
             <h1 className={styles.title}>{dive.title}</h1>
             <span className={styles.byline}>

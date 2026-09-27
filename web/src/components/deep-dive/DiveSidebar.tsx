@@ -36,7 +36,9 @@ export function DiveSidebar({ track, current }: { track: TrackOutline; current: 
       <details className={styles.fold}>
         <summary className={styles.summary}>
           <span>
-            <span className={styles.summaryTrack}>{track.name}</span>
+            <span className={styles.summaryTrack}>
+              {track.name} · Stage {track.stage_position}
+            </span>
             <span className={styles.summaryPos}>
               Deep dive {idx + 1} of {track.dives.length}
             </span>
@@ -52,10 +54,13 @@ export function DiveSidebar({ track, current }: { track: TrackOutline; current: 
       </details>
 
       <aside className={styles.side} aria-label="Deep dives in this track">
-        <Link href={links.track(track.slug)} className={styles.crumb}>
-          Tracks
+        <Link href={`${links.track(track.slug)}#stage-${track.stage_slug}`} className={styles.crumb}>
+          ← Back to the {track.name}
         </Link>
-        <span className={styles.trackName}>{track.name}</span>
+        <span className={styles.trackName}>{track.stage_title}</span>
+        <span className={styles.stageLine}>
+          {track.name} · Stage {track.stage_position}
+        </span>
         <div className={styles.progress}>
           <TrackProgress slugs={track.dives.map((d) => d.slug)} compact />
         </div>

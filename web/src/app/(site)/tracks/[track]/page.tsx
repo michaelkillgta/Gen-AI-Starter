@@ -1,19 +1,18 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { TrackView } from "@/components/tracks/TrackView";
+import { Roadmap, TrackTabs } from "@/components/tracks/Roadmap";
 import { TracksIntro, WhereToStart } from "@/components/tracks/TracksIntro";
 import { getTrack, getTracks } from "@/lib/api";
-import { links } from "@/lib/links";
 
 type Props = { params: Promise<{ track: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const track = await getTrack((await params).track);
   if (!track) return { title: "Track not found" };
-  return { title: `${track.name} track`, description: track.blurb };
+  return { title: `${track.name}: step-by-step plan`, description: track.blurb };
 }
 
 export default async function TrackPage({ params }: Props) {
@@ -23,15 +22,17 @@ export default async function TrackPage({ params }: Props) {
   return (
     <>
       <TracksIntro />
-      <TrackView tracks={tracks} track={track} />
-      <WhereToStart
-        links={{
-          foundations: links.track("foundations"),
-          rag: links.track("rag-and-documents"),
-          agents: links.track("agents-that-dont-break"),
-        }}
+      <TrackTabs tracks={tracks} current={track.slug} />
+      <Roadmap track={track} />
+      <WhereToStart />
+      <SiteFooter
+        variant="slim"
+        message={
+          <>
+            Know a great free resource I missed? <Link href="/suggest?about=topic">Suggest it</Link>
+          </>
+        }
       />
-      <SiteFooter variant="slim" message={<>Every deep dive is also on the <Link href="/blog">Blog</Link>.</>} />
     </>
   );
 }

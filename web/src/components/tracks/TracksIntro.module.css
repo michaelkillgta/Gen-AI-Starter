@@ -119,3 +119,156 @@
     padding-bottom: 88px;
   }
 }
+
+/* ---------- Track cards (/tracks) ---------- */
+
+.cardsWrap {
+  padding-bottom: 48px;
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.cards > li {
+  display: flex;
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-line-card);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.card:hover {
+  color: var(--color-ink);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-float);
+}
+
+.cardDark,
+.cardDark:hover {
+  background: var(--color-dark);
+  border-color: var(--color-dark);
+  color: var(--color-on-dark);
+}
+
+.cardWho {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent-ink);
+}
+
+.cardDark .cardWho {
+  color: var(--color-accent);
+}
+
+.cardName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.875rem, 1.5rem + 1.4vw, 2.5rem);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.cardBlurb {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+.cardDark .cardBlurb {
+  color: var(--color-on-dark-muted);
+}
+
+.cardStages {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.cardDark .cardStages {
+  border-top-color: var(--color-dark-border);
+}
+
+.cardStages li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cardStageNum {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-panel);
+  color: var(--color-ink);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cardDark .cardStageNum {
+  background: var(--color-accent);
+}
+
+.cardFoot {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-top: 12px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.cardDark .cardFoot {
+  color: var(--color-on-dark-muted);
+}
+
+.cardCta {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.cardDark .cardCta {
+  color: var(--color-accent);
+}
+
+@media (min-width: 1024px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    padding: 32px;
+  }
+
+  .cardsWrap {
+    padding-bottom: 72px;
+  }
+}

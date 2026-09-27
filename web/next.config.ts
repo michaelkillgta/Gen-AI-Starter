@@ -18,6 +18,14 @@ const nextConfig: NextConfig = {
   // The web app is its own project (the repo root's package.json is only dev tooling),
   // so server.js lands at the top of .next/standalone.
   outputFileTracingRoot: path.join(__dirname),
+  // Track addresses from before the two-track plan (Sept 2026).
+  async redirects() {
+    return [
+      { source: "/tracks/foundations", destination: "/tracks/ai-ml", permanent: true },
+      { source: "/tracks/agents-that-dont-break", destination: "/tracks/gen-ai", permanent: true },
+      { source: "/tracks/rag-and-documents", destination: "/tracks/gen-ai", permanent: true },
+    ];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

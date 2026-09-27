@@ -46,12 +46,19 @@ test.describe("forms", () => {
     await expect(page.getByText(/your message is in/)).toBeVisible();
   });
 
-  test("mark as done is remembered", async ({ page }) => {
-    await page.goto("/tracks/agents-that-dont-break/know-when-to-stop");
+  test("progress is remembered: deep dives and stages", async ({ page }) => {
+    await page.goto("/tracks/gen-ai/know-when-to-stop");
     await page.getByRole("button", { name: "Mark as done" }).click();
     await expect(page.getByRole("button", { name: /Done ✓/ })).toBeVisible();
-    await page.goto("/tracks/agents-that-dont-break");
-    await expect(page.getByText("1 of 9 done")).toBeVisible();
-    await expect(page.getByRole("link", { name: /Continue: Data is not authority/ })).toBeVisible();
+
+    await page.goto("/tracks/gen-ai");
+    await expect(page.getByText("0 of 9 stages done").first()).toBeVisible();
+    const stage = page.locator("#stage-how-llms-work");
+    await stage.getByRole("checkbox").first().check();
+    await stage.getByRole("button", { name: "Mark this stage done" }).click();
+    await expect(page.getByText("1 of 9 stages done").first()).toBeVisible();
+    await page.reload();
+    await expect(page.getByText("1 of 9 stages done").first()).toBeVisible();
+    await expect(page.locator("#stage-how-llms-work").getByRole("checkbox").first()).toBeChecked();
   });
 });
