@@ -1,5 +1,6 @@
 .form {
-  max-width: 640px;
+  max-width: 720px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -67,5 +68,120 @@
 @media (min-width: 640px) {
   .form {
     padding: 32px;
+  }
+}
+
+/* ---------- Suggest form: choice tiles ---------- */
+
+.tiles {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 60px;
+  padding: 12px 14px 12px 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line-input);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.tile:hover {
+  border-color: var(--color-ink);
+}
+
+.tileOn,
+.tileOn:hover {
+  background: var(--color-panel);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+.tileRadio {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--color-ink);
+}
+
+.tile:has(.tileRadio:focus-visible) {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.tileLabel {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tileHint {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  padding-top: 4px;
+  border-top: 1px solid var(--color-line-soft);
+  padding-top: 20px;
+  align-items: start;
+}
+
+.doneCheck {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-success);
+  color: var(--color-surface);
+  margin-bottom: 6px;
+}
+
+.doneLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding-top: 8px;
+}
+
+.doneLinks a {
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Name and details take the full width; link and email share a row */
+  .fields > :nth-child(1),
+  .fields > :nth-child(2) {
+    grid-column: 1 / -1;
+  }
+
+  /* Odd one out: the last choice spans the row instead of leaving a gap */
+  .tiles > .tile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 }

@@ -33,8 +33,8 @@ test.describe("forms", () => {
 
   test("suggest and contact", async ({ page }) => {
     await page.goto("/suggest?about=weekly");
-    await expect(page.getByLabel("Something for Worth It? Weekly")).toBeChecked();
-    await page.getByLabel("Name of the tool or topic").fill("Docling");
+    await expect(page.getByLabel(/Something to judge in Weekly/)).toBeChecked();
+    await page.getByLabel("What should I judge?").fill("Docling");
     await page.getByRole("button", { name: "Send suggestion" }).click();
     await expect(page.getByText("Thank you! I read every suggestion.")).toBeVisible();
 
