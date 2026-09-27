@@ -339,8 +339,11 @@
     grid-template-columns: minmax(0, 1fr) 340px;
   }
 
+  /* Selected card: brand amber ring on a tan card, so it reads as "highlighted", not as an error */
   .cardOn {
-    box-shadow: 0 0 0 2px var(--color-ink);
+    background: var(--color-panel);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent);
   }
 
   .panel {
@@ -393,7 +396,7 @@
 }
 
 
-/* ---------- Curator badge, filler card, hover and focus ---------- */
+/* ---------- Curator badge, hover and focus ---------- */
 
 .usesBadge {
   font-size: 11px;
@@ -410,55 +413,6 @@
   outline-offset: 2px;
 }
 
-.filler {
-  display: none;
-}
-
-.fillerLink {
-  height: 100%;
-  min-height: 186px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 6px;
-  padding: 18px;
-  border: 1.5px dashed var(--color-line-dashed);
-  border-radius: var(--radius-lg);
-  color: var(--color-muted);
-  text-decoration: none;
-  transition: border-color 0.16s ease, color 0.16s ease;
-}
-
-.fillerLink:hover {
-  border-color: var(--color-ink);
-  color: var(--color-ink);
-}
-
-.fillerPlus {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-panel);
-  color: var(--color-ink);
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.fillerTitle {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 17px;
-  color: var(--color-ink);
-}
-
-.fillerText {
-  font-size: 13px;
-  line-height: 1.5;
-}
 
 @media (min-width: 640px) {
   .card:hover {
@@ -466,22 +420,8 @@
   }
 
   .card.cardOn:hover {
-    box-shadow: 0 0 0 2px var(--color-ink), var(--shadow-float);
+    box-shadow: 0 0 0 1px var(--color-accent), var(--shadow-float);
   }
 
-  /* two columns on tablet and small desktop */
-  .filler[data-fill2="true"] {
-    display: block;
-  }
 }
 
-@media (min-width: 1440px) {
-  /* three columns on large screens */
-  .filler[data-fill2="true"] {
-    display: none;
-  }
-
-  .filler[data-fill3="true"] {
-    display: block;
-  }
-}

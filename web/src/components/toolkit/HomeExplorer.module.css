@@ -137,3 +137,13 @@
     padding-bottom: 64px;
   }
 }
+
+.allTools {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}

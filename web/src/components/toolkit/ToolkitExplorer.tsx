@@ -7,6 +7,7 @@ import { Chip, ChipRow, SearchField, Segmented } from "@/components/ui";
 import {
   GROUP_CHIPS,
   KIND_LABEL,
+  SORT_OPTIONS,
   baseFilter,
   filterTools,
   groupCounts,
@@ -17,17 +18,21 @@ import {
 } from "@/features/toolkit/filter";
 import type { StartList } from "@/lib/api-types/StartList";
 import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
+import { JumpTo } from "./JumpTo";
 import { KindExplainer } from "./KindExplainer";
+import { SuggestRow, ToolDirectory, directorySections } from "./ToolDirectory";
 import styles from "./ToolkitExplorer.module.css";
-import { ToolResults } from "./ToolResults";
 
 type Props = {
   tools: ToolWithDives[];
   startLists: StartList[];
-  initial: { q: string; kind: KindFilter; group: GroupFilter; tool: string | null; sort: SortOrder };
+  initial: { q: string; kind: KindFilter; group: GroupFilter; sort: SortOrder };
 };
 
-/** /toolkit: search plus type and area filters, all kept in the web address so a view can be shared. */
+/**
+ * /toolkit: the complete directory. Every tool on its own row with all its details,
+ * plus search, type and area filters and sort, all kept in the web address.
+ */
 export function ToolkitExplorer({ tools, startLists, initial }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -35,7 +40,6 @@ export function ToolkitExplorer({ tools, startLists, initial }: Props) {
   const [kind, setKind] = useState<KindFilter>(initial.kind);
   const [group, setGroup] = useState<GroupFilter>(initial.group);
   const [sort, setSort] = useState<SortOrder>(initial.sort);
-  const [selected, setSelected] = useState<string | null>(initial.tool);
 
   // Mirror the filters into the address bar without adding history entries.
   useEffect(() => {
@@ -44,11 +48,10 @@ export function ToolkitExplorer({ tools, startLists, initial }: Props) {
     if (kind !== "all") params.set("type", kind);
     if (group !== "all") params.set("track", group);
     if (sort !== "picks") params.set("sort", sort);
-    if (selected) params.set("tool", selected);
     const qs = params.toString();
     const t = setTimeout(() => router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false }), 250);
     return () => clearTimeout(t);
-  }, [q, kind, group, sort, selected, pathname, router]);
+  }, [q, kind, group, sort, pathname, router]);
 
   const counts = kindCounts(baseFilter(tools, startLists, { q, group }));
   const areaCounts = groupCounts(tools, startLists, { q, kind });
@@ -67,6 +70,7 @@ export function ToolkitExplorer({ tools, startLists, initial }: Props) {
   }, []);
   const shown = filterTools(tools, startLists, { q, kind, group, sort });
   const filtered = q.trim() !== "" || kind !== "all" || group !== "all";
+  const sections = directorySections(shown, sort === "picks");
   const clear = () => {
     setQ("");
     setKind("all");
@@ -116,26 +120,25 @@ export function ToolkitExplorer({ tools, startLists, initial }: Props) {
               Clear filters
             </button>
           )}
-          <Segmented
-            label="Sort"
-            value={sort}
-            onChange={setSort}
-            options={[
-              { value: "picks", label: "My picks first" },
-              { value: "az", label: "A to Z" },
-            ]}
-          />
+          <Segmented label="Sort" value={sort} onChange={setSort} options={SORT_OPTIONS} />
         </div>
       </div>
 
-      <ToolResults
-        tools={shown}
-        grouped={sort === "picks" && group === "all"}
-        view="cards"
-        selected={selected}
-        onSelect={setSelected}
-        onClear={clear}
-      />
+      <JumpTo sections={sections.filter((x) => x.title).map((x) => ({ id: x.id, title: x.title }))} />
+
+      {shown.length > 0 ? (
+        <ToolDirectory sections={sections} />
+      ) : (
+        <div className={styles.empty}>
+          <span className={styles.emptyTitle}>Nothing matches that yet.</span>
+          <span>Try a simpler word, or clear the filters to see everything.</span>
+          <button type="button" className={styles.clear} onClick={clear}>
+            Clear filters
+          </button>
+        </div>
+      )}
+
+      <SuggestRow />
 
     </section>
   );

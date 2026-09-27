@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 
 import { Avatar, Chip, ChipRow, SearchField, Segmented } from "@/components/ui";
@@ -130,6 +131,9 @@ export function HomeExplorer({ tools, startLists, thisWeek }: Props) {
           onSelect={setSelected}
           onClear={clear}
         />
+        <Link href="/toolkit" className={styles.allTools}>
+          See every tool with full details in the Toolkit →
+        </Link>
       </section>
     </>
   );

@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { StatusLegend } from "@/components/toolkit/StatusLegend";
 import { ToolkitExplorer } from "@/components/toolkit/ToolkitExplorer";
 import { Card } from "@/components/ui";
-import { isGroup, isKind } from "@/features/toolkit/filter";
+import { isGroup, isKind, isSort, type SortOrder } from "@/features/toolkit/filter";
 import { getTools } from "@/lib/api";
 import { formatDate } from "@/lib/links";
 import { site } from "@/lib/site";
@@ -14,7 +14,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "The toolkit",
   description:
-    "AI tools, libraries, packages and MCP servers explained in plain words: what each does, when to use it, and when to skip it.",
+    "Every AI tool, library, package and MCP server I recommend, with all the details on one page: what it does, when to use it, when to skip it, what it costs and how to get it.",
 };
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
@@ -31,8 +31,8 @@ export default async function ToolkitPage({ searchParams }: { searchParams: Prom
         title="The toolkit."
         lead={
           <>
-            The tools, libraries, packages and MCP servers I&apos;d actually point you to, explained in plain words: what
-            each one does, when to use it, and when to skip it.
+            Every tool I recommend, with all the details on one page: what it does, when to use it, when to skip it, what
+            it costs and how to get it.
             <span className="trust-line">
               {data?.tools.length ?? 0} tools <span aria-hidden="true">·</span> Last reviewed {formatDate(site.toolkitReviewed)}{" "}
               <span aria-hidden="true">·</span> Nobody pays to be listed
@@ -53,8 +53,7 @@ export default async function ToolkitPage({ searchParams }: { searchParams: Prom
           q: one(sp.q) ?? "",
           kind: isKind(type) ? type : "all",
           group: isGroup(track) ? track : "all",
-          tool: one(sp.tool) ?? null,
-          sort: one(sp.sort) === "az" ? "az" : "picks",
+          sort: isSort(one(sp.sort)) ? (one(sp.sort) as SortOrder) : "picks",
         }}
       />
       <SiteFooter variant="slim" message={<>Missing something useful? <Link href="/suggest?about=tool">Suggest a tool</Link></>} />

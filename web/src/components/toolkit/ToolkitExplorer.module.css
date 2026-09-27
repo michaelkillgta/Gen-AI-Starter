@@ -133,3 +133,21 @@
     padding-top: 20px;
   }
 }
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 28px;
+  border-radius: 18px;
+  background: var(--color-panel);
+  color: var(--color-muted);
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--color-ink);
+}

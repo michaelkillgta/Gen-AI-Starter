@@ -30,8 +30,8 @@
 .on,
 .on:hover {
   background: var(--color-surface);
-  border-color: var(--color-ink);
-  box-shadow: var(--shadow-float);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent), var(--shadow-float);
 }
 
 .top {

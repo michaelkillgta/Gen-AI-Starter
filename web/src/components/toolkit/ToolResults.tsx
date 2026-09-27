@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 
 import { Badge, BottomSheet, Button, StatusDot } from "@/components/ui";
@@ -145,18 +144,6 @@ export function ToolResults({ tools, grouped, view, selected, onSelect, onClear 
                     </li>
                   );
                 })}
-                {/* Fill the gap at the end of a short last row with an invitation instead of empty space. */}
-                <li
-                  className={styles.filler}
-                  data-fill2={g.items.length % 2 !== 0}
-                  data-fill3={g.items.length % 3 !== 0}
-                >
-                  <Link href="/suggest?about=tool" className={styles.fillerLink}>
-                    <span className={styles.fillerPlus} aria-hidden="true">+</span>
-                    <span className={styles.fillerTitle}>Know a tool that belongs here?</span>
-                    <span className={styles.fillerText}>Suggest it and I&apos;ll test it for Worth It? Weekly.</span>
-                  </Link>
-                </li>
               </ul>
             </section>
           ))

@@ -6,7 +6,7 @@ import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 
 export type KindFilter = "all" | ToolKind;
 export type GroupFilter = "all" | ToolGroup;
-export type SortOrder = "picks" | "az";
+export type SortOrder = "picks" | "az" | "type" | "cost";
 
 export const KIND_LABEL: Record<ToolKind, string> = {
   tool: "Tool",
@@ -78,10 +78,35 @@ export function filterTools(tools: ToolWithDives[], startLists: StartList[], que
   return sortTools(filtered, query.sort ?? "picks");
 }
 
+const KIND_RANK: Record<ToolKind, number> = { tool: 0, library: 1, package: 2, mcp: 3 };
+
+/** Cheapest first: fully free, then free tiers / self-hosting, then paid or "check pricing". */
+export function costRank(cost: string): number {
+  const c = cost.toLowerCase();
+  if (/^free(,|$| to connect)/.test(c)) return 0;
+  if (c.startsWith("free")) return 1;
+  return 2;
+}
+
 export function sortTools(tools: ToolWithDives[], sort: SortOrder): ToolWithDives[] {
   const copy = [...tools];
+  const picks = (a: ToolWithDives, b: ToolWithDives) =>
+    STATUS_RANK[a.status] - STATUS_RANK[b.status] || a.position - b.position;
   if (sort === "az") return copy.sort((a, b) => a.name.localeCompare(b.name));
-  return copy.sort((a, b) => STATUS_RANK[a.status] - STATUS_RANK[b.status] || a.position - b.position);
+  if (sort === "type") return copy.sort((a, b) => KIND_RANK[a.kind] - KIND_RANK[b.kind] || a.name.localeCompare(b.name));
+  if (sort === "cost") return copy.sort((a, b) => costRank(a.cost) - costRank(b.cost) || a.name.localeCompare(b.name));
+  return copy.sort(picks);
+}
+
+export const SORT_OPTIONS: { value: SortOrder; label: string }[] = [
+  { value: "picks", label: "My picks first" },
+  { value: "az", label: "A to Z" },
+  { value: "type", label: "Type" },
+  { value: "cost", label: "Cost" },
+];
+
+export function isSort(v: string | null | undefined): v is SortOrder {
+  return v === "picks" || v === "az" || v === "type" || v === "cost";
 }
 
 export function kindCounts(base: ToolWithDives[]): Record<KindFilter, number> {
