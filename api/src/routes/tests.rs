@@ -139,6 +139,28 @@ async fn tracks_and_dives() {
         assert!(stage["project"]["title"].is_string());
         assert!(!stage["done_when"].as_array().unwrap().is_empty());
     }
+    assert!(track["overview"].is_null());
+
+    // The AI/ML track has the big picture: roles, phases covering every stage, checks,
+    // and every stage lists common mistakes and a checkable project result.
+    let (_, aiml) = get("/tracks/ai-ml").await;
+    assert_eq!(tracks[0]["stage_count"], 12);
+    let overview = &aiml["overview"];
+    assert_eq!(overview["roles"].as_array().unwrap().len(), 4);
+    assert_eq!(overview["checks"].as_array().unwrap().len(), 4);
+    let phase_stages: usize = overview["phases"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|p| p["stages"].as_array().unwrap().len())
+        .sum();
+    assert_eq!(phase_stages, 12);
+    for stage in aiml["stages"].as_array().unwrap() {
+        assert!(!stage["mistakes"].as_array().unwrap().is_empty());
+        assert!(stage["project"]["check"].is_string());
+    }
+    assert_eq!(aiml["dives"].as_array().unwrap().len(), 7);
+
     assert_eq!(
         get("/tracks/agents-that-dont-break").await.0,
         StatusCode::NOT_FOUND

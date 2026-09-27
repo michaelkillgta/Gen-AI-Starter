@@ -2,6 +2,7 @@
 import type { DiveSummary } from "./DiveSummary";
 import type { Stage } from "./Stage";
 import type { Tone } from "./Tone";
+import type { TrackOverview } from "./TrackOverview";
 
 /**
  * GET /tracks/:slug
@@ -14,4 +15,8 @@ duration: string, position: number,
 /**
  * The step-by-step plan, in order.
  */
-stages: Array<Stage>, };
+stages: Array<Stage>, 
+/**
+ * Roles, the plan at a glance and how to check yourself. Optional per track.
+ */
+overview: TrackOverview | null, };

@@ -14,7 +14,7 @@ use crate::models::{
     forms::{ContactKind, ContactMessage, Subscriber, Suggestion, WaitlistEntry},
     seed::{
         Block, Category, Challenge, Cover, Dive, Fact, Featured, Interview, Post, Project,
-        ProjectCover, Stage, StartList, Tool, Track, TryIt, Verdict, WeeklyIssue,
+        ProjectCover, Stage, StartList, Tool, Track, TrackOverview, TryIt, Verdict, WeeklyIssue,
     },
 };
 
@@ -132,6 +132,9 @@ impl TrackRepo for PgStore {
                     duration: r.try_get("duration")?,
                     position: r.try_get("position")?,
                     stages: r.try_get::<Json<Vec<Stage>>, _>("stages")?.0,
+                    overview: r
+                        .try_get::<Option<Json<TrackOverview>>, _>("overview")?
+                        .map(|j| j.0),
                 })
             })
             .collect()
@@ -602,7 +605,7 @@ async fn insert_tools(tx: &mut Transaction<'_, Postgres>, seed: &SeedStore) -> a
 
 async fn insert_tracks(tx: &mut Transaction<'_, Postgres>, seed: &SeedStore) -> anyhow::Result<()> {
     for t in seed.tracks_ref() {
-        sqlx::query("INSERT INTO tracks (slug, name, who, tone, blurb, start_if, duration, position, stages) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)")
+        sqlx::query("INSERT INTO tracks (slug, name, who, tone, blurb, start_if, duration, position, stages, overview) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)")
             .bind(&t.slug)
             .bind(&t.name)
             .bind(&t.who)
@@ -612,6 +615,7 @@ async fn insert_tracks(tx: &mut Transaction<'_, Postgres>, seed: &SeedStore) -> 
             .bind(&t.duration)
             .bind(t.position)
             .bind(Json(&t.stages))
+            .bind(t.overview.as_ref().map(Json))
             .execute(&mut **tx)
             .await?;
     }

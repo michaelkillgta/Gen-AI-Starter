@@ -538,6 +538,254 @@
   accent-color: var(--color-success);
 }
 
+/* ---------- Overview: the plan at a glance ---------- */
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 0;
+}
+
+.overview {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border-radius: var(--radius-xl);
+  background: var(--color-panel);
+}
+
+.ovHead {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ovTitle {
+  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+  letter-spacing: -0.5px;
+}
+
+.ovNote {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.phases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.phase {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.phaseMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.phaseNum {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-accent-ink);
+}
+
+.phaseWhen {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.phaseBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.phaseTitle {
+  font-size: 19px;
+  letter-spacing: -0.3px;
+}
+
+.phaseText {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+
+.phaseStages {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.phaseStage {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 4px 12px 4px 4px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-line-card);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.phaseStage:hover {
+  border-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.phaseStageNum {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-panel);
+  font-size: 12px;
+}
+
+.ovGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.ovBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ovSub {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.cardCheck {
+  border-left: 3px solid var(--color-accent);
+}
+
+.cardTitle {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.cardText {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+}
+
+.navPhase {
+  display: block;
+  padding: 14px 10px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-accent-ink);
+}
+
+.nav li:first-child .navPhase {
+  padding-top: 2px;
+}
+
+.stagePhase {
+  color: var(--color-muted);
+}
+
+/* ---------- Common mistakes and the project check ---------- */
+
+.mistakes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mistakes li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+}
+
+.mistakes svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-danger);
+}
+
+.projectCheck {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-dark-border);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-on-dark);
+}
+
+.projectCheckLabel {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
 @media (min-width: 640px) {
   .tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -546,6 +794,22 @@
 
   .stage {
     padding: 28px;
+  }
+
+  .overview {
+    padding: 28px;
+  }
+
+  .phase {
+    flex-direction: row;
+    gap: 20px;
+    padding: 18px 20px;
+  }
+
+  .phaseMeta {
+    flex-direction: column;
+    gap: 2px;
+    flex: 0 0 110px;
   }
 
   .resource {
@@ -571,6 +835,10 @@
 
   .tabLabel {
     font-size: 26px;
+  }
+
+  .ovGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .layout {

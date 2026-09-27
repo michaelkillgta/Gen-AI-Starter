@@ -86,6 +86,34 @@ pub struct Track {
     pub position: i32,
     /// The step-by-step plan, in order.
     pub stages: Vec<Stage>,
+    /// Roles, the plan at a glance and how to check yourself. Optional per track.
+    #[serde(default)]
+    pub overview: Option<TrackOverview>,
+}
+
+/// The big picture shown above a track's stages.
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct TrackOverview {
+    /// Jobs this track prepares you for.
+    pub roles: Vec<CardItem>,
+    /// Stages grouped into phases, in order; every stage is in exactly one phase.
+    pub phases: Vec<TrackPhase>,
+    /// e.g. "Timings assume about 10 hours a week."
+    pub pace_note: String,
+    /// How to know you're really learning.
+    pub checks: Vec<CardItem>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct TrackPhase {
+    pub title: String,
+    /// e.g. "Months 1–2".
+    pub when: String,
+    pub text: String,
+    /// Stage slugs in this phase.
+    pub stages: Vec<String>,
 }
 
 /// One step of a track: what to learn, the best resources, a project and a checklist.
@@ -102,6 +130,9 @@ pub struct Stage {
     pub resources: Vec<Resource>,
     pub project: StageProject,
     pub done_when: Vec<String>,
+    /// Mistakes students often make at this stage.
+    #[serde(default)]
+    pub mistakes: Vec<String>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, TS)]
@@ -147,6 +178,9 @@ pub struct Resource {
 pub struct StageProject {
     pub title: String,
     pub text: String,
+    /// How you'll know it works: a concrete, checkable result.
+    #[serde(default)]
+    pub check: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, TS)]

@@ -107,6 +107,27 @@ impl SeedStore {
             }
         }
         for t in &self.tracks {
+            if let Some(o) = &t.overview {
+                // Every stage sits in exactly one phase, and phases name real stages.
+                let mut seen: Vec<&str> = o
+                    .phases
+                    .iter()
+                    .flat_map(|p| p.stages.iter().map(String::as_str))
+                    .collect();
+                for s in &seen {
+                    need(
+                        t.stages.iter().any(|st| st.slug == *s),
+                        format!("track {} phase → unknown stage {s}", t.slug),
+                    )?;
+                }
+                seen.sort_unstable();
+                let n = seen.len();
+                seen.dedup();
+                need(
+                    n == seen.len() && n == t.stages.len(),
+                    format!("track {}: every stage must be in exactly one phase", t.slug),
+                )?;
+            }
             for s in &t.stages {
                 for r in &s.resources {
                     if let Some(tool) = &r.tool {
@@ -254,9 +275,9 @@ mod tests {
         assert_eq!(store.tracks.len(), 2);
         assert_eq!(
             store.tracks.iter().map(|t| t.stages.len()).sum::<usize>(),
-            16
+            21
         );
-        assert_eq!(store.dives.len(), 21);
+        assert_eq!(store.dives.len(), 25);
         assert_eq!(store.issues[0].verdicts.len(), 5);
         assert_eq!(store.projects.len(), 4);
     }

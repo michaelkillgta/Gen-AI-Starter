@@ -9,4 +9,8 @@ export type Stage = { slug: string, position: number, title: string,
 /**
  * e.g. "4 weeks".
  */
-weeks: string, why: string, topics: Array<string>, resources: Array<Resource>, project: StageProject, done_when: Array<string>, };
+weeks: string, why: string, topics: Array<string>, resources: Array<Resource>, project: StageProject, done_when: Array<string>, 
+/**
+ * Mistakes students often make at this stage.
+ */
+mistakes: Array<string>, };

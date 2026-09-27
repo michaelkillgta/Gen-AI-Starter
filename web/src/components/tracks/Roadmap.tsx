@@ -4,6 +4,7 @@ import type { Resource } from "@/lib/api-types/Resource";
 import type { ResourceCost } from "@/lib/api-types/ResourceCost";
 import type { ResourceKind } from "@/lib/api-types/ResourceKind";
 import type { TrackDetail } from "@/lib/api-types/TrackDetail";
+import type { TrackOverview } from "@/lib/api-types/TrackOverview";
 import type { TrackSummary } from "@/lib/api-types/TrackSummary";
 import { links } from "@/lib/links";
 import { DiveRowStatus } from "./ProgressWidgets";
@@ -91,6 +92,13 @@ function ResourceRow({ r }: { r: Resource }) {
 export function Roadmap({ track }: { track: TrackDetail }) {
   const stageSlugs = track.stages.map((s) => s.slug);
   const resources = track.stages.reduce((n, s) => n + s.resources.length, 0);
+  // Stage slug -> its phase, and the stages that open a phase (labels in the side list).
+  const phaseOf = new Map<string, string>();
+  const phaseStarts = new Map<string, string>();
+  track.overview?.phases.forEach((p, i) => {
+    p.stages.forEach((slug) => phaseOf.set(slug, p.title));
+    if (p.stages[0]) phaseStarts.set(p.stages[0], `Phase ${i + 1} · ${p.title}`);
+  });
 
   return (
     <div className={`container ${styles.layout}`}>
@@ -121,6 +129,7 @@ export function Roadmap({ track }: { track: TrackDetail }) {
           <ol>
             {track.stages.map((s) => (
               <li key={s.slug}>
+                {phaseStarts.has(s.slug) && <span className={styles.navPhase}>{phaseStarts.get(s.slug)}</span>}
                 <a href={`#stage-${s.slug}`} className={styles.navLink}>
                   <StageDot track={track.slug} stage={s.slug} n={s.position} />
                   <span className={styles.navText}>
@@ -134,72 +143,168 @@ export function Roadmap({ track }: { track: TrackDetail }) {
         </nav>
       </aside>
 
-      <ol className={styles.stages} aria-label={`${track.name} stages`}>
-        {track.stages.map((s) => {
-          const dives = track.dives.filter((d) => d.stage === s.slug);
-          return (
-            <li key={s.slug} id={`stage-${s.slug}`} className={styles.stage}>
-              <header className={styles.stageHead}>
-                <span className={styles.stageNum} aria-hidden="true">
-                  {String(s.position).padStart(2, "0")}
-                </span>
-                <div className={styles.stageHeadText}>
-                  <span className={styles.stageMeta}>
-                    Stage {s.position} · {s.weeks}
+      <div className={styles.main}>
+        {track.overview && <Overview overview={track.overview} stages={track.stages} />}
+        <ol className={styles.stages} aria-label={`${track.name} stages`}>
+          {track.stages.map((s) => {
+            const dives = track.dives.filter((d) => d.stage === s.slug);
+            return (
+              <li key={s.slug} id={`stage-${s.slug}`} className={styles.stage}>
+                <header className={styles.stageHead}>
+                  <span className={styles.stageNum} aria-hidden="true">
+                    {String(s.position).padStart(2, "0")}
                   </span>
-                  <h3 className={styles.stageTitle}>{s.title}</h3>
-                  <p className={styles.stageWhy}>{s.why}</p>
-                </div>
-              </header>
+                  <div className={styles.stageHeadText}>
+                    <span className={styles.stageMeta}>
+                      Stage {s.position} · {s.weeks}
+                      {phaseOf.has(s.slug) && <span className={styles.stagePhase}> · {phaseOf.get(s.slug)}</span>}
+                    </span>
+                    <h3 className={styles.stageTitle}>{s.title}</h3>
+                    <p className={styles.stageWhy}>{s.why}</p>
+                  </div>
+                </header>
 
-              <div className={styles.block}>
-                <span className={styles.blockTitle}>What you&apos;ll learn</span>
-                <ul className={styles.topics}>
-                  {s.topics.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className={styles.block}>
-                <span className={styles.blockTitle}>Best resources, in order</span>
-                <ol className={styles.resources}>
-                  {s.resources.map((r) => (
-                    <ResourceRow key={r.url + r.title} r={r} />
-                  ))}
-                </ol>
-              </div>
-
-              {dives.length > 0 && (
                 <div className={styles.block}>
-                  <span className={styles.blockTitle}>My deep dives for this stage</span>
-                  <ul className={styles.dives}>
-                    {dives.map((d, i) => (
-                      <li key={d.slug}>
-                        <Link href={links.dive(track.slug, d.slug)} className={styles.dive}>
-                          <span className={styles.diveText}>
-                            <span className={styles.diveTitle}>{d.title}</span>
-                            <span className={styles.diveTldr}>{d.tldr}</span>
-                          </span>
-                          <DiveRowStatus slug={d.slug} first={i === 0 && s.position === 1} />
-                        </Link>
-                      </li>
+                  <span className={styles.blockTitle}>What you&apos;ll learn</span>
+                  <ul className={styles.topics}>
+                    {s.topics.map((t) => (
+                      <li key={t}>{t}</li>
                     ))}
                   </ul>
                 </div>
-              )}
 
-              <div className={styles.project}>
-                <span className={styles.projectLabel}>Build this</span>
-                <span className={styles.projectTitle}>{s.project.title}</span>
-                <p className={styles.projectText}>{s.project.text}</p>
-              </div>
+                <div className={styles.block}>
+                  <span className={styles.blockTitle}>Best resources, in order</span>
+                  <ol className={styles.resources}>
+                    {s.resources.map((r) => (
+                      <ResourceRow key={r.url + r.title} r={r} />
+                    ))}
+                  </ol>
+                </div>
 
-              <StageChecklist track={track.slug} stage={s.slug} items={s.done_when} />
-            </li>
-          );
-        })}
-      </ol>
+                {dives.length > 0 && (
+                  <div className={styles.block}>
+                    <span className={styles.blockTitle}>My deep dives for this stage</span>
+                    <ul className={styles.dives}>
+                      {dives.map((d, i) => (
+                        <li key={d.slug}>
+                          <Link href={links.dive(track.slug, d.slug)} className={styles.dive}>
+                            <span className={styles.diveText}>
+                              <span className={styles.diveTitle}>{d.title}</span>
+                              <span className={styles.diveTldr}>{d.tldr}</span>
+                            </span>
+                            <DiveRowStatus slug={d.slug} first={i === 0 && s.position === 1} />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {s.mistakes.length > 0 && (
+                  <div className={styles.block}>
+                    <span className={styles.blockTitle}>Common mistakes</span>
+                    <ul className={styles.mistakes}>
+                      {s.mistakes.map((m) => (
+                        <li key={m}>
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
+                            <path d="M8 4.5v4.2M8 11.2v.3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+                          </svg>
+                          <span>{m}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className={styles.project}>
+                  <span className={styles.projectLabel}>Build this</span>
+                  <span className={styles.projectTitle}>{s.project.title}</span>
+                  <p className={styles.projectText}>{s.project.text}</p>
+                  {s.project.check && (
+                    <p className={styles.projectCheck}>
+                      <span className={styles.projectCheckLabel}>How you&apos;ll know it works</span>
+                      {s.project.check}
+                    </p>
+                  )}
+                </div>
+
+                <StageChecklist track={track.slug} stage={s.slug} items={s.done_when} />
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </div>
+  );
+}
+
+/** The big picture above the stages: phases with their stages, target roles and self-checks. */
+function Overview({ overview, stages }: { overview: TrackOverview; stages: TrackDetail["stages"] }) {
+  const bySlug = new Map(stages.map((s) => [s.slug, s]));
+  return (
+    <section className={styles.overview} aria-labelledby="plan-title">
+      <div className={styles.ovHead}>
+        <h2 id="plan-title" className={styles.ovTitle}>
+          The plan at a glance
+        </h2>
+        <p className={styles.ovNote}>{overview.pace_note}</p>
+      </div>
+
+      <ol className={styles.phases}>
+        {overview.phases.map((p, i) => (
+          <li key={p.title} className={styles.phase}>
+            <div className={styles.phaseMeta}>
+              <span className={styles.phaseNum}>Phase {i + 1}</span>
+              <span className={styles.phaseWhen}>{p.when}</span>
+            </div>
+            <div className={styles.phaseBody}>
+              <h3 className={styles.phaseTitle}>{p.title}</h3>
+              <p className={styles.phaseText}>{p.text}</p>
+              <ul className={styles.phaseStages}>
+                {p.stages.map((slug) => {
+                  const st = bySlug.get(slug);
+                  if (!st) return null;
+                  return (
+                    <li key={slug}>
+                      <a href={`#stage-${slug}`} className={styles.phaseStage}>
+                        <span className={styles.phaseStageNum}>{st.position}</span>
+                        {st.title}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div className={styles.ovGrid}>
+        <div className={styles.ovBlock}>
+          <h3 className={styles.ovSub}>Where this track can take you</h3>
+          <ul className={styles.cards}>
+            {overview.roles.map((r) => (
+              <li key={r.title} className={styles.card}>
+                <span className={styles.cardTitle}>{r.title}</span>
+                <span className={styles.cardText}>{r.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.ovBlock}>
+          <h3 className={styles.ovSub}>How to know you&apos;re really learning</h3>
+          <ul className={styles.cards}>
+            {overview.checks.map((c) => (
+              <li key={c.title} className={`${styles.card} ${styles.cardCheck}`}>
+                <span className={styles.cardTitle}>{c.title}</span>
+                <span className={styles.cardText}>{c.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 }
