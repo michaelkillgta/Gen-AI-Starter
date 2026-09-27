@@ -54,22 +54,6 @@
   line-height: 1.55;
 }
 
-.soon {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 20px 22px;
-  border: 1.5px dashed var(--color-line-dashed);
-  border-radius: var(--radius-lg);
-  color: var(--color-muted);
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-.soon strong {
-  color: var(--color-ink);
-}
-
 .tryIt {
   border: 1.5px solid var(--color-ink);
   border-radius: var(--radius-xl);
@@ -104,22 +88,108 @@
 
 .tools {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-line);
+}
+
+.toolsTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
+}
+
+.toolsNote {
+  margin: 0 0 6px;
   font-size: 14px;
   color: var(--color-muted);
 }
 
-.toolChip {
+.toolList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.toolLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 14px 10px 10px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-card);
+  border-radius: var(--radius-lg);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.toolLink:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-seg);
+  transform: translateY(-1px);
+}
+
+.toolLink:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.toolKind {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
-  padding: 0 12px;
+  min-height: 28px;
+  padding: 0 10px;
   border-radius: var(--radius-pill);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  text-decoration: none;
+}
+
+.toolName {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: underline;
+  text-decoration-color: var(--color-line-dashed);
+  text-underline-offset: 3px;
+}
+
+.toolLink:hover .toolName {
+  text-decoration-color: currentColor;
+}
+
+.toolArrow {
+  flex-shrink: 0;
+  color: var(--color-accent-ink);
+  transition: transform 0.15s ease;
+}
+
+.toolLink:hover .toolArrow {
+  transform: translateX(3px);
+}
+
+@media (min-width: 768px) {
+  .toolList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolLink,
+  .toolArrow {
+    transition: none;
+  }
+  .toolLink:hover,
+  .toolLink:hover .toolArrow {
+    transform: none;
+  }
 }
 
 .tool { background: var(--type-tool-bg); color: var(--type-tool-fg); }

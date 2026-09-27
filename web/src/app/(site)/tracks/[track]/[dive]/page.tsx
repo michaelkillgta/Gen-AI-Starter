@@ -76,17 +76,8 @@ export default async function DivePage({ params }: Props) {
             ))}
           </section>
 
-          {dive.body.length > 0 ? (
-            <BlockRenderer blocks={dive.body} />
-          ) : (
-            <div className={styles.soon}>
-              <strong>The full deep dive is being written.</strong>
-              <span>
-                The TL;DR above is the core idea. Mark it as done when it clicks, or come back soon for the full
-                explanation and a build step.
-              </span>
-            </div>
-          )}
+          <BlockRenderer blocks={dive.body} />
+          {dive.tools.length > 0 && <ToolsUsed tools={dive.tools} />}
 
           {dive.try_it && (
             <section className={styles.tryIt} aria-labelledby="try-it">
@@ -100,10 +91,8 @@ export default async function DivePage({ params }: Props) {
               </div>
               <p className={styles.tryText}>{dive.try_it.text}</p>
               {dive.try_it.code && <CodeBlock language={dive.try_it.code.language} code={dive.try_it.code.code} />}
-              {dive.tools.length > 0 && <ToolsUsed tools={dive.tools} />}
             </section>
           )}
-          {!dive.try_it && dive.tools.length > 0 && <ToolsUsed tools={dive.tools} />}
 
           {dive.interview && (
             <section className={styles.interview} aria-labelledby="interview">
@@ -153,15 +142,29 @@ export default async function DivePage({ params }: Props) {
   );
 }
 
+const KIND_LABEL = { tool: "Tool", library: "Library", package: "Package", mcp: "MCP server" } as const;
+
+/** Tools this deep dive uses, as link buttons to their Toolkit pages. */
 function ToolsUsed({ tools }: { tools: { slug: string; name: string; kind: "tool" | "library" | "package" | "mcp" }[] }) {
   return (
-    <div className={styles.tools}>
-      <span>Tools used:</span>
-      {tools.map((t) => (
-        <Link key={t.slug} href={links.tool(t.slug)} className={`${styles.toolChip} ${styles[t.kind]}`}>
-          {t.name}
-        </Link>
-      ))}
-    </div>
+    <section className={styles.tools} aria-labelledby="tools-used">
+      <h2 id="tools-used" className={styles.toolsTitle}>
+        Tools used
+      </h2>
+      <p className={styles.toolsNote}>Open a tool to see what it does, what it costs and how to install it.</p>
+      <ul className={styles.toolList}>
+        {tools.map((t) => (
+          <li key={t.slug}>
+            <Link href={links.tool(t.slug)} className={styles.toolLink}>
+              <span className={`${styles.toolKind} ${styles[t.kind]}`}>{KIND_LABEL[t.kind]}</span>
+              <span className={styles.toolName}>{t.name}</span>
+              <svg className={styles.toolArrow} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

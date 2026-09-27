@@ -18,6 +18,7 @@ const allPages = [
   { name: "track-aiml", path: "/tracks/ai-ml" },
   { name: "dive", path: "/tracks/gen-ai/know-when-to-stop" },
   { name: "dive-short", path: "/tracks/gen-ai/what-an-llm-actually-is" },
+  { name: "dive-tools", path: "/tracks/gen-ai/every-agent-needs-an-identity" },
   { name: "weekly", path: "/weekly" },
   { name: "weekly-archive", path: "/weekly/archive" },
   { name: "weekly-issue", path: "/weekly/1" },
