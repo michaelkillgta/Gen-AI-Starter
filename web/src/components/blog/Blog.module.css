@@ -203,6 +203,44 @@
   color: var(--color-muted);
 }
 
+/* ---------- Posts with a cover picture ---------- */
+
+.featuredImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 8px;
+  border-radius: var(--radius-md);
+}
+
+.readTime {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.coverWithImage {
+  position: relative;
+  height: 190px;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.coverImg {
+  object-fit: cover;
+  object-position: top center;
+}
+
+.coverPill {
+  position: relative;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-dark);
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+}
+
 @media (min-width: 640px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

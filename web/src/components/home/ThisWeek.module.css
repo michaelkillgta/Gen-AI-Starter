@@ -72,9 +72,19 @@
 .clay .icon { background: var(--color-panel); color: var(--color-ink); }
 .clay .eyebrow { color: var(--color-muted); }
 
-@media (min-width: 1024px) {
+.rose { border-color: #e2bfd2; }
+.rose .icon { background: var(--type-mcp-bg); color: var(--type-mcp-fg); }
+.rose .eyebrow { color: var(--type-mcp-fg); }
+
+@media (min-width: 640px) {
   .strip {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
   }
 }

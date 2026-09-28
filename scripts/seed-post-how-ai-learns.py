@@ -180,7 +180,9 @@ BODY = [
     *p(
         "Now it has more variety to learn from.",
         "This leads to one of the biggest lessons in machine learning:",
-        "**The quality and variety of your training examples matter.**",
+    ),
+    {"type": "callout", "label": "Key idea", "text": "The quality and variety of your training examples matter."},
+    *p(
         "The model can only learn patterns that exist in the data you give it.",
         "That's why real machine learning datasets are such a big deal.",
     ),
@@ -217,7 +219,10 @@ BODY = [
         "You don't need to memorize that word yet.",
         "Just remember:",
     ),
-    ul("**Training:** learn from examples.", "**Inference:** use what was learned to make a prediction."),
+    {"type": "cards", "items": [
+        {"title": "Training", "text": "Learn from examples."},
+        {"title": "Inference", "text": "Use what was learned to make a prediction."},
+    ]},
     *p("That's a very important distinction in AI."),
 
     h("Now Let's Break the Model"),
@@ -231,9 +236,10 @@ BODY = [
     *p(
         "And watch what happens.",
         "Because now we're asking the real question:",
-        "Did the model actually learn the thing we wanted it to learn?",
-        "Or did it simply find some patterns in our training examples?",
     ),
+    {"type": "callout", "label": "The real question",
+     "text": "Did the model actually learn the thing we wanted it to learn? Or did it simply find some patterns in our "
+             "training examples?"},
 
     h("What Did It Actually Learn?"),
     *p("This is where the experiment becomes machine learning.", "Suppose every phone image you uploaded had:"),
@@ -342,8 +348,20 @@ POST = {
     "title": "How AI Actually Learns: I Taught a Computer With My Own Images",
     "excerpt": "I taught Google's Teachable Machine to tell my spectacles from my phone in a few minutes, then tried "
                "to break it. Here's what that shows about how machine learning really works.",
-    "cover": {"text": "8 steps", "bg": "#211913", "fg": "#F2A93B"},
-    "featured": None,
+    "cover": {
+        "text": "8 steps", "bg": "#211913", "fg": "#F2A93B",
+        "image": {"src": f"{IMG}/how-ai-learns.webp", "width": 1312, "height": 1199,
+                  "alt": "Infographic of the whole experiment: How AI actually learns, in 5 minutes with your webcam."},
+    },
+    # Small labels added around Uma's text (her words are unchanged).
+    "learn": [
+        "How a computer learns from examples instead of rules",
+        "The difference between training and inference",
+        "Why a model breaks when the situation changes, and what that says about your data",
+        "Why tools like this train in seconds (transfer learning)",
+    ],
+    # Newest post with a "featured" line = the big Featured box at the top of /blog.
+    "featured": {"stat": "8 steps", "caption": "to teach a computer with your own photos, then catch it getting things wrong"},
     "dive": None,
     "body": BODY,
     "published_on": "2026-09-28",

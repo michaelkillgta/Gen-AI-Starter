@@ -9,4 +9,12 @@ import type { PostSummary } from "./PostSummary";
 /**
  * GET /posts/:slug
  */
-export type PostDetail = { body: Array<Block>, related: Array<PostSummary>, slug: string, title: string, excerpt: string, cover: Cover, featured: Featured | null, category: Category, published_on: string, has_body: boolean, dive: DiveRef | null, };
+export type PostDetail = { body: Array<Block>, 
+/**
+ * "What you'll learn" points (may be empty).
+ */
+learn: Array<string>, related: Array<PostSummary>, slug: string, title: string, excerpt: string, cover: Cover, featured: Featured | null, category: Category, published_on: string, has_body: boolean, 
+/**
+ * Estimated reading time of the body (at least 1).
+ */
+read_minutes: number, dive: DiveRef | null, };

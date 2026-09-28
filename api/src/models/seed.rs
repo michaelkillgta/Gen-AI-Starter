@@ -369,6 +369,18 @@ pub struct Cover {
     pub text: String,
     pub bg: String,
     pub fg: String,
+    /// A picture for the post's top block and its card (e.g. an infographic).
+    #[serde(default)]
+    pub image: Option<CoverImage>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct CoverImage {
+    pub src: String,
+    pub alt: String,
+    pub width: u32,
+    pub height: u32,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, TS)]
@@ -391,6 +403,9 @@ pub struct Post {
     pub dive: Option<String>,
     pub body: Vec<Block>,
     pub published_on: String,
+    /// "What you'll learn": a few short points shown at the top of the post.
+    #[serde(default)]
+    pub learn: Vec<String>,
 }
 
 // ---------- Build challenge ----------

@@ -173,6 +173,8 @@ pub struct PostSummary {
     pub category: Category,
     pub published_on: String,
     pub has_body: bool,
+    /// Estimated reading time of the body (at least 1).
+    pub read_minutes: i32,
     pub dive: Option<DiveRef>,
 }
 
@@ -192,6 +194,8 @@ pub struct PostDetail {
     #[ts(flatten)]
     pub summary: PostSummary,
     pub body: Vec<Block>,
+    /// "What you'll learn" points (may be empty).
+    pub learn: Vec<String>,
     pub related: Vec<PostSummary>,
 }
 

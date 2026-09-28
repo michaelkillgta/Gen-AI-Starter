@@ -252,6 +252,7 @@ impl BlogRepo for PgStore {
                     dive: r.try_get("dive_slug")?,
                     body: r.try_get::<Json<Vec<Block>>, _>("body")?.0,
                     published_on: r.try_get::<NaiveDate, _>("published_on")?.to_string(),
+                    learn: r.try_get::<Json<Vec<String>>, _>("learn")?.0,
                 })
             })
             .collect()
@@ -697,8 +698,8 @@ async fn insert_blog(tx: &mut Transaction<'_, Postgres>, seed: &SeedStore) -> an
     }
     for p in seed.posts_ref() {
         sqlx::query(
-            "INSERT INTO posts (slug, category_slug, title, excerpt, cover, featured, dive_slug, body, published_on)
-             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)",
+            "INSERT INTO posts (slug, category_slug, title, excerpt, cover, featured, dive_slug, body, published_on, learn)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
         )
         .bind(&p.slug)
         .bind(&p.category)
@@ -709,6 +710,7 @@ async fn insert_blog(tx: &mut Transaction<'_, Postgres>, seed: &SeedStore) -> an
         .bind(&p.dive)
         .bind(Json(&p.body))
         .bind(date(&p.published_on)?)
+        .bind(Json(&p.learn))
         .execute(&mut **tx)
         .await?;
     }

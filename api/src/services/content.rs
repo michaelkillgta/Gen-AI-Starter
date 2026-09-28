@@ -299,6 +299,7 @@ fn post_summary(p: &Post, cats: &[Category], dives: &[Dive], tracks: &[Track]) -
             }),
         published_on: p.published_on.clone(),
         has_body: !p.body.is_empty() || p.dive.is_some(),
+        read_minutes: blocks_words(&p.body).div_ceil(WORDS_PER_MINUTE).max(1) as i32,
         dive: p
             .dive
             .as_ref()
@@ -350,6 +351,7 @@ pub async fn post(state: &AppState, slug: &str) -> ApiResult<PostDetail> {
     Ok(PostDetail {
         summary: post_summary(post, &categories, &dives, &tracks),
         body: post.body.clone(),
+        learn: post.learn.clone(),
         related,
     })
 }

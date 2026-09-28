@@ -4,4 +4,8 @@ import type { Cover } from "./Cover";
 import type { DiveRef } from "./DiveRef";
 import type { Featured } from "./Featured";
 
-export type PostSummary = { slug: string, title: string, excerpt: string, cover: Cover, featured: Featured | null, category: Category, published_on: string, has_body: boolean, dive: DiveRef | null, };
+export type PostSummary = { slug: string, title: string, excerpt: string, cover: Cover, featured: Featured | null, category: Category, published_on: string, has_body: boolean, 
+/**
+ * Estimated reading time of the body (at least 1).
+ */
+read_minutes: number, dive: DiveRef | null, };

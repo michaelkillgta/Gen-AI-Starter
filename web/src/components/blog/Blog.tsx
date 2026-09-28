@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui";
@@ -40,6 +41,17 @@ export function FeaturedPost({ post }: { post: PostSummary }) {
           <span className={styles.featuredEyebrow}>Featured</span>
           <span className={styles.stat}>{post.featured?.stat ?? post.cover.text}</span>
           {post.featured && <span className={styles.statCaption}>{post.featured.caption}</span>}
+          {post.cover.image && (
+            <Image
+              src={post.cover.image.src}
+              alt=""
+              width={post.cover.image.width}
+              height={post.cover.image.height}
+              sizes="(min-width: 1024px) 480px, 100vw"
+              quality={85}
+              className={styles.featuredImg}
+            />
+          )}
         </div>
         <div className={styles.featuredBody}>
           <Badge size="md" colors={{ bg: post.category.bg, fg: post.category.fg }}>
@@ -47,6 +59,7 @@ export function FeaturedPost({ post }: { post: PostSummary }) {
           </Badge>
           <h2 className={styles.featuredTitle}>{post.title}</h2>
           <p className={styles.featuredExcerpt}>{post.excerpt}</p>
+          {post.has_body && <span className={styles.readTime}>{post.read_minutes} min read</span>}
           <span className={styles.readMore}>Read the post</span>
         </div>
       </Link>
@@ -58,14 +71,30 @@ export function PostCard({ post, headingLevel = "h2" }: { post: PostSummary; hea
   const H = headingLevel;
   return (
     <Link href={links.post(post.slug)} className={styles.card}>
-      <div className={styles.cover} style={{ background: post.cover.bg, color: post.cover.fg }} aria-hidden="true">
-        <span className={styles.coverText}>{post.cover.text}</span>
+      <div
+        className={post.cover.image ? `${styles.cover} ${styles.coverWithImage}` : styles.cover}
+        style={{ background: post.cover.bg, color: post.cover.fg }}
+        aria-hidden="true"
+      >
+        {post.cover.image && (
+          <Image
+            src={post.cover.image.src}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
+            className={styles.coverImg}
+          />
+        )}
+        <span className={post.cover.image ? styles.coverPill : styles.coverText}>{post.cover.text}</span>
       </div>
       <div className={styles.cardBody}>
         <Badge colors={{ bg: post.category.bg, fg: post.category.fg }}>{post.category.label}</Badge>
         <H className={styles.cardTitle}>{post.title}</H>
         <p className={styles.cardExcerpt}>{post.excerpt}</p>
-        <span className={styles.cardDate}>{formatDate(post.published_on)}</span>
+        <span className={styles.cardDate}>
+          {formatDate(post.published_on)}
+          {post.has_body && <> · {post.read_minutes} min read</>}
+        </span>
       </div>
     </Link>
   );

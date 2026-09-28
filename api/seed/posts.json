@@ -7,9 +7,24 @@
     "cover": {
       "text": "8 steps",
       "bg": "#211913",
-      "fg": "#F2A93B"
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/how-ai-actually-learns/how-ai-learns.webp",
+        "width": 1312,
+        "height": 1199,
+        "alt": "Infographic of the whole experiment: How AI actually learns, in 5 minutes with your webcam."
+      }
     },
-    "featured": null,
+    "learn": [
+      "How a computer learns from examples instead of rules",
+      "The difference between training and inference",
+      "Why a model breaks when the situation changes, and what that says about your data",
+      "Why tools like this train in seconds (transfer learning)"
+    ],
+    "featured": {
+      "stat": "8 steps",
+      "caption": "to teach a computer with your own photos, then catch it getting things wrong"
+    },
     "dive": null,
     "body": [
       {
@@ -433,8 +448,9 @@
         "text": "This leads to one of the biggest lessons in machine learning:"
       },
       {
-        "type": "paragraph",
-        "text": "**The quality and variety of your training examples matter.**"
+        "type": "callout",
+        "label": "Key idea",
+        "text": "The quality and variety of your training examples matter."
       },
       {
         "type": "paragraph",
@@ -551,11 +567,16 @@
         "text": "Just remember:"
       },
       {
-        "type": "list",
-        "ordered": false,
+        "type": "cards",
         "items": [
-          "**Training:** learn from examples.",
-          "**Inference:** use what was learned to make a prediction."
+          {
+            "title": "Training",
+            "text": "Learn from examples."
+          },
+          {
+            "title": "Inference",
+            "text": "Use what was learned to make a prediction."
+          }
         ]
       },
       {
@@ -600,12 +621,9 @@
         "text": "Because now we're asking the real question:"
       },
       {
-        "type": "paragraph",
-        "text": "Did the model actually learn the thing we wanted it to learn?"
-      },
-      {
-        "type": "paragraph",
-        "text": "Or did it simply find some patterns in our training examples?"
+        "type": "callout",
+        "label": "The real question",
+        "text": "Did the model actually learn the thing we wanted it to learn? Or did it simply find some patterns in our training examples?"
       },
       {
         "type": "heading",

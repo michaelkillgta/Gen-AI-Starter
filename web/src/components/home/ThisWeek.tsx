@@ -7,13 +7,16 @@ export type ThisWeekItem = {
   href: string;
   eyebrow: string;
   text: string;
-  tone: "green" | "amber" | "clay";
-  icon: "check" | "bolt" | "book";
+  tone: "green" | "amber" | "clay" | "rose";
+  icon: "check" | "bolt" | "book" | "pen";
 };
 
 const icons: Record<ThisWeekItem["icon"], ReactNode> = {
   check: <path d="M4.5 8.3l2.3 2.3 4.7-5" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />,
   bolt: <path d="M9 1.5L3.5 9H7.5L6.8 14.5 12.5 7H8.5L9 1.5Z" strokeWidth="1.5" strokeLinejoin="round" />,
+  pen: (
+    <path d="M10.5 2.5l3 3L6 13H3v-3l7.5-7.5ZM9 4l3 3" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+  ),
   book: (
     <path
       d="M8 4.2C6.8 3.3 5 3 2.5 3v9.3c2.5 0 4.3.3 5.5 1.2M8 4.2c1.2-.9 3-1.2 5.5-1.2v9.3c-2.5 0-4.3.3-5.5 1.2M8 4.2v9.3"
@@ -24,7 +27,7 @@ const icons: Record<ThisWeekItem["icon"], ReactNode> = {
   ),
 };
 
-/** Three quiet links under the hero: this week's verdicts, the challenge, the newest deep dive. */
+/** Quiet links under the hero: the newest blog post, this week's verdicts, the challenge, the newest deep dive. */
 export function ThisWeek({ items }: { items: ThisWeekItem[] }) {
   return (
     <section className={`container ${styles.strip}`} aria-label="This week">

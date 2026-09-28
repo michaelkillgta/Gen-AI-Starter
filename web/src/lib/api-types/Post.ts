@@ -7,4 +7,8 @@ export type Post = { slug: string, category: string, title: string, excerpt: str
 /**
  * The deep dive this post is a copy of, if any.
  */
-dive: string | null, body: Array<Block>, published_on: string, };
+dive: string | null, body: Array<Block>, published_on: string, 
+/**
+ * "What you'll learn": a few short points shown at the top of the post.
+ */
+learn: Array<string>, };

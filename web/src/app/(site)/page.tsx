@@ -3,15 +3,16 @@ import { ThisWeek, type ThisWeekItem } from "@/components/home/ThisWeek";
 import { TrustLine } from "@/components/home/TrustLine";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { HomeExplorer } from "@/components/toolkit/HomeExplorer";
-import { getChallenge, getLatestIssue, getTools, getTracks, getTrack } from "@/lib/api";
+import { getChallenge, getLatestIssue, getPosts, getTools, getTracks, getTrack } from "@/lib/api";
 import { links } from "@/lib/links";
 
 export default async function HomePage() {
-  const [toolkit, issue, challenge, tracks] = await Promise.all([
+  const [toolkit, issue, challenge, tracks, blog] = await Promise.all([
     getTools(),
     getLatestIssue(),
     getChallenge(),
     getTracks(),
+    getPosts(),
   ]);
 
   // "New deep dive": the first dive with a full write-up in the flagship track.
@@ -20,6 +21,17 @@ export default async function HomePage() {
   const newest = flagshipDetail?.dives.find((d) => d.has_body) ?? flagshipDetail?.dives[0];
 
   const items: ThisWeekItem[] = [];
+  // Newest blog post first: posts come newest first.
+  const latestPost = blog?.posts[0];
+  if (latestPost) {
+    items.push({
+      href: links.post(latestPost.slug),
+      eyebrow: "New on the blog",
+      text: latestPost.title,
+      tone: "rose",
+      icon: "pen",
+    });
+  }
   if (issue) {
     const n = issue.verdicts.length;
     items.push({

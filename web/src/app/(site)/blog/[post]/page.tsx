@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { PostGrid } from "@/components/blog/Blog";
+import { LearnBox, PostHero } from "@/components/blog/PostHero";
+import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import { SubscribeBox } from "@/components/blog/SubscribeBox";
 import { BlockRenderer } from "@/components/deep-dive/BlockRenderer";
 import { JsonLd } from "@/components/layout/JsonLd";
@@ -49,24 +51,33 @@ export default async function PostPage({ params }: Props) {
           <span aria-hidden="true">/</span>
           <Link href={links.category(post.category.slug)}>{post.category.label}</Link>
         </nav>
-        <header className={styles.head}>
-          <Badge size="md" colors={{ bg: post.category.bg, fg: post.category.fg }}>
-            {post.category.label}
-          </Badge>
-          <h1 className={styles.title}>{post.title}</h1>
-          <span className={styles.byline}>
-            <Avatar initial={site.author.initial} size={28} />
-            {site.author.name} · {formatDate(post.published_on)}
-          </span>
-        </header>
+        {post.cover.image ? (
+          // Posts with a cover picture get the big top block (title, picture, steps).
+          <PostHero post={post} />
+        ) : (
+          <>
+            <header className={styles.head}>
+              <Badge size="md" colors={{ bg: post.category.bg, fg: post.category.fg }}>
+                {post.category.label}
+              </Badge>
+              <h1 className={styles.title}>{post.title}</h1>
+              <span className={styles.byline}>
+                <Avatar initial={site.author.initial} size={28} />
+                {site.author.name} · {formatDate(post.published_on)}
+              </span>
+            </header>
 
-        <div className={styles.cover} style={{ background: post.cover.bg, color: post.cover.fg }}>
-          <span className={styles.coverText}>{post.featured?.stat ?? post.cover.text}</span>
-          {post.featured && <span className={styles.coverCaption}>{post.featured.caption}</span>}
-        </div>
+            <div className={styles.cover} style={{ background: post.cover.bg, color: post.cover.fg }}>
+              <span className={styles.coverText}>{post.featured?.stat ?? post.cover.text}</span>
+              {post.featured && <span className={styles.coverCaption}>{post.featured.caption}</span>}
+            </div>
+          </>
+        )}
 
-        <div className={styles.body}>
-          <p className={styles.lead}>{post.excerpt}</p>
+        <div className={styles.body} id="post-body">
+          {post.body.length > 0 && <ReadingProgress target="post-body" />}
+          {!post.cover.image && <p className={styles.lead}>{post.excerpt}</p>}
+          <LearnBox items={post.learn} />
           {post.body.length > 0 && <BlockRenderer blocks={post.body} />}
           {post.dive ? (
             <div className={styles.diveBox}>
