@@ -31,6 +31,11 @@
   gap: 16px;
 }
 
+/* Under the big top block: same width, so the edges line up. */
+.bodyWide {
+  max-width: 1120px;
+}
+
 .title {
   font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
   line-height: 1.02;

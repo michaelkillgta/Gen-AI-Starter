@@ -479,8 +479,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .p {
+  .p,
+  .list {
     font-size: 18px;
+    line-height: 1.7;
   }
 
   .callout {

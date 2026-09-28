@@ -77,7 +77,7 @@ export default async function PostPage({ params }: Props) {
           </>
         )}
 
-        <div className={styles.body} id="post-body">
+        <div className={post.cover.image ? `${styles.body} ${styles.bodyWide}` : styles.body} id="post-body">
           {post.body.length > 0 && <ReadingProgress target="post-body" />}
           {!post.cover.image && <p className={styles.lead}>{post.excerpt}</p>}
           {/* The intro (everything before the first heading) hooks the reader first;

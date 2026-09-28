@@ -193,4 +193,9 @@
   .stepList {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+
+  /* 6 stages: 3 + 3, not 4 + 2 with a gap. */
+  .stepList3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

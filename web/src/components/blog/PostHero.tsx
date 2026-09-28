@@ -59,7 +59,7 @@ export function PostHero({ post }: { post: PostDetail }) {
           <span className={styles.stepsLabel} style={{ color: post.cover.fg }}>
             The {steps.length} {word}s
           </span>
-          <ol className={styles.stepList}>
+          <ol className={steps.length % 3 === 0 ? `${styles.stepList} ${styles.stepList3}` : styles.stepList}>
             {steps.map((s) => (
               <li key={s.id}>
                 <a href={`#${s.id}`} className={styles.step}>
