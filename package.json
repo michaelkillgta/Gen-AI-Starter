@@ -9,6 +9,7 @@
     "dev:api:wsl": "node scripts/wsl.mjs cargo run",
     "db:wsl": "node scripts/wsl.mjs db",
     "types:wsl": "node scripts/wsl.mjs cargo test",
+    "db:seed:wsl": "node scripts/wsl.mjs cargo run -q -- seed",
     "dev:web": "pnpm --dir web dev -p 3001",
     "db": "node scripts/db.mjs test",
     "db:docker": "docker compose up -d --wait db",

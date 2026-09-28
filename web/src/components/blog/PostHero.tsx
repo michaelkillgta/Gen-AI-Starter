@@ -14,7 +14,9 @@ export function stepsOf(body: Block[]): PostStep[] {
     if (b.type !== "heading" || !b.id) return [];
     const m = /^(step|stage)-(\d+)$/.exec(b.id);
     if (!m) return [];
-    return [{ n: Number(m[2]), id: b.id, title: b.text.replace(/^Step \d+:\s*/, ""), word: m[1] as PostStep["word"] }];
+    // "Plan: decide what you're building" -> "Plan" for the jump links.
+    const title = b.text.replace(/^Step \d+:\s*/, "").split(":")[0];
+    return [{ n: Number(m[2]), id: b.id, title, word: m[1] as PostStep["word"] }];
   });
 }
 

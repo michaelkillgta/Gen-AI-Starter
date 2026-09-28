@@ -19,5 +19,5 @@ export CARGO_TARGET_DIR=${CARGO_TARGET_DIR:-$HOME/.cache/field-tested-target}
 export API_BIND=${WSL_API_BIND:-0.0.0.0:8080}
 
 # Stop an API left running by an earlier window, or `run` fails with "address in use".
-if [ "${1:-}" = run ]; then pkill -x api 2>/dev/null || true; fi
+if [ "$*" = run ]; then pkill -x api 2>/dev/null || true; fi
 exec cargo "$@"

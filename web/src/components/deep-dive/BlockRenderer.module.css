@@ -121,6 +121,14 @@
   letter-spacing: -0.4px;
 }
 
+.calloutLong .calloutText {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
 .calloutText a {
   color: var(--color-accent);
   text-decoration: underline;

@@ -73,7 +73,8 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
             );
           case "callout":
             return (
-              <aside key={i} className={styles.callout}>
+              // A paragraph reads better in body text than in the big display font.
+              <aside key={i} className={b.text.length > 140 ? `${styles.callout} ${styles.calloutLong}` : styles.callout}>
                 <span className={styles.calloutLabel}>{b.label}</span>
                 <span className={styles.calloutText}>
                   <InlineText text={b.text} />
