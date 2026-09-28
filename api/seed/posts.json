@@ -28,36 +28,38 @@
     "dive": null,
     "body": [
       {
-        "type": "paragraph",
-        "text": "Everywhere we look, someone is talking about AI."
+        "type": "lead",
+        "items": [
+          "Everywhere we look, someone is talking about AI.",
+          "ChatGPT. Face unlock. Recommendation systems. Self-driving cars.",
+          "But there is one question that gets surprisingly confusing when you first enter AI:"
+        ]
       },
       {
-        "type": "paragraph",
-        "text": "ChatGPT. Face unlock. Recommendation systems. Self-driving cars."
-      },
-      {
-        "type": "paragraph",
-        "text": "But there is one question that gets surprisingly confusing when you first enter AI:"
-      },
-      {
-        "type": "paragraph",
+        "type": "pull",
         "text": "How does a computer actually learn?"
       },
       {
-        "type": "paragraph",
-        "text": "You can read about neural networks for hours."
-      },
-      {
-        "type": "paragraph",
-        "text": "Or you can teach one yourself in a few minutes."
+        "type": "pair",
+        "items": [
+          {
+            "label": null,
+            "text": "You can read about neural networks for hours."
+          },
+          {
+            "label": null,
+            "text": "Or you can teach one yourself in a few minutes."
+          }
+        ]
       },
       {
         "type": "paragraph",
         "text": "That's what I did with Google's [Teachable Machine](/toolkit/teachable). It runs in the browser and lets you create simple machine-learning models using images, sounds, or poses."
       },
       {
-        "type": "paragraph",
-        "text": "[Open Teachable Machine →](https://teachablemachine.withgoogle.com/)"
+        "type": "cta",
+        "label": "Open Teachable Machine",
+        "href": "https://teachablemachine.withgoogle.com/"
       },
       {
         "type": "paragraph",
@@ -96,16 +98,12 @@
         ]
       },
       {
-        "type": "paragraph",
-        "text": "You don't even need to read the article yet."
-      },
-      {
-        "type": "paragraph",
-        "text": "Just look at the flow."
-      },
-      {
-        "type": "paragraph",
-        "text": "Want to see the whole experiment?"
+        "type": "lead",
+        "items": [
+          "You don't even need to read the article yet.",
+          "Just look at the flow.",
+          "Want to see the whole experiment?"
+        ]
       },
       {
         "type": "video",

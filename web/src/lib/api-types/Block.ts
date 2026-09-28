@@ -3,6 +3,7 @@ import type { CardItem } from "./CardItem";
 import type { CodeSample } from "./CodeSample";
 import type { CompareSide } from "./CompareSide";
 import type { LinkItem } from "./LinkItem";
+import type { PairItem } from "./PairItem";
 
 /**
  * One block of a deep dive or blog post body.
@@ -13,4 +14,4 @@ export type Block = { "type": "paragraph", text: string, } | { "type": "heading"
 /**
  * Anchor for links to this heading (`#id`).
  */
-id: string | null, } | { "type": "image", src: string, alt: string, width: number, height: number, caption: string | null, } | { "type": "video", youtube_id: string, title: string, caption: string | null, } | { "type": "list", ordered: boolean, items: Array<string>, } | { "type": "flow", items: Array<string>, } | { "type": "links", label: string | null, items: Array<LinkItem>, } | { "type": "compare", left: CompareSide, right: CompareSide, } | { "type": "cards", items: Array<CardItem>, } | { "type": "callout", label: string, text: string, } | { "type": "code" } & CodeSample;
+id: string | null, } | { "type": "image", src: string, alt: string, width: number, height: number, caption: string | null, } | { "type": "video", youtube_id: string, title: string, caption: string | null, } | { "type": "list", ordered: boolean, items: Array<string>, } | { "type": "flow", items: Array<string>, } | { "type": "links", label: string | null, items: Array<LinkItem>, } | { "type": "lead", items: Array<string>, } | { "type": "pull", text: string, } | { "type": "pair", items: Array<PairItem>, } | { "type": "cta", label: string, href: string, } | { "type": "compare", left: CompareSide, right: CompareSide, } | { "type": "cards", items: Array<CardItem>, } | { "type": "callout", label: string, text: string, } | { "type": "code" } & CodeSample;

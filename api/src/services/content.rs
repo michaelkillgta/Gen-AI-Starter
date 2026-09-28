@@ -40,10 +40,15 @@ fn blocks_words(blocks: &[Block]) -> usize {
             Block::Paragraph { text } | Block::Heading { text, .. } => words(text),
             // Looking at a picture takes a few seconds; links and videos aren't reading.
             Block::Image { .. } => 20,
-            Block::Video { .. } | Block::Links { .. } => 0,
-            Block::List { items, .. } | Block::Flow { items } => {
+            Block::Video { .. } | Block::Links { .. } | Block::Cta { .. } => 0,
+            Block::List { items, .. } | Block::Flow { items } | Block::Lead { items } => {
                 items.iter().map(|x| words(x)).sum()
             }
+            Block::Pull { text } => words(text),
+            Block::Pair { items } => items
+                .iter()
+                .map(|p| p.label.as_deref().map_or(0, words) + words(&p.text))
+                .sum(),
             Block::Callout { label, text } => words(label) + words(text),
             Block::Compare { left, right } => [left, right]
                 .iter()

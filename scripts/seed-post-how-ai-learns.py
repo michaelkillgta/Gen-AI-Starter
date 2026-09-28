@@ -50,29 +50,34 @@ MAP = img(
 )
 
 BODY = [
-    *p(
+    # The hook: Uma's opening lines, set larger, then her question on its own.
+    {"type": "lead", "items": [
         "Everywhere we look, someone is talking about AI.",
         "ChatGPT. Face unlock. Recommendation systems. Self-driving cars.",
         "But there is one question that gets surprisingly confusing when you first enter AI:",
-        "How does a computer actually learn?",
-        "You can read about neural networks for hours.",
-        "Or you can teach one yourself in a few minutes.",
+    ]},
+    {"type": "pull", "text": "How does a computer actually learn?"},
+    {"type": "pair", "items": [
+        {"label": None, "text": "You can read about neural networks for hours."},
+        {"label": None, "text": "Or you can teach one yourself in a few minutes."},
+    ]},
+    *p(
         "That's what I did with Google's [Teachable Machine](/toolkit/teachable). It runs in the browser and lets you "
         "create simple machine-learning models using images, sounds, or poses.",
-        f"[Open Teachable Machine →]({TM})",
-        "And this tiny experiment made the basic idea of machine learning much easier for me to understand.",
     ),
+    {"type": "cta", "label": "Open Teachable Machine", "href": TM},
+    *p("And this tiny experiment made the basic idea of machine learning much easier for me to understand."),
     h("First, See the Whole Thing"),
     *p("Before getting into the individual steps, look at this image."),
     MAP,
     *p("Think of this image as the map for the entire experiment:"),
     flow("Give examples", "Train", "Test", "Change the situation", "See where the model fails",
          "Understand what it learned"),
-    *p(
+    {"type": "lead", "items": [
         "You don't even need to read the article yet.",
         "Just look at the flow.",
         "Want to see the whole experiment?",
-    ),
+    ]},
     video("▶ The full Teachable Machine walkthrough. It's about 1 minute 23 seconds, and it shows the actual process "
           "from beginning to prediction."),
     *p("Now let's break down what happened."),

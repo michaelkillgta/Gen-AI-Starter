@@ -30,6 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PostPage({ params }: Props) {
   const post = await getPost((await params).post);
   if (!post) notFound();
+  const firstHeading = post.body.findIndex((b) => b.type === "heading");
+  const intro = firstHeading === -1 ? post.body : post.body.slice(0, firstHeading);
+  const rest = firstHeading === -1 ? [] : post.body.slice(firstHeading);
 
   return (
     <>
@@ -77,8 +80,11 @@ export default async function PostPage({ params }: Props) {
         <div className={styles.body} id="post-body">
           {post.body.length > 0 && <ReadingProgress target="post-body" />}
           {!post.cover.image && <p className={styles.lead}>{post.excerpt}</p>}
+          {/* The intro (everything before the first heading) hooks the reader first;
+              "What you'll learn" follows it, then the rest of the post. */}
+          {intro.length > 0 && <BlockRenderer blocks={intro} />}
           <LearnBox items={post.learn} />
-          {post.body.length > 0 && <BlockRenderer blocks={post.body} />}
+          {rest.length > 0 && <BlockRenderer blocks={rest} />}
           {post.dive ? (
             <div className={styles.diveBox}>
               <span className={styles.diveLabel}>

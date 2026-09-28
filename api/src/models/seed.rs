@@ -215,6 +215,15 @@ pub struct LinkItem {
     pub href: String,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct PairItem {
+    /// A small line above the text (optional).
+    #[serde(default)]
+    pub label: Option<String>,
+    pub text: String,
+}
+
 /// One block of a deep dive or blog post body.
 ///
 /// Paragraph, list and flow text may contain `[label](href)` links.
@@ -253,7 +262,8 @@ pub enum Block {
         ordered: bool,
         items: Vec<String>,
     },
-    /// Steps shown top to bottom with an arrow between each.
+    /// Numbered steps with an arrow between each: a row on wide screens, a
+    /// vertical line on phones. A leading "3. " in an item becomes its number.
     Flow {
         items: Vec<String>,
     },
@@ -262,6 +272,23 @@ pub enum Block {
         #[serde(default)]
         label: Option<String>,
         items: Vec<LinkItem>,
+    },
+    /// Short opening lines set in larger type (a post's hook).
+    Lead {
+        items: Vec<String>,
+    },
+    /// One line set big: a pull-quote or pull-question.
+    Pull {
+        text: String,
+    },
+    /// Two short statements side by side (stacked on phones), e.g. a contrast.
+    Pair {
+        items: Vec<PairItem>,
+    },
+    /// A call-to-action button.
+    Cta {
+        label: String,
+        href: String,
     },
     Compare {
         left: CompareSide,

@@ -113,13 +113,69 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
           case "flow":
             return (
               <ol key={i} className={styles.flow}>
-                {b.items.map((item) => (
-                  <li key={item} className={styles.flowStep}>
-                    <InlineText text={item} />
-                  </li>
-                ))}
+                {b.items.map((item, n) => {
+                  // "3. Create classes" -> badge 3, text "Create classes".
+                  const m = /^(\d+)\.\s+(.*)$/.exec(item);
+                  return (
+                    <li key={item} className={styles.flowStep}>
+                      <span className={styles.flowNum} aria-hidden="true">
+                        {m ? m[1] : n + 1}
+                      </span>
+                      <span className={styles.flowText}>
+                        <InlineText text={m ? m[2] : item} />
+                      </span>
+                    </li>
+                  );
+                })}
               </ol>
             );
+          case "lead":
+            return (
+              <div key={i} className={styles.lead}>
+                {b.items.map((line) => (
+                  <p key={line}>
+                    <InlineText text={line} />
+                  </p>
+                ))}
+              </div>
+            );
+          case "pull":
+            return (
+              <p key={i} className={styles.pull}>
+                <InlineText text={b.text} />
+              </p>
+            );
+          case "pair":
+            return (
+              <div key={i} className={styles.pair}>
+                {b.items.map((p, n) => (
+                  <div key={p.text} className={n === b.items.length - 1 ? `${styles.pairItem} ${styles.pairOn}` : styles.pairItem}>
+                    {p.label && <span className={styles.pairLabel}>{p.label}</span>}
+                    <span className={styles.pairText}>
+                      <InlineText text={p.text} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            );
+          case "cta": {
+            const external = /^https?:/.test(b.href);
+            return (
+              <p key={i} className={styles.ctaWrap}>
+                <a
+                  href={b.href}
+                  className={styles.cta}
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  {b.label}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {external && <span className="visually-hidden"> (opens in a new tab)</span>}
+                </a>
+              </p>
+            );
+          }
           case "links":
             return (
               <nav key={i} className={styles.links} aria-label={b.label ?? "Links"}>

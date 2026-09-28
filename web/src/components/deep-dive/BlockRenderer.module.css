@@ -196,38 +196,176 @@
   color: var(--color-accent-ink);
 }
 
-/* Steps top to bottom with an arrow between each. */
+/*
+ * Numbered steps. Phones: a vertical line of cards with a down arrow between
+ * each. Wider: cards across the full width, wrapping, with a right arrow.
+ */
 .flow {
   list-style: none;
-  margin: 0;
+  margin: 4px 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+  counter-reset: none;
 }
 
 .flowStep {
-  padding: 8px 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
   border-radius: var(--radius-md);
-  background: var(--color-panel);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-card);
   font-size: 15px;
   font-weight: 600;
+  line-height: 1.35;
   color: var(--color-ink);
 }
 
-.flowStep + .flowStep {
-  position: relative;
-  margin-top: 26px;
+.flowNum {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-dark);
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 14px;
 }
 
-.flowStep + .flowStep::before {
+.flowText {
+  min-width: 0;
+}
+
+.flowStep:not(:last-child)::after {
   content: "↓";
   position: absolute;
-  top: -24px;
-  left: 20px;
-  font-size: 16px;
+  left: 27px;
+  bottom: -21px;
+  font-size: 15px;
   line-height: 20px;
   color: var(--color-accent-ink);
+}
+
+@media (min-width: 640px) {
+  .flow {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px 30px;
+    /* Room for the arrow after the last card in a row. */
+    padding-right: 26px;
+  }
+
+  .flowStep {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    height: 100%;
+  }
+
+  .flowStep:not(:last-child)::after {
+    content: "→";
+    left: auto;
+    right: -23px;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+/* ---------- Intro: lead lines, a standout question, a contrast pair, a button ---------- */
+
+.lead {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lead p {
+  font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+
+.pull {
+  margin: 8px 0;
+  padding-left: 18px;
+  border-left: 4px solid var(--color-accent);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.pairItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: var(--radius-lg);
+  background: var(--color-panel);
+  color: var(--color-ink-soft);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.pairOn {
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+  font-weight: 600;
+}
+
+.pairLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.pairOn .pairLabel {
+  color: var(--color-accent);
+}
+
+.ctaWrap {
+  margin: 4px 0;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--tap);
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-ink);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+}
+
+@media (min-width: 640px) {
+  .pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .video {
