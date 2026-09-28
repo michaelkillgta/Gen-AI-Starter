@@ -266,6 +266,9 @@ pub enum Block {
     /// vertical line on phones. A leading "3. " in an item becomes its number.
     Flow {
         items: Vec<String>,
+        /// For loops: a last "↺ <label>" chip that sends you back to the start.
+        #[serde(default)]
+        repeat: Option<String>,
     },
     /// A row of links, e.g. jump links to a post's steps.
     Links {

@@ -6,15 +6,15 @@ import { formatDate } from "@/lib/links";
 import { site } from "@/lib/site";
 import styles from "./PostHero.module.css";
 
-export type PostStep = { n: number; id: string; title: string };
+export type PostStep = { n: number; id: string; title: string; word: "step" | "stage" };
 
-/** Headings with an id like "step-3" are the post's steps ("Step 3: Choose…" -> "Choose…"). */
+/** Headings with an id like "step-3" or "stage-3" are the post's steps ("Step 3: Choose…" -> "Choose…"). */
 export function stepsOf(body: Block[]): PostStep[] {
   return body.flatMap((b) => {
     if (b.type !== "heading" || !b.id) return [];
-    const m = /^step-(\d+)$/.exec(b.id);
+    const m = /^(step|stage)-(\d+)$/.exec(b.id);
     if (!m) return [];
-    return [{ n: Number(m[1]), id: b.id, title: b.text.replace(/^Step \d+:\s*/, "") }];
+    return [{ n: Number(m[2]), id: b.id, title: b.text.replace(/^Step \d+:\s*/, ""), word: m[1] as PostStep["word"] }];
   });
 }
 
@@ -25,7 +25,8 @@ export function stepsOf(body: Block[]): PostStep[] {
 export function PostHero({ post }: { post: PostDetail }) {
   const image = post.cover.image!;
   const steps = stepsOf(post.body);
-  const facts = [steps.length > 0 && `${steps.length} steps`, `${post.read_minutes} min read`].filter(Boolean);
+  const word = steps[0]?.word ?? "step";
+  const facts = [steps.length > 0 && `${steps.length} ${word}s`, `${post.read_minutes} min read`].filter(Boolean);
 
   return (
     <header className={styles.hero} style={{ background: post.cover.bg }}>
@@ -52,9 +53,9 @@ export function PostHero({ post }: { post: PostDetail }) {
       </div>
 
       {steps.length > 0 && (
-        <nav className={styles.steps} aria-label="Jump to a step">
+        <nav className={styles.steps} aria-label={`Jump to a ${word}`}>
           <span className={styles.stepsLabel} style={{ color: post.cover.fg }}>
-            The {steps.length} steps
+            The {steps.length} {word}s
           </span>
           <ol className={styles.stepList}>
             {steps.map((s) => (

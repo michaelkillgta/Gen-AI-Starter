@@ -7,7 +7,7 @@ import styles from "./BlockRenderer.module.css";
 /** Draws a deep dive or blog post body from its typed blocks. */
 export function BlockRenderer({ blocks }: { blocks: Block[] }) {
   // Headings with an id like "step-3" are numbered steps.
-  const stepTotal = blocks.filter((b) => b.type === "heading" && b.id && /^step-\d+$/.test(b.id)).length;
+  const stepTotal = blocks.filter((b) => b.type === "heading" && b.id && /^(step|stage)-\d+$/.test(b.id)).length;
   return (
     <>
       {blocks.map((b, i) => {
@@ -19,16 +19,16 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
               </p>
             );
           case "heading": {
-            const step = b.id ? /^step-(\d+)$/.exec(b.id) : null;
+            const step = b.id ? /^(step|stage)-(\d+)$/.exec(b.id) : null;
             if (step) {
               return (
                 <h2 key={i} id={b.id ?? undefined} className={`${styles.h2} ${styles.stepHeading}`}>
                   <span className={styles.stepBadge} aria-hidden="true">
-                    {step[1]}
+                    {step[2]}
                   </span>
                   <span className={styles.stepText}>
                     <span className={styles.stepOf}>
-                      Step {step[1]} of {stepTotal}
+                      {step[1] === "stage" ? "Stage" : "Step"} {step[2]} of {stepTotal}
                     </span>
                     <span className="visually-hidden">: </span>
                     {b.text.replace(/^Step \d+:\s*/, "")}
@@ -75,7 +75,9 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return (
               <aside key={i} className={styles.callout}>
                 <span className={styles.calloutLabel}>{b.label}</span>
-                <span className={styles.calloutText}>{b.text}</span>
+                <span className={styles.calloutText}>
+                  <InlineText text={b.text} />
+                </span>
               </aside>
             );
           case "code":
@@ -127,6 +129,14 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
                     </li>
                   );
                 })}
+                {b.repeat != null && (
+                  <li className={`${styles.flowStep} ${styles.flowRepeat}`}>
+                    <span className={styles.flowNum} aria-hidden="true">
+                      ↺
+                    </span>
+                    <span className={styles.flowText}>{b.repeat || "Back to the start"}</span>
+                  </li>
+                )}
               </ol>
             );
           case "lead":

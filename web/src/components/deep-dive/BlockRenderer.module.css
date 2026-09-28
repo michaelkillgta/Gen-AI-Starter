@@ -243,6 +243,18 @@
   min-width: 0;
 }
 
+/* The last chip of a loop: back to the start. */
+.flowRepeat {
+  border-style: dashed;
+  border-color: var(--color-accent);
+  background: var(--highlight-bg);
+}
+
+.flowRepeat .flowNum {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
 .flowStep:not(:last-child)::after {
   content: "↓";
   position: absolute;
@@ -320,6 +332,10 @@
   color: var(--color-ink-soft);
   font-size: 17px;
   line-height: 1.5;
+}
+
+.pairText {
+  white-space: pre-line;
 }
 
 .pairOn {

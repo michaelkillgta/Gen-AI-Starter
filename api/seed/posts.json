@@ -1,5 +1,683 @@
 [
   {
+    "slug": "ai-can-write-the-code",
+    "category": "ideas",
+    "title": "AI Can Write the Code. So What Happens to Software Development?",
+    "excerpt": "AI can now build screens, databases and tests in minutes. So what happens to everything around the code? A visual walkthrough of the AI-native software journey, from idea to real app.",
+    "cover": {
+      "text": "6 stages",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/ai-native-sdlc/overview.webp",
+        "width": 1536,
+        "height": 1024,
+        "alt": "The AI-native SDLC on one page: six stages from idea to real app, Plan, Design, Build, Test, Deploy and Maintain, with real user feedback looping back to planning. AI speeds up the work; humans make the important decisions."
+      }
+    },
+    "featured": {
+      "stat": "6 stages",
+      "caption": "from idea to real app, and what AI changes in each one"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "lead",
+        "items": [
+          "You can now ask an AI to build a screen.",
+          "Then another screen.",
+          "Then a database.",
+          "Then tests.",
+          "Then an entire feature."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "So here's the interesting question:"
+      },
+      {
+        "type": "pull",
+        "text": "If AI makes coding much faster, what happens to everything around coding?"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the idea behind the **AI-native SDLC**."
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't worry, “SDLC” sounds much more complicated than it is."
+      },
+      {
+        "type": "callout",
+        "label": "It simply means",
+        "text": "The journey from an idea to a real app."
+      },
+      {
+        "type": "heading",
+        "text": "First, see the whole journey 👀",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "The basic journey is:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Idea",
+          "Plan",
+          "Design",
+          "Build",
+          "Test",
+          "Deploy",
+          "Maintain",
+          "Learn"
+        ],
+        "repeat": "Repeat"
+      },
+      {
+        "type": "lead",
+        "items": [
+          "That's software development.",
+          "But AI changes something important.",
+          "Let's see it."
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "What AI actually changed",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Before AI coding tools became this capable, coding could take a huge chunk of the development process."
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-native-sdlc/before-with-ai.webp",
+        "alt": "Before AI vs With AI. Before: you do everything manually and coding takes about 20 hours of the whole journey. With AI: AI helps you write code fast, coding takes about 1 hour, and review and maintenance become visible steps. When coding gets faster, the bottleneck moves.",
+        "width": 1536,
+        "height": 1024,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Look at the difference."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Before",
+            "text": "Idea → Plan → Design → CODE → Test → Deploy"
+          },
+          {
+            "label": "With AI",
+            "text": "Idea → Plan → Design → 🤖 CODE → Test → Review → Deploy → Maintain"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The coding part can become dramatically faster."
+      },
+      {
+        "type": "paragraph",
+        "text": "And that creates a new problem:"
+      },
+      {
+        "type": "pull",
+        "text": "When one step gets much faster, the slow steps around it become more noticeable."
+      },
+      {
+        "type": "callout",
+        "label": "From Anthropic's playbook",
+        "text": "[Anthropic's AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) makes this the starting point of its argument: AI has accelerated code production, while planning, review/testing, deployment, and other surrounding processes can still operate at human speed."
+      },
+      {
+        "type": "paragraph",
+        "text": "So let's follow the whole journey."
+      },
+      {
+        "type": "heading",
+        "text": "Plan 💡",
+        "id": "stage-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "You have an idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Maybe it's:"
+      },
+      {
+        "type": "pull",
+        "text": "“I want to build a habit tracker for students.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "Cool."
+      },
+      {
+        "type": "paragraph",
+        "text": "But that's not quite enough for an AI to build from."
+      },
+      {
+        "type": "paragraph",
+        "text": "You still have questions:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Who is it for?",
+          "What should it do?",
+          "What are the limits?"
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-native-sdlc/plan.webp",
+        "alt": "Plan: a messy idea (a habit tracker for students) goes through key questions (who is it for, what should it do, any limits) and becomes a clear one-page plan with target users, main features and constraints.",
+        "width": 1536,
+        "height": 1024,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "The messy idea becomes a clear plan."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the job of Plan."
+      },
+      {
+        "type": "paragraph",
+        "text": "You can think of it as:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Messy thought",
+          "Clear goal"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "From Anthropic's playbook",
+        "text": "[Anthropic](https://claude.com/blog/the-ai-native-sdlc-playbook) describes a similar approach with an intent.md artifact that captures the original idea, its users, desired outcome, constraints, and open questions so the next stage can work from something concrete."
+      },
+      {
+        "type": "callout",
+        "label": "The simple lesson",
+        "text": "Don't tell AI “build my app” before you know what the app is supposed to do."
+      },
+      {
+        "type": "heading",
+        "text": "Design 🎨",
+        "id": "stage-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Okay."
+      },
+      {
+        "type": "paragraph",
+        "text": "We know what we're building."
+      },
+      {
+        "type": "paragraph",
+        "text": "Now:"
+      },
+      {
+        "type": "pull",
+        "text": "What should it actually look like?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Take our habit tracker."
+      },
+      {
+        "type": "paragraph",
+        "text": "Maybe we need:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Home screen",
+          "Add Habit",
+          "Progress",
+          "Reminders"
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-native-sdlc/design.webp",
+        "alt": "Design: turn your idea into a clear design in three parts: what it looks like (the app screens), how it works (open app, mark habit, track progress, stay motivated) and how we build it (Flutter, Supabase, OpenAI, Vercel).",
+        "width": 1536,
+        "height": 1024,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "But design isn't only about colors and buttons."
+      },
+      {
+        "type": "paragraph",
+        "text": "It is also about:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "How does the user move through the app?",
+          "What happens when they tap something?",
+          "What technology do we need?"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "So the flow becomes:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Idea",
+          "Screens",
+          "User flow",
+          "Technical choices"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "From Anthropic's playbook",
+        "text": "[Anthropic's playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) describes bringing requirements and design closer together with AI, rather than treating them as completely separate handoffs."
+      },
+      {
+        "type": "callout",
+        "label": "The simple lesson",
+        "text": "AI is much easier to direct when you have something clear to show it."
+      },
+      {
+        "type": "heading",
+        "text": "Build 🤖",
+        "id": "stage-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "Now we finally get to the part everyone thinks about when they hear AI coding."
+      },
+      {
+        "type": "paragraph",
+        "text": "You give the AI the plan."
+      },
+      {
+        "type": "paragraph",
+        "text": "It starts building."
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-native-sdlc/build.webp",
+        "alt": "Build: 1, give the plan; 2, AI builds the app (screens, database, tests); 3, review the result. You give direction, AI does much of the implementation, you review and guide.",
+        "width": 1774,
+        "height": 887,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "It can generate things like:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "screens",
+          "database structure",
+          "authentication",
+          "tests",
+          "code"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "And this changes the developer's role."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "It becomes less",
+            "text": "“I must type every line.”"
+          },
+          {
+            "label": "And more",
+            "text": "“I need to give good direction and check what the AI produces.”"
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "From Anthropic's playbook",
+        "text": "[Anthropic's playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) describes starting implementation from an accepted plan and having the AI generate code and tests from that plan, with humans reviewing the result."
+      },
+      {
+        "type": "paragraph",
+        "text": "**The new loop**"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "You give direction",
+          "AI builds",
+          "You review"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the shift."
+      },
+      {
+        "type": "heading",
+        "text": "Test 🧪",
+        "id": "stage-4"
+      },
+      {
+        "type": "lead",
+        "items": [
+          "Now comes the reality check.",
+          "The AI built something.",
+          "Does it actually work?"
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-native-sdlc/test.webp",
+        "alt": "Don't wait until the end to find problems: AI runs 10 tests, finds 1 problem, fixes it, runs all tests again, and you quickly review the result and keep building.",
+        "width": 1774,
+        "height": 887,
+        "caption": null
+      },
+      {
+        "type": "flow",
+        "items": [
+          "10 tests ✅",
+          "1 problem ❌",
+          "AI finds the problem",
+          "AI fixes it",
+          "Tests run again",
+          "Everything passes ✅"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This is why “AI wrote the code” does not mean “the job is finished.”"
+      },
+      {
+        "type": "callout",
+        "label": "From Anthropic's playbook",
+        "text": "[Anthropic](https://claude.com/blog/the-ai-native-sdlc-playbook) describes moving toward continuous evaluation during implementation instead of waiting for one giant QA checkpoint at the end."
+      },
+      {
+        "type": "callout",
+        "label": "Think about it like this",
+        "text": "Don't build the entire house and then discover the door doesn't fit. Test early. Fix quickly. Keep moving."
+      },
+      {
+        "type": "heading",
+        "text": "Deploy 🚀",
+        "id": "stage-5"
+      },
+      {
+        "type": "lead",
+        "items": [
+          "Okay.",
+          "It works on your laptop.",
+          "Now people need to actually use it."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "That's Deploy."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "💻 Your laptop",
+          "☁️ Cloud",
+          "👥 Real users"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This stage is where your app leaves your computer and enters the real world."
+      },
+      {
+        "type": "paragraph",
+        "text": "AI can automate parts of that process too, but important production decisions still need controls and human judgment."
+      },
+      {
+        "type": "callout",
+        "label": "From Anthropic's playbook",
+        "text": "[Anthropic's playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) describes layered automated checks with human review reserved for higher-risk decisions."
+      },
+      {
+        "type": "callout",
+        "label": "The simple idea",
+        "text": "Working on my laptop ≠ working for real users."
+      },
+      {
+        "type": "heading",
+        "text": "Maintain 🔧",
+        "id": "stage-6"
+      },
+      {
+        "type": "lead",
+        "items": [
+          "And now the funniest part.",
+          "Your app is live.",
+          "You can finally relax."
+        ]
+      },
+      {
+        "type": "pull",
+        "text": "Nope. 😂"
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-native-sdlc/maintain.webp",
+        "alt": "Maintain: software is a loop, not a one-time project. Real people use your app, users report problems, AI investigates, a human checks, you fix and improve, release an update, then learn from users and plan again.",
+        "width": 1536,
+        "height": 1024,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Real people start using it."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Someone finds a bug.",
+          "Someone says: “Why is this so slow?”",
+          "Someone asks: “Can you add dark mode?”"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Now the cycle begins again."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Users",
+          "Problems + feedback",
+          "AI investigates",
+          "Human checks",
+          "Fix + improve",
+          "Deploy update",
+          "Plan again"
+        ],
+        "repeat": ""
+      },
+      {
+        "type": "paragraph",
+        "text": "This is one of the biggest ideas in AI-native development."
+      },
+      {
+        "type": "callout",
+        "label": "From Anthropic's playbook",
+        "text": "[Anthropic](https://claude.com/blog/the-ai-native-sdlc-playbook) describes maintenance as part of the same continuous loop, with production issues becoming inputs for the next piece of work rather than ending the process at deployment."
+      },
+      {
+        "type": "heading",
+        "text": "So What Actually Changed?",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's the whole thing one more time."
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-native-sdlc/overview.webp",
+        "alt": "The AI-native SDLC on one page: six stages from idea to real app, Plan, Design, Build, Test, Deploy and Maintain, with real user feedback looping back to planning. AI speeds up the work; humans make the important decisions.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "The whole AI-native journey on one page. Click to enlarge."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "The old mental model",
+            "text": "Developer writes code → app gets built"
+          },
+          {
+            "label": "The newer model is closer to",
+            "text": "Human defines the goal → AI helps plan → AI builds → AI tests → humans review → app reaches users → AI helps monitor → feedback becomes the next idea"
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "From Anthropic's playbook",
+        "text": "[Anthropic](https://claude.com/blog/the-ai-native-sdlc-playbook) calls this an AI-native SDLC, where AI is embedded throughout the lifecycle and the traditional linear process becomes more of a loop."
+      },
+      {
+        "type": "heading",
+        "text": "And Here's the Part I Think Matters Most",
+        "id": null
+      },
+      {
+        "type": "lead",
+        "items": [
+          "AI isn't just making developers type code faster.",
+          "It's changing where humans spend their attention."
+        ]
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Less",
+            "text": "“How do I manually write this?”"
+          },
+          {
+            "label": "More",
+            "text": "“What should we build?”\n“Is this actually useful?”\n“Did the AI build the right thing?”\n“What could go wrong?”\n“What are users telling us?”"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "That doesn't mean humans disappear."
+      },
+      {
+        "type": "pull",
+        "text": "It means the human role moves up the stack."
+      },
+      {
+        "type": "lead",
+        "items": [
+          "Less typing.",
+          "More direction.",
+          "More review.",
+          "More decisions."
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "One Simple Mental Model",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Remember this:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "💡 Idea",
+          "📝 Plan",
+          "🎨 Design",
+          "🤖 Build",
+          "🧪 Test",
+          "🚀 Deploy",
+          "👥 Users",
+          "🔧 Maintain",
+          "💡 New idea"
+        ],
+        "repeat": ""
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the AI-native software loop."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Not",
+            "text": "“AI writes code.”"
+          },
+          {
+            "label": "But",
+            "text": "“AI becomes part of the entire journey from idea to real product.”"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Want the deeper version?",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This article was inspired by Anthropic's [The AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook), which goes much deeper into the six stages, AI-assisted workflows, artifacts, testing, deployment, maintenance, and human oversight."
+      },
+      {
+        "type": "cta",
+        "label": "Read Anthropic's original AI-native SDLC playbook",
+        "href": "https://claude.com/blog/the-ai-native-sdlc-playbook"
+      }
+    ],
+    "published_on": "2026-09-29",
+    "learn": [
+      "What the software development lifecycle (SDLC) is, in plain words",
+      "Why faster coding makes planning, testing and review matter more",
+      "What each of the 6 stages looks like with AI",
+      "How the developer's job moves from typing code to directing and reviewing"
+    ]
+  },
+  {
     "slug": "how-ai-actually-learns",
     "category": "learning-with-ai",
     "title": "How AI Actually Learns: I Taught a Computer With My Own Images",

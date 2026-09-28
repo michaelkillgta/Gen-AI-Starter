@@ -41,7 +41,7 @@ fn blocks_words(blocks: &[Block]) -> usize {
             // Looking at a picture takes a few seconds; links and videos aren't reading.
             Block::Image { .. } => 20,
             Block::Video { .. } | Block::Links { .. } | Block::Cta { .. } => 0,
-            Block::List { items, .. } | Block::Flow { items } | Block::Lead { items } => {
+            Block::List { items, .. } | Block::Flow { items, .. } | Block::Lead { items } => {
                 items.iter().map(|x| words(x)).sum()
             }
             Block::Pull { text } => words(text),

@@ -14,4 +14,8 @@ export type Block = { "type": "paragraph", text: string, } | { "type": "heading"
 /**
  * Anchor for links to this heading (`#id`).
  */
-id: string | null, } | { "type": "image", src: string, alt: string, width: number, height: number, caption: string | null, } | { "type": "video", youtube_id: string, title: string, caption: string | null, } | { "type": "list", ordered: boolean, items: Array<string>, } | { "type": "flow", items: Array<string>, } | { "type": "links", label: string | null, items: Array<LinkItem>, } | { "type": "lead", items: Array<string>, } | { "type": "pull", text: string, } | { "type": "pair", items: Array<PairItem>, } | { "type": "cta", label: string, href: string, } | { "type": "compare", left: CompareSide, right: CompareSide, } | { "type": "cards", items: Array<CardItem>, } | { "type": "callout", label: string, text: string, } | { "type": "code" } & CodeSample;
+id: string | null, } | { "type": "image", src: string, alt: string, width: number, height: number, caption: string | null, } | { "type": "video", youtube_id: string, title: string, caption: string | null, } | { "type": "list", ordered: boolean, items: Array<string>, } | { "type": "flow", items: Array<string>,
+/**
+ * For loops: a last "↺ <label>" chip that sends you back to the start.
+ */
+repeat: string | null, } | { "type": "links", label: string | null, items: Array<LinkItem>, } | { "type": "lead", items: Array<string>, } | { "type": "pull", text: string, } | { "type": "pair", items: Array<PairItem>, } | { "type": "cta", label: string, href: string, } | { "type": "compare", left: CompareSide, right: CompareSide, } | { "type": "cards", items: Array<CardItem>, } | { "type": "callout", label: string, text: string, } | { "type": "code" } & CodeSample;
