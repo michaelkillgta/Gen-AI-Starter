@@ -15,8 +15,7 @@ use tracing_subscriber::EnvFilter;
 
 use crate::{config::Config, state::AppState};
 
-const USAGE: &str =
-    "usage: api [serve | seed | import-files | export <waitlist|subscribers|suggestions|contact> | admin-password]";
+const USAGE: &str = "usage: api [serve | seed | import-files | export <waitlist|subscribers|suggestions|contact> | admin-password]";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

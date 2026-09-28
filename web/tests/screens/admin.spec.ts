@@ -40,12 +40,16 @@ test.describe("admin: lockout", () => {
 
   test("5 wrong tries lock this visitor out, even with the right password", async ({ page }) => {
     await page.goto("/admin/login");
-    for (let i = 0; i < 5; i++) {
-      await page.getByLabel("Password").fill(`wrong ${i}`);
+    const error = page.locator("#admin-password-error");
+    for (const left of [4, 3, 2, 1]) {
+      await page.getByLabel("Password").fill(`wrong ${left}`);
       await page.getByRole("button", { name: "Sign in" }).click();
-      await expect(page.getByRole("alert")).toBeVisible();
+      await expect(error).toContainText(`${left} ${left === 1 ? "try" : "tries"} left`);
     }
-    await expect(page.getByText(/Too many wrong tries/)).toBeVisible();
+    // The fifth wrong try locks it.
+    await page.getByLabel("Password").fill("wrong 0");
+    await page.getByRole("button", { name: "Sign in" }).click();
+    await expect(error).toContainText("Too many wrong tries. Try again in 15 minutes.");
     await page.getByLabel("Password").fill(E2E_ADMIN_PASSWORD);
     await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page.getByText(/Too many wrong tries/)).toBeVisible();

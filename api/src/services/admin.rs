@@ -33,8 +33,12 @@ pub enum LoginError {
     /// No `ADMIN_PASSWORD_HASH` set.
     NotConfigured,
     /// Too many wrong tries from this IP.
-    Locked { retry_after: Duration },
-    Wrong { tries_left: u32 },
+    Locked {
+        retry_after: Duration,
+    },
+    Wrong {
+        tries_left: u32,
+    },
 }
 
 #[derive(Default)]

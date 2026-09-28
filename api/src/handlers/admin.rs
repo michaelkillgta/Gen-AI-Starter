@@ -3,6 +3,8 @@
 //! `Authorization: Bearer …` (a `ft_admin` cookie works too). POSTs must come
 //! from an allowed site origin.
 
+use std::cmp::Reverse;
+
 use axum::{
     Json,
     extract::State,
@@ -83,7 +85,10 @@ pub async fn login(
     Json(req): Json<AdminLoginRequest>,
 ) -> Response {
     if !origin_ok(&s, &headers) {
-        return error(StatusCode::FORBIDDEN, "This request didn't come from the site.");
+        return error(
+            StatusCode::FORBIDDEN,
+            "This request didn't come from the site.",
+        );
     }
     let ip = client_ip(&headers);
     let auth = s.admin.clone();
@@ -133,7 +138,10 @@ pub async fn login(
 /// POST /admin/logout
 pub async fn logout(State(s): State<AppState>, headers: HeaderMap) -> Response {
     if !origin_ok(&s, &headers) {
-        return error(StatusCode::FORBIDDEN, "This request didn't come from the site.");
+        return error(
+            StatusCode::FORBIDDEN,
+            "This request didn't come from the site.",
+        );
     }
     if let Some(token) = session_token(&headers) {
         s.admin.logout(&token);
@@ -151,13 +159,13 @@ pub async fn data(State(s): State<AppState>, headers: HeaderMap) -> ApiResult<Re
     }
     let challenge = s.repos.challenge.current().await?;
     let mut waitlist = s.submissions.waitlist(&challenge.slug).await?;
-    waitlist.sort_by(|a, b| b.created_at.cmp(&a.created_at));
+    waitlist.sort_by_key(|x| Reverse(x.created_at));
     let mut suggestions = s.submissions.suggestions().await?;
-    suggestions.sort_by(|a, b| b.created_at.cmp(&a.created_at));
+    suggestions.sort_by_key(|x| Reverse(x.created_at));
     let mut subscribers = s.submissions.subscribers().await?;
-    subscribers.sort_by(|a, b| b.created_at.cmp(&a.created_at));
+    subscribers.sort_by_key(|x| Reverse(x.created_at));
     let mut contacts = s.submissions.contacts().await?;
-    contacts.sort_by(|a, b| b.created_at.cmp(&a.created_at));
+    contacts.sort_by_key(|x| Reverse(x.created_at));
 
     let mut res = Json(AdminData {
         challenge: challenge.slug,

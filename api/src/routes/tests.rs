@@ -360,7 +360,11 @@ async fn call(
     )
 }
 
-async fn admin_login(app: &axum::Router, ip: &str, pw: &str) -> (StatusCode, axum::http::HeaderMap, Value) {
+async fn admin_login(
+    app: &axum::Router,
+    ip: &str,
+    pw: &str,
+) -> (StatusCode, axum::http::HeaderMap, Value) {
     call(
         app,
         "POST",
@@ -376,7 +380,14 @@ async fn admin_data_needs_a_session() {
     let app = admin_app().await;
     let (s, _, _) = call(&app, "GET", "/admin/data", &[], None).await;
     assert_eq!(s, StatusCode::UNAUTHORIZED);
-    let (s, _, _) = call(&app, "GET", "/admin/data", &[("authorization", "Bearer forged")], None).await;
+    let (s, _, _) = call(
+        &app,
+        "GET",
+        "/admin/data",
+        &[("authorization", "Bearer forged")],
+        None,
+    )
+    .await;
     assert_eq!(s, StatusCode::UNAUTHORIZED);
 
     // A sign-up, then the admin sees it.
@@ -394,24 +405,63 @@ async fn admin_data_needs_a_session() {
     assert_eq!(s, StatusCode::OK);
     let token = body["token"].as_str().unwrap().to_string();
     let cookie = headers["set-cookie"].to_str().unwrap();
-    assert!(cookie.contains("HttpOnly") && cookie.contains("SameSite=Strict") && cookie.contains("Max-Age=43200"));
-    assert!(!cookie.contains("Secure"), "no Secure flag on http://localhost");
+    assert!(
+        cookie.contains("HttpOnly")
+            && cookie.contains("SameSite=Strict")
+            && cookie.contains("Max-Age=43200")
+    );
+    assert!(
+        !cookie.contains("Secure"),
+        "no Secure flag on http://localhost"
+    );
 
     let bearer = format!("Bearer {token}");
-    let (s, headers, data) = call(&app, "GET", "/admin/data", &[("authorization", &bearer)], None).await;
+    let (s, headers, data) = call(
+        &app,
+        "GET",
+        "/admin/data",
+        &[("authorization", &bearer)],
+        None,
+    )
+    .await;
     assert_eq!(s, StatusCode::OK);
     assert_eq!(headers["cache-control"], "no-store");
     assert_eq!(data["waitlist"][0]["name"], "Asha");
-    assert!(data["suggestions"].is_array() && data["subscribers"].is_array() && data["contacts"].is_array());
+    assert!(
+        data["suggestions"].is_array()
+            && data["subscribers"].is_array()
+            && data["contacts"].is_array()
+    );
     // The cookie works as well as the header.
     let cookie_header = format!("ft_admin={token}");
-    let (s, _, _) = call(&app, "GET", "/admin/data", &[("cookie", &cookie_header)], None).await;
+    let (s, _, _) = call(
+        &app,
+        "GET",
+        "/admin/data",
+        &[("cookie", &cookie_header)],
+        None,
+    )
+    .await;
     assert_eq!(s, StatusCode::OK);
 
     // Signing out ends the session.
-    let (s, _, _) = call(&app, "POST", "/admin/logout", &[("origin", SITE), ("authorization", &bearer)], None).await;
+    let (s, _, _) = call(
+        &app,
+        "POST",
+        "/admin/logout",
+        &[("origin", SITE), ("authorization", &bearer)],
+        None,
+    )
+    .await;
     assert_eq!(s, StatusCode::OK);
-    let (s, _, _) = call(&app, "GET", "/admin/data", &[("authorization", &bearer)], None).await;
+    let (s, _, _) = call(
+        &app,
+        "GET",
+        "/admin/data",
+        &[("authorization", &bearer)],
+        None,
+    )
+    .await;
     assert_eq!(s, StatusCode::UNAUTHORIZED);
 }
 
@@ -422,15 +472,24 @@ async fn admin_wrong_password_then_lockout() {
     assert_eq!(s, StatusCode::UNAUTHORIZED);
     assert_eq!(body["tries_left"], 4);
     for _ in 0..3 {
-        assert_eq!(admin_login(&app, "10.0.0.2", "wrong password!").await.0, StatusCode::UNAUTHORIZED);
+        assert_eq!(
+            admin_login(&app, "10.0.0.2", "wrong password!").await.0,
+            StatusCode::UNAUTHORIZED
+        );
     }
     // The fifth wrong try locks the IP, and then even the right password is refused.
     let (s, headers, _) = admin_login(&app, "10.0.0.2", "wrong password!").await;
     assert_eq!(s, StatusCode::TOO_MANY_REQUESTS);
     assert_eq!(headers["retry-after"], "900");
-    assert_eq!(admin_login(&app, "10.0.0.2", ADMIN_PW).await.0, StatusCode::TOO_MANY_REQUESTS);
+    assert_eq!(
+        admin_login(&app, "10.0.0.2", ADMIN_PW).await.0,
+        StatusCode::TOO_MANY_REQUESTS
+    );
     // Someone else is fine.
-    assert_eq!(admin_login(&app, "10.0.0.3", ADMIN_PW).await.0, StatusCode::OK);
+    assert_eq!(
+        admin_login(&app, "10.0.0.3", ADMIN_PW).await.0,
+        StatusCode::OK
+    );
 }
 
 #[tokio::test]
@@ -439,9 +498,23 @@ async fn admin_posts_must_come_from_the_site() {
     let body = Some(serde_json::json!({ "password": ADMIN_PW }));
     let (s, _, _) = call(&app, "POST", "/admin/login", &[], body.clone()).await;
     assert_eq!(s, StatusCode::FORBIDDEN);
-    let (s, _, _) = call(&app, "POST", "/admin/login", &[("origin", "https://evil.example")], body).await;
+    let (s, _, _) = call(
+        &app,
+        "POST",
+        "/admin/login",
+        &[("origin", "https://evil.example")],
+        body,
+    )
+    .await;
     assert_eq!(s, StatusCode::FORBIDDEN);
-    let (s, _, _) = call(&app, "POST", "/admin/logout", &[("origin", "https://evil.example")], None).await;
+    let (s, _, _) = call(
+        &app,
+        "POST",
+        "/admin/logout",
+        &[("origin", "https://evil.example")],
+        None,
+    )
+    .await;
     assert_eq!(s, StatusCode::FORBIDDEN);
 }
 
@@ -459,5 +532,8 @@ async fn admin_not_set_up_without_a_hash() {
     )
     .await;
     assert_eq!(s, StatusCode::SERVICE_UNAVAILABLE);
-    assert_eq!(body["error"], "Admin not set up yet: run pnpm admin:password");
+    assert_eq!(
+        body["error"],
+        "Admin not set up yet: run pnpm admin:password"
+    );
 }

@@ -146,19 +146,6 @@ pub async fn export(state: &AppState, what: &str) -> anyhow::Result<String> {
     Ok(out.join("\n") + "\n")
 }
 
-#[cfg(test)]
-mod tests {
-    use super::csv_row;
-
-    #[test]
-    fn csv_escapes_quotes_and_formulas() {
-        assert_eq!(
-            csv_row(&["a\"b", "=SUM(A1)", "+919876543210"]),
-            "\"a\"\"b\",\"'=SUM(A1)\",\"+919876543210\""
-        );
-    }
-}
-
 /// `pnpm admin:password`: asks for the admin password twice (never shown, printed or
 /// logged) and stores only its hash as `ADMIN_PASSWORD_HASH` in `api/.env`.
 pub fn admin_password() -> anyhow::Result<()> {
@@ -191,23 +178,30 @@ pub fn admin_password() -> anyhow::Result<()> {
             !l.trim_start().starts_with("ADMIN_PASSWORD_HASH=")
                 && !l.starts_with("# Admin password hash")
         })
-        .map(|l| format!("{l}
-"))
+        .map(|l| format!("{l}\n"))
         .collect();
-    if !out.is_empty() && !out.ends_with("
-
-") {
-        out.push('
-');
+    if !out.is_empty() && !out.ends_with("\n\n") {
+        out.push('\n');
     }
     // Single quotes: the hash contains '$', which .env loaders would otherwise expand.
-    out.push_str("# Admin password hash (set with pnpm admin:password; never commit this file).
-");
-    out.push_str(&format!("ADMIN_PASSWORD_HASH='{hash}'
-"));
+    out.push_str("# Admin password hash (set with pnpm admin:password; never commit this file).\n");
+    out.push_str(&format!("ADMIN_PASSWORD_HASH='{hash}'\n"));
     std::fs::write(&path, out).with_context(|| format!("could not write {}", path.display()))?;
 
     println!("Done. The password's hash is saved in api/.env (the password itself isn't stored).");
     println!("Restart the API (pnpm dev) and sign in at /admin.");
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::csv_row;
+
+    #[test]
+    fn csv_escapes_quotes_and_formulas() {
+        assert_eq!(
+            csv_row(&["a\"b", "=SUM(A1)", "+919876543210"]),
+            "\"a\"\"b\",\"'=SUM(A1)\",\"+919876543210\""
+        );
+    }
 }

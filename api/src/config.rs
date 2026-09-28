@@ -68,9 +68,9 @@ impl Config {
                 .unwrap_or(6),
             admin_password_hash: var("ADMIN_PASSWORD_HASH"),
             admin_origins: list(
-                var("ADMIN_ORIGINS").as_deref().unwrap_or(
-                    "http://localhost:3000,http://localhost:3001,http://localhost:3100",
-                ),
+                var("ADMIN_ORIGINS")
+                    .as_deref()
+                    .unwrap_or("http://localhost:3000,http://localhost:3001,http://localhost:3100"),
             ),
         })
     }
