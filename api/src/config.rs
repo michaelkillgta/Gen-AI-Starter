@@ -31,6 +31,8 @@ pub struct Config {
     pub admin_password_hash: Option<String>,
     /// Site origins allowed to send admin POSTs (login, logout).
     pub admin_origins: Vec<String>,
+    /// While no hash is set, look for one here (so `pnpm admin:password` needs no restart).
+    pub admin_env_file: Option<PathBuf>,
 }
 
 impl Config {
@@ -67,6 +69,7 @@ impl Config {
                 .and_then(|v| v.parse().ok())
                 .unwrap_or(6),
             admin_password_hash: var("ADMIN_PASSWORD_HASH"),
+            admin_env_file: Some(here.join(".env")),
             admin_origins: list(
                 var("ADMIN_ORIGINS")
                     .as_deref()

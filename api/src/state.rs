@@ -115,7 +115,10 @@ impl AppState {
                 config.form_posts_per_minute,
                 Duration::from_secs(60),
             )),
-            admin: Arc::new(AdminAuth::new(config.admin_password_hash.clone())),
+            admin: Arc::new(AdminAuth::new(
+                config.admin_password_hash.clone(),
+                config.admin_env_file.clone(),
+            )),
             config,
             pg,
         }

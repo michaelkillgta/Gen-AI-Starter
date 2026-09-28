@@ -21,8 +21,8 @@ export function NotSetUp() {
     <div className={styles.notice} role="status">
       <strong>Admin not set up yet: run pnpm admin:password</strong>
       <span>
-        Run it in a terminal in the <code>field-tested</code> folder, choose a password (at least 12 characters), then
-        restart with <code>pnpm dev</code>.
+        Run it in a terminal in the <code>field-tested</code> folder and choose a password (at least 12 characters), then
+        reload this page.
       </span>
     </div>
   );

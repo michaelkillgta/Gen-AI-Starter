@@ -4,10 +4,14 @@
 //!
 //! Sessions live in memory on purpose: restarting the API signs the admin out,
 //! which is fine for one person and means no session table to leak.
+//!
+//! Until a password is set, the API looks for it in its `.env` file on every
+//! check, so `pnpm admin:password` works without restarting the API.
 
 use std::{
     collections::HashMap,
-    sync::Mutex,
+    path::PathBuf,
+    sync::{Mutex, RwLock},
     time::{Duration, Instant},
 };
 
@@ -48,27 +52,45 @@ struct Fails {
 }
 
 pub struct AdminAuth {
-    hash: Option<String>,
+    hash: RwLock<Option<String>>,
+    /// Where to look for `ADMIN_PASSWORD_HASH` while none is set (the API's `.env`).
+    env_file: Option<PathBuf>,
     sessions: Mutex<HashMap<String, Instant>>,
     fails: Mutex<HashMap<String, Fails>>,
 }
 
 impl AdminAuth {
-    pub fn new(hash: Option<String>) -> Self {
+    pub fn new(hash: Option<String>, env_file: Option<PathBuf>) -> Self {
         Self {
-            hash,
+            hash: RwLock::new(hash),
+            env_file,
             sessions: Mutex::new(HashMap::new()),
             fails: Mutex::new(HashMap::new()),
         }
     }
 
+    /// The password hash, picking it up from the `.env` file if it was set after start-up.
+    fn hash(&self) -> Option<String> {
+        if let Some(h) = self.hash.read().expect("admin hash lock").clone() {
+            return Some(h);
+        }
+        let path = self.env_file.as_ref()?;
+        let found = dotenvy::from_path_iter(path)
+            .ok()?
+            .filter_map(Result::ok)
+            .find(|(k, v)| k == "ADMIN_PASSWORD_HASH" && !v.is_empty())
+            .map(|(_, v)| v)?;
+        *self.hash.write().expect("admin hash lock") = Some(found.clone());
+        Some(found)
+    }
+
     pub fn configured(&self) -> bool {
-        self.hash.is_some()
+        self.hash().is_some()
     }
 
     /// Checks the password for a visitor at `ip`. On success returns a new session token.
     pub fn login(&self, ip: &str, password: &str) -> Result<String, LoginError> {
-        let Some(hash) = &self.hash else {
+        let Some(hash) = self.hash() else {
             return Err(LoginError::NotConfigured);
         };
         let now = Instant::now();
@@ -87,7 +109,7 @@ impl AdminAuth {
         }
 
         // The slow check runs without holding any lock.
-        if verify(hash, password) {
+        if verify(&hash, password) {
             self.fails.lock().expect("admin fails lock").remove(ip);
             let token = new_token();
             let mut sessions = self.sessions.lock().expect("admin sessions lock");
@@ -164,7 +186,7 @@ mod tests {
 
     #[test]
     fn right_password_gives_a_session_wrong_one_counts_down() {
-        let auth = AdminAuth::new(Some(hash_password("correct horse battery").unwrap()));
+        let auth = AdminAuth::new(Some(hash_password("correct horse battery").unwrap()), None);
         assert_eq!(
             auth.login("1.1.1.1", "nope"),
             Err(LoginError::Wrong { tries_left: 4 })
@@ -178,7 +200,7 @@ mod tests {
 
     #[test]
     fn five_wrong_tries_lock_the_ip_even_for_the_right_password() {
-        let auth = AdminAuth::new(Some(hash_password("correct horse battery").unwrap()));
+        let auth = AdminAuth::new(Some(hash_password("correct horse battery").unwrap()), None);
         for _ in 0..4 {
             assert!(matches!(
                 auth.login("2.2.2.2", "nope"),
@@ -199,11 +221,24 @@ mod tests {
 
     #[test]
     fn not_configured_without_a_hash() {
-        let auth = AdminAuth::new(None);
+        let auth = AdminAuth::new(None, None);
         assert!(!auth.configured());
         assert_eq!(
             auth.login("1.1.1.1", "anything"),
             Err(LoginError::NotConfigured)
         );
+    }
+
+    #[test]
+    fn picks_up_a_password_set_after_start() {
+        let env = std::env::temp_dir().join(format!("ft-admin-{}.env", uuid::Uuid::new_v4()));
+        std::fs::write(&env, "OTHER=1\n").unwrap();
+        let auth = AdminAuth::new(None, Some(env.clone()));
+        assert!(!auth.configured());
+        let hash = hash_password("correct horse battery").unwrap();
+        std::fs::write(&env, format!("OTHER=1\nADMIN_PASSWORD_HASH='{hash}'\n")).unwrap();
+        assert!(auth.configured());
+        assert!(auth.login("1.1.1.1", "correct horse battery").is_ok());
+        std::fs::remove_file(env).unwrap();
     }
 }

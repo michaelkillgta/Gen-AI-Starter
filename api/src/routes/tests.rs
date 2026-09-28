@@ -25,6 +25,7 @@ async fn app() -> axum::Router {
 async fn app_with(change: impl FnOnce(&mut Config)) -> axum::Router {
     let mut config = Config::from_env().unwrap();
     config.admin_password_hash = None;
+    config.admin_env_file = None;
     change(&mut config);
     let state = match std::env::var("TEST_DATABASE_URL")
         .ok()

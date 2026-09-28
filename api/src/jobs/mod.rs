@@ -189,7 +189,7 @@ pub fn admin_password() -> anyhow::Result<()> {
     std::fs::write(&path, out).with_context(|| format!("could not write {}", path.display()))?;
 
     println!("Done. The password's hash is saved in api/.env (the password itself isn't stored).");
-    println!("Restart the API (pnpm dev) and sign in at /admin.");
+    println!("Sign in at http://localhost:3001/admin (just reload the page).");
     Ok(())
 }
 
