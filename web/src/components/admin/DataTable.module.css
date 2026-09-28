@@ -1,0 +1,368 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.titleWrap {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+
+.title {
+  font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem);
+  letter-spacing: -0.035em;
+}
+
+.count {
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.csv {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--tap);
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-ink);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.csv:hover {
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.search {
+  flex: 1 1 240px;
+}
+
+.sortPick select {
+  min-height: var(--tap);
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-line-input);
+  background: var(--color-surface);
+  font: inherit;
+  font-size: 14px;
+  color: var(--color-ink);
+}
+
+.empty {
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background: var(--color-panel);
+  font-size: 15px;
+  color: var(--color-muted);
+}
+
+.none {
+  color: var(--color-faint);
+}
+
+/* ---------- Phones: each row is a card ---------- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.table tbody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-card);
+  cursor: pointer;
+}
+
+.row:hover {
+  border-color: var(--color-accent);
+}
+
+.table td {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+
+.table td::before {
+  content: attr(data-label);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.table td.long {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.table td.long::before {
+  display: block;
+}
+
+/* ---------- Tablet and up: a real table with sortable headers ---------- */
+
+@media (min-width: 768px) {
+  .sortPick {
+    display: none;
+  }
+
+  .search {
+    flex: 0 1 320px;
+  }
+
+  .scroll {
+    overflow-x: auto;
+    border: 1px solid var(--color-line-card);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .table thead {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .table tbody {
+    display: table-row-group;
+  }
+
+  .row {
+    display: table-row;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .table th,
+  .table td {
+    display: table-cell;
+    padding: 12px 16px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-line-soft);
+  }
+
+  .table td::before,
+  .table td.long::before {
+    content: none;
+  }
+
+  .table th {
+    padding: 0;
+    background: var(--color-panel);
+    white-space: nowrap;
+  }
+
+  .sortBtn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    cursor: pointer;
+  }
+
+  .sortBtn:hover {
+    color: var(--color-ink);
+  }
+
+  .arrow {
+    opacity: 0;
+  }
+
+  .sortBtn:hover .arrow {
+    opacity: 0.5;
+  }
+
+  .arrowOn {
+    color: var(--color-accent-ink);
+  }
+
+  .row:last-child td {
+    border-bottom: 0;
+  }
+
+  .row:hover td,
+  .row:focus-visible td {
+    background: var(--highlight-bg);
+  }
+
+  .row:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+  }
+
+  .table td {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  .table td.long {
+    display: table-cell;
+    white-space: normal;
+    min-width: 260px;
+    max-width: 420px;
+  }
+}
+
+/* ---------- Row details ---------- */
+
+.dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-panel);
+}
+
+.dialog::backdrop {
+  background: rgba(28, 23, 19, 0.45);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+}
+
+.detailHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.detailKind {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-accent-ink);
+}
+
+.detailTitle {
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  overflow-wrap: anywhere;
+}
+
+.close {
+  flex-shrink: 0;
+  width: var(--tap);
+  height: var(--tap);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-line-input);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.fields {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-line-soft);
+}
+
+.field:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.field dt {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.field dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.field a {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 3px;
+}

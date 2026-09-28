@@ -1,6 +1,7 @@
 import "server-only";
 
 import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 import type { AdminData } from "@/lib/api-types/AdminData";
 import type { AdminStatus } from "@/lib/api-types/AdminStatus";
@@ -33,6 +34,19 @@ export async function getAdminStatus(): Promise<AdminStatus | null> {
   } catch {
     return null;
   }
+}
+
+export type AdminLoad = { kind: "ok"; data: AdminData } | { kind: "not-set-up" } | { kind: "unreachable" };
+
+/** For admin pages: the data, or why it isn't available. Signed out -> the sign-in page. */
+export async function loadAdmin(): Promise<AdminLoad> {
+  const status = await getAdminStatus();
+  if (!status) return { kind: "unreachable" };
+  if (!status.configured) return { kind: "not-set-up" };
+  const result = await getAdminData();
+  if (!result.ok && result.reason === "signed-out") redirect("/admin/login");
+  if (!result.ok) return { kind: "unreachable" };
+  return { kind: "ok", data: result.data };
 }
 
 export type AdminDataResult = { ok: true; data: AdminData } | { ok: false; reason: "signed-out" | "unreachable" };

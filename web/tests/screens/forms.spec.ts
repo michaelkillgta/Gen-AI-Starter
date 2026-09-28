@@ -18,7 +18,9 @@ test.describe("forms", () => {
 
     await expect(page).toHaveURL(/\/challenge\/joined\?n=\d+/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("You're on the list.");
-    await expect(page.getByText(new RegExp(`${before + 1} of 50`))).toBeVisible();
+    // Other tests may join at the same moment, so the count only has to go up.
+    const after = Number((await page.getByText(/\d+ of 50/).first().textContent())?.match(/(\d+) of 50/)?.[1] ?? 0);
+    expect(after).toBeGreaterThan(before);
   });
 
   test("blog subscribe", async ({ page }) => {

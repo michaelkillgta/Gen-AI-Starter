@@ -60,7 +60,7 @@ test.describe("admin: lockout", () => {
 test.describe("admin: signed in", () => {
   test.use(asVisitor("203.0.113.13"));
 
-  test("dashboard, search, CSV and sign out", async ({ page, context }) => {
+  test("overview, a section with search, sorting and details, CSV and sign out", async ({ page, context }) => {
     // Someone joins the waitlist, so there's a row to find.
     await page.goto("/challenge");
     const phone = `8${String(Date.now()).slice(-9)}`;
@@ -70,27 +70,43 @@ test.describe("admin: signed in", () => {
     await page.getByRole("button", { name: "Join the waitlist" }).click();
     await expect(page).toHaveURL(/\/challenge\/joined/);
 
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/admin/login");
     await page.getByLabel("Password").fill(E2E_ADMIN_PASSWORD);
     await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page).toHaveURL(/\/admin$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sign-ups and messages");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Overview");
+    await expect(page.getByText("Signed in")).toBeVisible();
 
     const cookie = (await context.cookies()).find((c) => c.name === "ft_admin");
     expect(cookie?.httpOnly).toBe(true);
     expect(cookie?.sameSite).toBe("Strict");
     expect(cookie?.path).toBe("/admin");
 
-    for (const t of ["Challenge waitlist", "Suggestions", "Weekly subscribers", "Contact messages"]) {
-      await expect(page.getByRole("heading", { level: 2, name: new RegExp(t) })).toBeVisible();
+    // The side menu lists every section.
+    const menu = page.getByRole("navigation", { name: "Admin sections" });
+    for (const t of ["Overview", "Challenge waitlist", "Suggestions", "Weekly subscribers", "Contact messages"]) {
+      await expect(menu.getByRole("link", { name: new RegExp(t) })).toBeVisible();
     }
-    const waitlist = page.locator("#waitlist");
-    await waitlist.getByRole("searchbox").fill("Admin Test Person");
-    await expect(waitlist.getByRole("cell", { name: "Admin Test Person" })).toBeVisible();
+
+    // Latest activity opens that entry's details in its section.
+    await page.getByRole("link", { name: /Admin Test Person/ }).first().click();
+    await expect(page).toHaveURL(/\/admin\/waitlist\?open=/);
+    const details = page.getByRole("dialog");
+    await expect(details.getByRole("heading", { name: "Admin Test Person" })).toBeVisible();
+    await expect(details.getByRole("link", { name: `admin+${phone}@example.com` })).toHaveAttribute("href", `mailto:admin+${phone}@example.com`);
+    await page.keyboard.press("Escape");
+    await expect(details).toBeHidden();
+
+    // Search and sort.
+    await page.getByRole("searchbox").fill("Admin Test Person");
+    await expect(page.getByRole("cell", { name: "Admin Test Person" })).toBeVisible();
+    await page.getByRole("button", { name: /^Name/ }).click();
+    await expect(page.getByRole("columnheader", { name: /Name/ })).toHaveAttribute("aria-sort", "ascending");
 
     const [download] = await Promise.all([
       page.waitForEvent("download"),
-      waitlist.getByRole("link", { name: "Download CSV" }).click(),
+      page.getByRole("link", { name: "Download CSV" }).click(),
     ]);
     expect(download.suggestedFilename()).toMatch(/^field-tested-waitlist-\d{4}-\d{2}-\d{2}\.csv$/);
     const csv = fs.readFileSync((await download.path())!, "utf8");
@@ -99,16 +115,77 @@ test.describe("admin: signed in", () => {
 
     await page.getByRole("button", { name: "Sign out" }).click();
     await expect(page).toHaveURL(/\/admin\/login$/);
-    await page.goto("/admin");
+    await page.goto("/admin/suggestions");
     await expect(page).toHaveURL(/\/admin\/login$/);
   });
 
-  test("works on a phone without sideways scrolling", async ({ page }) => {
+  test("works on a phone: tabs, cards, no sideways scrolling", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/admin/login");
     await page.getByLabel("Password").fill(E2E_ADMIN_PASSWORD);
     await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page).toHaveURL(/\/admin$/);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+    for (const path of ["/admin", "/admin/waitlist", "/admin/suggestions", "/admin/subscribers", "/admin/contacts"]) {
+      await page.goto(path);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth), path).toBeLessThanOrEqual(0);
+    }
+  });
+});
+
+/**
+ * Screenshots for Uma (docs/screens/admin/), only when asked: ADMIN_SCREENS=1.
+ * Uses the throwaway test API and its test-only password, with made-up entries.
+ */
+test.describe("admin screenshots", () => {
+  test.skip(!process.env.ADMIN_SCREENS, "Set ADMIN_SCREENS=1 to save admin screenshots");
+  test.use(asVisitor("203.0.113.20"));
+
+  test("save screenshots", async ({ page }) => {
+    test.setTimeout(180_000);
+    const people = [
+      ["Asha Rao", "asha.rao@example.com"],
+      ["Vikram Nair", "vikram.n@example.com"],
+      ["Meera Iyer", "meera.iyer@example.com"],
+    ];
+    for (const [i, [name, email]] of people.entries()) {
+      await page.goto("/challenge");
+      await page.getByLabel("Your name").fill(name);
+      await page.getByLabel("WhatsApp number").fill(`98765432${10 + i}`);
+      await page.getByLabel("Email").fill(email);
+      await page.getByRole("button", { name: "Join the waitlist" }).click();
+      await expect(page).toHaveURL(/\/challenge\/joined/);
+    }
+    await page.goto("/suggest?about=weekly");
+    await page.getByLabel("What should I judge?").fill("Marker for PDF parsing");
+    await page.getByRole("button", { name: "Send suggestion" }).click();
+    await expect(page.getByText("Thank you! I read every suggestion.")).toBeVisible();
+    await page.goto("/blog");
+    await page.getByLabel("WhatsApp number or email").fill("reader@example.com");
+    await page.getByRole("button", { name: "Subscribe" }).click();
+    await expect(page.getByText(/You're in/)).toBeVisible();
+    await page.goto("/contact");
+    await page.getByLabel("Your name").fill("Rohan Das");
+    await page.getByLabel("Email").fill("rohan@example.com");
+    await page.getByLabel("Message").fill("Can we run the build challenge at our college?");
+    await page.getByRole("button", { name: "Send message" }).click();
+    await expect(page.getByText(/your message is in/)).toBeVisible();
+
+    await page.goto("/admin/login");
+    await page.getByLabel("Password").fill(E2E_ADMIN_PASSWORD);
+    await page.getByRole("button", { name: "Sign in" }).click();
+    await expect(page).toHaveURL(/\/admin$/);
+
+    const dir = "../docs/screens/admin";
+    for (const [w, h] of [[1440, 900], [768, 1024], [375, 812]]) {
+      await page.setViewportSize({ width: w, height: h });
+      await page.goto("/admin");
+      await page.screenshot({ path: `${dir}/overview-${w}.png`, fullPage: true });
+      await page.goto("/admin/waitlist");
+      await page.screenshot({ path: `${dir}/waitlist-${w}.png`, fullPage: true });
+      await page.getByRole("row", { name: /Asha Rao/ }).click();
+      await expect(page.getByRole("dialog")).toBeVisible();
+      await page.screenshot({ path: `${dir}/details-${w}.png` });
+      await page.keyboard.press("Escape");
+    }
   });
 });
