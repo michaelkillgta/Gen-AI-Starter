@@ -3,19 +3,19 @@
   "private": true,
   "scripts": {
     "dev": "concurrently -k -n db,api,web -c gray,yellow,cyan \"pnpm db\" \"pnpm dev:api\" \"pnpm dev:web\"",
-    "dev:files": "concurrently -k -n api,web -c yellow,cyan \"cd api && cross-env STORAGE=files cargo run\" \"pnpm dev:web\"",
-    "dev:api": "cd api && cargo run",
+    "dev:files": "concurrently -k -n api,web -c yellow,cyan \"cross-env STORAGE=files node scripts/cargo.mjs run\" \"pnpm dev:web\"",
+    "dev:api": "node scripts/cargo.mjs run",
     "dev:web": "pnpm --dir web dev -p 3001",
     "db": "node scripts/db.mjs test",
     "db:docker": "docker compose up -d --wait db",
-    "db:seed": "cd api && cargo run -q -- seed",
-    "db:import-files": "cd api && cargo run -q -- import-files",
-    "admin:password": "cd api && cargo run -q -- admin-password",
-    "types": "cd api && cargo test",
+    "db:seed": "node scripts/cargo.mjs run -q -- seed",
+    "db:import-files": "node scripts/cargo.mjs run -q -- import-files",
+    "admin:password": "node scripts/cargo.mjs run -q -- admin-password",
+    "types": "node scripts/cargo.mjs test",
     "test": "cd api && cargo test && cd ../web && pnpm test:unit && pnpm test:screens",
     "test:e2e:postgres": "cd web && cross-env E2E_DATABASE_URL=postgres://fieldtested:fieldtested_dev@127.0.0.1:5433/fieldtested_test pnpm test:screens",
     "check": "pnpm --dir web lint && pnpm --dir web exec tsc --noEmit && cd api && cargo clippy --all-targets -- -D warnings",
-    "export": "cd api && cargo run -q -- export"
+    "export": "node scripts/cargo.mjs run -q -- export"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
