@@ -121,6 +121,144 @@
   letter-spacing: -0.4px;
 }
 
+.h2[id] {
+  scroll-margin-top: 20px;
+}
+
+.p a,
+.list a,
+.flow a {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.p a:hover,
+.list a:hover {
+  color: var(--color-hover);
+}
+
+.list {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--color-body);
+}
+
+.list li::marker {
+  color: var(--color-accent-ink);
+}
+
+/* Steps top to bottom with an arrow between each. */
+.flow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.flowStep {
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-panel);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.flowStep + .flowStep {
+  position: relative;
+  margin-top: 26px;
+}
+
+.flowStep + .flowStep::before {
+  content: "↓";
+  position: absolute;
+  top: -24px;
+  left: 20px;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--color-accent-ink);
+}
+
+.video {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.videoFrame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-dark);
+}
+
+.videoFrame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.videoCaption {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.linksLabel {
+  font-size: 15px;
+  color: var(--color-body);
+}
+
+.linkRow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.linkPill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-number);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.linkPill:hover,
+.linkPill:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
 @media (min-width: 640px) {
   .compare,
   .cards {

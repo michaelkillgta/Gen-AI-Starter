@@ -203,13 +203,27 @@ async fn weekly_issue_has_tally() {
 #[tokio::test]
 async fn blog_filters_by_category() {
     let (_, all) = get("/posts").await;
-    assert_eq!(all["posts"].as_array().unwrap().len(), 10);
+    assert_eq!(all["posts"].as_array().unwrap().len(), 11);
     let (_, agents) = get("/posts?category=agents").await;
     assert_eq!(agents["posts"].as_array().unwrap().len(), 4);
     assert_eq!(get("/posts?category=nope").await.0, StatusCode::NOT_FOUND);
     let (s, post) = get("/posts/memory-is-not-truth").await;
     assert_eq!(s, StatusCode::OK);
     assert_eq!(post["category"]["label"], "Agents");
+
+    // Posts can carry images, videos, lists, flows, links and anchored headings.
+    let (s, post) = get("/posts/how-ai-actually-learns").await;
+    assert_eq!(s, StatusCode::OK);
+    let body = post["body"].as_array().unwrap();
+    let count = |t: &str| body.iter().filter(|b| b["type"] == t).count();
+    assert_eq!(count("image"), 10);
+    assert_eq!(count("video"), 2);
+    assert_eq!(count("links"), 1);
+    assert!(count("flow") >= 3 && count("list") >= 5);
+    assert!(
+        body.iter()
+            .any(|b| b["type"] == "heading" && b["id"] == "step-8")
+    );
 }
 
 #[tokio::test]

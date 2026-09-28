@@ -207,7 +207,17 @@ pub struct CodeSample {
     pub code: String,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct LinkItem {
+    pub label: String,
+    /// A path on the site ("/toolkit/docling"), an anchor ("#step-1") or a full URL.
+    pub href: String,
+}
+
 /// One block of a deep dive or blog post body.
+///
+/// Paragraph, list and flow text may contain `[label](href)` links.
 #[derive(Clone, Debug, Serialize, Deserialize, TS)]
 #[serde(tag = "type", rename_all = "lowercase")]
 #[ts(export)]
@@ -217,6 +227,41 @@ pub enum Block {
     },
     Heading {
         text: String,
+        /// Anchor for links to this heading (`#id`).
+        #[serde(default)]
+        id: Option<String>,
+    },
+    /// A picture from `web/public` (e.g. "/blog/<post>/step-1.webp"); click to enlarge.
+    Image {
+        src: String,
+        alt: String,
+        width: u32,
+        height: u32,
+        #[serde(default)]
+        caption: Option<String>,
+    },
+    /// A YouTube video, embedded privacy-friendly (youtube-nocookie) and lazy-loaded.
+    Video {
+        youtube_id: String,
+        title: String,
+        #[serde(default)]
+        caption: Option<String>,
+    },
+    /// A bullet or numbered list.
+    List {
+        #[serde(default)]
+        ordered: bool,
+        items: Vec<String>,
+    },
+    /// Steps shown top to bottom with an arrow between each.
+    Flow {
+        items: Vec<String>,
+    },
+    /// A row of links, e.g. jump links to a post's steps.
+    Links {
+        #[serde(default)]
+        label: Option<String>,
+        items: Vec<LinkItem>,
     },
     Compare {
         left: CompareSide,

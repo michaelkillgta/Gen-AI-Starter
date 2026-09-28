@@ -37,7 +37,13 @@ fn blocks_words(blocks: &[Block]) -> usize {
     blocks
         .iter()
         .map(|b| match b {
-            Block::Paragraph { text } | Block::Heading { text } => words(text),
+            Block::Paragraph { text } | Block::Heading { text, .. } => words(text),
+            // Looking at a picture takes a few seconds; links and videos aren't reading.
+            Block::Image { .. } => 20,
+            Block::Video { .. } | Block::Links { .. } => 0,
+            Block::List { items, .. } | Block::Flow { items } => {
+                items.iter().map(|x| words(x)).sum()
+            }
             Block::Callout { label, text } => words(label) + words(text),
             Block::Compare { left, right } => [left, right]
                 .iter()

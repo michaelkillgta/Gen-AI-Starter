@@ -1,5 +1,7 @@
 import type { Block } from "@/lib/api-types/Block";
 import { CodeBlock } from "./CodeBlock";
+import { InlineText } from "./InlineText";
+import { ZoomImage } from "./ZoomImage";
 import styles from "./BlockRenderer.module.css";
 
 /** Draws a deep dive or blog post body from its typed blocks. */
@@ -11,12 +13,12 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
           case "paragraph":
             return (
               <p key={i} className={styles.p}>
-                {b.text}
+                <InlineText text={b.text} />
               </p>
             );
           case "heading":
             return (
-              <h2 key={i} className={styles.h2}>
+              <h2 key={i} id={b.id ?? undefined} className={styles.h2}>
                 {b.text}
               </h2>
             );
@@ -58,6 +60,61 @@ export function BlockRenderer({ blocks }: { blocks: Block[] }) {
             );
           case "code":
             return <CodeBlock key={i} language={b.language} code={b.code} />;
+          case "image":
+            return <ZoomImage key={i} src={b.src} alt={b.alt} width={b.width} height={b.height} caption={b.caption} />;
+          case "video":
+            return (
+              <figure key={i} className={styles.video}>
+                <div className={styles.videoFrame}>
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(b.youtube_id)}?rel=0`}
+                    title={b.title}
+                    loading="lazy"
+                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+                {b.caption && <figcaption className={styles.videoCaption}>{b.caption}</figcaption>}
+              </figure>
+            );
+          case "list": {
+            const Tag = b.ordered ? "ol" : "ul";
+            return (
+              <Tag key={i} className={styles.list}>
+                {b.items.map((item) => (
+                  <li key={item}>
+                    <InlineText text={item} />
+                  </li>
+                ))}
+              </Tag>
+            );
+          }
+          case "flow":
+            return (
+              <ol key={i} className={styles.flow}>
+                {b.items.map((item) => (
+                  <li key={item} className={styles.flowStep}>
+                    <InlineText text={item} />
+                  </li>
+                ))}
+              </ol>
+            );
+          case "links":
+            return (
+              <nav key={i} className={styles.links} aria-label={b.label ?? "Links"}>
+                {b.label && <span className={styles.linksLabel}>{b.label}</span>}
+                <ul className={styles.linkRow}>
+                  {b.items.map((l) => (
+                    <li key={l.href}>
+                      <a href={l.href} className={styles.linkPill}>
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            );
         }
       })}
     </>

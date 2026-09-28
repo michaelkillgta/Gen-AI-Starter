@@ -52,7 +52,9 @@ export default defineConfig({
       // The Rust API serves the content the pages render. With E2E_DATABASE_URL set it
       // runs on Postgres (seeded first); otherwise on the seed files, with test
       // signups in a throwaway folder, never the real api/data.
-      command: process.env.E2E_DATABASE_URL ? "cd ../api && cargo run -q -- seed && cargo run" : "cd ../api && cargo run",
+      command: process.env.E2E_DATABASE_URL
+        ? "node ../scripts/cargo.mjs run -q -- seed && node ../scripts/cargo.mjs run"
+        : "node ../scripts/cargo.mjs run",
       url: `${apiUrl}/health`,
       reuseExistingServer: true,
       timeout: 600_000,

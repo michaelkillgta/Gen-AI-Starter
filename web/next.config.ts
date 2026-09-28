@@ -11,6 +11,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Allowed image qualities (Next 16 needs the list): 75 default, 85 for screenshots with text.
+  images: { qualities: [75, 85] },
   // The screen tests build into their own folder, so a test run never overwrites
   // the files (and CSS) a running `next dev` is serving from .next.
   distDir: process.env.NEXT_DIST_DIR || ".next",
