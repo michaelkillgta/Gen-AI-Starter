@@ -22,9 +22,15 @@ pnpm --dir web install          # first time only
 pnpm dev                        # starts the database, the API and the website
 ```
 
+On Windows, `pnpm dev` runs the database and API inside Ubuntu (WSL), because Smart App
+Control blocks freshly built Windows programs (docs/decisions.md, entry 39). One-time setup:
+`wsl --install -d Ubuntu-24.04`, then inside Ubuntu
+`sudo apt install -y build-essential pkg-config postgresql` and Rust from https://rustup.rs.
+`pnpm types:wsl` runs the API tests there and regenerates `web/src/lib/api-types`.
+
 - Website: http://localhost:3000 (style guide: http://localhost:3000/styleguide)
 - API: http://127.0.0.1:8080/health
-- Database: PostgreSQL 17 on `localhost:5433` (user `fieldtested`, password `fieldtested_dev`); an empty database is filled from `api/seed/` automatically
+- Database: PostgreSQL (17 via `pnpm db`, 16 in WSL) on `localhost:5433` (user `fieldtested`, password `fieldtested_dev`); an empty database is filled from `api/seed/` automatically
 - No database? `pnpm dev:files` runs on the seed files instead
 
 `pnpm check` runs lint, type checks and clippy. `pnpm test` runs the API tests and the

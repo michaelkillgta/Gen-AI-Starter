@@ -121,6 +121,18 @@
   letter-spacing: -0.4px;
 }
 
+.calloutText a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.calloutText a:hover,
+.calloutText a:focus-visible {
+  color: var(--color-on-dark);
+}
+
 .h2[id] {
   scroll-margin-top: 20px;
 }

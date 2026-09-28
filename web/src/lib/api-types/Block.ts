@@ -14,7 +14,7 @@ export type Block = { "type": "paragraph", text: string, } | { "type": "heading"
 /**
  * Anchor for links to this heading (`#id`).
  */
-id: string | null, } | { "type": "image", src: string, alt: string, width: number, height: number, caption: string | null, } | { "type": "video", youtube_id: string, title: string, caption: string | null, } | { "type": "list", ordered: boolean, items: Array<string>, } | { "type": "flow", items: Array<string>,
+id: string | null, } | { "type": "image", src: string, alt: string, width: number, height: number, caption: string | null, } | { "type": "video", youtube_id: string, title: string, caption: string | null, } | { "type": "list", ordered: boolean, items: Array<string>, } | { "type": "flow", items: Array<string>, 
 /**
  * For loops: a last "↺ <label>" chip that sends you back to the start.
  */
