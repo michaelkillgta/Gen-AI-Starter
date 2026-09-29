@@ -65,48 +65,48 @@ def pair(*items):
 
 BODY = [
     *p("You upload a PDF to an AI app and ask, \"Summarise this chapter.\" A few seconds later, you have a summary.",
-       "It feels like magic. But how did the AI actually read that PDF? There's an important step that happens "
+       "It feels like magic. But how did the AI actually read that PDF? There's an ==important step== that happens "
        "before the AI sees a single word, and that's what this post is about.",
-       f"We'll keep it simple and meet two tools that do this job, Docling and MinerU. If you want the deeper "
-       f"version first, [read our Docling post]({DOCLING_POST})."),
+       "We'll keep it simple and meet two tools that do this job, **Docling** and **MinerU**."),
+    {"type": "cta", "label": "New to Docling? Read our Docling post first", "href": DOCLING_POST},
 
     h("A PDF isn't a clean page of text", "part-1"),
     *p("A PDF can hold a heading, then a paragraph, then a picture, a table, an equation and another section, all "
-       "arranged on the page in columns and boxes."),
+       "arranged on the page in ==columns and boxes==."),
     flow("Heading", "Paragraph", "Image", "Table", "Equation", "Next section"),
     *p("If you simply pull out all the text, that neat page can turn into a blob like this:"),
     code("Electric field...\n12.5\nFigure 4\nE = F/q\ncurrent..."),
-    *p("The words are there. What they belong to is gone. Which number goes with which row? Is \"Figure 4\" a "
+    *p("The words are there. ==What they belong to is gone.== Which number goes with which row? Is \"Figure 4\" a "
        "heading? Nobody knows any more, including the AI."),
     takeaway("A PDF is a layout, not a list of words."),
 
     h("What document parsing means", "part-2"),
-    *p("In simple words, document parsing means taking a document and working out what's inside it. Instead of one "
+    *p("In simple words, ==document parsing== means taking a document and working out ==what's inside it==. Instead of one "
        "big pile of text, you get the pieces, each with a label:"),
     flow("PDF", "Document parser", "Heading, paragraph, table, image, section, equation"),
-    *p("The important part isn't just getting the words. It's knowing where each word belongs: this is a title, "
+    *p("The important part isn't just getting the words. It's knowing ==where each word belongs==: this is a title, "
        "this is a table cell, this caption goes with that figure.",
        f"Our [Docling post]({DOCLING_POST}#part-3) shows this step by step, with a real page and every part labelled."),
     takeaway("Parsing keeps the shape of the document, not just its words."),
 
     h("Why AI needs this", "part-3"),
     *p("Say you're building a study app, and a student uploads Physics Chapter 5. Later, the app has to find the "
-       "right part of that chapter to answer a question. That's RAG: the AI looks things up in your documents "
+       "right part of that chapter to answer a question. That's ==RAG==: the AI looks things up in your documents "
        "before it answers.",
        "If the chapter went in as a blob, the app searches through the blob. If it was parsed first, the app knows "
-       "the chapter, the section, the equation and the figure, and every piece it finds comes with that context."),
+       "the chapter, the section, the equation and the figure, and every piece it finds comes ==with that context==."),
     flow("PDF", "Document parsing", "Structured content", "Chunking", "Embeddings", "Vector database", "RAG answer"),
     takeaway("Good answers start with a well-parsed document."),
 
     h("Docling and MinerU: same goal, different tools", "part-4"),
-    *p(f"You may already know Docling from [our Docling post]({DOCLING_POST}). MinerU is in the same category: an "
+    *p(f"You may already know **Docling** from [our Docling post]({DOCLING_POST}). **MinerU** is in the same category: an "
        "open-source document parser, from the OpenDataLab team. You give either one a document, and you get back "
        "structured content your app can use."),
     box("Tell the neighbours",
         "Your neighbour's kid just built a RAG app with Docling, and now the whole colony is talking about it. Relax. "
         "You're about to learn MinerU, which does the same job its own way. Next family function, you get to say, "
         "\"Oh, I tried both.\""),
-    *p("So which one is right? Both. They solve the same problem with different engines. The simplest way to "
+    *p("So which one is right? ==Both.== They solve ==the same problem with different engines==. The simplest way to "
        "remember the difference:"),
     pair(("Docling", "\"Give me a document and I'll turn it into a structured document object.\""),
          ("MinerU", "\"Give me documents and I'll parse them so an app or an AI agent can read, search and point to "
@@ -117,13 +117,14 @@ BODY = [
        "It runs on your own computer by default. Your documents aren't uploaded anywhere unless you set that up."),
     box("More on Docling", f"How it reads layout, handles scanned pages and exports Markdown is all in [our Docling "
                            f"post]({DOCLING_POST})."),
+    {"type": "cta", "label": "Read the Docling post", "href": DOCLING_POST},
     takeaway("Docling and MinerU are neighbours, not rivals. Same job, different engines."),
 
     h("MinerU's four speed settings", "part-5"),
-    *p("MinerU lets you choose how hard it works on a document. It calls these tiers:"),
+    *p("MinerU lets you choose how hard it works on a document. It calls these ==tiers==:"),
     flow("Flash: fast previews and indexing", "Basic: adds OCR and small models",
          "Standard: for more demanding layouts", "Advanced: most effort, for the hardest documents"),
-    *p("Think of it like choosing between a quick glance and a careful read. A simple, clean PDF is fine with Flash. "
+    *p("Think of it like choosing between ==a quick glance== and ==a careful read==. A simple, clean PDF is fine with Flash. "
        "A scanned textbook full of tables and equations is where Standard and Advanced earn their time."),
     takeaway("Pick the tier that matches how messy your document is."),
 
@@ -132,22 +133,23 @@ BODY = [
        "and run one command:"),
     code('!pip install -U "mineru>=4.0,<5"', "bash"),
     code('!mineru-kit parse "/content/bitcoin.pdf" -o "/content/bitcoin_standard.md" --tier standard', "bash"),
-    *p("The first run downloads some model files, so it can look busy for a while. That's normal. Don't stop it and "
-       "don't run it twice. When it finishes, open the Markdown file and look for headings, paragraphs, lists and "
+    *p("The first run downloads some model files, so it can look busy for a while. That's normal. ==Don't stop it== and "
+       "==don't run it twice==. When it finishes, open the Markdown file and look for headings, paragraphs, lists and "
        "tables.",
        f"Then do the fun part: run the same PDF through Docling ([the commands are here]({DOCLING_POST}#part-5)) "
        "and put the two results side by side. Don't ask "
-       "\"Which tool is better?\" Ask \"Which one keeps what I need from my documents?\""),
+       "\"Which tool is better?\" Ask ==\"Which one keeps what I need from my documents?\"=="),
     box("Good to know", "MinerU needs Python 3.10 to 3.14. Colab's Python works."),
     takeaway("The best parser is the one that works on your documents. Test it."),
 
     h("The one thing to remember"),
     *p("Think of a messy school bag. Books, notes, pens and receipts, all thrown in together. Before you can find "
-       "anything, you sort it. Document parsing does that for documents."),
+       "anything, ==you sort it==. Document parsing does that for documents."),
     flow("Messy PDF", "Sort what's inside", "Heading, paragraph, table, image, section", "AI-ready content"),
     pair(("Don't think", "PDF → Text → AI"), ("Think", "PDF → Structure → AI")),
     *p("Docling or MinerU, the idea is the same: turn messy documents into structured information that software and "
-       f"AI can work with. That's the whole game. For the full picture, [read our Docling post]({DOCLING_POST})."),
+       "AI can work with. That's the whole game."),
+    {"type": "cta", "label": "Go deeper: read the Docling post", "href": DOCLING_POST},
     {"type": "links", "label": "Official references", "items": [
         {"label": "MinerU on GitHub", "href": REPO},
         {"label": "MinerU tiers", "href": TIERS},

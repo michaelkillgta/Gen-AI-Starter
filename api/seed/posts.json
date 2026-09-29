@@ -27,11 +27,16 @@
       },
       {
         "type": "paragraph",
-        "text": "It feels like magic. But how did the AI actually read that PDF? There's an important step that happens before the AI sees a single word, and that's what this post is about."
+        "text": "It feels like magic. But how did the AI actually read that PDF? There's an ==important step== that happens before the AI sees a single word, and that's what this post is about."
       },
       {
         "type": "paragraph",
-        "text": "We'll keep it simple and meet two tools that do this job, Docling and MinerU. If you want the deeper version first, [read our Docling post](/blog/docling-pdf-is-not-just-text)."
+        "text": "We'll keep it simple and meet two tools that do this job, **Docling** and **MinerU**."
+      },
+      {
+        "type": "cta",
+        "label": "New to Docling? Read our Docling post first",
+        "href": "/blog/docling-pdf-is-not-just-text"
       },
       {
         "type": "heading",
@@ -40,7 +45,7 @@
       },
       {
         "type": "paragraph",
-        "text": "A PDF can hold a heading, then a paragraph, then a picture, a table, an equation and another section, all arranged on the page in columns and boxes."
+        "text": "A PDF can hold a heading, then a paragraph, then a picture, a table, an equation and another section, all arranged on the page in ==columns and boxes==."
       },
       {
         "type": "flow",
@@ -65,7 +70,7 @@
       },
       {
         "type": "paragraph",
-        "text": "The words are there. What they belong to is gone. Which number goes with which row? Is \"Figure 4\" a heading? Nobody knows any more, including the AI."
+        "text": "The words are there. ==What they belong to is gone.== Which number goes with which row? Is \"Figure 4\" a heading? Nobody knows any more, including the AI."
       },
       {
         "type": "callout",
@@ -79,7 +84,7 @@
       },
       {
         "type": "paragraph",
-        "text": "In simple words, document parsing means taking a document and working out what's inside it. Instead of one big pile of text, you get the pieces, each with a label:"
+        "text": "In simple words, ==document parsing== means taking a document and working out ==what's inside it==. Instead of one big pile of text, you get the pieces, each with a label:"
       },
       {
         "type": "flow",
@@ -92,7 +97,7 @@
       },
       {
         "type": "paragraph",
-        "text": "The important part isn't just getting the words. It's knowing where each word belongs: this is a title, this is a table cell, this caption goes with that figure."
+        "text": "The important part isn't just getting the words. It's knowing ==where each word belongs==: this is a title, this is a table cell, this caption goes with that figure."
       },
       {
         "type": "paragraph",
@@ -110,11 +115,11 @@
       },
       {
         "type": "paragraph",
-        "text": "Say you're building a study app, and a student uploads Physics Chapter 5. Later, the app has to find the right part of that chapter to answer a question. That's RAG: the AI looks things up in your documents before it answers."
+        "text": "Say you're building a study app, and a student uploads Physics Chapter 5. Later, the app has to find the right part of that chapter to answer a question. That's ==RAG==: the AI looks things up in your documents before it answers."
       },
       {
         "type": "paragraph",
-        "text": "If the chapter went in as a blob, the app searches through the blob. If it was parsed first, the app knows the chapter, the section, the equation and the figure, and every piece it finds comes with that context."
+        "text": "If the chapter went in as a blob, the app searches through the blob. If it was parsed first, the app knows the chapter, the section, the equation and the figure, and every piece it finds comes ==with that context==."
       },
       {
         "type": "flow",
@@ -141,7 +146,7 @@
       },
       {
         "type": "paragraph",
-        "text": "You may already know Docling from [our Docling post](/blog/docling-pdf-is-not-just-text). MinerU is in the same category: an open-source document parser, from the OpenDataLab team. You give either one a document, and you get back structured content your app can use."
+        "text": "You may already know **Docling** from [our Docling post](/blog/docling-pdf-is-not-just-text). **MinerU** is in the same category: an open-source document parser, from the OpenDataLab team. You give either one a document, and you get back structured content your app can use."
       },
       {
         "type": "callout",
@@ -150,7 +155,7 @@
       },
       {
         "type": "paragraph",
-        "text": "So which one is right? Both. They solve the same problem with different engines. The simplest way to remember the difference:"
+        "text": "So which one is right? ==Both.== They solve ==the same problem with different engines==. The simplest way to remember the difference:"
       },
       {
         "type": "pair",
@@ -184,6 +189,11 @@
         "text": "How it reads layout, handles scanned pages and exports Markdown is all in [our Docling post](/blog/docling-pdf-is-not-just-text)."
       },
       {
+        "type": "cta",
+        "label": "Read the Docling post",
+        "href": "/blog/docling-pdf-is-not-just-text"
+      },
+      {
         "type": "callout",
         "label": "Takeaway",
         "text": "Docling and MinerU are neighbours, not rivals. Same job, different engines."
@@ -195,7 +205,7 @@
       },
       {
         "type": "paragraph",
-        "text": "MinerU lets you choose how hard it works on a document. It calls these tiers:"
+        "text": "MinerU lets you choose how hard it works on a document. It calls these ==tiers==:"
       },
       {
         "type": "flow",
@@ -209,7 +219,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Think of it like choosing between a quick glance and a careful read. A simple, clean PDF is fine with Flash. A scanned textbook full of tables and equations is where Standard and Advanced earn their time."
+        "text": "Think of it like choosing between ==a quick glance== and ==a careful read==. A simple, clean PDF is fine with Flash. A scanned textbook full of tables and equations is where Standard and Advanced earn their time."
       },
       {
         "type": "callout",
@@ -237,11 +247,11 @@
       },
       {
         "type": "paragraph",
-        "text": "The first run downloads some model files, so it can look busy for a while. That's normal. Don't stop it and don't run it twice. When it finishes, open the Markdown file and look for headings, paragraphs, lists and tables."
+        "text": "The first run downloads some model files, so it can look busy for a while. That's normal. ==Don't stop it== and ==don't run it twice==. When it finishes, open the Markdown file and look for headings, paragraphs, lists and tables."
       },
       {
         "type": "paragraph",
-        "text": "Then do the fun part: run the same PDF through Docling ([the commands are here](/blog/docling-pdf-is-not-just-text#part-5)) and put the two results side by side. Don't ask \"Which tool is better?\" Ask \"Which one keeps what I need from my documents?\""
+        "text": "Then do the fun part: run the same PDF through Docling ([the commands are here](/blog/docling-pdf-is-not-just-text#part-5)) and put the two results side by side. Don't ask \"Which tool is better?\" Ask ==\"Which one keeps what I need from my documents?\"=="
       },
       {
         "type": "callout",
@@ -260,7 +270,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Think of a messy school bag. Books, notes, pens and receipts, all thrown in together. Before you can find anything, you sort it. Document parsing does that for documents."
+        "text": "Think of a messy school bag. Books, notes, pens and receipts, all thrown in together. Before you can find anything, ==you sort it==. Document parsing does that for documents."
       },
       {
         "type": "flow",
@@ -287,7 +297,12 @@
       },
       {
         "type": "paragraph",
-        "text": "Docling or MinerU, the idea is the same: turn messy documents into structured information that software and AI can work with. That's the whole game. For the full picture, [read our Docling post](/blog/docling-pdf-is-not-just-text)."
+        "text": "Docling or MinerU, the idea is the same: turn messy documents into structured information that software and AI can work with. That's the whole game."
+      },
+      {
+        "type": "cta",
+        "label": "Go deeper: read the Docling post",
+        "href": "/blog/docling-pdf-is-not-just-text"
       },
       {
         "type": "links",

@@ -677,3 +677,36 @@
 .reading .videoCaption {
   font-size: var(--read-fs-small);
 }
+
+/* ==marker== highlights: an amber marker stroke under the words. */
+.p mark,
+.list mark,
+.lead mark,
+.pairText mark,
+.calloutText mark,
+.flowText mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  color: inherit;
+  background: linear-gradient(transparent 45%, color-mix(in srgb, var(--color-accent) 42%, transparent) 45%);
+}
+
+/* Links to other posts in the reading text: bold with an amber marker. */
+.reading .p a[href^="/blog/"],
+.reading .list a[href^="/blog/"] {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  text-decoration: none;
+}
+
+.reading .p a[href^="/blog/"]::after,
+.reading .list a[href^="/blog/"]::after {
+  content: " →";
+}
+
+.reading .p a[href^="/blog/"]:hover,
+.reading .list a[href^="/blog/"]:hover {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}

@@ -2,12 +2,13 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 /**
- * Body text with two bits of markup: `[label](href)` links and `**bold**`.
+ * Body text with three bits of markup: `[label](href)` links, `**bold**` and
+ * `==marker==` highlights.
  * Site paths and #anchors stay in the tab; other sites open in a new one.
  */
 export function InlineText({ text }: { text: string }) {
   const out: ReactNode[] = [];
-  const re = /\[([^\]]+)\]\(([^)\s]+)\)|\*\*([^*]+)\*\*/g;
+  const re = /\[([^\]]+)\]\(([^)\s]+)\)|\*\*([^*]+)\*\*|==([^=]+)==/g;
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text))) {
@@ -15,6 +16,8 @@ export function InlineText({ text }: { text: string }) {
     const key = m.index;
     if (m[3] !== undefined) {
       out.push(<strong key={key}>{m[3]}</strong>);
+    } else if (m[4] !== undefined) {
+      out.push(<mark key={key}>{m[4]}</mark>);
     } else {
       const [, label, href] = m;
       if (href.startsWith("/")) {
