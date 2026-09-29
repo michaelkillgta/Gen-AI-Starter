@@ -6,13 +6,13 @@ import { formatDate } from "@/lib/links";
 import { site } from "@/lib/site";
 import styles from "./PostHero.module.css";
 
-export type PostStep = { n: number; id: string; title: string; word: "step" | "stage" };
+export type PostStep = { n: number; id: string; title: string; word: "step" | "stage" | "part" };
 
 /** Headings with an id like "step-3" or "stage-3" are the post's steps ("Step 3: Choose…" -> "Choose…"). */
 export function stepsOf(body: Block[]): PostStep[] {
   return body.flatMap((b) => {
     if (b.type !== "heading" || !b.id) return [];
-    const m = /^(step|stage)-(\d+)$/.exec(b.id);
+    const m = /^(step|stage|part)-(\d+)$/.exec(b.id);
     if (!m) return [];
     // "Plan: decide what you're building" -> "Plan" for the jump links.
     const title = b.text.replace(/^Step \d+:\s*/, "").split(":")[0];
@@ -57,7 +57,7 @@ export function PostHero({ post }: { post: PostDetail }) {
       {steps.length > 0 && (
         <nav className={styles.steps} aria-label={`Jump to a ${word}`}>
           <span className={styles.stepsLabel} style={{ color: post.cover.fg }}>
-            The {steps.length} {word}s
+            {word === "part" ? "In this post" : `The ${steps.length} ${word}s`}
           </span>
           <ol className={steps.length % 3 === 0 ? `${styles.stepList} ${styles.stepList3}` : styles.stepList}>
             {steps.map((s) => (

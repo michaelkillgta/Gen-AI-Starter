@@ -7,6 +7,8 @@ const KEYWORDS = new Set([
   "class", "async", "await", "const", "let", "function", "export", "true", "false", "True", "False", "None",
 ]);
 
+const PLAIN = new Set(["text", "markdown"]);
+
 /** Tiny highlighter: keywords, comments, strings and SCREAMING_CASE constants. Enough for short samples. */
 function highlight(code: string): ReactNode[] {
   const out: ReactNode[] = [];
@@ -33,7 +35,8 @@ export function CodeBlock({ code, language }: { code: string; language: string }
   return (
     <div className={styles.wrap}>
       <pre className={styles.pre} tabIndex={0} aria-label={`${language} code`}>
-        <code>{highlight(code)}</code>
+        {/* Text, trees and Markdown are shown as they are, not coloured like code. */}
+        <code>{PLAIN.has(language) ? code : highlight(code)}</code>
       </pre>
     </div>
   );

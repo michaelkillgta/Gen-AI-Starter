@@ -6,7 +6,7 @@ import { InlineText } from "./InlineText";
 import { ZoomImage } from "./ZoomImage";
 import styles from "./BlockRenderer.module.css";
 
-const STEP_ID = /^(step|stage)-\d+$/;
+const STEP_ID = /^(step|stage|part)-\d+$/;
 const isStep = (b: Block) => b.type === "heading" && !!b.id && STEP_ID.test(b.id);
 
 /**
@@ -66,7 +66,7 @@ function renderBlock(b: Block, i: number, stepTotal: number) {
         </p>
       );
     case "heading": {
-      const step = b.id ? /^(step|stage)-(\d+)$/.exec(b.id) : null;
+      const step = b.id ? /^(step|stage|part)-(\d+)$/.exec(b.id) : null;
       if (step) {
         return (
           <h2 key={i} id={b.id ?? undefined} className={`${styles.h2} ${styles.stepHeading}`}>
@@ -75,7 +75,7 @@ function renderBlock(b: Block, i: number, stepTotal: number) {
             </span>
             <span className={styles.stepText}>
               <span className={styles.stepOf}>
-                {step[1] === "stage" ? "Stage" : "Step"} {step[2]} of {stepTotal}
+                {step[1][0].toUpperCase() + step[1].slice(1)} {step[2]} of {stepTotal}
               </span>
               <span className="visually-hidden">: </span>
               {b.text.replace(/^Step \d+:\s*/, "")}

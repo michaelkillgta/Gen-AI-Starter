@@ -235,8 +235,8 @@ POST = {
         "text": "6 stages", "bg": "#211913", "fg": "#F2A93B",
         "image": {"src": f"{IMG}/overview.webp", "width": 1536, "height": 1024, "alt": OVERVIEW_ALT},
     },
-    # Newest post with a "featured" line = the Featured box on /blog.
-    "featured": {"stat": "6 stages", "caption": "from idea to real app, and what AI changes in each one"},
+    # Was featured until the Docling post (29 Sept 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-09-29",

@@ -1,5 +1,354 @@
 [
   {
+    "slug": "docling-pdf-is-not-just-text",
+    "category": "rag-and-documents",
+    "title": "Your PDF Isn't Just Text. That's Why AI Can Struggle With It.",
+    "excerpt": "Pull the text out of a PDF and the structure falls apart: headings, tables, reading order. Here's how Docling keeps it, and where it fits in a RAG system.",
+    "cover": {
+      "text": "Docling",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/docling/pipeline.webp",
+        "width": 1774,
+        "height": 887,
+        "alt": "From messy documents to useful AI answers, in six steps: 1, a PDF (a sample quarterly report with text, a table, an image and a chart); 2, Docling analyses layout, reading order, tables, images, sections and runs OCR on scans; 3, structured content (heading, paragraph, table, image, chart, section); 4, chunks; 5, embeddings turn chunks into vectors; 6, a RAG app answers \"What was the revenue in Q3 2024?\" with the right figure and its source. Better document structure leads to better AI answers; Docling is the document-understanding step, not the whole RAG system."
+      }
+    },
+    "featured": {
+      "stat": "PDF ≠ text",
+      "caption": "why AI struggles with documents, and how Docling keeps their structure"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Say you have a 100-page PDF and you want an AI to answer questions about it. The obvious plan is to extract the text and hand it over."
+      },
+      {
+        "type": "paragraph",
+        "text": "Then you look at what came out."
+      },
+      {
+        "type": "paragraph",
+        "text": "**What plain text extraction gave you:**"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "Revenue\n2025\nCompany A 120\nCompany B 98\nCompany C 143\n..."
+      },
+      {
+        "type": "paragraph",
+        "text": "The headings are mixed in with the paragraphs. The table has lost its shape. The images are gone, and the reading order can come out wrong. A document that looked neatly organised to you has turned into a pile of words."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the problem Docling was built for."
+      },
+      {
+        "type": "heading",
+        "text": "What's actually inside a PDF",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/docling/not-just-text.webp",
+        "alt": "A PDF is not just text. Left: a sample quarterly business review as you see it. Middle: the elements it contains, each with a different meaning: heading, text, image, table, chart and layout. Right: a structured document representation where each element is identified and organised: heading, paragraph, image, table, chart, section and footer.",
+        "width": 1774,
+        "height": 887,
+        "caption": "The example report in these pictures is made up."
+      },
+      {
+        "type": "paragraph",
+        "text": "A PDF looks like a simple page, but it holds many different things: headings, paragraphs, tables, images, lists, captions, headers and footers, sections, and a page layout with a reading order that ties them together."
+      },
+      {
+        "type": "paragraph",
+        "text": "When you look at a page, your brain sorts this out without effort. This is the title. This paragraph belongs under that heading. These numbers are a table. That picture is a figure."
+      },
+      {
+        "type": "paragraph",
+        "text": "A basic text extractor doesn't necessarily keep any of those relationships. That matters, because everything after it, including the AI, only sees what the extractor hands over."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A PDF is a structured document, not just text."
+      },
+      {
+        "type": "heading",
+        "text": "What Docling does",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/docling/structured.webp",
+        "alt": "Docling turns messy documents into structured content. 1, a messy PDF as input; 2, Docling processing: layout analysis, reading order, detecting tables and images, understanding sections and handling scanned PDFs with OCR; 3, a structured DoclingDocument as output (heading, paragraph, image, table with header and rows, chart, section, footer), ready to export as Markdown, JSON or HTML.",
+        "width": 1774,
+        "height": 887,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Docling is an open-source tool that converts documents into a structured representation instead of one long string of text. It was started by the AI for knowledge team at IBM Research Zurich, it's MIT licensed, and it now lives under the LF AI & Data Foundation."
+      },
+      {
+        "type": "paragraph",
+        "text": "Its core format is called [DoclingDocument](https://github.com/docling-project/docling/blob/main/docs/concepts/docling_document.md). It can hold text, tables, pictures, the heading hierarchy, layout information and reading order. So instead of a flat pile of words you get something closer to a tree:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "Document\n ├── Section\n │    ├── Heading\n │    ├── Paragraph\n │    └── Table\n │         ├── Header\n │         ├── Row\n │         └── Row\n └── Figure"
+      },
+      {
+        "type": "callout",
+        "label": "Good to know",
+        "text": "Docling isn't only for PDFs. It also reads DOCX, PPTX, XLSX, HTML and images, among other formats."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Docling keeps the document's structure instead of flattening it."
+      },
+      {
+        "type": "heading",
+        "text": "It reads the layout, not just the words",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/docling/layout.webp",
+        "alt": "Docling understands the layout of your document. Left: the original PDF page. Middle: the structure Docling detected, with a numbered box around each part: 1 heading, 2 paragraph, 3 image, 4 table, 5 section, 6 chart, 7 footer. Right: the list of detected elements and the reading order, from heading to footer.",
+        "width": 1774,
+        "height": 887,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Before Docling can label anything, it has to work out what's on the page. It analyses the layout, finds each element (heading, paragraph, image, table, section, chart, footer) and works out the reading order, so a two-column page isn't read straight across."
+      },
+      {
+        "type": "paragraph",
+        "text": "In the picture, every detected element gets a numbered box, and the list on the right shows the order it would be read in: heading first, then paragraph, image, table, and so on."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "It doesn't just read words. It finds and labels the parts of the page."
+      },
+      {
+        "type": "heading",
+        "text": "What about scanned PDFs?",
+        "id": "part-4"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Normal PDF",
+          "Read the content"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Scanned PDF",
+          "OCR",
+          "Recognise the text"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Some PDFs contain no selectable text at all. They're pictures of pages. Try to select a word and nothing happens."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's where OCR comes in. Optical character recognition looks at the pixels and recognises the text inside them. Docling supports OCR with several engines to choose from, such as Tesseract, EasyOCR and RapidOCR. On the command line it's switched on by default, and there's a --force-ocr option if you want it on every page."
+      },
+      {
+        "type": "paragraph",
+        "text": "But OCR only finds letters. Docling's layout steps are what decide what those letters are: a heading, a table cell, a caption."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "OCR reads the pixels. Layout analysis works out what they mean."
+      },
+      {
+        "type": "heading",
+        "text": "Getting the words is not the same as keeping the document",
+        "id": "part-5"
+      },
+      {
+        "type": "image",
+        "src": "/blog/docling/words-vs-document.webp",
+        "alt": "Getting the words is not the same as understanding the document. 1, basic text extraction: the PDF becomes plain lines of text and numbers; all content is flattened and tables, layout and hierarchy are lost. 2, Docling's structure-aware parsing: a heading, a paragraph, a table with its rows and columns, an image and a chart, exported as Markdown, JSON or HTML. Structure is preserved.",
+        "width": 1774,
+        "height": 887,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's the comparison that matters. Basic extraction hands you the words: Revenue, 2024, Product, Revenue, A, 120, B, 98, C, 143. They're all there, but whatever reads them next has to guess which number belongs to which product."
+      },
+      {
+        "type": "paragraph",
+        "text": "Docling hands you the same content with its shape: a heading, a paragraph, a table with columns, rows and cells, a figure, a section."
+      },
+      {
+        "type": "paragraph",
+        "text": "Then you choose how to get it out. The [command line](https://docling-project.github.io/docling/reference/cli/) exports Markdown by default, and it also does JSON, YAML, HTML, plain text, DocTags and chunks. A table stays a table:"
+      },
+      {
+        "type": "code",
+        "language": "markdown",
+        "code": "# Annual Revenue\n\n## 2025 Results\n\nThe company reported...\n\n| Product | Revenue |\n|---------|---------|\n| A       | 120     |\n| B       | 98      |\n| C       | 143     |"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's much more useful to an LLM than a flattened wall of words."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Try it yourself.** Install it and convert a PDF from the command line:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "pip install docling\ndocling report.pdf"
+      },
+      {
+        "type": "paragraph",
+        "text": "Or do the same in Python:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from docling.document_converter import DocumentConverter\n\nresult = DocumentConverter().convert(\"report.pdf\")\nprint(result.document.export_to_markdown())"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Getting the words is not the same as keeping the document."
+      },
+      {
+        "type": "heading",
+        "text": "Where RAG comes in",
+        "id": "part-6"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your PDF",
+          "Docling",
+          "Structured document",
+          "Chunking",
+          "Embeddings",
+          "Vector database",
+          "Retrieval",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Docling is not RAG. RAG, or retrieval-augmented generation, is a whole pipeline where an AI looks up the relevant pieces of your documents before it answers. Docling is one early stage of it."
+      },
+      {
+        "type": "paragraph",
+        "text": "It prepares the document. The later stages decide how that information is chunked, embedded, stored and retrieved. Docling can help with chunking too: it has hybrid and hierarchical chunkers, and the command line can export chunks directly with --to chunks."
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's why it matters. Imagine you upload a company's annual report and ask, \"What was the revenue of Product B in 2025?\" If the table was destroyed during extraction, the AI has to guess which number belongs to which product. If the structure survived, the rest of the pipeline has much better information to work with."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's why document processing isn't a boring step hiding in the basement. It changes what your AI system has to work with."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Docling gets the document ready. RAG uses it to answer questions."
+      },
+      {
+        "type": "callout",
+        "label": "One thing to be careful about",
+        "text": "You might hear Docling described as a tool that \"extracts everything without missing anything\". Don't repeat that. No document parser can honestly promise it for every PDF, scan, table, font or layout, and results depend on the document and the settings. A safer way to say it: Docling is designed to extract a document's content while keeping as much of its structure as it can. Run it on your own documents and check the output before you rely on it."
+      },
+      {
+        "type": "heading",
+        "text": "The mental model to remember",
+        "id": null
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Don't think",
+            "text": "PDF → Text → AI"
+          },
+          {
+            "label": "Think",
+            "text": "PDF → Document understanding → Structured data → AI"
+          }
+        ]
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Messy PDF",
+          "Docling: heading, paragraph, table, image, section, reading order",
+          "Markdown or JSON",
+          "Chunks / RAG",
+          "AI application"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "A PDF isn't just text. It's a structured document, and Docling's job is to turn it into structured information your AI pipeline can use."
+      },
+      {
+        "type": "image",
+        "src": "/blog/docling/pipeline.webp",
+        "alt": "From messy documents to useful AI answers, in six steps: 1, a PDF (a sample quarterly report with text, a table, an image and a chart); 2, Docling analyses layout, reading order, tables, images, sections and runs OCR on scans; 3, structured content (heading, paragraph, table, image, chart, section); 4, chunks; 5, embeddings turn chunks into vectors; 6, a RAG app answers \"What was the revenue in Q3 2024?\" with the right figure and its source. Better document structure leads to better AI answers; Docling is the document-understanding step, not the whole RAG system.",
+        "width": 1774,
+        "height": 887,
+        "caption": "The whole journey on one page. Click to enlarge."
+      },
+      {
+        "type": "links",
+        "label": "Official references",
+        "items": [
+          {
+            "label": "Docling documentation",
+            "href": "https://docling-project.github.io/docling/"
+          },
+          {
+            "label": "Docling CLI reference",
+            "href": "https://docling-project.github.io/docling/reference/cli/"
+          },
+          {
+            "label": "DoclingDocument structure",
+            "href": "https://github.com/docling-project/docling/blob/main/docs/concepts/docling_document.md"
+          }
+        ]
+      }
+    ],
+    "published_on": "2026-09-29",
+    "learn": [
+      "Why plain text extraction loses a document's structure",
+      "What Docling does with a PDF",
+      "How layout analysis, OCR and export formats fit together",
+      "Where Docling sits in a RAG pipeline"
+    ]
+  },
+  {
     "slug": "ai-can-write-the-code",
     "category": "ideas",
     "title": "AI Can Write the Code. So What Happens to Software Development?",
@@ -15,10 +364,7 @@
         "alt": "The AI-native SDLC on one page: six stages from idea to real app, Plan, Design, Build, Test, Deploy and Maintain, with real user feedback looping back to planning. AI speeds up the work; humans make the important decisions."
       }
     },
-    "featured": {
-      "stat": "6 stages",
-      "caption": "from idea to real app, and what AI changes in each one"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {

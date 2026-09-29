@@ -22,7 +22,8 @@ export default async function HomePage() {
 
   const items: ThisWeekItem[] = [];
   // Newest blog post first: posts come newest first.
-  const latestPost = blog?.posts[0];
+  // The featured post (the Featured box on /blog), else the newest.
+  const latestPost = blog?.posts.find((p) => p.featured) ?? blog?.posts[0];
   if (latestPost) {
     items.push({
       href: links.post(latestPost.slug),
