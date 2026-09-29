@@ -231,9 +231,8 @@ POST = {
         "text": "Docling", "bg": "#211913", "fg": "#F2A93B",
         "image": {"src": f"{IMG}/pipeline.webp", "width": SIZE[0], "height": SIZE[1], "alt": PIPELINE_ALT},
     },
-    # Newest post with a "featured" line = the Featured box on /blog.
-    "featured": {"stat": "PDF ≠ text", "caption": "why AI struggles with documents, and how Docling keeps their "
-                                                  "structure"},
+    # Was featured until the MinerU post (30 Sept 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-09-29",

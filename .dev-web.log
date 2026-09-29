@@ -1,0 +1,48 @@
+Already up to date
+Done in 558ms using pnpm v11.5.2
+$ pnpm --dir web dev -p 3001
+$ next dev "-p" "3001"
+▲ Next.js 16.3.6 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.2.2:3001
+- Environments: .env.local
+✓ Ready in 638ms
+✓ Running next.config.ts took 64ms
+
+ GET /blog 200 in 1086ms (next.js: 406ms, application-code: 680ms)
+ GET /blog 200 in 279ms (next.js: 13ms, application-code: 266ms)
+ GET /blog 200 in 378ms (next.js: 7ms, application-code: 371ms)
+ GET /blog/mineru-and-docling 404 in 1396ms (next.js: 881ms, application-code: 515ms)
+[browser] Image with src "/blog/docling/pipeline.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog 200 in 191ms (next.js: 5ms, application-code: 186ms)
+ GET /blog 200 in 156ms (next.js: 4ms, application-code: 152ms)
+ GET /blog 200 in 192ms (next.js: 4ms, application-code: 189ms)
+ GET /blog 200 in 190ms (next.js: 3ms, application-code: 186ms)
+ GET /blog 200 in 172ms (next.js: 4ms, application-code: 168ms)
+ GET /blog 200 in 204ms (next.js: 5ms, application-code: 199ms)
+ GET /blog 200 in 184ms (next.js: 5ms, application-code: 179ms)
+ GET /blog 200 in 233ms (next.js: 5ms, application-code: 228ms)
+ GET /blog 200 in 341ms (next.js: 10ms, application-code: 330ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 634ms (next.js: 24ms, application-code: 610ms)
+ GET /blog 200 in 236ms (next.js: 5ms, application-code: 231ms)
+ GET /blog 200 in 243ms (next.js: 6ms, application-code: 237ms)
+ GET /blog 200 in 172ms (next.js: 4ms, application-code: 168ms)
+ GET /blog 200 in 183ms (next.js: 4ms, application-code: 179ms)
+ GET /blog 200 in 273ms (next.js: 4ms, application-code: 269ms)
+ GET /blog 200 in 387ms (next.js: 5ms, application-code: 382ms)
+ GET /blog 200 in 203ms (next.js: 4ms, application-code: 200ms)
+ GET /blog 200 in 229ms (next.js: 3ms, application-code: 226ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 457ms (next.js: 16ms, application-code: 441ms)
+ GET /blog 200 in 173ms (next.js: 3ms, application-code: 169ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 330ms (next.js: 12ms, application-code: 318ms)
+ GET /blog 200 in 231ms (next.js: 3ms, application-code: 228ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 347ms (next.js: 11ms, application-code: 336ms)
+ GET /blog 200 in 167ms (next.js: 3ms, application-code: 164ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 285ms (next.js: 12ms, application-code: 273ms)
+ GET /blog 200 in 195ms (next.js: 4ms, application-code: 191ms)
+ GET / 200 in 387ms (next.js: 48ms, application-code: 339ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 404ms (next.js: 13ms, application-code: 391ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 432ms (next.js: 10ms, application-code: 422ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 485ms (next.js: 17ms, application-code: 468ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 521ms (next.js: 11ms, application-code: 510ms)
