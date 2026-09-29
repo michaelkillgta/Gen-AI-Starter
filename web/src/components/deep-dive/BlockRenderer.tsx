@@ -134,7 +134,8 @@ function renderBlock(b: Block, i: number, stepTotal: number) {
       return <ZoomImage key={i} src={b.src} alt={b.alt} width={b.width} height={b.height} caption={b.caption} />;
     case "video":
       return (
-        <figure key={i} className={styles.video}>
+        // The id lets a post link straight to its video ("#video-<id>").
+        <figure key={i} id={`video-${b.youtube_id}`} className={styles.video}>
           <div className={styles.videoFrame}>
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(b.youtube_id)}?rel=0`}

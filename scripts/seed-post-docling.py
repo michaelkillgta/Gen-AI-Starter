@@ -27,6 +27,9 @@ SOURCES = {
 
 DOCS = "https://docling-project.github.io/docling/"
 CLI = "https://docling-project.github.io/docling/reference/cli/"
+# Uma's own recording (title "Docling", 4:04).
+VIDEO = "pdYdzpQQcCc"
+VIDEO_URL = f"https://youtu.be/{VIDEO}"
 MODEL = "https://github.com/docling-project/docling/blob/main/docs/concepts/docling_document.md"
 
 
@@ -92,7 +95,8 @@ BODY = [
     *p("The headings are mixed in with the paragraphs. The table has lost its shape. The images are gone, and the "
        "reading order can come out wrong. A document that looked neatly organised to you has turned into a pile of "
        "words.",
-       "That's the problem Docling was built for."),
+       "That's the problem Docling was built for.",
+       f"▶ [Watch my 4-minute Docling walkthrough](#video-{VIDEO})"),
 
     h("What's actually inside a PDF", "part-1"),
     img("not-just-text",
@@ -174,6 +178,8 @@ BODY = [
     *p("Or do the same in Python:"),
     code('from docling.document_converter import DocumentConverter\n\nresult = DocumentConverter().convert("report.pdf")'
          "\nprint(result.document.export_to_markdown())", "python"),
+    *p(f"**Watch it run.** I recorded a walkthrough of Docling. You can also [watch it on YouTube]({VIDEO_URL})."),
+    {"type": "video", "youtube_id": VIDEO, "title": "Docling (Uma's walkthrough video)", "caption": "Docling · 4:04"},
     takeaway("Getting the words is not the same as keeping the document."),
 
     h("Where RAG comes in", "part-6"),
@@ -206,10 +212,12 @@ BODY = [
     *p("A PDF isn't just text. It's a structured document, and Docling's job is to turn it into structured "
        "information your AI pipeline can use."),
     img("pipeline", PIPELINE_ALT, "The whole journey on one page. Click to enlarge."),
+
     {"type": "links", "label": "Official references", "items": [
         {"label": "Docling documentation", "href": DOCS},
         {"label": "Docling CLI reference", "href": CLI},
         {"label": "DoclingDocument structure", "href": MODEL},
+        {"label": "My walkthrough video", "href": VIDEO_URL},
     ]},
 ]
 

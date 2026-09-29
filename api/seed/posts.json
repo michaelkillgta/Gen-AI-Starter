@@ -47,6 +47,10 @@
         "text": "That's the problem Docling was built for."
       },
       {
+        "type": "paragraph",
+        "text": "▶ [Watch my 4-minute Docling walkthrough](#video-pdYdzpQQcCc)"
+      },
+      {
         "type": "heading",
         "text": "What's actually inside a PDF",
         "id": "part-1"
@@ -230,6 +234,16 @@
         "code": "from docling.document_converter import DocumentConverter\n\nresult = DocumentConverter().convert(\"report.pdf\")\nprint(result.document.export_to_markdown())"
       },
       {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded a walkthrough of Docling. You can also [watch it on YouTube](https://youtu.be/pdYdzpQQcCc)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "pdYdzpQQcCc",
+        "title": "Docling (Uma's walkthrough video)",
+        "caption": "Docling · 4:04"
+      },
+      {
         "type": "callout",
         "label": "Takeaway",
         "text": "Getting the words is not the same as keeping the document."
@@ -336,6 +350,10 @@
           {
             "label": "DoclingDocument structure",
             "href": "https://github.com/docling-project/docling/blob/main/docs/concepts/docling_document.md"
+          },
+          {
+            "label": "My walkthrough video",
+            "href": "https://youtu.be/pdYdzpQQcCc"
           }
         ]
       }
