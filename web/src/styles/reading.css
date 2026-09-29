@@ -1,0 +1,53 @@
+/*
+ * Reading sizes for long articles (blog posts today; other pages can adopt
+ * them later). Sizes follow the widths people actually use:
+ *
+ *   phones   360 – 430px   one column, 16px side gutter
+ *   sm       640px         large phones, small tablets
+ *   md       768px         tablets (768, 820): 24px gutter
+ *   lg       1024px        small laptops: 32px gutter, picture + text rows
+ *   xl       1280px        laptops (1280, 1366, 1440)
+ *   2xl      1536px        large desktops
+ *   1920px +               content stays at --read-max, centred
+ *
+ * CSS can't use variables in media queries, so components repeat the values:
+ *   @media (min-width: 768px) / (min-width: 1024px) / (min-width: 1536px)
+ *
+ * Type is fluid between the phone and desktop sizes with clamp(); the
+ * comments give phone → desktop in pixels.
+ */
+:root {
+  --read-max: 1040px;              /* hero and body share this width */
+  --read-gutter: 16px;
+
+  --read-fs-title: clamp(1.75rem, 1.45rem + 1.15vw, 2.5rem);     /* 28 → 40 */
+  --read-fs-h2: clamp(1.25rem, 1.13rem + 0.5vw, 1.625rem);       /* 20 → 26 */
+  --read-fs-body: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);      /* 16 → 17 */
+  --read-fs-lead: clamp(1rem, 0.94rem + 0.25vw, 1.125rem);       /* 16 → 18 */
+  --read-fs-callout: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem); /* 14 → 15 */
+  --read-fs-takeaway: clamp(1rem, 0.94rem + 0.25vw, 1.125rem);   /* 16 → 18 */
+  --read-fs-pull: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);      /* 20 → 26 */
+  --read-fs-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);  /* 13 → 14 */
+  --read-lh-body: 1.7;
+
+  --read-gap: 14px;                /* between blocks */
+  --read-section: clamp(28px, 1.2rem + 1.5vw, 40px); /* before each section */
+  --read-media-col: clamp(340px, 30vw, 400px);       /* picture column, lg + */
+  --read-img-max-h: 60vh;          /* a whole picture fits on screen */
+  --read-img-phone: 480px;
+  --read-img-tablet: 520px;
+  --read-img-wide: 760px;          /* one-page infographics */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --read-gutter: 24px;
+    --read-gap: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --read-gutter: 32px;
+  }
+}

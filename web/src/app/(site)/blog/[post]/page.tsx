@@ -48,7 +48,7 @@ export default async function PostPage({ params }: Props) {
           url: `${site.url}${links.post(post.slug)}`,
         }}
       />
-      <article className={`container ${styles.article}`}>
+      <article className={styles.article}>
         <nav aria-label="Breadcrumb" className={styles.crumbs}>
           <Link href="/blog">Blog</Link>
           <span aria-hidden="true">/</span>
@@ -82,9 +82,9 @@ export default async function PostPage({ params }: Props) {
           {!post.cover.image && <p className={styles.lead}>{post.excerpt}</p>}
           {/* The intro (everything before the first heading) hooks the reader first;
               "What you'll learn" follows it, then the rest of the post. */}
-          {intro.length > 0 && <BlockRenderer blocks={intro} />}
+          {intro.length > 0 && <BlockRenderer blocks={intro} post />}
           <LearnBox items={post.learn} />
-          {rest.length > 0 && <BlockRenderer blocks={rest} stageRows />}
+          {rest.length > 0 && <BlockRenderer blocks={rest} post />}
           {post.dive ? (
             <div className={styles.diveBox}>
               <span className={styles.diveLabel}>

@@ -83,7 +83,7 @@
 .stat {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(4.5rem, 2.5rem + 7vw, 8.25rem);
+  font-size: clamp(3rem, 2.2rem + 3.4vw, 5rem); /* 48 → 80 */
   line-height: 0.9;
   letter-spacing: -0.04em;
   color: var(--color-accent);
@@ -105,12 +105,12 @@
 }
 
 .featuredTitle {
-  font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.625rem);
-  letter-spacing: -0.033em;
+  font-size: clamp(1.5rem, 1.25rem + 1vw, 2.125rem); /* 24 → 34 */
+  letter-spacing: -0.03em;
 }
 
 .featuredExcerpt {
-  font-size: 16px;
+  font-size: var(--read-fs-body);
   line-height: 1.65;
   color: var(--color-muted);
 }
@@ -164,7 +164,7 @@
 .coverText {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 34px;
+  font-size: 28px;
   line-height: 0.95;
   letter-spacing: -1.2px;
 }
@@ -178,7 +178,7 @@
 }
 
 .cardTitle {
-  font-size: 22px;
+  font-size: 19px;
   line-height: 1.12;
   letter-spacing: -0.6px;
 }
@@ -207,8 +207,10 @@
 
 .featuredImg {
   display: block;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   height: auto;
+  max-height: 40vh;
   margin-top: 8px;
   border-radius: var(--radius-md);
 }
@@ -249,7 +251,7 @@
 
   .featuredStat,
   .featuredBody {
-    padding: 36px;
+    padding: 28px;
   }
 
   .cover {
@@ -276,13 +278,13 @@
 
   .featuredStat {
     justify-content: space-between;
-    min-height: 420px;
-    padding: 48px;
+    min-height: 340px;
+    padding: 36px;
   }
 
   .featuredBody {
-    padding: 48px;
-    gap: 18px;
+    padding: 36px;
+    gap: 16px;
   }
 
   .featuredWrap {
@@ -300,8 +302,8 @@
   }
 
   .coverText {
-    font-size: 40px;
-    letter-spacing: -1.4px;
+    font-size: 32px;
+    letter-spacing: -1.2px;
   }
 
   .cardBody {
@@ -310,6 +312,6 @@
   }
 
   .cardTitle {
-    font-size: 24px;
+    font-size: 20px;
   }
 }

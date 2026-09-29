@@ -1,8 +1,13 @@
+/* Reading sizes and widths: styles/reading.css. */
 .article {
+  width: 100%;
+  max-width: calc(var(--read-max) + 2 * var(--read-gutter));
+  margin-inline: auto;
+  padding-inline: var(--read-gutter);
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding-top: 20px;
+  gap: 20px;
+  padding-top: 16px;
   padding-bottom: 48px;
 }
 
@@ -28,17 +33,17 @@
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--read-gap);
 }
 
 /* Under the big top block: same width, so the edges line up. */
 .bodyWide {
-  max-width: 1120px;
+  max-width: var(--read-max);
 }
 
 .title {
-  font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
-  line-height: 1.02;
+  font-size: var(--read-fs-title);
+  line-height: 1.1;
   letter-spacing: -0.035em;
 }
 
@@ -78,7 +83,7 @@
 }
 
 .lead {
-  font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.3rem);
+  font-size: var(--read-fs-lead);
   line-height: 1.65;
   color: var(--color-ink-soft);
 }
@@ -132,8 +137,8 @@
 
 @media (min-width: 1024px) {
   .article {
-    padding-top: 32px;
-    gap: 32px;
+    padding-top: 24px;
+    gap: 24px;
     padding-bottom: 72px;
   }
 

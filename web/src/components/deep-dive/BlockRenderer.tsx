@@ -12,15 +12,15 @@ const isStep = (b: Block) => b.type === "heading" && !!b.id && STEP_ID.test(b.id
 /**
  * Draws a deep dive or blog post body from its typed blocks.
  *
- * `stageRows` (blog posts): each numbered step with a picture becomes one row,
- * picture on the left and the step's text on the right on wide screens,
- * stacked on phones.
+ * `post` (blog posts): article sizes from styles/reading.css, and each
+ * numbered step with a picture becomes one row, picture on the left and the
+ * step's text on the right on wide screens, stacked on phones.
  */
-export function BlockRenderer({ blocks, stageRows = false }: { blocks: Block[]; stageRows?: boolean }) {
+export function BlockRenderer({ blocks, post = false }: { blocks: Block[]; post?: boolean }) {
   // Headings with an id like "step-3" are numbered steps.
   const stepTotal = blocks.filter(isStep).length;
   const draw = (b: Block, i: number) => renderBlock(b, i, stepTotal);
-  if (!stageRows) return <>{blocks.map(draw)}</>;
+  if (!post) return <>{blocks.map(draw)}</>;
 
   const out: ReactNode[] = [];
   for (let i = 0; i < blocks.length; ) {
@@ -54,7 +54,7 @@ export function BlockRenderer({ blocks, stageRows = false }: { blocks: Block[]; 
     );
     i = end;
   }
-  return <>{out}</>;
+  return <div className={styles.reading}>{out}</div>;
 }
 
 function renderBlock(b: Block, i: number, stepTotal: number) {

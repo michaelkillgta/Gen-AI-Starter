@@ -21,10 +21,15 @@
   border-color: var(--color-accent);
 }
 
+/* --img-max-h (blog posts: 60vh) keeps a whole picture on screen; the
+   picture then narrows and stays centred, never stretched. */
 .img {
   display: block;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   height: auto;
+  max-height: var(--img-max-h, none);
+  margin-inline: auto;
 }
 
 .zoomHint {
@@ -49,7 +54,7 @@
 }
 
 .caption {
-  font-size: 13px;
+  font-size: var(--read-fs-small, 13px);
   line-height: 1.5;
   color: var(--color-muted);
 }

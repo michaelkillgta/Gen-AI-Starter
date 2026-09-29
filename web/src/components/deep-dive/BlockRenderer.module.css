@@ -193,9 +193,9 @@
 .stageRow {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 28px;
-  padding-top: 32px;
+  gap: var(--read-gap);
+  margin-top: var(--read-section);
+  padding-top: var(--read-section);
   border-top: 1px solid var(--color-line);
 }
 
@@ -212,46 +212,53 @@
 }
 
 .stageMedia {
-  max-width: 560px;
+  max-width: var(--read-img-phone);
 }
 
 /* Wide one-page infographics outside the steps. */
 .wideMedia {
-  max-width: 880px;
+  max-width: var(--read-img-wide);
+}
+
+/* More pictures inside a step's text: same size as the step's main picture. */
+.stageText figure {
+  width: 100%;
+  max-width: var(--read-img-phone);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .stageMedia,
+  .stageText figure {
+    max-width: var(--read-img-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stageText figure {
+    max-width: var(--read-media-col);
+    margin-inline: 0;
+  }
 }
 
 .stageText {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--read-gap);
   min-width: 0;
-}
-
-.stageText .callout {
-  padding: 18px 22px;
-}
-
-.stageText .calloutText {
-  font-size: 1.1875rem;
-}
-
-.stageText .calloutLong .calloutText {
-  font-size: 16px;
 }
 
 @media (min-width: 1024px) {
   .stageRow {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    grid-template-columns: var(--read-media-col) minmax(0, 1fr);
     grid-template-rows: auto 1fr;
     grid-template-areas:
       "media head"
       "media text";
-    column-gap: 48px;
-    row-gap: 18px;
+    column-gap: 40px;
+    row-gap: 12px;
     align-items: start;
-    margin-top: 40px;
-    padding-top: 44px;
   }
 
   .stageHead {
@@ -573,4 +580,99 @@
   .callout {
     padding: 26px 28px;
   }
+}
+
+/*
+ * Blog posts (`reading`): the article sizes from styles/reading.css. Deep
+ * dives keep the sizes above.
+ */
+.reading {
+  display: contents;
+  --img-max-h: var(--read-img-max-h);
+}
+
+.reading .p,
+.reading .list {
+  font-size: var(--read-fs-body);
+  line-height: var(--read-lh-body);
+}
+
+.reading .h2 {
+  margin-top: var(--read-section);
+  font-size: var(--read-fs-h2);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.reading .stepHeading {
+  gap: 12px;
+  padding-top: var(--read-section);
+}
+
+.reading .stageHead .stepHeading {
+  margin: 0;
+  padding: 0;
+}
+
+.reading .stepBadge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.reading .stepOf {
+  font-size: 12px;
+}
+
+.reading .lead p {
+  font-size: var(--read-fs-lead);
+}
+
+.reading .pull {
+  margin: 4px 0;
+  padding-left: 14px;
+  border-left-width: 3px;
+  font-size: var(--read-fs-pull);
+  line-height: 1.2;
+}
+
+.reading .callout {
+  padding: 16px 20px;
+  border-radius: 14px;
+  gap: 4px;
+}
+
+.reading .calloutLabel {
+  font-size: var(--read-fs-small);
+}
+
+.reading .calloutText {
+  font-size: var(--read-fs-takeaway);
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+}
+
+.reading .calloutLong .calloutText {
+  font-size: var(--read-fs-callout);
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+.reading .pairItem {
+  padding: 14px 16px;
+  font-size: var(--read-fs-body);
+}
+
+.reading .pairLabel {
+  font-size: 12px;
+}
+
+.reading .flowStep {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.reading .videoCaption {
+  font-size: var(--read-fs-small);
 }
