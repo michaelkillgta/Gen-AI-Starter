@@ -84,7 +84,7 @@ export default async function PostPage({ params }: Props) {
               "What you'll learn" follows it, then the rest of the post. */}
           {intro.length > 0 && <BlockRenderer blocks={intro} />}
           <LearnBox items={post.learn} />
-          {rest.length > 0 && <BlockRenderer blocks={rest} />}
+          {rest.length > 0 && <BlockRenderer blocks={rest} stageRows />}
           {post.dive ? (
             <div className={styles.diveBox}>
               <span className={styles.diveLabel}>

@@ -185,6 +185,91 @@
   color: var(--color-accent-ink);
 }
 
+/*
+ * Blog steps with a picture. Phones and tablets: heading, picture (at most
+ * 560px, centred), then the text. From 1024px: picture on the left, heading
+ * and text on the right; the picture stays in view while the text scrolls.
+ */
+.stageRow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-line);
+}
+
+.stageHead .stepHeading {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.stageMedia,
+.wideMedia {
+  width: 100%;
+  margin-inline: auto;
+}
+
+.stageMedia {
+  max-width: 560px;
+}
+
+/* Wide one-page infographics outside the steps. */
+.wideMedia {
+  max-width: 880px;
+}
+
+.stageText {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.stageText .callout {
+  padding: 18px 22px;
+}
+
+.stageText .calloutText {
+  font-size: 1.1875rem;
+}
+
+.stageText .calloutLong .calloutText {
+  font-size: 16px;
+}
+
+@media (min-width: 1024px) {
+  .stageRow {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "media head"
+      "media text";
+    column-gap: 48px;
+    row-gap: 18px;
+    align-items: start;
+    margin-top: 40px;
+    padding-top: 44px;
+  }
+
+  .stageHead {
+    grid-area: head;
+  }
+
+  .stageMedia {
+    grid-area: media;
+    max-width: none;
+    position: sticky;
+    top: 24px;
+  }
+
+  .stageText {
+    grid-area: text;
+  }
+}
+
 .p a,
 .list a,
 .flow a {

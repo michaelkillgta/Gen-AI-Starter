@@ -28,7 +28,7 @@ export function ZoomImage({ src, alt, width, height, caption }: Props) {
           alt={alt}
           width={width}
           height={height}
-          sizes="(min-width: 800px) 760px, 100vw"
+          sizes="(min-width: 1024px) 880px, 100vw"
           quality={85}
           className={styles.img}
         />
