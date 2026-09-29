@@ -213,11 +213,14 @@ BODY = [
        "information your AI pipeline can use."),
     img("pipeline", PIPELINE_ALT, "The whole journey on one page. Click to enlarge."),
 
+    *p("**Also read:** [Docling and MinerU: A Simple Guide to Document Parsing]"
+       "(/blog/mineru-document-parsing-for-beginners), a lighter introduction that compares Docling with MinerU."),
     {"type": "links", "label": "Official references", "items": [
         {"label": "Docling documentation", "href": DOCS},
         {"label": "Docling CLI reference", "href": CLI},
         {"label": "DoclingDocument structure", "href": MODEL},
         {"label": "My walkthrough video", "href": VIDEO_URL},
+        {"label": "Docling and MinerU, compared", "href": "/blog/mineru-document-parsing-for-beginners"},
     ]},
 ]
 

@@ -46,3 +46,29 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
  GET /blog/mineru-document-parsing-for-beginners 200 in 432ms (next.js: 10ms, application-code: 422ms)
  GET /blog/mineru-document-parsing-for-beginners 200 in 485ms (next.js: 17ms, application-code: 468ms)
  GET /blog/mineru-document-parsing-for-beginners 200 in 521ms (next.js: 11ms, application-code: 510ms)
+ GET / 200 in 297ms (next.js: 7ms, application-code: 290ms)
+ GET /blog 200 in 65ms (next.js: 5ms, application-code: 60ms)
+ GET /blog/docling-vs-mineru-which-pdf-parser-should-students-use 200 in 110ms (next.js: 12ms, application-code: 98ms)
+ GET /blog 200 in 49ms (next.js: 5ms, application-code: 44ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 91ms (next.js: 11ms, application-code: 80ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 464ms (next.js: 16ms, application-code: 448ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 437ms (next.js: 13ms, application-code: 424ms)
+ GET /blog 200 in 197ms (next.js: 4ms, application-code: 193ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 410ms (next.js: 12ms, application-code: 398ms)
+ GET /blog 200 in 212ms (next.js: 6ms, application-code: 206ms)
+ GET /blog 200 in 167ms (next.js: 5ms, application-code: 163ms)
+ GET / 200 in 257ms (next.js: 3ms, application-code: 254ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 558ms (next.js: 16ms, application-code: 541ms)
+ GET /blog/docling-pdf-is-not-just-text 200 in 500ms (next.js: 5ms, application-code: 495ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 475ms (next.js: 15ms, application-code: 460ms)
+[browser] Image with src "/blog/mineru-docling/overview.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/mineru-document-parsing-for-beginners 200 in 459ms (next.js: 11ms, application-code: 448ms)
+[browser] Image with src "/blog/mineru-docling/overview.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/mineru-document-parsing-for-beginners 200 in 455ms (next.js: 10ms, application-code: 445ms)
+[browser] Image with src "/blog/mineru-docling/overview.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/mineru-document-parsing-for-beginners 200 in 449ms (next.js: 11ms, application-code: 438ms)
+[browser] Image with src "/blog/mineru-docling/overview.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
