@@ -129,6 +129,13 @@ BODY = [
     takeaway("Pick the tier that matches how messy your document is."),
 
     h("Try it yourself", "part-6"),
+    {"type": "image", "src": "/blog/mineru-docling/try-it.webp", "width": 1280, "height": 720, "caption": None,
+     "alt": "How to install, parse and compare with MinerU and Docling in three steps: 1, install the MinerU command "
+            "line tool with pip install -U mineru; 2, parse bitcoin.pdf with mineru-kit parse --tier standard into "
+            "bitcoin_standard.md, Markdown with content, tables and structure; 3, compare the MinerU and Docling "
+            "outputs side by side and choose what works best for your documents. Note: the first run downloads "
+            "models, that is normal, do not stop it. Python 3.10 to 3.14. The best parser is the one that works on "
+            "your documents. Test it."},
     *p("You can try MinerU for free in Google Colab. Install it, upload a PDF (the classic Bitcoin paper works well), "
        "and run one command:"),
     code('!pip install -U "mineru>=4.0,<5"', "bash"),
