@@ -164,6 +164,7 @@ BODY = [
         {"label": "MinerU tiers", "href": TIERS},
         {"label": "MinerU quick start", "href": QUICK},
         {"label": "Our Docling post", "href": DOCLING_POST},
+        {"label": "RAG-Anything: beyond text", "href": "/blog/rag-anything-multimodal-rag"},
     ]},
 ]
 

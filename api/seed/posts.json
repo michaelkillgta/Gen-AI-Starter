@@ -1,5 +1,409 @@
 [
   {
+    "slug": "rag-anything-multimodal-rag",
+    "category": "rag-and-documents",
+    "title": "RAG-Anything: RAG That Can Understand More Than Text",
+    "excerpt": "Basic RAG reads text. Real knowledge also lives in images, tables and videos. Here's how RAG-Anything connects them, and a small PDF-plus-video experiment you can try.",
+    "cover": {
+      "text": "RAG-Anything",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/rag-anything/text-vs-multimodal.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "Text-only RAG versus multimodal documents. Left, the traditional way: PDF, text extraction, embeddings, search, LLM, and what gets lost: details in images, table structure, diagrams and video content, so answers are based only on text. Right, the real world: documents mix text, images, tables, diagrams and video, so a multimodal pipeline processes each type (for example with Docling or MinerU), retrieves across all of them and lets an LLM answer using everything, not just text."
+      }
+    },
+    "featured": {
+      "stat": "Beyond text",
+      "caption": "RAG-Anything: RAG that can understand more than text"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You probably know the basic RAG flow by now:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "PDF",
+          "Text",
+          "Embeddings",
+          "Search",
+          "LLM"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Pretty simple. But what if your information ==isn't just text==? What if it's a PDF with charts, a screenshot, a table, a lecture video or a voice note?"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's where things get messy, and where RAG-Anything gets interesting."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 6-minute RAG-Anything demo](#video-7KQZ4VNqlS4)"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "RAG-Anything doesn't cram everything into ==one giant embedding==. Each type of content is ==understood its own way==, then connected into ==one searchable knowledge base==."
+      },
+      {
+        "type": "heading",
+        "text": "A PDF and a video walk into a RAG app",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine you upload two files:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "RAG.pdf                 the PDF explains RAG\nRAG-explanation.mp4     the video demonstrates it"
+      },
+      {
+        "type": "paragraph",
+        "text": "Then you ask: ==\"Does the video actually demonstrate what the PDF explains?\"=="
+      },
+      {
+        "type": "paragraph",
+        "text": "A text-only RAG app is stuck. It can read the PDF, but the video is invisible to it. To answer, your app has to understand ==two different kinds of content== and connect them."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Real questions often span more than one kind of content."
+      },
+      {
+        "type": "heading",
+        "text": "The old way: a lot of wires",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Without a framework, you build a separate path for every type of content:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**PDF:** a parser like Docling or MinerU",
+          "**Video:** frame extraction",
+          "**Audio:** a speech-to-text model",
+          "**Images:** a vision model",
+          "**Everything:** embeddings, a vector database, a retriever and an LLM"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "That's ==a lot of wires==. You become the person connecting every tool to every other tool, and fixing it every time one of them changes."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Multimodal RAG by hand works, but the plumbing is the hard part."
+      },
+      {
+        "type": "heading",
+        "text": "RAG-Anything's idea",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/rag-anything/orchestration.webp",
+        "alt": "RAG-Anything as an orchestration layer that connects different tools and data types for multimodal RAG. Inputs: PDFs and documents, images, tables, video, audio and other formats. It uses tools for document extraction (Docling, MinerU), image understanding, table parsing, audio processing and chunking, and runs three steps: understand each type, retrieve across all of them, and answer.",
+        "width": 1672,
+        "height": 941,
+        "caption": "In the real library, the inputs are documents, images, tables and equations. We handle video ourselves, in Part 4."
+      },
+      {
+        "type": "paragraph",
+        "text": "[RAG-Anything](https://github.com/HKUDS/RAG-Anything) is an open-source framework from the HKUDS lab at the University of Hong Kong. Instead of you wiring every tool together, it runs the whole multimodal pipeline: it ==parses the document==, ==understands each part== (text, images, tables, equations) and ==connects them== into one knowledge base you can ask questions about."
+      },
+      {
+        "type": "paragraph",
+        "text": "It's built on [LightRAG](https://github.com/HKUDS/LightRAG), which stores knowledge as a graph: things and how they relate. For parsing it plugs in tools you may already know, [MinerU](/blog/mineru-document-parsing-for-beginners) or [Docling](/blog/docling-pdf-is-not-just-text). It reads PDFs, Office files and images."
+      },
+      {
+        "type": "callout",
+        "label": "Not an \"OpenAI wrapper\"",
+        "text": "RAG-Anything isn't just a thin layer over one AI model. It's the ==glue== that coordinates the parser, the vision model, the text model and the knowledge base, and you choose which models to plug in."
+      },
+      {
+        "type": "paragraph",
+        "text": "Status, checked on 1 Oct 2026: it's MIT licensed and actively updated. The latest release on [PyPI](https://pypi.org/project/raganything/) is 1.4.1, from 2 September 2026."
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "pip install 'raganything[all]'"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "RAG-Anything is the glue between the tools, so you don't have to be."
+      },
+      {
+        "type": "heading",
+        "text": "What about video?",
+        "id": "part-4"
+      },
+      {
+        "type": "image",
+        "src": "/blog/rag-anything/video-to-knowledge.webp",
+        "alt": "From video to searchable knowledge in five steps: 1, a 10-minute video; 2, find important moments from scene changes or slides; 3, pick three frames, at 2:15 (what RAG is), 5:40 (chunking) and 8:30 (retrieval); 4, a vision-language model looks at each frame, reads any text and understands what's happening; 5, each frame becomes a text description stored for RAG. Don't send thousands of frames: a 10-minute video can have 18,000 or more.",
+        "width": 1672,
+        "height": 941,
+        "caption": "Three frames, three descriptions. That's the whole trick."
+      },
+      {
+        "type": "paragraph",
+        "text": "One honest note first: RAG-Anything ==doesn't take video files directly==. So we do the video part ourselves, and it's simpler than it sounds."
+      },
+      {
+        "type": "paragraph",
+        "text": "Do we send the whole video to an expensive video AI? No. We ==pick a few important moments==, grab one frame from each, and ask a vision model: \"What is happening here?\" Each answer becomes a short description, and those descriptions are what we search."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Video",
+          "Find important moments",
+          "3 frames",
+          "Vision model",
+          "Searchable descriptions"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Why only 3 frames?",
+        "text": "A 10-minute video has thousands of frames. At 30 frames a second, that's 18,000. We're learning, not ==burning money==, so 3 useful frames are plenty. Smarter frame picking can come later."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Turn a video into a few pictures, and the pictures into words."
+      },
+      {
+        "type": "heading",
+        "text": "Our experiment",
+        "id": "part-5"
+      },
+      {
+        "type": "image",
+        "src": "/blog/rag-anything/pdf-plus-video.webp",
+        "alt": "PDF plus video into connected knowledge. A Machine Learning Basics PDF is processed into text chunks; a Gradient Descent video gives a few important frames that a vision model turns into visual chunks with captions. Both go into one connected knowledge base. The question \"What does the PDF explain, and does the video demonstrate it?\" retrieves text and visual chunks, and the answer says the PDF explains gradient descent and the video demonstrates it step by step.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's the plan:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**The PDF** goes through RAG-Anything's normal document pipeline.",
+          "**The video** becomes 3 frames. Each one goes in as an image with a caption saying which moment it is.",
+          "Then we ask one question across both: ==\"What does the PDF explain, and does the video demonstrate it?\"=="
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Grabbing a frame is one command per moment with ffmpeg:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "ffmpeg -ss 00:02:15 -i RAG-explanation.mp4 -frames:v 1 frame_0215.jpg"
+      },
+      {
+        "type": "paragraph",
+        "text": "And this is the RAG-Anything part. It assumes you've already set up RAG-Anything with your chosen models, as in the project's README:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "frames = [\n    {\"type\": \"image\", \"img_path\": \"/abs/path/frame_0215.jpg\",\n     \"image_caption\": [\"Video at 2:15: what RAG is\"], \"page_idx\": 0},\n    {\"type\": \"image\", \"img_path\": \"/abs/path/frame_0540.jpg\",\n     \"image_caption\": [\"Video at 5:40: chunking\"], \"page_idx\": 1},\n    {\"type\": \"image\", \"img_path\": \"/abs/path/frame_0830.jpg\",\n     \"image_caption\": [\"Video at 8:30: retrieval\"], \"page_idx\": 2},\n]\n\nawait rag.process_document_complete(file_path=\"RAG.pdf\", output_dir=\"./output\")\nawait rag.insert_content_list(content_list=frames, file_path=\"RAG-explanation.mp4\")\n\nanswer = await rag.aquery(\n    \"What does the PDF explain, and does the video demonstrate it?\", mode=\"hybrid\"\n)"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole experiment. You can also [watch it on YouTube](https://youtu.be/7KQZ4VNqlS4)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "7KQZ4VNqlS4",
+        "title": "Rag-Anything (Uma's demo video)",
+        "caption": "Rag-Anything · 5:55"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "PDF in one door, frames in another, one question across both."
+      },
+      {
+        "type": "heading",
+        "text": "Why this is powerful",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "The PDF might say: \"RAG retrieves relevant documents before generating an answer.\""
+      },
+      {
+        "type": "paragraph",
+        "text": "The video might show it happening on screen:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Question",
+          "Retriever",
+          "Documents",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "On their own, each one tells half the story. Connected, your system can say ==\"yes, the video demonstrates exactly what the PDF explains\"==, and point to both."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "That's multimodal RAG: knowledge from different formats, connected."
+      },
+      {
+        "type": "heading",
+        "text": "The one thing to remember",
+        "id": "part-7"
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "RAG-Anything doesn't cram everything into ==one giant embedding==. Each type of content is ==understood its own way==, then connected into ==one searchable knowledge base==."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Don't think",
+            "text": "Everything goes into one giant embedding."
+          },
+          {
+            "label": "Think",
+            "text": "Each type is understood its own way, then connected into one searchable knowledge base."
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Normal RAG vs multimodal RAG",
+        "id": "part-8"
+      },
+      {
+        "type": "image",
+        "src": "/blog/rag-anything/normal-vs-multimodal.webp",
+        "alt": "Normal RAG versus multimodal RAG. Normal RAG works mainly with text: upload a PDF, extract text, create embeddings, search, and an LLM answers. Multimodal RAG takes PDFs, images, tables and video: it understands each type with the right tool, retrieves across all of them, uses an LLM or vision-language model to reason, and answers. Find the relevant information, whatever form it came in.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Normal RAG",
+            "text": "\"Find me some relevant text.\""
+          },
+          {
+            "label": "Multimodal RAG",
+            "text": "\"Find me the relevant information, whatever form it came in.\""
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Same idea as RAG, just more kinds of knowledge."
+      },
+      {
+        "type": "heading",
+        "text": "Where Docling, MinerU and ColBERT fit",
+        "id": "part-9"
+      },
+      {
+        "type": "paragraph",
+        "text": "If you've followed this series, the pieces now click together:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**[Docling](/blog/docling-pdf-is-not-just-text)** and **[MinerU](/blog/mineru-document-parsing-for-beginners)** turn messy documents into clean, structured content. RAG-Anything can use either as its parser.",
+          "**[ColBERT](/blog/colbert-when-semantic-search-isnt-enough)** is one way to find the right passages once the content is ready.",
+          "**RAG-Anything** connects all of it, and adds the non-text parts: images, tables, equations and, with a little help, video."
+        ]
+      },
+      {
+        "type": "cta",
+        "label": "Start the series with the Docling post",
+        "href": "/blog/docling-pdf-is-not-just-text"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough) and [Docling and MinerU: A Simple Guide to Document Parsing](/blog/mineru-document-parsing-for-beginners)."
+      },
+      {
+        "type": "links",
+        "label": "References",
+        "items": [
+          {
+            "label": "My walkthrough video",
+            "href": "https://youtu.be/7KQZ4VNqlS4"
+          },
+          {
+            "label": "RAG-Anything on GitHub",
+            "href": "https://github.com/HKUDS/RAG-Anything"
+          },
+          {
+            "label": "RAG-Anything on PyPI",
+            "href": "https://pypi.org/project/raganything/"
+          },
+          {
+            "label": "LightRAG on GitHub",
+            "href": "https://github.com/HKUDS/LightRAG"
+          },
+          {
+            "label": "Our ColBERT post",
+            "href": "/blog/colbert-when-semantic-search-isnt-enough"
+          },
+          {
+            "label": "Our Docling post",
+            "href": "/blog/docling-pdf-is-not-just-text"
+          }
+        ]
+      }
+    ],
+    "published_on": "2026-10-01",
+    "learn": [
+      "Why text-only RAG misses a lot of real-world knowledge",
+      "What RAG-Anything is, and what it does and doesn't handle",
+      "How to turn a video into searchable knowledge with just 3 frames",
+      "Where Docling, MinerU and ColBERT fit in a multimodal pipeline"
+    ]
+  },
+  {
     "slug": "colbert-when-semantic-search-isnt-enough",
     "category": "rag-and-documents",
     "title": "ColBERT: When Normal Semantic Search Isn't Enough",
@@ -15,10 +419,7 @@
         "alt": "Semantic search versus ColBERT. Left, semantic search works at chunk level: the whole query \"How many days can I cancel my annual subscription?\" becomes one vector and is compared with one vector per chunk, so it asks \"Is this whole chunk about my question?\". Right, ColBERT works at token level with late interaction: every word of the query gets its own representation and is matched with words in the passage, such as cancel, annual, subscription and days, giving a relevance score; it asks \"Which parts of this passage match my question?\"."
       }
     },
-    "featured": {
-      "stat": "Word by word",
-      "caption": "ColBERT: when normal semantic search isn't enough"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
@@ -389,7 +790,7 @@
       },
       {
         "type": "paragraph",
-        "text": "**Also read:** [Your PDF Isn't Just Text](/blog/docling-pdf-is-not-just-text) and [Docling and MinerU: A Simple Guide to Document Parsing](/blog/mineru-document-parsing-for-beginners), the first two parts of this series."
+        "text": "**Also read:** [Your PDF Isn't Just Text](/blog/docling-pdf-is-not-just-text) and [Docling and MinerU: A Simple Guide to Document Parsing](/blog/mineru-document-parsing-for-beginners), the first two parts of this series. Next: [RAG-Anything: RAG That Can Understand More Than Text](/blog/rag-anything-multimodal-rag)."
       },
       {
         "type": "links",
@@ -414,6 +815,10 @@
           {
             "label": "Docling and MinerU",
             "href": "/blog/mineru-document-parsing-for-beginners"
+          },
+          {
+            "label": "RAG-Anything",
+            "href": "/blog/rag-anything-multimodal-rag"
           }
         ]
       }
@@ -759,6 +1164,10 @@
           {
             "label": "Our Docling post",
             "href": "/blog/docling-pdf-is-not-just-text"
+          },
+          {
+            "label": "RAG-Anything: beyond text",
+            "href": "/blog/rag-anything-multimodal-rag"
           }
         ]
       }
@@ -1131,6 +1540,10 @@
           {
             "label": "Docling and MinerU, compared",
             "href": "/blog/mineru-document-parsing-for-beginners"
+          },
+          {
+            "label": "RAG-Anything: beyond text",
+            "href": "/blog/rag-anything-multimodal-rag"
           }
         ]
       }

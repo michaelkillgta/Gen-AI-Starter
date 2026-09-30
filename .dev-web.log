@@ -167,3 +167,91 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [browser] Image with src "/blog/colbert/semantic-vs-colbert.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
  GET / 200 in 338ms (next.js: 5ms, application-code: 333ms)
+ GET /blog 200 in 71ms (next.js: 5ms, application-code: 66ms)
+ GET /blog/colbert-when-semantic-search-isnt-enough 200 in 153ms (next.js: 13ms, application-code: 140ms)
+ GET /blog/mineru-document-parsing-for-beginners 200 in 634ms (next.js: 19ms, application-code: 615ms)
+[browser] Image with src "/blog/mineru-docling/overview.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET / 200 in 412ms (next.js: 10ms, application-code: 402ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 612ms (next.js: 15ms, application-code: 597ms)
+ GET /blog 200 in 265ms (next.js: 5ms, application-code: 260ms)
+ GET /blog 200 in 226ms (next.js: 4ms, application-code: 223ms)
+ GET /blog 200 in 264ms (next.js: 4ms, application-code: 260ms)
+ GET /blog 200 in 254ms (next.js: 3ms, application-code: 251ms)
+ GET /blog 200 in 225ms (next.js: 4ms, application-code: 221ms)
+ GET /blog 200 in 175ms (next.js: 3ms, application-code: 171ms)
+ GET /blog 200 in 229ms (next.js: 3ms, application-code: 227ms)
+ GET /blog 200 in 183ms (next.js: 3ms, application-code: 180ms)
+ GET /blog 200 in 185ms (next.js: 4ms, application-code: 182ms)
+ GET /blog 200 in 192ms (next.js: 4ms, application-code: 188ms)
+ GET /blog 200 in 197ms (next.js: 4ms, application-code: 193ms)
+ GET /blog 200 in 216ms (next.js: 3ms, application-code: 213ms)
+ GET /blog 200 in 249ms (next.js: 3ms, application-code: 245ms)
+ GET /blog 200 in 181ms (next.js: 3ms, application-code: 178ms)
+ GET /toolkit 200 in 145ms (next.js: 69ms, application-code: 77ms)
+ GET /toolkit 200 in 34ms (next.js: 4ms, application-code: 30ms)
+ GET /toolkit?tool=temporal 200 in 30ms (next.js: 4ms, application-code: 25ms)
+ GET /blog 200 in 195ms (next.js: 3ms, application-code: 191ms)
+ GET /blog 200 in 180ms (next.js: 4ms, application-code: 177ms)
+ GET /blog 200 in 205ms (next.js: 3ms, application-code: 202ms)
+ GET /toolkit?tool=langgraph 200 in 35ms (next.js: 5ms, application-code: 30ms)
+ GET /blog 200 in 163ms (next.js: 3ms, application-code: 160ms)
+ GET /blog 200 in 191ms (next.js: 28ms, application-code: 163ms)
+ GET /blog 200 in 178ms (next.js: 3ms, application-code: 175ms)
+ GET /blog 200 in 213ms (next.js: 5ms, application-code: 208ms)
+ GET /blog 200 in 209ms (next.js: 4ms, application-code: 205ms)
+ GET /blog 200 in 227ms (next.js: 4ms, application-code: 223ms)
+ GET /blog 200 in 182ms (next.js: 3ms, application-code: 179ms)
+ GET /blog 200 in 196ms (next.js: 3ms, application-code: 193ms)
+ GET /blog 200 in 207ms (next.js: 3ms, application-code: 204ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 439ms (next.js: 23ms, application-code: 416ms)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/rag-anything-multimodal-rag 200 in 470ms (next.js: 10ms, application-code: 460ms)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/rag-anything-multimodal-rag 200 in 531ms (next.js: 16ms, application-code: 515ms)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/rag-anything-multimodal-rag 200 in 546ms (next.js: 11ms, application-code: 536ms)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET / 200 in 263ms (next.js: 16ms, application-code: 248ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 643ms (next.js: 14ms, application-code: 629ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 558ms (next.js: 11ms, application-code: 547ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 430ms (next.js: 10ms, application-code: 420ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 445ms (next.js: 9ms, application-code: 435ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 486ms (next.js: 12ms, application-code: 474ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 423ms (next.js: 14ms, application-code: 409ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 547ms (next.js: 19ms, application-code: 528ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 585ms (next.js: 11ms, application-code: 574ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 456ms (next.js: 13ms, application-code: 443ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 473ms (next.js: 10ms, application-code: 463ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 418ms (next.js: 12ms, application-code: 406ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 503ms (next.js: 10ms, application-code: 493ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 517ms (next.js: 13ms, application-code: 505ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 458ms (next.js: 11ms, application-code: 447ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 444ms (next.js: 11ms, application-code: 433ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 502ms (next.js: 13ms, application-code: 488ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 387ms (next.js: 13ms, application-code: 374ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 377ms (next.js: 10ms, application-code: 367ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 377ms (next.js: 11ms, application-code: 366ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 465ms (next.js: 11ms, application-code: 454ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 511ms (next.js: 14ms, application-code: 497ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 519ms (next.js: 13ms, application-code: 506ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 579ms (next.js: 15ms, application-code: 564ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 450ms (next.js: 13ms, application-code: 437ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 426ms (next.js: 12ms, application-code: 414ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 417ms (next.js: 12ms, application-code: 406ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 420ms (next.js: 14ms, application-code: 405ms)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/rag-anything-multimodal-rag 200 in 3.5s (next.js: 63ms, application-code: 3.4s)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/rag-anything-multimodal-rag 200 in 1227ms (next.js: 31ms, application-code: 1195ms)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/rag-anything-multimodal-rag 200 in 1208ms (next.js: 29ms, application-code: 1179ms)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading

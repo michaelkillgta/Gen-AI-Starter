@@ -228,13 +228,15 @@ BODY = [
     flow("PDF", "Docling / MinerU", "Structured text", "Chunking", "Retrieval: embeddings or ColBERT",
          "Relevant chunks", "LLM", "Answer"),
     *p(f"**Also read:** [Your PDF Isn't Just Text]({DOCLING_POST}) and [Docling and MinerU: A Simple Guide to "
-       f"Document Parsing]({MINERU_POST}), the first two parts of this series."),
+       f"Document Parsing]({MINERU_POST}), the first two parts of this series. Next: [RAG-Anything: RAG That "
+       "Can Understand More Than Text](/blog/rag-anything-multimodal-rag)."),
     {"type": "links", "label": "References", "items": [
         {"label": "ColBERT on GitHub", "href": COLBERT},
         {"label": "RAGatouille on GitHub", "href": REPO},
         {"label": "RAGatouille on PyPI", "href": PYPI},
         {"label": "Our Docling post", "href": DOCLING_POST},
         {"label": "Docling and MinerU", "href": MINERU_POST},
+        {"label": "RAG-Anything", "href": "/blog/rag-anything-multimodal-rag"},
     ]},
 ]
 
@@ -246,8 +248,8 @@ POST = {
                "the passage that normal semantic search misses.",
     "cover": {"text": "ColBERT", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/semantic-vs-colbert.webp", "width": 1774, "height": 887, "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Word by word", "caption": "ColBERT: when normal semantic search isn't enough"},
+    # Was featured until the RAG-Anything post (1 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-09-30",
@@ -264,9 +266,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)

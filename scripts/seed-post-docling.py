@@ -222,6 +222,7 @@ BODY = [
         {"label": "DoclingDocument structure", "href": MODEL},
         {"label": "My walkthrough video", "href": VIDEO_URL},
         {"label": "Docling and MinerU, compared", "href": "/blog/mineru-document-parsing-for-beginners"},
+        {"label": "RAG-Anything: beyond text", "href": "/blog/rag-anything-multimodal-rag"},
     ]},
 ]
 
