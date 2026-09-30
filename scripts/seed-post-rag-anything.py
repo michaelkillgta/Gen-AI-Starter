@@ -25,6 +25,8 @@ LIGHTRAG = "https://github.com/HKUDS/LightRAG"
 # Uma's own recording of the experiment (title "Rag-Anything", 5:55).
 VIDEO = "7KQZ4VNqlS4"
 VIDEO_URL = f"https://youtu.be/{VIDEO}"
+# Uma's notebook for the experiment.
+COLAB = "https://colab.research.google.com/drive/1ubJ0UWTxWMLflmLO1bCOx6o5ZToIRRkz"
 
 
 def p(*lines):
@@ -86,6 +88,7 @@ BODY = [
        "screenshot, a table, a lecture video or a voice note?",
        "That's where things get messy, and where RAG-Anything gets interesting.",
        f"▶ [Watch my 6-minute RAG-Anything demo](#video-{VIDEO})"),
+    cta("Try it yourself: open the Colab notebook", COLAB),
     box("The one idea to remember", BIG_IDEA),
 
     h("A PDF and a video walk into a RAG app", "part-1"),
@@ -161,6 +164,7 @@ BODY = [
        "**The video** becomes 3 frames. Each one goes in as an image with a caption saying which moment it is.",
        "Then we ask one question across both: ==\"What does the PDF explain, and does the video demonstrate "
        "it?\"=="),
+    box("Run it in Colab", f"Everything in this part is in my notebook, ready to run: [open the Colab notebook]({COLAB})."),
     *p("Grabbing a frame is one command per moment with ffmpeg:"),
     code("ffmpeg -ss 00:02:15 -i RAG-explanation.mp4 -frames:v 1 frame_0215.jpg", "bash"),
     *p("And this is the RAG-Anything part. It assumes you've already set up RAG-Anything with your chosen models, as in "
@@ -216,6 +220,7 @@ BODY = [
     *p(f"**Also read:** [ColBERT: When Normal Semantic Search Isn't Enough]({COLBERT_POST}) and [Docling and MinerU: "
        f"A Simple Guide to Document Parsing]({MINERU_POST})."),
     {"type": "links", "label": "References", "items": [
+        {"label": "My Colab notebook", "href": COLAB},
         {"label": "My walkthrough video", "href": VIDEO_URL},
         {"label": "RAG-Anything on GitHub", "href": REPO},
         {"label": "RAG-Anything on PyPI", "href": PYPI},

@@ -49,6 +49,11 @@
         "text": "▶ [Watch my 6-minute RAG-Anything demo](#video-7KQZ4VNqlS4)"
       },
       {
+        "type": "cta",
+        "label": "Try it yourself: open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1ubJ0UWTxWMLflmLO1bCOx6o5ZToIRRkz"
+      },
+      {
         "type": "callout",
         "label": "The one idea to remember",
         "text": "RAG-Anything doesn't cram everything into ==one giant embedding==. Each type of content is ==understood its own way==, then connected into ==one searchable knowledge base==."
@@ -218,6 +223,11 @@
         ]
       },
       {
+        "type": "callout",
+        "label": "Run it in Colab",
+        "text": "Everything in this part is in my notebook, ready to run: [open the Colab notebook](https://colab.research.google.com/drive/1ubJ0UWTxWMLflmLO1bCOx6o5ZToIRRkz)."
+      },
+      {
         "type": "paragraph",
         "text": "Grabbing a frame is one command per moment with ffmpeg:"
       },
@@ -368,6 +378,10 @@
         "type": "links",
         "label": "References",
         "items": [
+          {
+            "label": "My Colab notebook",
+            "href": "https://colab.research.google.com/drive/1ubJ0UWTxWMLflmLO1bCOx6o5ZToIRRkz"
+          },
           {
             "label": "My walkthrough video",
             "href": "https://youtu.be/7KQZ4VNqlS4"
