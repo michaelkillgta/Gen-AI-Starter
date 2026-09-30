@@ -1,5 +1,432 @@
 [
   {
+    "slug": "colbert-when-semantic-search-isnt-enough",
+    "category": "rag-and-documents",
+    "title": "ColBERT: When Normal Semantic Search Isn't Enough",
+    "excerpt": "A 10-minute beginner journey from embeddings to ColBERT to RAG: why matching word by word can find the passage that normal semantic search misses.",
+    "cover": {
+      "text": "ColBERT",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/colbert/semantic-vs-colbert.webp",
+        "width": 1774,
+        "height": 887,
+        "alt": "Semantic search versus ColBERT. Left, semantic search works at chunk level: the whole query \"How many days can I cancel my annual subscription?\" becomes one vector and is compared with one vector per chunk, so it asks \"Is this whole chunk about my question?\". Right, ColBERT works at token level with late interaction: every word of the query gets its own representation and is matched with words in the passage, such as cancel, annual, subscription and days, giving a relevance score; it asks \"Which parts of this passage match my question?\"."
+      }
+    },
+    "featured": {
+      "stat": "Word by word",
+      "caption": "ColBERT: when normal semantic search isn't enough"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You have 1,000 pages of documents. Someone asks one very specific question. Somewhere in there is the one paragraph that answers it. How does a RAG app find it?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Most apps start with semantic search, and it works well most of the time. This post is about the times it doesn't, and about ColBERT, a way of searching that looks closer."
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "Semantic search looks at the ==whole chunk==. ColBERT looks at the ==important words== in your question and matches them with words in the document."
+      },
+      {
+        "type": "heading",
+        "text": "The problem: finding the right piece",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "In a RAG app, the AI doesn't read all 1,000 pages every time. First, a ==retriever== picks a handful of pieces that look relevant. Then the AI answers using only those pieces."
+      },
+      {
+        "type": "paragraph",
+        "text": "So the answer can only be as good as the pieces the retriever picked. If it misses the paragraph with the answer, the AI never sees it."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Good answers start with finding the right pieces."
+      },
+      {
+        "type": "heading",
+        "text": "How normal semantic search works",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/colbert/semantic-search.webp",
+        "alt": "Dense semantic search in five steps: 1, the user asks \"How many days can I cancel my annual subscription?\"; 2, an embedding model turns it into a dense vector; 3, one query vector represents the whole question; 4, similarity search compares it with each chunk's vector (scores 0.92, 0.78, 0.31, 0.18); 5, the top chunks, about subscription policy and billing, are returned and passed to the LLM.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Semantic search turns your question into ==one vector==, a list of numbers that captures its overall meaning. Every chunk of your documents gets one vector too. The search returns the chunks whose vectors are closest to the question's."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's great for ==broad meaning==. But take the question \"How many days can I cancel my annual subscription?\" Lots of chunks are about subscriptions: billing, renewals, monthly plans, cancelling. Semantic search can tell they're all on topic. It's less good at noticing which one mentions the 30 days you actually asked about."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Semantic search finds chunks about the same topic, not always the one with the detail."
+      },
+      {
+        "type": "heading",
+        "text": "Enter ColBERT: matching word by word",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/colbert/colbert-tokens.webp",
+        "alt": "ColBERT finds relevant passages by comparing tokens, in six steps: 1, the question is split into tokens (how, many, days, can, I, cancel, my, annual, subscription); 2, each query token gets its own context-aware vector; 3, the document passage is split into tokens with vectors too; 4, late interaction: each query token is matched with its most similar document token (days with 30, cancel with cancel, annual with annual, subscription with subscription); 5, the best matches combine into one relevance score, 0.92; 6, passages are ranked by score.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "ColBERT keeps a vector for ==every word== (strictly, every token), and each one is shaped by the words around it. When you search, it takes each word in your question, finds the best-matching word in a passage, and adds those matches up into a score. This is called ==late interaction==, because the question and the passage are only compared at search time, word by word."
+      },
+      {
+        "type": "paragraph",
+        "text": "So for our question, \"cancel\", \"annual\", \"subscription\" and \"days\" each look for their own match. A passage that says \"cancel your annual subscription within 30 days\" scores high because every important word finds a partner."
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "ColBERT doesn't just ask \"are these two texts generally similar?\" It asks ==which parts of this passage match which parts of my question==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "ColBERT compares words, not whole chunks."
+      },
+      {
+        "type": "heading",
+        "text": "ColBERT vs normal embeddings",
+        "id": "part-4"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "What gets stored",
+            "text": "Semantic search: one vector per chunk. ColBERT: a vector for every token, each shaped by its context."
+          },
+          {
+            "title": "How it matches",
+            "text": "Semantic search: overall meaning. ColBERT: word-by-word matches, added up into a score."
+          },
+          {
+            "title": "Complexity",
+            "text": "Semantic search: simpler to set up. ColBERT: more moving parts."
+          },
+          {
+            "title": "Storage",
+            "text": "Semantic search: generally smaller. ColBERT: generally larger, since it keeps many vectors per passage."
+          },
+          {
+            "title": "Good for",
+            "text": "Semantic search: general retrieval. ColBERT: when fine details in the wording matter."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "One thing to be clear about: ColBERT is ==not automatically better==. It's another way to retrieve, and it earns its extra cost when fine-grained matching matters."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Different tool, different trade-off. Not a straight upgrade."
+      },
+      {
+        "type": "heading",
+        "text": "What is RAGatouille?",
+        "id": "part-5"
+      },
+      {
+        "type": "image",
+        "src": "/blog/colbert/ragatouille.webp",
+        "alt": "ColBERT and RAGatouille. ColBERT is a token-level retrieval model; RAGatouille is a Python library that makes ColBERT easier to use, handling indexing and searching. A search for \"How many days can I cancel my annual subscription?\" returns the subscription policy passage first.",
+        "width": 1672,
+        "height": 941,
+        "caption": "The code in this picture is simplified. Use the code in Part 6."
+      },
+      {
+        "type": "paragraph",
+        "text": "==ColBERT is the retrieval model==. ==RAGatouille is a Python library== that makes ColBERT easy to use: you give it documents, it builds the index, and you search it in a few lines."
+      },
+      {
+        "type": "paragraph",
+        "text": "A quick honest note on its status, checked on 30 Sept 2026. RAGatouille isn't new. Its latest release on [PyPI](https://pypi.org/project/ragatouille/) is 0.0.9.post2, from May 2025, and the last change to its [GitHub project](https://github.com/AnswerDotAI/RAGatouille) was in the same month. The project isn't archived, but it hasn't been updated since."
+      },
+      {
+        "type": "callout",
+        "label": "So how should you use it?",
+        "text": "Treat RAGatouille as an easy way to ==learn and try ColBERT==. Before you build something serious on it, check what the current ColBERT tools are."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "ColBERT is the idea. RAGatouille is a handy way to try it."
+      },
+      {
+        "type": "heading",
+        "text": "Try it yourself",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's a tiny experiment you can run in a notebook. Four short documents:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "Annual subscription plans are billed every twelve months.\nCustomers may cancel their annual subscription within 30 days of purchase.\nMonthly subscriptions can be cancelled at any time.\nAnnual plans may renew automatically unless cancellation is requested."
+      },
+      {
+        "type": "paragraph",
+        "text": "And one question: \"How many days can I cancel my annual subscription?\" This is the code, following RAGatouille's own README:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "pip install ragatouille"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from ragatouille import RAGPretrainedModel\n\ndocs = [\n    \"Annual subscription plans are billed every twelve months.\",\n    \"Customers may cancel their annual subscription within 30 days of purchase.\",\n    \"Monthly subscriptions can be cancelled at any time.\",\n    \"Annual plans may renew automatically unless cancellation is requested.\",\n]\n\nRAG = RAGPretrainedModel.from_pretrained(\"colbert-ir/colbertv2.0\")\nRAG.index(index_name=\"subscriptions\", collection=docs)\n\nfor r in RAG.search(\"How many days can I cancel my annual subscription?\", k=3):\n    print(r[\"rank\"], round(r[\"score\"], 2), r[\"content\"])"
+      },
+      {
+        "type": "paragraph",
+        "text": "You should see the ==\"within 30 days\" sentence ranked first==: it's the one where \"cancel\", \"annual\", \"subscription\" and \"days\" all find a match. The other sentences are about subscriptions too, so they still show up, just lower."
+      },
+      {
+        "type": "paragraph",
+        "text": "Your exact scores will vary. What matters is the ranking."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Four sentences are enough to see word-by-word matching at work."
+      },
+      {
+        "type": "heading",
+        "text": "ColBERT doesn't answer the question",
+        "id": "part-7"
+      },
+      {
+        "type": "image",
+        "src": "/blog/colbert/retriever-llm.webp",
+        "alt": "From many documents to an answer: 1, many documents (research paper, user guide, report, web page) are the knowledge source; 2, ColBERT finds the relevant parts with token-level search for the query \"How does photosynthesis work in plants?\"; 3, the top matching passages come from different documents; 4, an LLM uses those passages to write a grounded answer and lists its sources.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This trips up a lot of beginners. ColBERT is a ==retriever==. It finds useful passages. It doesn't write anything."
+      },
+      {
+        "type": "paragraph",
+        "text": "Writing the answer is the ==LLM's job==. It reads the passages ColBERT found and turns them into a reply."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your question",
+          "ColBERT finds passages",
+          "LLM reads them",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "ColBERT finds. The LLM answers."
+      },
+      {
+        "type": "heading",
+        "text": "Where Docling and MinerU fit",
+        "id": "part-8"
+      },
+      {
+        "type": "image",
+        "src": "/blog/colbert/rag-pipeline.webp",
+        "alt": "RAG pipeline from documents to answers in seven steps: 1, a real-world PDF; 2, document extraction with Docling or MinerU into structured Markdown; 3, chunking; 4, retrieval with embeddings or ColBERT; 5, the most relevant passages; 6, an LLM that uses the question and passages; 7, a grounded final answer with sources.",
+        "width": 1672,
+        "height": 941,
+        "caption": "The whole pipeline. Click to enlarge for the details."
+      },
+      {
+        "type": "paragraph",
+        "text": "If you've read our posts on [Docling](/blog/docling-pdf-is-not-just-text) and [Docling and MinerU](/blog/mineru-document-parsing-for-beginners), this is where they connect. Each tool has one job:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Docling or MinerU** turn messy documents into clean, structured text.",
+          "**ColBERT** finds the passages that matter for a question.",
+          "**The LLM** writes the final answer from those passages."
+        ]
+      },
+      {
+        "type": "flow",
+        "items": [
+          "PDF",
+          "Docling / MinerU",
+          "Structured text",
+          "Chunking",
+          "ColBERT",
+          "Relevant passages",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "cta",
+        "label": "Start with the Docling post",
+        "href": "/blog/docling-pdf-is-not-just-text"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Better documents in, better passages out, better answers at the end."
+      },
+      {
+        "type": "heading",
+        "text": "The 10-second mental model",
+        "id": "part-9"
+      },
+      {
+        "type": "image",
+        "src": "/blog/colbert/rag-3-steps.webp",
+        "alt": "RAG in three simple steps: 1, prepare: Docling or MinerU turn messy documents into clean, structured text; 2, retrieve: ColBERT finds the most relevant passages for \"How many days can I cancel my annual subscription?\"; 3, generate: an LLM writes the final answer from those passages.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "If you remember one thing from this series, make it this:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Prepare",
+          "Retrieve",
+          "Generate"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "==Docling or MinerU prepare the document. ColBERT finds the useful parts. The LLM explains them.=="
+      },
+      {
+        "type": "heading",
+        "text": "When should you care about ColBERT?",
+        "id": "part-10"
+      },
+      {
+        "type": "paragraph",
+        "text": "ColBERT is worth a look when:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "your documents are full of detail, like policies, manuals or legal text",
+          "questions are specific, and ==small wording differences matter==",
+          "normal semantic search keeps returning passages that are on topic but miss the detail",
+          "you want to learn how more advanced retrieval works"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "But ==don't use it just because it sounds advanced==. For many apps, normal embeddings plus a reranker (a second model that re-sorts the top results) is simpler and good enough."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Start simple. Reach for ColBERT when the details keep getting missed."
+      },
+      {
+        "type": "heading",
+        "text": "The final takeaway",
+        "id": "part-11"
+      },
+      {
+        "type": "paragraph",
+        "text": "Embeddings give you the ==big picture==. ColBERT gives retrieval a ==finer lens==. And in RAG, better retrieval means the LLM gets better context to work with."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "PDF",
+          "Docling / MinerU",
+          "Structured text",
+          "Chunking",
+          "Retrieval: embeddings or ColBERT",
+          "Relevant chunks",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [Your PDF Isn't Just Text](/blog/docling-pdf-is-not-just-text) and [Docling and MinerU: A Simple Guide to Document Parsing](/blog/mineru-document-parsing-for-beginners), the first two parts of this series."
+      },
+      {
+        "type": "links",
+        "label": "References",
+        "items": [
+          {
+            "label": "ColBERT on GitHub",
+            "href": "https://github.com/stanford-futuredata/ColBERT"
+          },
+          {
+            "label": "RAGatouille on GitHub",
+            "href": "https://github.com/AnswerDotAI/RAGatouille"
+          },
+          {
+            "label": "RAGatouille on PyPI",
+            "href": "https://pypi.org/project/ragatouille/"
+          },
+          {
+            "label": "Our Docling post",
+            "href": "/blog/docling-pdf-is-not-just-text"
+          },
+          {
+            "label": "Docling and MinerU",
+            "href": "/blog/mineru-document-parsing-for-beginners"
+          }
+        ]
+      }
+    ],
+    "published_on": "2026-09-30",
+    "learn": [
+      "How normal semantic search works, and where it struggles",
+      "What ColBERT does differently: matching word by word",
+      "What RAGatouille is, and its honest current status",
+      "Where ColBERT sits next to Docling, MinerU and the LLM"
+    ]
+  },
+  {
     "slug": "mineru-document-parsing-for-beginners",
     "category": "rag-and-documents",
     "title": "Docling and MinerU: A Simple Guide to Document Parsing",
@@ -15,10 +442,7 @@
         "alt": "MinerU and Docling: two document parsing tools that help AI understand your files. 1, a real-world PDF (the Bitcoin paper) holds headings, paragraphs, images, tables, equations and multiple columns. 2, MinerU and Docling side by side: MinerU has a model-based pipeline with Flash, Basic, Standard and Advanced tiers and a document library for agent-style reading; Docling is a document parsing and conversion tool for PDF, DOCX, PPTX and XLSX that focuses on structured output for RAG. 3, structured output: Markdown, tables, images, equations and clean text. Below, how it fits in an AI pipeline (PDF, MinerU or Docling, structured content, chunking, embeddings, vector database, RAG and LLM) and quick takeaways: both are document parsing tools, use either or both, and see the Docling blog for more."
       }
     },
-    "featured": {
-      "stat": "Docling & MinerU",
-      "caption": "a simple guide to document parsing"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
@@ -311,6 +735,10 @@
         "type": "cta",
         "label": "Go deeper: read the Docling post",
         "href": "/blog/docling-pdf-is-not-just-text"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough), the next step: finding the right passages once your documents are parsed."
       },
       {
         "type": "links",
@@ -678,7 +1106,7 @@
       },
       {
         "type": "paragraph",
-        "text": "**Also read:** [Docling and MinerU: A Simple Guide to Document Parsing](/blog/mineru-document-parsing-for-beginners), a lighter introduction that compares Docling with MinerU."
+        "text": "**Also read:** [Docling and MinerU: A Simple Guide to Document Parsing](/blog/mineru-document-parsing-for-beginners), a lighter introduction that compares Docling with MinerU, and [ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough), on finding the right passages."
       },
       {
         "type": "links",

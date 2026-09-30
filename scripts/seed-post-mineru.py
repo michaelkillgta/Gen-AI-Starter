@@ -157,6 +157,8 @@ BODY = [
     *p("Docling or MinerU, the idea is the same: turn messy documents into structured information that software and "
        "AI can work with. That's the whole game."),
     {"type": "cta", "label": "Go deeper: read the Docling post", "href": DOCLING_POST},
+    *p("**Also read:** [ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough), the next step: finding the right "
+       "passages once your documents are parsed."),
     {"type": "links", "label": "Official references", "items": [
         {"label": "MinerU on GitHub", "href": REPO},
         {"label": "MinerU tiers", "href": TIERS},
@@ -173,8 +175,8 @@ POST = {
                "it, Docling and MinerU, with a free Colab command to try it yourself.",
     "cover": {"text": "Docling & MinerU", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": IMG, "width": 1536, "height": 1024, "alt": OVERVIEW_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Docling & MinerU", "caption": "a simple guide to document parsing"},
+    # Was featured until the ColBERT post (30 Sept 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-09-30",
@@ -191,9 +193,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)

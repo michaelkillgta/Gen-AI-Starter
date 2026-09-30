@@ -214,7 +214,8 @@ BODY = [
     img("pipeline", PIPELINE_ALT, "The whole journey on one page. Click to enlarge."),
 
     *p("**Also read:** [Docling and MinerU: A Simple Guide to Document Parsing]"
-       "(/blog/mineru-document-parsing-for-beginners), a lighter introduction that compares Docling with MinerU."),
+       "(/blog/mineru-document-parsing-for-beginners), a lighter introduction that compares Docling with MinerU, and "
+       "[ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough), on finding the right passages."),
     {"type": "links", "label": "Official references", "items": [
         {"label": "Docling documentation", "href": DOCS},
         {"label": "Docling CLI reference", "href": CLI},

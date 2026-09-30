@@ -145,3 +145,25 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
  GET /blog/mineru-document-parsing-for-beginners 200 in 472ms (next.js: 14ms, application-code: 457ms)
 [browser] Image with src "/blog/mineru-docling/overview.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET / 200 in 251ms (next.js: 37ms, application-code: 215ms)
+ GET / 200 in 457ms (next.js: 5ms, application-code: 452ms)
+ GET /blog/colbert-when-semantic-search-isnt-enough 200 in 1019ms (next.js: 22ms, application-code: 998ms)
+ GET /blog 200 in 348ms (next.js: 10ms, application-code: 338ms)
+ GET /blog 200 in 276ms (next.js: 4ms, application-code: 272ms)
+ GET /blog 200 in 223ms (next.js: 4ms, application-code: 219ms)
+ GET /blog 200 in 219ms (next.js: 5ms, application-code: 213ms)
+ GET /blog 200 in 258ms (next.js: 4ms, application-code: 254ms)
+ GET /blog 200 in 259ms (next.js: 4ms, application-code: 255ms)
+ GET /blog/colbert-when-semantic-search-isnt-enough 200 in 738ms (next.js: 17ms, application-code: 722ms)
+[browser] Image with src "/blog/colbert/semantic-vs-colbert.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/colbert-when-semantic-search-isnt-enough 200 in 897ms (next.js: 15ms, application-code: 882ms)
+[browser] Image with src "/blog/colbert/semantic-vs-colbert.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/colbert-when-semantic-search-isnt-enough 200 in 940ms (next.js: 15ms, application-code: 925ms)
+[browser] Image with src "/blog/colbert/semantic-vs-colbert.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/colbert-when-semantic-search-isnt-enough 200 in 726ms (next.js: 12ms, application-code: 714ms)
+[browser] Image with src "/blog/colbert/semantic-vs-colbert.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET / 200 in 338ms (next.js: 5ms, application-code: 333ms)
