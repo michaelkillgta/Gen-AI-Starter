@@ -258,7 +258,8 @@ BODY = [
     *p("**Try the experiment**",
        "Don't just read about nodes and edges. Open the Colab, run the tiny debugger and watch the graph move "
        "through diagnose → test → fix → test again.",
-       f"Also: [my walkthrough video]({VIDEO_URL}) and [our RAG-Anything post]({RAG_ANYTHING_POST})."),
+       f"Also: [my walkthrough video]({VIDEO_URL}), [our RAG-Anything post]({RAG_ANYTHING_POST}), [CrewAI vs n8n]"
+       "(/blog/crewai-vs-n8n) for two other ways to build agents, and [LangGraph in our Toolkit](/toolkit/langgraph)."),
     cta("Open the Colab: LangGraph × Sarvam AI Debugger", COLAB),
 ]
 
@@ -270,8 +271,8 @@ POST = {
                "state and loops into an agent, with a tiny AI debugger you can run in Colab.",
     "cover": {"text": "LangGraph", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/workflow.webp", "width": SIZE[0], "height": SIZE[1], "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Think → act → check", "caption": "LangGraph: how AI agents actually follow a workflow"},
+    # Was featured until the CrewAI vs n8n post (1 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-01",
@@ -288,9 +289,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)

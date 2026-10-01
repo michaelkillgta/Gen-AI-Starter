@@ -361,10 +361,10 @@
     "use_when": "You want to automate a real task this week.",
     "skip_when": "Your goal is to understand how agents work inside. Code one first.",
     "runs_on": "Cloud or self-hosted",
-    "cost": "Free if self-hosted",
+    "cost": "Free to self-host; paid cloud plans",
     "get_it": "n8n.io",
     "status": "notes",
-    "note": "Connects to a huge number of real apps out of the box.",
+    "note": "Fair-code, not open source: the code is public under n8n's Sustainable Use License. Connects to 1500+ apps out of the box.",
     "tags": [
       "automation",
       "workflow",

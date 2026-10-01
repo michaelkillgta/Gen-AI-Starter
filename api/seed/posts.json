@@ -1,5 +1,466 @@
 [
   {
+    "slug": "crewai-vs-n8n",
+    "category": "agents",
+    "title": "CrewAI vs n8n: Stop Comparing Tools. Understand the Difference.",
+    "excerpt": "CrewAI makes AI agents work together. n8n connects AI to the rest of the world. Here's the difference in 5 minutes, with one real example and when to pick which.",
+    "cover": {
+      "text": "CrewAI vs n8n",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/crewai-n8n/code-vs-canvas.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "CrewAI versus n8n. Left, CrewAI: agents, roles and collaboration in Python code, with a crew.py file defining a researcher, a writer and a reviewer, and an agent flow where they share context. Right, n8n: a visual workflow builder connecting an email trigger, an AI agent, a vector store, an HTTP request and Slack, with node settings and an execution preview. Different starting points, some overlap."
+      }
+    },
+    "featured": {
+      "stat": "Agents vs workflows",
+      "caption": "CrewAI vs n8n: understand the difference in 5 minutes"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You've seen it: ==\"CrewAI vs n8n\"==, followed by 20 minutes of feature lists."
+      },
+      {
+        "type": "paragraph",
+        "text": "Let's make it simpler. Say you want to build this:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Get information",
+          "AI thinks",
+          "Use tools",
+          "Make decisions",
+          "Do something"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "There are lots of ways to build it. Two interesting ones are CrewAI and n8n."
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "CrewAI asks: ==\"How do my AI agents collaborate?\"== n8n asks: ==\"How does my AI system connect to the real world?\"=="
+      },
+      {
+        "type": "heading",
+        "text": "The 10-second difference",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/crewai-n8n/two-dashboards.webp",
+        "alt": "CrewAI versus n8n, two ways to build AI systems with the same goal. CrewAI, for agent collaboration: a research crew of researcher, writer and reviewer agents with roles, tools and a final output. n8n, for workflows and integrations: a canvas where a form submission flows through an AI agent with a chat model, memory and a search tool, then an HTTP request, Airtable and Gmail.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration, not a real screenshot. n8n lists 1500+ integrations today, more than the picture says."
+      },
+      {
+        "type": "paragraph",
+        "text": "Think about a team."
+      },
+      {
+        "type": "paragraph",
+        "text": "**CrewAI** asks: \"How can I make ==AI agents work together==?\" You write Python and describe agents, their tasks and their tools, then group them into a crew, like a researcher, a writer and a reviewer passing work along. For more control over the order of steps, it also has ==Flows==."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Researcher",
+          "Writer",
+          "Reviewer",
+          "Result"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "**n8n** asks: \"How can I ==connect AI to the rest of the world==?\" You build a workflow on a visual canvas, and AI is one step among many."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Email",
+          "AI",
+          "RAG",
+          "Database",
+          "Slack"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "CrewAI",
+            "text": "Agent collaboration"
+          },
+          {
+            "label": "n8n",
+            "text": "Workflows and integrations"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "There's overlap. But this mental model gets you ==80% of the way there==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "CrewAI starts from the agents. n8n starts from the workflow."
+      },
+      {
+        "type": "heading",
+        "text": "One real example: support emails",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine you're building ==an AI that reads customer emails and handles support tickets==."
+      },
+      {
+        "type": "paragraph",
+        "text": "**With CrewAI**, you'd design a team:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Customer email",
+          "Research agent",
+          "Support agent",
+          "Reviewer agent",
+          "Response"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "The interesting question becomes: ==which agent should do what?=="
+      },
+      {
+        "type": "paragraph",
+        "text": "**With n8n**, you'd design the path the data takes:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Gmail",
+          "AI agent",
+          "Knowledge base",
+          "Refund? Yes: process refund",
+          "No: reply normally"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Now the interesting question becomes: ==what should happen to the data?=="
+      },
+      {
+        "type": "paragraph",
+        "text": "Same job. Different first question. That's why the tools feel so different."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Agents vs data flow: that's the real difference in practice."
+      },
+      {
+        "type": "heading",
+        "text": "Where n8n gets really nice",
+        "id": "part-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "Say your workflow breaks somewhere in the middle:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Gmail",
+          "AI",
+          "RAG",
+          "Broken here",
+          "Slack"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "In n8n you can open the ==execution== and see exactly what went into and came out of each node. For someone learning AI engineering, that's huge. You're not staring at \"ERROR ERROR ERROR, why\". You can ==follow the data==."
+      },
+      {
+        "type": "paragraph",
+        "text": "This is one reason I personally enjoyed working with n8n, especially for larger workflows and multi-RAG experiments."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Seeing the data move is the fastest way to find a bug."
+      },
+      {
+        "type": "heading",
+        "text": "The catch: visual spaghetti",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "n8n's canvas is fantastic... until your workflow looks like this:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "        ┌── IF\n        │    ↓\nA → B → C → LOOP → D\n        │       ↘\n        └→ ERROR → RETRY\n                    ↓\n                 SUBFLOW"
+      },
+      {
+        "type": "paragraph",
+        "text": "Then you add 30 more nodes. At some point, ==visual becomes spaghetti==."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's where code can be easier to maintain. With CrewAI, your logic lives in Python files, so it fits naturally with tests, Git and CI/CD."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Visual",
+            "text": "Doesn't automatically mean easier."
+          },
+          {
+            "label": "Code",
+            "text": "Doesn't automatically mean harder."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "It depends on the ==size and shape== of what you're building."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Small and connected: visual shines. Big and complex: code often wins."
+      },
+      {
+        "type": "heading",
+        "text": "The actual trade-off",
+        "id": "part-5"
+      },
+      {
+        "type": "image",
+        "src": "/blog/crewai-n8n/code-vs-canvas.webp",
+        "alt": "CrewAI's code editor next to n8n's canvas: Python files define agents with roles, goals and tools on one side; on the other, a visual workflow connects Gmail, an AI agent, a Postgres vector store, an HTTP request and Slack, with an execution preview.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration, not a real screenshot."
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Look at CrewAI for",
+            "text": "Agent collaboration, Python development, and large codebases with tests and CI/CD."
+          },
+          {
+            "title": "Look at n8n for",
+            "text": "Visual workflows, connecting APIs and apps, webhooks and triggers, visual debugging, and learning by watching data move."
+          },
+          {
+            "title": "Both handle",
+            "text": "Structured workflows. CrewAI has Flows; n8n is built around workflows."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "It's ==not a leaderboard==. Just different strengths."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Pick by the shape of your problem, not by the hype."
+      },
+      {
+        "type": "heading",
+        "text": "Don't become \"an n8n guy\"",
+        "id": "part-6"
+      },
+      {
+        "type": "image",
+        "src": "/blog/crewai-n8n/building-blocks.webp",
+        "alt": "Different frameworks, same building blocks. An AI system is made of an LLM for reasoning, tools, RAG for your data, memory, routing, loops, agents and observability. CrewAI assembles them with agent collaboration and roles, n8n assembles them graphically with workflows and integrations, and LangGraph assembles them as a stateful graph with custom logic. Tools change, concepts stay.",
+        "width": 1672,
+        "height": 941,
+        "caption": "The LangGraph code here is simplified. The full version is in our LangGraph post."
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't be the person who says \"I'm an n8n guy\" or \"CrewAI is the only way\". Frameworks change ==fast==. What's underneath them doesn't:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "LLM",
+          "Tools",
+          "RAG",
+          "Memory",
+          "Routing",
+          "Loops",
+          "Agents",
+          "Observability",
+          "Permissions"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Once you understand those, picking up a new framework is ==way easier==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Tools change. Concepts stay."
+      },
+      {
+        "type": "heading",
+        "text": "The best way to learn",
+        "id": "part-7"
+      },
+      {
+        "type": "image",
+        "src": "/blog/crewai-n8n/research-assistant.webp",
+        "alt": "Build an AI research assistant two ways. In CrewAI, agents work together: a researcher searches for papers, an analyst extracts insights, a writer writes the report and a reviewer checks it. In n8n, a workflow runs daily: get papers over HTTP from arXiv, create embeddings and search, an AI agent analyses and writes, the report is formatted and emailed. Same goal, two approaches.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration, not a real screenshot."
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't watch \"CrewAI vs n8n vs LangGraph vs Framework X\" for three hours. ==Build something.=="
+      },
+      {
+        "type": "paragraph",
+        "text": "Take one tiny project, like an AI research assistant, and build it three times:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "CrewAI",
+          "n8n",
+          "LangGraph"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "You'll quickly notice:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "how each one represents the workflow",
+          "where the state lives",
+          "how tools get connected",
+          "how debugging works",
+          "where each approach starts to feel uncomfortable"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "And suddenly you're not learning frameworks. You're learning ==AI engineering==."
+      },
+      {
+        "type": "cta",
+        "label": "New to LangGraph? Read the LangGraph post",
+        "href": "/blog/langgraph-ai-agents-workflow"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One small project, three frameworks. You'll learn more than any comparison video."
+      },
+      {
+        "type": "heading",
+        "text": "Remember this",
+        "id": "part-8"
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "CrewAI asks: ==\"How do my AI agents collaborate?\"== n8n asks: ==\"How does my AI system connect to the real world?\"=="
+      },
+      {
+        "type": "paragraph",
+        "text": "Neither answer is permanent. The tools will change. Your understanding of the architecture is what stays."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow](/blog/langgraph-ai-agents-workflow), the third framework in this trio."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "**CrewAI**"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[CrewAI docs](https://docs.crewai.com/): agents, tasks, crews, tools and Flows, with guides to get started.",
+          "[CrewAI on GitHub](https://github.com/crewAIInc/crewAI): source code, examples and releases.",
+          "[CrewAI in our Toolkit](/toolkit/crewai): our quick verdict, when to use it and when to skip it."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**n8n**"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[n8n docs](https://docs.n8n.io/): building workflows, AI agent nodes, self-hosting and the cloud version.",
+          "[n8n community](https://community.n8n.io/): ask questions and see how others build their workflows.",
+          "[n8n integrations](https://n8n.io/integrations/): the full list of apps and services it connects to.",
+          "[n8n in our Toolkit](/toolkit/n8n): our quick verdict, including the licence."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**LangGraph**"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Our LangGraph post](/blog/langgraph-ai-agents-workflow): the third framework, with a tiny AI debugger you can run.",
+          "[LangGraph in our Toolkit](/toolkit/langgraph): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-01",
+    "learn": [
+      "The one-line difference between CrewAI and n8n",
+      "How the same support-email app looks in each",
+      "When visual workflows help, and when they turn into spaghetti",
+      "Why the building blocks matter more than any framework"
+    ]
+  },
+  {
     "slug": "langgraph-ai-agents-workflow",
     "category": "agents",
     "title": "LangGraph: How AI Agents Actually Follow a Workflow",
@@ -15,10 +476,7 @@
         "alt": "How AI agents actually follow a workflow: LangGraph lets you build an agent as a graph of connected steps. 1, user input \"Find the bug in this code\"; 2, think; 3, use a tool; 4, check the result; 5, decide if the task is complete; if no, 7, retry and loop back; if yes, 6, done. A simplified code panel shows StateGraph with add_node calls. Key idea: node is a step, edge is a path, loop is try again."
       }
     },
-    "featured": {
-      "stat": "Think → act → check",
-      "caption": "LangGraph: how AI agents actually follow a workflow"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
@@ -516,7 +974,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Also: [my walkthrough video](https://youtu.be/SiZb22_2pe0) and [our RAG-Anything post](/blog/rag-anything-multimodal-rag)."
+        "text": "Also: [my walkthrough video](https://youtu.be/SiZb22_2pe0), [our RAG-Anything post](/blog/rag-anything-multimodal-rag), [CrewAI vs n8n](/blog/crewai-vs-n8n) for two other ways to build agents, and [LangGraph in our Toolkit](/toolkit/langgraph)."
       },
       {
         "type": "cta",

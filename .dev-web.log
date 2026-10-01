@@ -278,3 +278,13 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [browser] Encountered two children with the same key, `Test: failed`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
 [browser] Encountered two children with the same key, `Fix`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+ GET / 200 in 455ms (next.js: 4ms, application-code: 451ms)
+ GET /toolkit/crewai 200 in 1294ms (next.js: 981ms, application-code: 314ms)
+ GET /toolkit/n8n 200 in 455ms (next.js: 18ms, application-code: 436ms)
+ GET /toolkit/langgraph 200 in 277ms (next.js: 4ms, application-code: 273ms)
+ GET /blog/crewai-vs-n8n 200 in 864ms (next.js: 17ms, application-code: 847ms)
+[browser] Image with src "/blog/crewai-n8n/code-vs-canvas.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/crewai-vs-n8n 200 in 577ms (next.js: 12ms, application-code: 565ms)
+[browser] Image with src "/blog/crewai-n8n/code-vs-canvas.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
