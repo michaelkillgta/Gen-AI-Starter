@@ -253,8 +253,8 @@ BODY = [
        "SDK and make your first Sarvam API call.",
        "[Sarvam chat completion API](https://docs.sarvam.ai/api/api-guides-tutorials/chat-completion/overview): how "
        "to use sarvam-105b for chat completions, like we do in the experiment.",
-       "[Sarvam-105B model](https://docs.sarvam.ai/api/getting-started/models/sarvam-105b): what the model can do "
-       "for coding, reasoning and agent workflows."),
+       "[Sarvam-105B model](https://docs.sarvam.ai/api/getting-started/models/sarvam-105b): what the model is built for: "
+       "reasoning, coding and generation."),
     *p("**Try the experiment**",
        "Don't just read about nodes and edges. Open the Colab, run the tiny debugger and watch the graph move "
        "through diagnose → test → fix → test again.",
