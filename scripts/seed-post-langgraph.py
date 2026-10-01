@@ -259,7 +259,8 @@ BODY = [
        "Don't just read about nodes and edges. Open the Colab, run the tiny debugger and watch the graph move "
        "through diagnose → test → fix → test again.",
        f"Also: [my walkthrough video]({VIDEO_URL}), [our RAG-Anything post]({RAG_ANYTHING_POST}), [CrewAI vs n8n]"
-       "(/blog/crewai-vs-n8n) for two other ways to build agents, and [LangGraph in our Toolkit](/toolkit/langgraph)."),
+       "(/blog/crewai-vs-n8n) for two other ways to build agents, [Temporal](/blog/temporal-long-running-ai-workflows) to make long workflows "
+       "crash-proof, and [LangGraph in our Toolkit](/toolkit/langgraph)."),
     cta("Open the Colab: LangGraph × Sarvam AI Debugger", COLAB),
 ]
 

@@ -288,3 +288,13 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
  GET /blog/crewai-vs-n8n 200 in 577ms (next.js: 12ms, application-code: 565ms)
 [browser] Image with src "/blog/crewai-n8n/code-vs-canvas.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET / 200 in 386ms (next.js: 25ms, application-code: 361ms)
+ GET /toolkit/temporal 200 in 263ms (next.js: 19ms, application-code: 244ms)
+ GET /blog/temporal-long-running-ai-workflows 200 in 817ms (next.js: 17ms, application-code: 800ms)
+[browser] Image with src "/blog/temporal/court-coordinator.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/temporal-long-running-ai-workflows 200 in 532ms (next.js: 13ms, application-code: 518ms)
+[browser] Image with src "/blog/temporal/court-coordinator.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[browser] Image with src "/blog/temporal/temporal-vs-temporalio.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
