@@ -1,5 +1,520 @@
 [
   {
+    "slug": "langgraph-ai-agents-workflow",
+    "category": "agents",
+    "title": "LangGraph: How AI Agents Actually Follow a Workflow",
+    "excerpt": "An LLM gives an answer. An agent gets a job done. Here's how LangGraph turns steps, decisions, state and loops into an agent, with a tiny AI debugger you can run in Colab.",
+    "cover": {
+      "text": "LangGraph",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/langgraph/workflow.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "How AI agents actually follow a workflow: LangGraph lets you build an agent as a graph of connected steps. 1, user input \"Find the bug in this code\"; 2, think; 3, use a tool; 4, check the result; 5, decide if the task is complete; if no, 7, retry and loop back; if yes, 6, done. A simplified code panel shows StateGraph with add_node calls. Key idea: node is a step, edge is a path, loop is try again."
+      }
+    },
+    "featured": {
+      "stat": "Think → act → check",
+      "caption": "LangGraph: how AI agents actually follow a workflow"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You've heard it everywhere: \"We can build AI agents using LangGraph.\""
+      },
+      {
+        "type": "paragraph",
+        "text": "Sounds fancy. But what is LangGraph actually doing? Do we really need another framework just to call an LLM?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Let's skip the scary diagrams and build the idea from one tiny problem."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 4-minute LangGraph demo](#video-SiZb22_2pe0)"
+      },
+      {
+        "type": "cta",
+        "label": "Try it yourself: open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1Hu5celJhCe9xH7q021SlKnYZmSUkEybu"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "The ==LLM is the brain==. ==LangGraph is the workflow==: it decides which step runs next, carries the state between steps, and loops back when something fails."
+      },
+      {
+        "type": "heading",
+        "text": "Imagine your AI has a job",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "You tell an AI coding assistant: ==\"My code is broken. Find the bug and fix it.\"=="
+      },
+      {
+        "type": "paragraph",
+        "text": "A normal LLM looks at the code and says, \"Found it. You used - instead of +.\" Cool. But an actual coding agent has to do more than point:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Understand the problem",
+          "Find the bug",
+          "Fix it",
+          "Test the code",
+          "Did it work?"
+        ],
+        "repeat": "If not, fix and test again"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's not one answer anymore. That's a ==workflow==. And this is where LangGraph comes in."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Doing a job takes steps, checks and retries, not one reply."
+      },
+      {
+        "type": "heading",
+        "text": "So what is LangGraph?",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "LangGraph is a framework for building AI agents as ==workflows made of steps, decisions, state and loops==. That's it."
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't let \"framework\" scare you. It just means a structure that saves you from building every piece from zero. LangGraph's own [description](https://github.com/langchain-ai/langgraph) is a \"low-level orchestration framework for building stateful agents\". In plain words: ==the LLM provides the intelligence, LangGraph organises what happens next==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "LangGraph is the workflow manager for your AI agent."
+      },
+      {
+        "type": "heading",
+        "text": "LLM vs AI agent",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/langgraph/llm-vs-agent.webp",
+        "alt": "Normal LLM versus AI agent. A normal LLM takes a question, \"How do I cancel my subscription?\", and gives a direct answer. An AI agent takes a goal, \"Cancel my subscription and confirm it for me\", then thinks, uses tools such as a browser or APIs, checks the result, decides whether the goal is done, tries again if not, and finishes. An LLM gives an answer; an AI agent gets things done.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "A normal LLM is simple: you ask, it answers, done."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Question",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "An agent works towards a goal:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Goal",
+          "Think",
+          "Use a tool",
+          "Check the result",
+          "Decide",
+          "Finish"
+        ],
+        "repeat": "Not done? Try again"
+      },
+      {
+        "type": "paragraph",
+        "text": "An agent isn't \"ask AI, get answer\". It's a ==process==, and LangGraph helps you build that process."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "An LLM gives an answer. An agent gets the job done."
+      },
+      {
+        "type": "heading",
+        "text": "Why is it called a graph?",
+        "id": "part-4"
+      },
+      {
+        "type": "image",
+        "src": "/blog/langgraph/graph-is-workflow.webp",
+        "alt": "A graph is a workflow. A coding example: diagnose the code (def add returns a minus b, a bug), run the test (expected 5, got -1), check whether it passed; if no, fix the code (return a plus b) and run the tests again; if yes, done. Key concepts: a node is a step, an edge is a path, a decision chooses the next path, a loop means try again.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Forget the maths-class meaning. Here a graph is just ==connected steps==, like A → B → C."
+      },
+      {
+        "type": "paragraph",
+        "text": "Our debugger as a graph: diagnose, test, then a decision. Passed? Done. Failed? Fix, and test again."
+      },
+      {
+        "type": "paragraph",
+        "text": "Different steps, different paths. Sometimes the workflow moves forward, sometimes it ==goes back==, and sometimes it decides."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A graph is a flowchart your agent actually follows."
+      },
+      {
+        "type": "heading",
+        "text": "The 4 things you need to understand",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "Forget the 50-page docs for now. Start with these four:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Node = a step",
+            "text": "One thing your agent does: diagnose, test or fix. Think \"do this job\"."
+          },
+          {
+            "title": "Edge = the path",
+            "text": "The arrow from one node to the next. Think \"go here next\"."
+          },
+          {
+            "title": "State = what it carries",
+            "text": "The info passed along: the buggy code, the diagnosis, the test result, how many attempts, the fixed code."
+          },
+          {
+            "title": "Conditional edge = a decision",
+            "text": "Where to go based on what happened. Test passed? Done. Failed? Back to fix."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Put a conditional edge after a test and you get the best part: a ==loop==. Instead of Step 1 → 2 → 3 → finish, you can say \"if it isn't good enough, go back and try again\". That's much closer to how useful agents actually work."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Diagnose",
+          "Test: failed",
+          "Fix",
+          "Test: failed",
+          "Fix",
+          "Test: passed"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Nodes, edges, state, decisions. Add a loop and you have an agent."
+      },
+      {
+        "type": "heading",
+        "text": "Our tiny AI debugger",
+        "id": "part-6"
+      },
+      {
+        "type": "image",
+        "src": "/blog/langgraph/debugger.webp",
+        "alt": "A tiny AI coding debugger built with LangGraph and Sarvam. LangGraph controls the workflow; Sarvam is the reasoning model. The developer says \"My code is broken. Find the bug and fix it\"; LangGraph runs the steps; Sarvam finds the bug; state stores the code, diagnosis, test result and fix attempts; the test checks add(2, 3) equals 5; if it fails, Sarvam suggests changing return a - b to return a + b and the test runs again; when it passes, the agent returns the fixed code.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Our broken code is ridiculously simple:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "def add(a, b):\n    return a - b"
+      },
+      {
+        "type": "paragraph",
+        "text": "We expect add(2, 3) to give 5. It gives ==-1==. Test failed, bug found. Now let's see who does what."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A tiny bug is perfect for watching the whole workflow run."
+      },
+      {
+        "type": "heading",
+        "text": "Where Sarvam fits",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "Important: ==LangGraph is not the LLM==. In our experiment the thinking is done by [Sarvam](https://docs.sarvam.ai/), an Indian AI company's model. LangGraph runs the workflow around it. Here's the conversation, roughly:"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Sarvam",
+            "text": "\"I think the problem is a - b.\""
+          },
+          {
+            "label": "LangGraph",
+            "text": "\"Okay. Now let's test it.\""
+          }
+        ]
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Test",
+            "text": "\"Still broken.\""
+          },
+          {
+            "label": "LangGraph",
+            "text": "\"Then go back and fix it.\""
+          }
+        ]
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Test",
+            "text": "\"2 + 3 = 5.\""
+          },
+          {
+            "label": "LangGraph",
+            "text": "\"We're done.\""
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Sarvam thinks. LangGraph decides what happens next."
+      },
+      {
+        "type": "heading",
+        "text": "What LangGraph actually gives you",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "Without a workflow framework, you write a growing pile of logic by hand: call the model, check the response, run a tool, check again, call the model again, maybe retry, maybe run another tool... As the agent grows, that pile gets ==hard to manage==."
+      },
+      {
+        "type": "paragraph",
+        "text": "LangGraph makes the workflow explicit instead. Here's our debugger wired up with the real API. The three step functions are left short; the full version is in the Colab."
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from typing import TypedDict\nfrom langgraph.graph import StateGraph, START, END\n\nclass State(TypedDict):\n    code: str\n    diagnosis: str\n    passed: bool\n    attempts: int\n\ndef diagnose(state): ...  # Sarvam reads the code and explains the bug\ndef test(state): ...      # runs add(2, 3) and checks it equals 5\ndef fix(state): ...       # Sarvam rewrites the code\n\ndef route(state):\n    # Stop when the test passes, or after 3 tries so it can't loop forever\n    return \"done\" if state[\"passed\"] or state[\"attempts\"] >= 3 else \"fix\"\n\ngraph = StateGraph(State)\ngraph.add_node(\"diagnose\", diagnose)\ngraph.add_node(\"test\", test)\ngraph.add_node(\"fix\", fix)\ngraph.add_edge(START, \"diagnose\")\ngraph.add_edge(\"diagnose\", \"test\")\ngraph.add_conditional_edges(\"test\", route, {\"fix\": \"fix\", \"done\": END})\ngraph.add_edge(\"fix\", \"test\")\n\napp = graph.compile()\nresult = app.invoke({\"code\": \"def add(a, b):\\n    return a - b\", \"attempts\": 0})"
+      },
+      {
+        "type": "paragraph",
+        "text": "Read it top to bottom and you can see the whole agent: the state, three nodes, the edges, one decision, and a loop from fix back to test."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Nodes + edges + state + decisions + loops, instead of a pile of if-statements."
+      },
+      {
+        "type": "heading",
+        "text": "The mental model",
+        "id": "part-9"
+      },
+      {
+        "type": "image",
+        "src": "/blog/langgraph/mental-model.webp",
+        "alt": "LangGraph as the AI agent workflow at the centre: the LLM is the brain that reasons; tools are things it can use, like web search, code execution, databases and APIs; state is the information it carries, like user input, previous steps and tool results; decisions choose what happens next; loops try again until the result is right; together they complete the task.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "The ==LLM is the brain==. ==LangGraph is the workflow==: it decides which step runs next, carries the state between steps, and loops back when something fails."
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "LLM",
+            "text": "The brain"
+          },
+          {
+            "title": "LangGraph",
+            "text": "The workflow, the control system"
+          },
+          {
+            "title": "Tools",
+            "text": "Things the agent can use"
+          },
+          {
+            "title": "State",
+            "text": "Information carried through the task"
+          },
+          {
+            "title": "Conditional edges",
+            "text": "Decisions"
+          },
+          {
+            "title": "Loops",
+            "text": "Try again"
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Brain + tools + state + decisions + loops = an AI agent."
+      },
+      {
+        "type": "heading",
+        "text": "Now build one yourself",
+        "id": "part-10"
+      },
+      {
+        "type": "paragraph",
+        "text": "Theory is nice, but you'll get LangGraph much faster by watching it run. We built this little LangGraph and Sarvam debugger in Colab. In it, you'll:"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          "Give it broken Python code",
+          "Ask Sarvam to diagnose it",
+          "Create the LangGraph nodes",
+          "Add state",
+          "Run a test",
+          "Add a decision",
+          "Create a fix loop",
+          "Watch the graph execute"
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Run it in Colab",
+        "text": "Everything above is in my notebook, ready to run: [open the Colab notebook](https://colab.research.google.com/drive/1Hu5celJhCe9xH7q021SlKnYZmSUkEybu)."
+      },
+      {
+        "type": "cta",
+        "label": "Open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1Hu5celJhCe9xH7q021SlKnYZmSUkEybu"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/SiZb22_2pe0)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "SiZb22_2pe0",
+        "title": "LangGraph debugger demo (Uma's video)",
+        "caption": "LangGraph + Sarvam debugger demo · 4:23"
+      },
+      {
+        "type": "paragraph",
+        "text": "To install it on your own machine: pip install -U langgraph. The latest version on [PyPI](https://pypi.org/project/langgraph/) is 1.2.12, from 21 September 2026."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Run the notebook once and nodes, edges and state will make sense."
+      },
+      {
+        "type": "heading",
+        "text": "Final thought",
+        "id": "part-11"
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't think of LangGraph as ==another AI framework to memorise==. Think: \"I have an AI that needs to finish a task. LangGraph helps me design the path it follows.\""
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "A normal LLM",
+            "text": "Gives you an answer."
+          },
+          {
+            "label": "A workflow",
+            "text": "Thinks, acts, checks, decides, retries and finishes."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "That jump from answering questions to actually finishing tasks is where agents start getting interesting."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [RAG-Anything: RAG That Can Understand More Than Text](/blog/rag-anything-multimodal-rag), on agents that retrieve from any kind of content, and [ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough)."
+      },
+      {
+        "type": "links",
+        "label": "References",
+        "items": [
+          {
+            "label": "My Colab notebook",
+            "href": "https://colab.research.google.com/drive/1Hu5celJhCe9xH7q021SlKnYZmSUkEybu"
+          },
+          {
+            "label": "My walkthrough video",
+            "href": "https://youtu.be/SiZb22_2pe0"
+          },
+          {
+            "label": "LangGraph on GitHub",
+            "href": "https://github.com/langchain-ai/langgraph"
+          },
+          {
+            "label": "LangGraph on PyPI",
+            "href": "https://pypi.org/project/langgraph/"
+          },
+          {
+            "label": "Sarvam AI docs",
+            "href": "https://docs.sarvam.ai/"
+          },
+          {
+            "label": "Our RAG-Anything post",
+            "href": "/blog/rag-anything-multimodal-rag"
+          }
+        ]
+      }
+    ],
+    "published_on": "2026-10-01",
+    "learn": [
+      "The difference between an LLM and an AI agent",
+      "LangGraph's 4 building blocks: nodes, edges, state and decisions",
+      "How a loop lets an agent try again until it works",
+      "How LangGraph and Sarvam split the work in a tiny AI debugger"
+    ]
+  },
+  {
     "slug": "rag-anything-multimodal-rag",
     "category": "rag-and-documents",
     "title": "RAG-Anything: RAG That Can Understand More Than Text",
@@ -15,10 +530,7 @@
         "alt": "Text-only RAG versus multimodal documents. Left, the traditional way: PDF, text extraction, embeddings, search, LLM, and what gets lost: details in images, table structure, diagrams and video content, so answers are based only on text. Right, the real world: documents mix text, images, tables, diagrams and video, so a multimodal pipeline processes each type (for example with Docling or MinerU), retrieves across all of them and lets an LLM answer using everything, not just text."
       }
     },
-    "featured": {
-      "stat": "Beyond text",
-      "caption": "RAG-Anything: RAG that can understand more than text"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
@@ -372,7 +884,7 @@
       },
       {
         "type": "paragraph",
-        "text": "**Also read:** [ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough) and [Docling and MinerU: A Simple Guide to Document Parsing](/blog/mineru-document-parsing-for-beginners)."
+        "text": "**Also read:** [ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough) and [Docling and MinerU: A Simple Guide to Document Parsing](/blog/mineru-document-parsing-for-beginners). Next: [LangGraph: How AI Agents Actually Follow a Workflow](/blog/langgraph-ai-agents-workflow)."
       },
       {
         "type": "links",

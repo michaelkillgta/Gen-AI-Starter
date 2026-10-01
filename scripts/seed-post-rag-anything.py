@@ -218,7 +218,8 @@ BODY = [
        "little help, video."),
     cta("Start the series with the Docling post", DOCLING_POST),
     *p(f"**Also read:** [ColBERT: When Normal Semantic Search Isn't Enough]({COLBERT_POST}) and [Docling and MinerU: "
-       f"A Simple Guide to Document Parsing]({MINERU_POST})."),
+       f"A Simple Guide to Document Parsing]({MINERU_POST}). Next: [LangGraph: How AI Agents Actually Follow a "
+       "Workflow](/blog/langgraph-ai-agents-workflow)."),
     {"type": "links", "label": "References", "items": [
         {"label": "My Colab notebook", "href": COLAB},
         {"label": "My walkthrough video", "href": VIDEO_URL},
@@ -239,8 +240,8 @@ POST = {
     "cover": {"text": "RAG-Anything", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/text-vs-multimodal.webp", "width": SIZE[0], "height": SIZE[1],
                         "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Beyond text", "caption": "RAG-Anything: RAG that can understand more than text"},
+    # Was featured until the LangGraph post (1 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-01",
@@ -257,9 +258,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)

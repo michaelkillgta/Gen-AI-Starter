@@ -255,3 +255,26 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
  GET /blog/rag-anything-multimodal-rag 200 in 1208ms (next.js: 29ms, application-code: 1179ms)
 [browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog 200 in 446ms (next.js: 8ms, application-code: 438ms)
+[browser] Image with src "/blog/rag-anything/text-vs-multimodal.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/rag-anything-multimodal-rag 200 in 240ms (next.js: 27ms, application-code: 213ms)
+ GET /blog/rag-anything-multimodal-rag 200 in 2.7s (next.js: 1357ms, application-code: 1297ms)
+ GET / 200 in 144ms (next.js: 10ms, application-code: 134ms)
+ GET / 200 in 275ms (next.js: 4ms, application-code: 271ms)
+ GET /blog/langgraph-ai-agents-workflow 200 in 1225ms (next.js: 17ms, application-code: 1208ms)
+ GET /blog/langgraph-ai-agents-workflow 200 in 1060ms (next.js: 18ms, application-code: 1042ms)
+[browser] Image with src "/blog/langgraph/workflow.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[browser] Encountered two children with the same key, `Test: failed`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `Fix`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+ GET /blog/langgraph-ai-agents-workflow 200 in 896ms (next.js: 12ms, application-code: 884ms)
+[browser] Image with src "/blog/langgraph/workflow.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[browser] Encountered two children with the same key, `Test: failed`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `Fix`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+ GET /blog/langgraph-ai-agents-workflow 200 in 836ms (next.js: 22ms, application-code: 815ms)
+[browser] Image with src "/blog/langgraph/workflow.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[browser] Encountered two children with the same key, `Test: failed`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `Fix`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 

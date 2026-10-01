@@ -203,9 +203,9 @@ async fn weekly_issue_has_tally() {
 #[tokio::test]
 async fn blog_filters_by_category() {
     let (_, all) = get("/posts").await;
-    assert_eq!(all["posts"].as_array().unwrap().len(), 16);
+    assert_eq!(all["posts"].as_array().unwrap().len(), 17);
     let (_, agents) = get("/posts?category=agents").await;
-    assert_eq!(agents["posts"].as_array().unwrap().len(), 4);
+    assert_eq!(agents["posts"].as_array().unwrap().len(), 5);
     assert_eq!(get("/posts?category=nope").await.0, StatusCode::NOT_FOUND);
     let (s, post) = get("/posts/memory-is-not-truth").await;
     assert_eq!(s, StatusCode::OK);
