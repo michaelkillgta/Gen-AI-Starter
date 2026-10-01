@@ -268,7 +268,7 @@
       },
       {
         "type": "paragraph",
-        "text": "Important: ==LangGraph is not the LLM==. In our experiment the thinking is done by [Sarvam](https://docs.sarvam.ai/), an Indian AI company's model. LangGraph runs the workflow around it. Here's the conversation, roughly:"
+        "text": "Important: ==LangGraph is not the LLM==. In our experiment the thinking is done by [Sarvam](https://docs.sarvam.ai/)'s sarvam-105b, a model from an Indian AI company. LangGraph runs the workflow around it. Here's the conversation, roughly:"
       },
       {
         "type": "pair",
@@ -476,34 +476,52 @@
         "text": "**Also read:** [RAG-Anything: RAG That Can Understand More Than Text](/blog/rag-anything-multimodal-rag), on agents that retrieve from any kind of content, and [ColBERT: When Normal Semantic Search Isn't Enough](/blog/colbert-when-semantic-search-isnt-enough)."
       },
       {
-        "type": "links",
-        "label": "References",
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "**LangGraph**"
+      },
+      {
+        "type": "list",
+        "ordered": false,
         "items": [
-          {
-            "label": "My Colab notebook",
-            "href": "https://colab.research.google.com/drive/1Hu5celJhCe9xH7q021SlKnYZmSUkEybu"
-          },
-          {
-            "label": "My walkthrough video",
-            "href": "https://youtu.be/SiZb22_2pe0"
-          },
-          {
-            "label": "LangGraph on GitHub",
-            "href": "https://github.com/langchain-ai/langgraph"
-          },
-          {
-            "label": "LangGraph on PyPI",
-            "href": "https://pypi.org/project/langgraph/"
-          },
-          {
-            "label": "Sarvam AI docs",
-            "href": "https://docs.sarvam.ai/"
-          },
-          {
-            "label": "Our RAG-Anything post",
-            "href": "/blog/rag-anything-multimodal-rag"
-          }
+          "[LangGraph documentation](https://docs.langchain.com/oss/python/langgraph/): the main docs for concepts, APIs, memory, persistence, workflows and agents.",
+          "[LangGraph on GitHub](https://github.com/langchain-ai/langgraph): source code, examples, releases and the latest development.",
+          "[LangGraph quickstart](https://docs.langchain.com/oss/python/langgraph/quickstart): a good next step after this post, for building your first graph."
         ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Sarvam AI**"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Sarvam developer quickstart](https://docs.sarvam.ai/api/getting-started/quickstart): install the Python SDK and make your first Sarvam API call.",
+          "[Sarvam chat completion API](https://docs.sarvam.ai/api/api-guides-tutorials/chat-completion/overview): how to use sarvam-105b for chat completions, like we do in the experiment.",
+          "[Sarvam-105B model](https://docs.sarvam.ai/api/getting-started/models/sarvam-105b): what the model can do for coding, reasoning and agent workflows."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Try the experiment**"
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't just read about nodes and edges. Open the Colab, run the tiny debugger and watch the graph move through diagnose → test → fix → test again."
+      },
+      {
+        "type": "paragraph",
+        "text": "Also: [my walkthrough video](https://youtu.be/SiZb22_2pe0) and [our RAG-Anything post](/blog/rag-anything-multimodal-rag)."
+      },
+      {
+        "type": "cta",
+        "label": "Open the Colab: LangGraph × Sarvam AI Debugger",
+        "href": "https://colab.research.google.com/drive/1Hu5celJhCe9xH7q021SlKnYZmSUkEybu"
       }
     ],
     "published_on": "2026-10-01",

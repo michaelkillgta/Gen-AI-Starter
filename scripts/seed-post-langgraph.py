@@ -4,7 +4,7 @@ with her 5 visuals in web/public/blog/langgraph/ (converted to WebP by hand on 1
 Text: written from Uma's draft in plain prose. Facts checked on 1 Oct 2026: LangGraph describes itself as a
 "low-level orchestration framework for building stateful agents"; latest release 1.2.12 (21 Sept 2026). The
 code uses the real API (StateGraph, add_node, add_edge, add_conditional_edges, START/END, compile, invoke).
-Sarvam's model isn't named because we haven't opened the Colab to see which one it uses.
+Uma confirmed the Colab uses sarvam-105b; resources list from her (tracking parameters removed).
 Run from the repo root:  python scripts/seed-post-langgraph.py
 """
 import io
@@ -161,8 +161,8 @@ BODY = [
     takeaway("A tiny bug is perfect for watching the whole workflow run."),
 
     h("Where Sarvam fits", "part-7"),
-    *p(f"Important: ==LangGraph is not the LLM==. In our experiment the thinking is done by [Sarvam]({SARVAM}), an "
-       "Indian AI company's model. LangGraph runs the workflow around it. Here's the conversation, roughly:"),
+    *p(f"Important: ==LangGraph is not the LLM==. In our experiment the thinking is done by [Sarvam]({SARVAM})'s "
+       "sarvam-105b, a model from an Indian AI company. LangGraph runs the workflow around it. Here's the conversation, roughly:"),
     pair(("Sarvam", "\"I think the problem is a - b.\""), ("LangGraph", "\"Okay. Now let's test it.\"")),
     pair(("Test", "\"Still broken.\""), ("LangGraph", "\"Then go back and fix it.\"")),
     pair(("Test", "\"2 + 3 = 5.\""), ("LangGraph", "\"We're done.\"")),
@@ -240,14 +240,26 @@ BODY = [
     *p("That jump from answering questions to actually finishing tasks is where agents start getting interesting."),
     *p(f"**Also read:** [RAG-Anything: RAG That Can Understand More Than Text]({RAG_ANYTHING_POST}), on agents that "
        f"retrieve from any kind of content, and [ColBERT: When Normal Semantic Search Isn't Enough]({COLBERT_POST})."),
-    {"type": "links", "label": "References", "items": [
-        {"label": "My Colab notebook", "href": COLAB},
-        {"label": "My walkthrough video", "href": VIDEO_URL},
-        {"label": "LangGraph on GitHub", "href": REPO},
-        {"label": "LangGraph on PyPI", "href": PYPI},
-        {"label": "Sarvam AI docs", "href": SARVAM},
-        {"label": "Our RAG-Anything post", "href": RAG_ANYTHING_POST},
-    ]},
+
+    h("Resources"),
+    *p("**LangGraph**"),
+    ul("[LangGraph documentation](https://docs.langchain.com/oss/python/langgraph/): the main docs for concepts, "
+       "APIs, memory, persistence, workflows and agents.",
+       f"[LangGraph on GitHub]({REPO}): source code, examples, releases and the latest development.",
+       "[LangGraph quickstart](https://docs.langchain.com/oss/python/langgraph/quickstart): a good next step after "
+       "this post, for building your first graph."),
+    *p("**Sarvam AI**"),
+    ul("[Sarvam developer quickstart](https://docs.sarvam.ai/api/getting-started/quickstart): install the Python "
+       "SDK and make your first Sarvam API call.",
+       "[Sarvam chat completion API](https://docs.sarvam.ai/api/api-guides-tutorials/chat-completion/overview): how "
+       "to use sarvam-105b for chat completions, like we do in the experiment.",
+       "[Sarvam-105B model](https://docs.sarvam.ai/api/getting-started/models/sarvam-105b): what the model can do "
+       "for coding, reasoning and agent workflows."),
+    *p("**Try the experiment**",
+       "Don't just read about nodes and edges. Open the Colab, run the tiny debugger and watch the graph move "
+       "through diagnose → test → fix → test again.",
+       f"Also: [my walkthrough video]({VIDEO_URL}) and [our RAG-Anything post]({RAG_ANYTHING_POST})."),
+    cta("Open the Colab: LangGraph × Sarvam AI Debugger", COLAB),
 ]
 
 POST = {
