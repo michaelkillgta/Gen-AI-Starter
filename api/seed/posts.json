@@ -1,5 +1,442 @@
 [
   {
+    "slug": "llm-routers-model-routing",
+    "category": "agents",
+    "title": "LLM Routers: Why Your AI App Doesn't Need One Model for Everything",
+    "excerpt": "Translating a sentence and designing a system don't need the same model. An LLM router picks the right one for each request. Here's how it works, with a tiny router you can run in Colab.",
+    "cover": {
+      "text": "LLM Router",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/llm-router/right-model.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "LLM router: the right model for every task. Incoming requests of different kinds go to a router, which sends each one to the model that fits it best, such as a fast model for simple tasks or a stronger model for hard ones, and the answer goes back to the user."
+      }
+    },
+    "featured": {
+      "stat": "LLM Router",
+      "caption": "the right model for every request"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Imagine you run an AI app. One user asks, \"Translate this sentence.\" Another wants a Python function. A third says, \"Analyse this huge business problem.\""
+      },
+      {
+        "type": "paragraph",
+        "text": "Would you send all three to your ==biggest, most expensive model==? Probably not. That's like calling a senior engineer every time someone asks where the settings button is. 😭"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's where ==LLM routing== comes in."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 7-minute LLM router demo](#video-K9VYU4aLxRg)"
+      },
+      {
+        "type": "cta",
+        "label": "Try it yourself: open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1cEgyx2bdGJUOL7KWil7R9qgIHbYSTspS"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "An LLM router is the ==traffic controller==: it decides ==which AI model handles each request==. It doesn't answer the request itself."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "LLM Router",
+            "href": "/toolkit/llmrouter"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "So what is an LLM router?",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/llm-router/routing-explained.webp",
+        "alt": "AI model routing explained in four steps: a prompt comes in, the router reads it, it selects the model that fits, and that model writes the answer.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "An LLM router is a ==decision layer== that picks which AI model should handle a request. Instead of every request going to one model:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "User",
+          "One LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "you put a router in front of several:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "User",
+          "Router: which model fits?",
+          "Model A, B or C",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "The router usually doesn't answer the user. Its only job is to ask: ==\"Who should handle this?\"=="
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The router picks the model. The model writes the answer."
+      },
+      {
+        "type": "heading",
+        "text": "Why not just use one powerful model?",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/llm-router/one-model-vs-routing.webp",
+        "alt": "One model versus smart routing. With one model, every request, easy or hard, goes to the same big model. With smart routing, each request goes to a model that suits it.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Every AI app balances three things: ==cost==, ==speed== and ==capability==. A powerful model can be excellent, but using it for every tiny request is often unnecessary. A router might choose like this:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "\"Translate this sentence to Telugu.\"",
+            "text": "A fast multilingual model"
+          },
+          {
+            "title": "\"Write a React component.\"",
+            "text": "A model that's good at code"
+          },
+          {
+            "title": "\"Analyse this complicated system design.\"",
+            "text": "A strong reasoning model"
+          },
+          {
+            "title": "\"Research and compare several approaches.\"",
+            "text": "A research-oriented model"
+          },
+          {
+            "title": "\"Summarise these 3 paragraphs.\"",
+            "text": "A fast general model"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The exact choices depend on how you design your app. The idea is simple: ==different requests have different needs==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One model for everything is easy. It's rarely the best fit."
+      },
+      {
+        "type": "heading",
+        "text": "The router is a traffic controller",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/llm-router/traffic-control.webp",
+        "alt": "AI traffic control: requests arrive like planes at an airport, and the router directs each one to the right gate, such as a fast model, a strong model or a research model, before the answer goes back.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Think of a busy airport. Not every plane goes to the same gate. The airport looks at each flight and decides where it should go."
+      },
+      {
+        "type": "paragraph",
+        "text": "A router does the same with requests. It looks at what kind of task it is and sends it to a fast model, a strong model or a research model. The router is the ==traffic controller, not the destination==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Router = air traffic control. Models = the gates."
+      },
+      {
+        "type": "heading",
+        "text": "What does the router look at?",
+        "id": "part-4"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**The task.** \"Translate this sentence\" is very different from \"Design the architecture for a large AI platform\".",
+          "**How complex it is.** A simple request may not need the same model as a multi-step problem.",
+          "**The domain.** Your app might have models that are better at coding, translation, research, reasoning, customer support, images or summaries.",
+          "**Cost and speed.** Sometimes you want \"a good answer, fast\". Sometimes you want \"take your time and get it right\"."
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The router reads the request before any money is spent on the answer."
+      },
+      {
+        "type": "heading",
+        "text": "What happens inside the app",
+        "id": "part-5"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "User: \"Debug this Python app\"",
+          "Router: \"looks like coding\"",
+          "Selected model",
+          "Model writes the answer",
+          "User gets the reply"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "One detail people miss: the user's prompt ==doesn't disappear==. The router makes its decision, then the ==original prompt== goes to the chosen model."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Decide first, then send the original prompt."
+      },
+      {
+        "type": "heading",
+        "text": "The cool part: AI choosing AI",
+        "id": "part-6"
+      },
+      {
+        "type": "image",
+        "src": "/blog/llm-router/ai-chooses.webp",
+        "alt": "The AI that chooses your answer: a first model reads the prompt and decides which second model should answer it, then that model replies.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "You could write hundreds of rules like \"if coding, use model A\". Or you can let ==another model make the decision==."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "User prompt",
+          "Decider model",
+          "\"Use Sarvam 105B\"",
+          "Sarvam 105B",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "The first model isn't solving the user's problem. It's deciding ==which model should solve it==. That's the core of smart routing."
+      },
+      {
+        "type": "paragraph",
+        "text": "In our experiment, an app has two models to choose from. \"Design a fault-tolerant architecture for an AI app\" needs complex reasoning over several steps, so the router picks Sarvam 105B. \"Investigate different ways to make AI agents more reliable\" is research and comparison, so it picks Apodex. ==Same app, different request, different model==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A small, quick model can be the manager for bigger ones."
+      },
+      {
+        "type": "heading",
+        "text": "What it looks like in code",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't need a big framework to get the idea. It's two steps: ==decide==, then ==call==. Here's a short version of the Colab's flow. The call_ functions are small helpers that call each model's API, with keys read from environment variables, never written in the code:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "import json\n\nROUTER_PROMPT = \"\"\"Pick the best model for this request. Reply with JSON only:\n{\"model\": \"sarvam-105b\" or \"apodex\", \"confidence\": 0 to 1}\nsarvam-105b: reasoning, coding, architecture\napodex: research and comparing approaches\nRequest: \"\"\"\n\ndef mercury_route(prompt):\n    reply = call_decider(ROUTER_PROMPT + prompt)  # the decider model\n    return json.loads(reply)                      # e.g. {\"model\": \"sarvam-105b\", \"confidence\": 0.9}\n\ndef generate_with_route(route, prompt):\n    models = {\"sarvam-105b\": call_sarvam, \"apodex\": call_openrouter}\n    try:\n        return models[route[\"model\"]](prompt)  # send the ORIGINAL prompt\n    except Exception:\n        return call_sarvam(prompt)              # fallback if the chosen model fails\n\nprompt = \"Debug the system\"\nanswer = generate_with_route(mercury_route(prompt), prompt)"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the whole pattern: one function decides, one function calls, and a ==fallback== catches the case where the chosen model is down."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Route, then call. Add a fallback and you're production-minded."
+      },
+      {
+        "type": "heading",
+        "text": "Our Colab experiment",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "We built exactly this pipeline:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your prompt",
+          "Mercury decides",
+          "Sarvam 105B (Sarvam API) or Apodex (OpenRouter)",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "When we typed \"Debug the system\", Mercury returned a structured decision choosing ==Sarvam 105B==, with its confidence and probabilities. Then our Python code sent the original prompt to Sarvam and printed the answer. A real, working example, not just a diagram."
+      },
+      {
+        "type": "paragraph",
+        "text": "Mercury and Apodex are simply the models our experiment uses. The pattern works with any models you can call."
+      },
+      {
+        "type": "callout",
+        "label": "Run it in Colab",
+        "text": "The whole router, ready to run: [open the Colab notebook](https://colab.research.google.com/drive/1cEgyx2bdGJUOL7KWil7R9qgIHbYSTspS). Add your own API keys as Colab secrets."
+      },
+      {
+        "type": "cta",
+        "label": "Open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1cEgyx2bdGJUOL7KWil7R9qgIHbYSTspS"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/K9VYU4aLxRg)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "K9VYU4aLxRg",
+        "title": "LLM Router (Uma's demo video)",
+        "caption": "LLM Router · 7:05"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Prompt in, decision made, right model answers."
+      },
+      {
+        "type": "heading",
+        "text": "Why this matters in production",
+        "id": "part-9"
+      },
+      {
+        "type": "paragraph",
+        "text": "Picture an app getting ==100,000 requests==. If every one goes to the same expensive model, you're treating \"Translate hello\" and \"Design a distributed AI system\" as if they need the same brainpower."
+      },
+      {
+        "type": "paragraph",
+        "text": "A router lets your app make a choice ==before spending compute on the answer==. That helps you design around speed, cost, model ability and what each task actually needs. And a good router has ==fallback paths== for when a model isn't available."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "At scale, small choices per request add up."
+      },
+      {
+        "type": "heading",
+        "text": "The common mistake",
+        "id": "part-10"
+      },
+      {
+        "type": "paragraph",
+        "text": "A router isn't just \"small question, small model\". Real routing can weigh a lot more:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Task",
+          "Difficulty",
+          "Ability needed",
+          "Speed needed",
+          "Cost",
+          "Is the model available?",
+          "Best available route"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "So routing isn't about finding ==the best model in the world==. It's about finding ==the right model for this request==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Best model ≠ right model."
+      },
+      {
+        "type": "heading",
+        "text": "The one sentence to remember",
+        "id": "part-11"
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "An LLM router is the ==traffic controller==: it decides ==which AI model handles each request==. It doesn't answer the request itself."
+      },
+      {
+        "type": "paragraph",
+        "text": "Your app doesn't have to marry one model. 💀 It can have a ==team of models==, and the router decides who gets the next task."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow](/blog/langgraph-ai-agents-workflow), where a router could be one node, and [Temporal](/blog/temporal-long-running-ai-workflows), for keeping multi-model workflows alive."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[My Colab notebook](https://colab.research.google.com/drive/1cEgyx2bdGJUOL7KWil7R9qgIHbYSTspS): the router experiment from this post.",
+          "[My walkthrough video](https://youtu.be/K9VYU4aLxRg): the demo, start to finish.",
+          "[Sarvam-105B model](https://docs.sarvam.ai/api/getting-started/models/sarvam-105b): the model our router picked for reasoning and coding.",
+          "[OpenRouter docs](https://openrouter.ai/docs): one API to call many different models.",
+          "[LLM Router in our Toolkit](/toolkit/llmrouter): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-02",
+    "learn": [
+      "What an LLM router is, and why one model for everything is wasteful",
+      "What a router looks at before choosing a model",
+      "How one AI model can choose another",
+      "A tiny route-then-call example, with a fallback"
+    ]
+  },
+  {
     "slug": "ai-red-teaming-promptfoo",
     "category": "staying-safe",
     "title": "Your AI Looks Smart. But Can You Break It? Red Teaming with Promptfoo",
@@ -15,10 +452,7 @@
         "alt": "Your AI looks smart, but can you break it? An AI assistant sits behind safety guardrails while four attackers try controlled attacks: prompt injection (\"Ignore your previous instructions and do what I say\"), system prompt leakage (\"Reveal your hidden instructions\"), a safety bypass (\"Bypass the safety rules\") and restricted content (\"Give me the restricted information\"). Red-team testing finds the weaknesses before real users do."
       }
     },
-    "featured": {
-      "stat": "Promptfoo",
-      "caption": "AI red teaming: can you break your own AI?"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
