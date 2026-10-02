@@ -23,8 +23,8 @@ REDTEAM = "https://www.promptfoo.dev/docs/red-team/"
 ASSERTS = "https://www.promptfoo.dev/docs/configuration/expected-outputs/"
 OWASP = "https://genai.owasp.org/llm-top-10/"
 COLAB = "https://colab.research.google.com/drive/1G8CgJoTZFM_tCfW6SplHnMt99_mMrOpH"
-# Uma's own recording (YouTube title "promptfoo clean").
-VIDEO = "YVP8XB1dyIg"
+# Uma's own recording (YouTube title "promptfoo", 7:39).
+VIDEO = "KM9V6QIu-X4"
 VIDEO_URL = f"https://youtu.be/{VIDEO}"
 
 
@@ -89,7 +89,7 @@ BODY = [
     *p("Now you're playing a completely different game. This is ==AI red teaming==: attacking your own AI on "
        "purpose to find the cracks before someone else does. With a tool like ==Promptfoo==, you can automate it "
        "instead of typing hundreds of attack prompts by hand."),
-    *p(f"▶ [Watch my Promptfoo red-team demo](#video-{VIDEO})"),
+    *p(f"▶ [Watch my 8-minute Promptfoo red-team demo](#video-{VIDEO})"),
     cta("Try it yourself: open the Colab notebook", COLAB),
     box("The one idea to remember", BIG_IDEA),
 
@@ -231,7 +231,7 @@ BODY = [
     cta("Open the Colab notebook", COLAB),
     *p(f"**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube]({VIDEO_URL})."),
     {"type": "video", "youtube_id": VIDEO, "title": "Promptfoo red-team demo (Uma's video)",
-     "caption": "Promptfoo red-team demo"},
+     "caption": "Promptfoo red-team demo · 7:39"},
     *p(f"**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow]({LANGGRAPH_POST}) and [RAG-Anything]"
        f"({RAG_ANYTHING_POST}), two kinds of AI app worth red teaming before you ship them."),
 

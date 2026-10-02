@@ -23,7 +23,7 @@ SDK = "https://github.com/temporalio/sdk-python"
 PYPI = "https://pypi.org/project/temporalio/"
 AI_DOCS = "https://docs.temporal.io/ai-cookbook"
 # Uma's own recording (YouTube title "Temporal", 4:42) and notebook.
-VIDEO = "JKWqXY_-bhI"
+VIDEO = "W_vLv9bIgnQ"
 VIDEO_URL = f"https://youtu.be/{VIDEO}"
 COLAB = "https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc"
 ILLUSTRATION = "An illustration, not a real screenshot."

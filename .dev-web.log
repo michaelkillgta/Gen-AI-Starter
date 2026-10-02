@@ -308,3 +308,6 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
 [browser] Image with src "/blog/promptfoo/type-vs-value.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+ GET /blog/ai-red-teaming-promptfoo 200 in 560ms (next.js: 16ms, application-code: 544ms)
+ GET /blog/ai-red-teaming-promptfoo 200 in 405ms (next.js: 11ms, application-code: 394ms)
+ GET /blog/ai-red-teaming-promptfoo 200 in 416ms (next.js: 5ms, application-code: 411ms)

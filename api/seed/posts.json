@@ -1,5 +1,409 @@
 [
   {
+    "slug": "temporal-long-running-ai-workflows",
+    "category": "agents",
+    "title": "Temporal: The Courtroom for Long-Running AI Workflows",
+    "excerpt": "Your AI workflow will fail halfway one day. Temporal makes sure it picks up where it stopped, retries the broken step and can even wait hours for a human.",
+    "cover": {
+      "text": "Temporal",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/temporal/court-coordinator.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "Think of Temporal as a court coordinator. It doesn't decide what the AI should do; it coordinates the steps, tracks progress, handles retries and makes sure everything completes. 1, the workflow is the plan; 2, activities do the actual work, like a search API, an LLM call or saving to a database; 3, the worker runs the code; 4, the Temporal server keeps the workflow moving, storing state and history and scheduling tasks. Example: search, ask AI, save the answer, and if the AI call times out, retry automatically."
+      }
+    },
+    "featured": null,
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Your AI app probably started simple:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Question",
+          "Search",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Then real life happened:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Search",
+          "RAG",
+          "LLM",
+          "Tool",
+          "Database",
+          "Human approval",
+          "Final action"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Now the annoying questions show up. What if the LLM fails? What if a server crashes halfway? What if you have to ==wait three hours for a human==? What if one step failed, and you don't want to start the whole thing again?"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the problem Temporal is built for."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 5-minute Temporal demo](#video-W_vLv9bIgnQ)"
+      },
+      {
+        "type": "cta",
+        "label": "Try it yourself: open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "Temporal is a ==durable execution platform==: it keeps long-running workflows going through crashes, retries and long waits. ==temporalio== is the Python SDK your code uses to talk to it."
+      },
+      {
+        "type": "heading",
+        "text": "Think of Temporal as a courtroom",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/temporal/court-coordinator.webp",
+        "alt": "Think of Temporal as a court coordinator. It doesn't decide what the AI should do; it coordinates the steps, tracks progress, handles retries and makes sure everything completes. 1, the workflow is the plan; 2, activities do the actual work, like a search API, an LLM call or saving to a database; 3, the worker runs the code; 4, the Temporal server keeps the workflow moving, storing state and history and scheduling tasks. Example: search, ask AI, save the answer, and if the AI call times out, retry automatically.",
+        "width": 1672,
+        "height": 941,
+        "caption": "Workflow, Activity, Worker and Server, as a courtroom."
+      },
+      {
+        "type": "paragraph",
+        "text": "Picture a judge. The judge doesn't search documents, call witnesses or do the legwork. The judge ==coordinates==: \"First this. Then that. If something goes wrong, follow the rules. If we're waiting for someone, pause here and carry on when they arrive.\""
+      },
+      {
+        "type": "paragraph",
+        "text": "Temporal works the same way. One thing to be clear on: ==Temporal doesn't make decisions for you==. You write the rules. Temporal makes sure they run to the end, even when things break. It calls this ==durable execution==: your workflow keeps its progress even if workers, networks or servers fail."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Temporal is the coordinator, not the one doing the work."
+      },
+      {
+        "type": "heading",
+        "text": "Workflow = the plan",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "A Workflow is the overall process, written as code. For example: search, give the result to the LLM, retry if a step fails, return the answer. Here's a minimal version with the real API:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from datetime import timedelta\nfrom temporalio import activity, workflow\n\n@activity.defn\nasync def search(question: str) -> str:\n    ...  # call a search API\n\n@activity.defn\nasync def ask_llm(question: str, context: str) -> str:\n    ...  # call your LLM\n\n@workflow.defn\nclass ResearchWorkflow:\n    @workflow.run\n    async def run(self, question: str) -> str:\n        context = await workflow.execute_activity(\n            search, question, start_to_close_timeout=timedelta(seconds=30)\n        )\n        return await workflow.execute_activity(\n            ask_llm, args=[question, context], start_to_close_timeout=timedelta(minutes=2)\n        )"
+      },
+      {
+        "type": "paragraph",
+        "text": "Two small rules hide in there. Every activity call needs a ==timeout==, so Temporal knows when to give up and retry. And workflow code must be ==deterministic==: no random numbers, no network calls, no reading the clock directly. Anything unpredictable goes in an activity. That's what lets Temporal replay a workflow and land in exactly the same place."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The Workflow is the plan. Keep it predictable."
+      },
+      {
+        "type": "heading",
+        "text": "Activity = the actual work",
+        "id": "part-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "An Activity is one piece of real-world work: ==search an API, call an LLM, query a database, send an email, process a payment==."
+      },
+      {
+        "type": "paragraph",
+        "text": "These are exactly the things that can be slow or fail, which is why they're kept separate from the plan. The workflow says \"run search\", and the activity actually does it."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Workflow: \"run search\"",
+          "Activity",
+          "The search actually happens"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "If it talks to the outside world, it's an activity."
+      },
+      {
+        "type": "heading",
+        "text": "Worker = the one doing the work",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's a surprise: the Temporal server ==doesn't run your Python code==. Your Worker does."
+      },
+      {
+        "type": "paragraph",
+        "text": "Workers are your own programs. They keep asking a ==task queue== for work, run the workflow and activity code, and report back. You can run several workers on the same queue to share the load."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Temporal service",
+          "Task queue",
+          "Worker",
+          "Your Python code"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The server coordinates. Your workers do the running."
+      },
+      {
+        "type": "heading",
+        "text": "Then what is temporalio?",
+        "id": "part-5"
+      },
+      {
+        "type": "image",
+        "src": "/blog/temporal/temporal-vs-temporalio.webp",
+        "alt": "Temporal versus temporalio, same ecosystem, different roles. Temporal is the workflow orchestration platform: it runs your steps, retries on failure, handles long waits and keeps going reliably. temporalio is the Python SDK: your Python code defines workflows and activities, temporalio turns them into requests the platform understands, and Temporal runs and coordinates them. Temporal is the platform; temporalio is how Python talks to it.",
+        "width": 1672,
+        "height": 941,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This is where the names get confusing. ==Temporal is the platform==. ==temporalio is the Python SDK==, the official library your Python code uses to work with it:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "pip install temporalio"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from temporalio import workflow, activity\nfrom temporalio.client import Client\nfrom temporalio.worker import Worker"
+      },
+      {
+        "type": "paragraph",
+        "text": "It's MIT licensed, needs Python 3.10 or newer, and the latest version is 1.34.0, from 30 September 2026. To try things on your laptop, the Temporal CLI starts a local dev server with temporal server start-dev. There's also Temporal Cloud, a paid hosted version, if you don't want to run the server yourself."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Temporal is the platform. temporalio is how Python talks to it."
+      },
+      {
+        "type": "heading",
+        "text": "What if something fails?",
+        "id": "part-6"
+      },
+      {
+        "type": "image",
+        "src": "/blog/temporal/when-it-fails.webp",
+        "alt": "What happens when an AI workflow fails. Without Temporal: the user question, search and AI answer work, then saving the result fails because the server crashed, and nobody knows where to continue, so the whole workflow is lost. With Temporal: it tracks progress at each step, retries the failed save automatically, and continues from where it stopped until the result is saved.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration, not a real screenshot."
+      },
+      {
+        "type": "paragraph",
+        "text": "Say search and RAG worked, but the LLM call failed. With a ==retry policy==, Temporal retries just that activity:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Search: done",
+          "RAG: done",
+          "LLM: failed",
+          "Retry",
+          "LLM: done",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "The clever part isn't the retry itself. Temporal keeps an ==event history== of everything that already happened, so it continues from where it stopped instead of starting over. Search doesn't run twice just because the LLM had a bad moment."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Only the failed step runs again. Everything else is remembered."
+      },
+      {
+        "type": "heading",
+        "text": "It can also wait",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "Say your AI writes a report and a human has to approve it. The workflow can simply ==wait==, for minutes, hours or days, without holding up a server. When the approval arrives, it carries on."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Generate report",
+          "Wait for human approval",
+          "Human approves",
+          "Publish report"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Temporal's [AI cookbook](https://docs.temporal.io/ai-cookbook) has examples of exactly this kind of thing: long-running agents, human-in-the-loop steps and multi-step AI pipelines."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Waiting for a human is just another step."
+      },
+      {
+        "type": "heading",
+        "text": "Where AI fits",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "Temporal ==isn't the LLM==. It isn't RAG. It isn't an agent framework. It sits around the workflow and keeps it running."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Temporal: durable execution",
+          "Your AI workflow",
+          "Search, tools, LLM"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "That's why it can be used alongside agent frameworks like [LangGraph](/blog/langgraph-ai-agents-workflow): LangGraph shapes the agent's reasoning and tool steps, and Temporal keeps the bigger process durable. Temporal's docs also show an official integration with the OpenAI Agents SDK."
+      },
+      {
+        "type": "paragraph",
+        "text": "One honest note: Temporal isn't the only way to do this, and it has a ==learning curve==. For a small script, it's overkill. It earns its place when workflows are long, expensive or can't afford to lose progress."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Agent frameworks shape the thinking. Temporal makes the process survive."
+      },
+      {
+        "type": "heading",
+        "text": "The mental model",
+        "id": "part-9"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Temporal",
+            "text": "Coordinates the workflow and keeps it durable"
+          },
+          {
+            "title": "Workflow",
+            "text": "Defines the plan"
+          },
+          {
+            "title": "Activity",
+            "text": "Does the actual outside work"
+          },
+          {
+            "title": "Worker",
+            "text": "Runs your code"
+          },
+          {
+            "title": "temporalio",
+            "text": "The Python SDK that connects your app to Temporal"
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "Temporal is a ==durable execution platform==: it keeps long-running workflows going through crashes, retries and long waits. ==temporalio== is the Python SDK your code uses to talk to it."
+      },
+      {
+        "type": "heading",
+        "text": "Build it yourself",
+        "id": "part-10"
+      },
+      {
+        "type": "paragraph",
+        "text": "Theory clicks faster when you see it run. I built a small Temporal workflow in Colab that you can run yourself."
+      },
+      {
+        "type": "callout",
+        "label": "Run it in Colab",
+        "text": "Everything in this post is in my notebook, ready to run: [open the Colab notebook](https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc)."
+      },
+      {
+        "type": "cta",
+        "label": "Open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/W_vLv9bIgnQ)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "W_vLv9bIgnQ",
+        "title": "Temporal (Uma's demo video)",
+        "caption": "Temporal · 4:42"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow](/blog/langgraph-ai-agents-workflow) and [CrewAI vs n8n](/blog/crewai-vs-n8n), two other ways to build the workflow that Temporal keeps running, and [Your AI Looks Smart. But Can You Break It?](/blog/ai-red-teaming-promptfoo), on testing it before you ship."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Temporal docs](https://docs.temporal.io/): concepts, guides and how to run Temporal yourself.",
+          "[Temporal Python SDK guide](https://docs.temporal.io/develop/python): building workflows, activities and workers in Python.",
+          "[sdk-python on GitHub](https://github.com/temporalio/sdk-python): source code, examples and the full README.",
+          "[temporalio on PyPI](https://pypi.org/project/temporalio/): the package and its release history.",
+          "[Temporal AI cookbook](https://docs.temporal.io/ai-cookbook): examples for AI agents and human-in-the-loop workflows.",
+          "[Temporal in our Toolkit](/toolkit/temporal): our quick verdict.",
+          "[My Colab notebook](https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc) and [my demo video](https://youtu.be/W_vLv9bIgnQ)."
+        ]
+      }
+    ],
+    "published_on": "2026-10-02",
+    "learn": [
+      "Why real AI workflows need more than a simple pipeline",
+      "Workflow, Activity and Worker, explained with a courtroom",
+      "How Temporal retries one failed step without starting over",
+      "The difference between Temporal and temporalio"
+    ]
+  },
+  {
     "slug": "ai-red-teaming-promptfoo",
     "category": "staying-safe",
     "title": "Your AI Looks Smart. But Can You Break It?",
@@ -40,7 +444,7 @@
       },
       {
         "type": "paragraph",
-        "text": "▶ [Watch my Promptfoo red-team demo](#video-YVP8XB1dyIg)"
+        "text": "▶ [Watch my 8-minute Promptfoo red-team demo](#video-KM9V6QIu-X4)"
       },
       {
         "type": "cta",
@@ -387,13 +791,13 @@
       },
       {
         "type": "paragraph",
-        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/YVP8XB1dyIg)."
+        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/KM9V6QIu-X4)."
       },
       {
         "type": "video",
-        "youtube_id": "YVP8XB1dyIg",
+        "youtube_id": "KM9V6QIu-X4",
         "title": "Promptfoo red-team demo (Uma's video)",
-        "caption": "Promptfoo red-team demo"
+        "caption": "Promptfoo red-team demo · 7:39"
       },
       {
         "type": "paragraph",
@@ -415,7 +819,7 @@
           "[OWASP Top 10 for LLM apps](https://genai.owasp.org/llm-top-10/): the common risks, including prompt injection and system prompt leakage.",
           "[Promptfoo in our Toolkit](/toolkit/promptfoo): our quick verdict.",
           "[My Colab notebook](https://colab.research.google.com/drive/1G8CgJoTZFM_tCfW6SplHnMt99_mMrOpH): the experiment from this post.",
-          "[My walkthrough video](https://youtu.be/YVP8XB1dyIg): the red-team demo, start to finish."
+          "[My walkthrough video](https://youtu.be/KM9V6QIu-X4): the red-team demo, start to finish."
         ]
       }
     ],
@@ -425,410 +829,6 @@
       "How a Promptfoo test works: user_input, assert, type and value",
       "Why a passing test isn't proof your AI is safe",
       "How Promptfoo generates attacks for you"
-    ]
-  },
-  {
-    "slug": "temporal-long-running-ai-workflows",
-    "category": "agents",
-    "title": "Temporal: The Courtroom for Long-Running AI Workflows",
-    "excerpt": "Your AI workflow will fail halfway one day. Temporal makes sure it picks up where it stopped, retries the broken step and can even wait hours for a human.",
-    "cover": {
-      "text": "Temporal",
-      "bg": "#211913",
-      "fg": "#F2A93B",
-      "image": {
-        "src": "/blog/temporal/court-coordinator.webp",
-        "width": 1672,
-        "height": 941,
-        "alt": "Think of Temporal as a court coordinator. It doesn't decide what the AI should do; it coordinates the steps, tracks progress, handles retries and makes sure everything completes. 1, the workflow is the plan; 2, activities do the actual work, like a search API, an LLM call or saving to a database; 3, the worker runs the code; 4, the Temporal server keeps the workflow moving, storing state and history and scheduling tasks. Example: search, ask AI, save the answer, and if the AI call times out, retry automatically."
-      }
-    },
-    "featured": null,
-    "dive": null,
-    "body": [
-      {
-        "type": "paragraph",
-        "text": "Your AI app probably started simple:"
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Question",
-          "Search",
-          "LLM",
-          "Answer"
-        ],
-        "repeat": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Then real life happened:"
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Search",
-          "RAG",
-          "LLM",
-          "Tool",
-          "Database",
-          "Human approval",
-          "Final action"
-        ],
-        "repeat": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Now the annoying questions show up. What if the LLM fails? What if a server crashes halfway? What if you have to ==wait three hours for a human==? What if one step failed, and you don't want to start the whole thing again?"
-      },
-      {
-        "type": "paragraph",
-        "text": "That's the problem Temporal is built for."
-      },
-      {
-        "type": "paragraph",
-        "text": "▶ [Watch my 5-minute Temporal demo](#video-JKWqXY_-bhI)"
-      },
-      {
-        "type": "cta",
-        "label": "Try it yourself: open the Colab notebook",
-        "href": "https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc"
-      },
-      {
-        "type": "callout",
-        "label": "The one idea to remember",
-        "text": "Temporal is a ==durable execution platform==: it keeps long-running workflows going through crashes, retries and long waits. ==temporalio== is the Python SDK your code uses to talk to it."
-      },
-      {
-        "type": "heading",
-        "text": "Think of Temporal as a courtroom",
-        "id": "part-1"
-      },
-      {
-        "type": "image",
-        "src": "/blog/temporal/court-coordinator.webp",
-        "alt": "Think of Temporal as a court coordinator. It doesn't decide what the AI should do; it coordinates the steps, tracks progress, handles retries and makes sure everything completes. 1, the workflow is the plan; 2, activities do the actual work, like a search API, an LLM call or saving to a database; 3, the worker runs the code; 4, the Temporal server keeps the workflow moving, storing state and history and scheduling tasks. Example: search, ask AI, save the answer, and if the AI call times out, retry automatically.",
-        "width": 1672,
-        "height": 941,
-        "caption": "Workflow, Activity, Worker and Server, as a courtroom."
-      },
-      {
-        "type": "paragraph",
-        "text": "Picture a judge. The judge doesn't search documents, call witnesses or do the legwork. The judge ==coordinates==: \"First this. Then that. If something goes wrong, follow the rules. If we're waiting for someone, pause here and carry on when they arrive.\""
-      },
-      {
-        "type": "paragraph",
-        "text": "Temporal works the same way. One thing to be clear on: ==Temporal doesn't make decisions for you==. You write the rules. Temporal makes sure they run to the end, even when things break. It calls this ==durable execution==: your workflow keeps its progress even if workers, networks or servers fail."
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "Temporal is the coordinator, not the one doing the work."
-      },
-      {
-        "type": "heading",
-        "text": "Workflow = the plan",
-        "id": "part-2"
-      },
-      {
-        "type": "paragraph",
-        "text": "A Workflow is the overall process, written as code. For example: search, give the result to the LLM, retry if a step fails, return the answer. Here's a minimal version with the real API:"
-      },
-      {
-        "type": "code",
-        "language": "python",
-        "code": "from datetime import timedelta\nfrom temporalio import activity, workflow\n\n@activity.defn\nasync def search(question: str) -> str:\n    ...  # call a search API\n\n@activity.defn\nasync def ask_llm(question: str, context: str) -> str:\n    ...  # call your LLM\n\n@workflow.defn\nclass ResearchWorkflow:\n    @workflow.run\n    async def run(self, question: str) -> str:\n        context = await workflow.execute_activity(\n            search, question, start_to_close_timeout=timedelta(seconds=30)\n        )\n        return await workflow.execute_activity(\n            ask_llm, args=[question, context], start_to_close_timeout=timedelta(minutes=2)\n        )"
-      },
-      {
-        "type": "paragraph",
-        "text": "Two small rules hide in there. Every activity call needs a ==timeout==, so Temporal knows when to give up and retry. And workflow code must be ==deterministic==: no random numbers, no network calls, no reading the clock directly. Anything unpredictable goes in an activity. That's what lets Temporal replay a workflow and land in exactly the same place."
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "The Workflow is the plan. Keep it predictable."
-      },
-      {
-        "type": "heading",
-        "text": "Activity = the actual work",
-        "id": "part-3"
-      },
-      {
-        "type": "paragraph",
-        "text": "An Activity is one piece of real-world work: ==search an API, call an LLM, query a database, send an email, process a payment==."
-      },
-      {
-        "type": "paragraph",
-        "text": "These are exactly the things that can be slow or fail, which is why they're kept separate from the plan. The workflow says \"run search\", and the activity actually does it."
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Workflow: \"run search\"",
-          "Activity",
-          "The search actually happens"
-        ],
-        "repeat": null
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "If it talks to the outside world, it's an activity."
-      },
-      {
-        "type": "heading",
-        "text": "Worker = the one doing the work",
-        "id": "part-4"
-      },
-      {
-        "type": "paragraph",
-        "text": "Here's a surprise: the Temporal server ==doesn't run your Python code==. Your Worker does."
-      },
-      {
-        "type": "paragraph",
-        "text": "Workers are your own programs. They keep asking a ==task queue== for work, run the workflow and activity code, and report back. You can run several workers on the same queue to share the load."
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Temporal service",
-          "Task queue",
-          "Worker",
-          "Your Python code"
-        ],
-        "repeat": null
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "The server coordinates. Your workers do the running."
-      },
-      {
-        "type": "heading",
-        "text": "Then what is temporalio?",
-        "id": "part-5"
-      },
-      {
-        "type": "image",
-        "src": "/blog/temporal/temporal-vs-temporalio.webp",
-        "alt": "Temporal versus temporalio, same ecosystem, different roles. Temporal is the workflow orchestration platform: it runs your steps, retries on failure, handles long waits and keeps going reliably. temporalio is the Python SDK: your Python code defines workflows and activities, temporalio turns them into requests the platform understands, and Temporal runs and coordinates them. Temporal is the platform; temporalio is how Python talks to it.",
-        "width": 1672,
-        "height": 941,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "This is where the names get confusing. ==Temporal is the platform==. ==temporalio is the Python SDK==, the official library your Python code uses to work with it:"
-      },
-      {
-        "type": "code",
-        "language": "bash",
-        "code": "pip install temporalio"
-      },
-      {
-        "type": "code",
-        "language": "python",
-        "code": "from temporalio import workflow, activity\nfrom temporalio.client import Client\nfrom temporalio.worker import Worker"
-      },
-      {
-        "type": "paragraph",
-        "text": "It's MIT licensed, needs Python 3.10 or newer, and the latest version is 1.34.0, from 30 September 2026. To try things on your laptop, the Temporal CLI starts a local dev server with temporal server start-dev. There's also Temporal Cloud, a paid hosted version, if you don't want to run the server yourself."
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "Temporal is the platform. temporalio is how Python talks to it."
-      },
-      {
-        "type": "heading",
-        "text": "What if something fails?",
-        "id": "part-6"
-      },
-      {
-        "type": "image",
-        "src": "/blog/temporal/when-it-fails.webp",
-        "alt": "What happens when an AI workflow fails. Without Temporal: the user question, search and AI answer work, then saving the result fails because the server crashed, and nobody knows where to continue, so the whole workflow is lost. With Temporal: it tracks progress at each step, retries the failed save automatically, and continues from where it stopped until the result is saved.",
-        "width": 1672,
-        "height": 941,
-        "caption": "An illustration, not a real screenshot."
-      },
-      {
-        "type": "paragraph",
-        "text": "Say search and RAG worked, but the LLM call failed. With a ==retry policy==, Temporal retries just that activity:"
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Search: done",
-          "RAG: done",
-          "LLM: failed",
-          "Retry",
-          "LLM: done",
-          "Answer"
-        ],
-        "repeat": null
-      },
-      {
-        "type": "paragraph",
-        "text": "The clever part isn't the retry itself. Temporal keeps an ==event history== of everything that already happened, so it continues from where it stopped instead of starting over. Search doesn't run twice just because the LLM had a bad moment."
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "Only the failed step runs again. Everything else is remembered."
-      },
-      {
-        "type": "heading",
-        "text": "It can also wait",
-        "id": "part-7"
-      },
-      {
-        "type": "paragraph",
-        "text": "Say your AI writes a report and a human has to approve it. The workflow can simply ==wait==, for minutes, hours or days, without holding up a server. When the approval arrives, it carries on."
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Generate report",
-          "Wait for human approval",
-          "Human approves",
-          "Publish report"
-        ],
-        "repeat": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Temporal's [AI cookbook](https://docs.temporal.io/ai-cookbook) has examples of exactly this kind of thing: long-running agents, human-in-the-loop steps and multi-step AI pipelines."
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "Waiting for a human is just another step."
-      },
-      {
-        "type": "heading",
-        "text": "Where AI fits",
-        "id": "part-8"
-      },
-      {
-        "type": "paragraph",
-        "text": "Temporal ==isn't the LLM==. It isn't RAG. It isn't an agent framework. It sits around the workflow and keeps it running."
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Temporal: durable execution",
-          "Your AI workflow",
-          "Search, tools, LLM"
-        ],
-        "repeat": null
-      },
-      {
-        "type": "paragraph",
-        "text": "That's why it can be used alongside agent frameworks like [LangGraph](/blog/langgraph-ai-agents-workflow): LangGraph shapes the agent's reasoning and tool steps, and Temporal keeps the bigger process durable. Temporal's docs also show an official integration with the OpenAI Agents SDK."
-      },
-      {
-        "type": "paragraph",
-        "text": "One honest note: Temporal isn't the only way to do this, and it has a ==learning curve==. For a small script, it's overkill. It earns its place when workflows are long, expensive or can't afford to lose progress."
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "Agent frameworks shape the thinking. Temporal makes the process survive."
-      },
-      {
-        "type": "heading",
-        "text": "The mental model",
-        "id": "part-9"
-      },
-      {
-        "type": "cards",
-        "items": [
-          {
-            "title": "Temporal",
-            "text": "Coordinates the workflow and keeps it durable"
-          },
-          {
-            "title": "Workflow",
-            "text": "Defines the plan"
-          },
-          {
-            "title": "Activity",
-            "text": "Does the actual outside work"
-          },
-          {
-            "title": "Worker",
-            "text": "Runs your code"
-          },
-          {
-            "title": "temporalio",
-            "text": "The Python SDK that connects your app to Temporal"
-          }
-        ]
-      },
-      {
-        "type": "callout",
-        "label": "Remember",
-        "text": "Temporal is a ==durable execution platform==: it keeps long-running workflows going through crashes, retries and long waits. ==temporalio== is the Python SDK your code uses to talk to it."
-      },
-      {
-        "type": "heading",
-        "text": "Build it yourself",
-        "id": "part-10"
-      },
-      {
-        "type": "paragraph",
-        "text": "Theory clicks faster when you see it run. I built a small Temporal workflow in Colab that you can run yourself."
-      },
-      {
-        "type": "callout",
-        "label": "Run it in Colab",
-        "text": "Everything in this post is in my notebook, ready to run: [open the Colab notebook](https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc)."
-      },
-      {
-        "type": "cta",
-        "label": "Open the Colab notebook",
-        "href": "https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc"
-      },
-      {
-        "type": "paragraph",
-        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/JKWqXY_-bhI)."
-      },
-      {
-        "type": "video",
-        "youtube_id": "JKWqXY_-bhI",
-        "title": "Temporal (Uma's demo video)",
-        "caption": "Temporal · 4:42"
-      },
-      {
-        "type": "paragraph",
-        "text": "**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow](/blog/langgraph-ai-agents-workflow) and [CrewAI vs n8n](/blog/crewai-vs-n8n), two other ways to build the workflow that Temporal keeps running, and [Your AI Looks Smart. But Can You Break It?](/blog/ai-red-teaming-promptfoo), on testing it before you ship."
-      },
-      {
-        "type": "heading",
-        "text": "Resources",
-        "id": null
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "[Temporal docs](https://docs.temporal.io/): concepts, guides and how to run Temporal yourself.",
-          "[Temporal Python SDK guide](https://docs.temporal.io/develop/python): building workflows, activities and workers in Python.",
-          "[sdk-python on GitHub](https://github.com/temporalio/sdk-python): source code, examples and the full README.",
-          "[temporalio on PyPI](https://pypi.org/project/temporalio/): the package and its release history.",
-          "[Temporal AI cookbook](https://docs.temporal.io/ai-cookbook): examples for AI agents and human-in-the-loop workflows.",
-          "[Temporal in our Toolkit](/toolkit/temporal): our quick verdict.",
-          "[My Colab notebook](https://colab.research.google.com/drive/11deECeXHeTZErpJI5Jr8AvMzBAImjbyc) and [my demo video](https://youtu.be/JKWqXY_-bhI)."
-        ]
-      }
-    ],
-    "published_on": "2026-10-02",
-    "learn": [
-      "Why real AI workflows need more than a simple pipeline",
-      "Workflow, Activity and Worker, explained with a courtroom",
-      "How Temporal retries one failed step without starting over",
-      "The difference between Temporal and temporalio"
     ]
   },
   {
