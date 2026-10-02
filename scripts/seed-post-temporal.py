@@ -212,7 +212,8 @@ BODY = [
     *p(f"**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube]({VIDEO_URL})."),
     {"type": "video", "youtube_id": VIDEO, "title": "Temporal (Uma's demo video)", "caption": "Temporal · 4:42"},
     *p(f"**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow]({LANGGRAPH_POST}) and [CrewAI vs n8n]"
-       f"({CREW_POST}), two other ways to build the workflow that Temporal keeps running."),
+       f"({CREW_POST}), two other ways to build the workflow that Temporal keeps running, and [Your AI Looks Smart. But Can You "
+       "Break It?](/blog/ai-red-teaming-promptfoo), on testing it before you ship."),
 
     h("Resources"),
     ul(f"[Temporal docs]({DOCS}): concepts, guides and how to run Temporal yourself.",
@@ -233,8 +234,8 @@ POST = {
     "cover": {"text": "Temporal", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/court-coordinator.webp", "width": SIZE[0], "height": SIZE[1],
                         "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Crash-proof", "caption": "Temporal: the courtroom for long-running AI workflows"},
+    # Was featured until the Promptfoo post (2 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-02",
@@ -251,9 +252,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)
