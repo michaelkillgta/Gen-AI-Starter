@@ -250,13 +250,13 @@ BODY = [
 POST = {
     "slug": "ai-red-teaming-promptfoo",
     "category": "staying-safe",
-    "title": "Your AI Looks Smart. But Can You Break It?",
+    "title": "Your AI Looks Smart. But Can You Break It? Red Teaming with Promptfoo",
     "excerpt": "Your chatbot works, until someone tries to break its rules. A friendly intro to AI red teaming with "
                "Promptfoo: what the YAML does, how assertions pass or fail, and how to automate attacks.",
-    "cover": {"text": "Red teaming", "bg": "#211913", "fg": "#F2A93B",
+    "cover": {"text": "Promptfoo", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/break-it.webp", "width": SIZE[0], "height": SIZE[1], "alt": COVER_ALT}},
     # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Break it first", "caption": "AI red teaming with Promptfoo, explained"},
+    "featured": {"stat": "Promptfoo", "caption": "AI red teaming: can you break your own AI?"},
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-02",
