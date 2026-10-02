@@ -225,6 +225,10 @@ BODY = [
        f"[My Colab notebook]({COLAB}) and [my demo video]({VIDEO_URL})."),
 ]
 
+# Tools used: shown as Toolkit pills just before the first part.
+TOOLS_USED = {"type": "links", "label": "Tools used", "items": [{"label": "Temporal", "href": "/toolkit/temporal"}]}
+BODY.insert(next(i for i, b in enumerate(BODY) if b["type"] == "heading"), TOOLS_USED)
+
 POST = {
     "slug": "temporal-long-running-ai-workflows",
     "category": "agents",

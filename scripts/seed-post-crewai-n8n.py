@@ -194,6 +194,10 @@ BODY = [
        "[LangGraph in our Toolkit](/toolkit/langgraph): our quick verdict."),
 ]
 
+# Tools used: shown as Toolkit pills just before the first part.
+TOOLS_USED = {"type": "links", "label": "Tools used", "items": [{"label": "CrewAI", "href": "/toolkit/crewai"}, {"label": "n8n", "href": "/toolkit/n8n"}, {"label": "LangGraph", "href": "/toolkit/langgraph"}]}
+BODY.insert(next(i for i, b in enumerate(BODY) if b["type"] == "heading"), TOOLS_USED)
+
 POST = {
     "slug": "crewai-vs-n8n",
     "category": "agents",

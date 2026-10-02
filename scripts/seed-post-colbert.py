@@ -240,6 +240,10 @@ BODY = [
     ]},
 ]
 
+# Tools used: shown as Toolkit pills just before the first part.
+TOOLS_USED = {"type": "links", "label": "Tools used", "items": [{"label": "RAGatouille", "href": "/toolkit/ragatouille"}]}
+BODY.insert(next(i for i, b in enumerate(BODY) if b["type"] == "heading"), TOOLS_USED)
+
 POST = {
     "slug": "colbert-when-semantic-search-isnt-enough",
     "category": "rag-and-documents",

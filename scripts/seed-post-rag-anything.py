@@ -231,6 +231,10 @@ BODY = [
     ]},
 ]
 
+# Tools used: shown as Toolkit pills just before the first part.
+TOOLS_USED = {"type": "links", "label": "Tools used", "items": [{"label": "RAG-Anything", "href": "/toolkit/raganything"}, {"label": "MinerU", "href": "/toolkit/mineru"}, {"label": "Docling", "href": "/toolkit/docling"}]}
+BODY.insert(next(i for i, b in enumerate(BODY) if b["type"] == "heading"), TOOLS_USED)
+
 POST = {
     "slug": "rag-anything-multimodal-rag",
     "category": "rag-and-documents",

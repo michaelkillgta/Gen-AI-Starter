@@ -264,6 +264,10 @@ BODY = [
     cta("Open the Colab: LangGraph × Sarvam AI Debugger", COLAB),
 ]
 
+# Tools used: shown as Toolkit pills just before the first part.
+TOOLS_USED = {"type": "links", "label": "Tools used", "items": [{"label": "LangGraph", "href": "/toolkit/langgraph"}]}
+BODY.insert(next(i for i, b in enumerate(BODY) if b["type"] == "heading"), TOOLS_USED)
+
 POST = {
     "slug": "langgraph-ai-agents-workflow",
     "category": "agents",

@@ -322,3 +322,4 @@ Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
  GET /blog 200 in 267ms (next.js: 4ms, application-code: 262ms)
  GET /blog/ai-red-teaming-promptfoo 200 in 167ms (next.js: 16ms, application-code: 150ms)
  GET /blog 200 in 276ms (next.js: 3ms, application-code: 273ms)
+ GET /blog/ai-red-teaming-promptfoo 200 in 438ms (next.js: 14ms, application-code: 424ms)

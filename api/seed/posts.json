@@ -53,6 +53,16 @@
         "text": "A normal test checks if your AI ==can do its job==. A red-team test checks if it ==protects its boundaries== while doing that job."
       },
       {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Promptfoo",
+            "href": "/toolkit/promptfoo"
+          }
+        ]
+      },
+      {
         "type": "heading",
         "text": "The YAML file is your testing checklist",
         "id": "part-1"
@@ -500,6 +510,16 @@
         "text": "Temporal is a ==durable execution platform==: it keeps long-running workflows going through crashes, retries and long waits. ==temporalio== is the Python SDK your code uses to talk to it."
       },
       {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Temporal",
+            "href": "/toolkit/temporal"
+          }
+        ]
+      },
+      {
         "type": "heading",
         "text": "Think of Temporal as a courtroom",
         "id": "part-1"
@@ -877,6 +897,24 @@
         "type": "callout",
         "label": "The one idea to remember",
         "text": "CrewAI asks: ==\"How do my AI agents collaborate?\"== n8n asks: ==\"How does my AI system connect to the real world?\"=="
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "CrewAI",
+            "href": "/toolkit/crewai"
+          },
+          {
+            "label": "n8n",
+            "href": "/toolkit/n8n"
+          },
+          {
+            "label": "LangGraph",
+            "href": "/toolkit/langgraph"
+          }
+        ]
       },
       {
         "type": "heading",
@@ -1333,6 +1371,16 @@
         "type": "callout",
         "label": "The one idea to remember",
         "text": "The ==LLM is the brain==. ==LangGraph is the workflow==: it decides which step runs next, carries the state between steps, and loops back when something fails."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "LangGraph",
+            "href": "/toolkit/langgraph"
+          }
+        ]
       },
       {
         "type": "heading",
@@ -1876,6 +1924,24 @@
         "text": "RAG-Anything doesn't cram everything into ==one giant embedding==. Each type of content is ==understood its own way==, then connected into ==one searchable knowledge base==."
       },
       {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "RAG-Anything",
+            "href": "/toolkit/raganything"
+          },
+          {
+            "label": "MinerU",
+            "href": "/toolkit/mineru"
+          },
+          {
+            "label": "Docling",
+            "href": "/toolkit/docling"
+          }
+        ]
+      },
+      {
         "type": "heading",
         "text": "A PDF and a video walk into a RAG app",
         "id": "part-1"
@@ -2265,6 +2331,16 @@
         "type": "callout",
         "label": "The one idea to remember",
         "text": "Semantic search looks at the ==whole chunk==. ColBERT looks at the ==important words== in your question and matches them with words in the document."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "RAGatouille",
+            "href": "/toolkit/ragatouille"
+          }
+        ]
       },
       {
         "type": "heading",
@@ -2699,6 +2775,20 @@
         "href": "/blog/docling-pdf-is-not-just-text"
       },
       {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "MinerU",
+            "href": "/toolkit/mineru"
+          },
+          {
+            "label": "Docling",
+            "href": "/toolkit/docling"
+          }
+        ]
+      },
+      {
         "type": "heading",
         "text": "A PDF isn't a clean page of text",
         "id": "part-1"
@@ -3058,6 +3148,16 @@
       {
         "type": "paragraph",
         "text": "▶ [Watch my 4-minute Docling walkthrough](#video-pdYdzpQQcCc)"
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Docling",
+            "href": "/toolkit/docling"
+          }
+        ]
       },
       {
         "type": "heading",
