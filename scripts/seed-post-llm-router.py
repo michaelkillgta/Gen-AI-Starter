@@ -214,7 +214,8 @@ BODY = [
     *p("Your app doesn't have to marry one model. 💀 It can have a ==team of models==, and the router decides who "
        "gets the next task."),
     *p(f"**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow]({LANGGRAPH_POST}), where a router "
-       f"could be one node, and [Temporal]({TEMPORAL_POST}), for keeping multi-model workflows alive."),
+       f"could be one node, [Temporal]({TEMPORAL_POST}), for keeping multi-model workflows alive, and [Hivemind]"
+       "(/blog/hivemind-coding-agents-share-experience), which people often confuse with a router."),
 
     h("Resources"),
     ul(f"[My Colab notebook]({COLAB}): the router experiment from this post.",
@@ -236,8 +237,8 @@ POST = {
                "right one for each request. Here's how it works, with a tiny router you can run in Colab.",
     "cover": {"text": "LLM Router", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/right-model.webp", "width": SIZE[0], "height": SIZE[1], "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "LLM Router", "caption": "the right model for every request"},
+    # Was featured until the Hivemind post (3 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-02",
@@ -254,9 +255,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)

@@ -1,5 +1,364 @@
 [
   {
+    "slug": "hivemind-coding-agents-share-experience",
+    "category": "agents",
+    "title": "Hivemind: What If Your Coding Agents Could Learn From Each Other?",
+    "excerpt": "Codex fixes a bug, then Claude Code hits the same one next week and starts from zero. Hivemind turns one agent's experience into skills the others can reuse. Here's how it works.",
+    "cover": {
+      "text": "Hivemind",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/hivemind/learning-together.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "Hivemind, agents learning together: coding agents such as Codex, Cursor and Claude Code are connected through Hivemind, which turns useful experience from one agent's work into reusable skills the others can use."
+      }
+    },
+    "featured": {
+      "stat": "Hivemind",
+      "caption": "coding agents that learn from each other"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You're building a website. You use ==Codex== to fix a nasty login bug. It digs through the project, tries a few things, fixes it and checks everything works."
+      },
+      {
+        "type": "paragraph",
+        "text": "A few days later you open ==Claude Code== for another part of the same project, and hit a weirdly similar problem. Wouldn't it be nice if Claude Code could ==benefit from what Codex already figured out==?"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the idea behind Hivemind."
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "==Agent== = does the work. ==Skill== = reusable guidance. ==Hivemind== = helps agents share useful experience, so it compounds instead of vanishing after each session."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "HiveMind",
+            "href": "/toolkit/hivemind"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "So what is Hivemind?",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/hivemind/learning-together.webp",
+        "alt": "Hivemind, agents learning together: coding agents such as Codex, Cursor and Claude Code are connected through Hivemind, which turns useful experience from one agent's work into reusable skills the others can use.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea; the app screens are mock-ups."
+      },
+      {
+        "type": "paragraph",
+        "text": "[Hivemind](https://github.com/activeloopai/hivemind) is an open-source project from Activeloop that ==connects the coding agents you already use== and turns useful experience from their work into something reusable."
+      },
+      {
+        "type": "paragraph",
+        "text": "It isn't another coding agent. It doesn't replace Codex, Cursor or Claude Code. It ==works around them==, as a shared layer for agent experience:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Codex, Cursor, Claude Code",
+          "Hivemind",
+          "Useful experience",
+          "Reusable skills",
+          "Future agent work"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Right now it supports Claude Code, OpenClaw, Codex, Cursor, Hermes and pi, with Claude Cowork in alpha."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Hivemind doesn't do the coding. It helps agents remember what worked."
+      },
+      {
+        "type": "heading",
+        "text": "How it actually works",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/hivemind/agent-work.webp",
+        "alt": "Hivemind, from agent work to reusable experience in four steps: capture what the agent did, codify useful patterns into skills, propagate those skills to other agents, and let the experience compound over time.",
+        "width": 2048,
+        "height": 768,
+        "caption": "An illustration of the idea; the app screens are mock-ups."
+      },
+      {
+        "type": "paragraph",
+        "text": "Say Codex solves a tricky problem. Hidden in that work there might be a useful pattern, like: \"When this kind of deployment fails, check these config files first.\" Hivemind describes four steps:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "1. Capture",
+            "text": "It records each session's prompts, tool calls and responses as structured traces."
+          },
+          {
+            "title": "2. Codify",
+            "text": "Repeated useful patterns become reusable skills, saved as SKILL.md files."
+          },
+          {
+            "title": "3. Propagate",
+            "text": "Those skills reach the other connected agents, across sessions, teammates and machines."
+          },
+          {
+            "title": "4. Compound",
+            "text": "Every session adds a bit more, so the whole setup gets sharper over time."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Worth knowing",
+        "text": "Capture means your agents' prompts and responses are stored. By default that's in Activeloop's Deeplake cloud (you sign in when you install), or you can keep it in your own storage bucket. Check that fits your project before turning it on."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Capture, codify, propagate, compound."
+      },
+      {
+        "type": "heading",
+        "text": "Here's the interesting part",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/hivemind/one-learns.webp",
+        "alt": "One agent learns, another benefits: Codex solves a problem, Hivemind captures the useful pattern as a skill, and later Claude Code uses that skill on a similar problem.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea; the app screens are mock-ups."
+      },
+      {
+        "type": "paragraph",
+        "text": "Picture three developers on one team, each using a different agent:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Developer 1 (Codex)** cracks a hard database migration problem.",
+          "**Developer 2 (Cursor)** later runs into a similar migration issue.",
+          "**Developer 3 (Claude Code)** hits a related problem."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Without shared experience, each agent ==starts from scratch==. With Hivemind, useful knowledge from earlier work can reach the others."
+      },
+      {
+        "type": "paragraph",
+        "text": "The agents still do their own work. They're just ==no longer isolated== from experience earned elsewhere."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One agent learns, the whole team gets sharper."
+      },
+      {
+        "type": "heading",
+        "text": "Is Hivemind an AI router?",
+        "id": "part-4"
+      },
+      {
+        "type": "image",
+        "src": "/blog/hivemind/vs-router.webp",
+        "alt": "Hivemind versus an LLM router. An LLM router asks which model should answer a request and sends it to a fast, reasoning or research model. Hivemind asks what useful experience from earlier agent work can help with a new task, and gives the agent that experience to use and verify.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea; the app screens are mock-ups."
+      },
+      {
+        "type": "paragraph",
+        "text": "No, and the difference matters. An [LLM router](/blog/llm-routers-model-routing) asks: ==\"Which model should answer this request?\"=="
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Request",
+          "Router",
+          "Fast, reasoning or research model"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Hivemind asks something else: ==\"What useful experience from earlier agent work can help here?\"=="
+      },
+      {
+        "type": "flow",
+        "items": [
+          "New task",
+          "Coding agent",
+          "Hivemind",
+          "Useful past experience",
+          "Agent continues and verifies"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "LLM router",
+            "text": "Picks the model."
+          },
+          {
+            "label": "Hivemind",
+            "text": "Brings the experience."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Different problem, different tool."
+      },
+      {
+        "type": "heading",
+        "text": "What are skills?",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "A ==skill== is reusable guidance that helps an agent do one kind of work well, like authentication debugging, database migrations, testing, deployment or security checks."
+      },
+      {
+        "type": "paragraph",
+        "text": "Instead of an agent rediscovering the same process again and again, that experience becomes guidance it can reuse. Hivemind stores these as SKILL.md files. Here's [a real one from the project](https://github.com/activeloopai/hivemind/blob/main/harnesses/claude-code/skills/hivemind-graph/SKILL.md): it teaches agents to query a graph of your codebase."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A skill is a lesson an agent doesn't have to learn twice."
+      },
+      {
+        "type": "heading",
+        "text": "One important rule",
+        "id": "part-6"
+      },
+      {
+        "type": "callout",
+        "label": "Previous experience isn't automatically the truth",
+        "text": "If Codex solved something last week, Claude Code shouldn't blindly copy it today. The code may have changed, dependencies may be different, or the problem may only look similar. So: ==use the experience, investigate, verify, then act==."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's what makes shared experience ==useful instead of dangerous copy-paste memory==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Past experience is a hint, not an answer."
+      },
+      {
+        "type": "heading",
+        "text": "Where each tool fits",
+        "id": "part-7"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Codex",
+            "text": "OpenAI's coding agent that works on your project"
+          },
+          {
+            "title": "Cursor",
+            "text": "An AI-powered code editor"
+          },
+          {
+            "title": "Claude Code",
+            "text": "Anthropic's coding agent for local development"
+          },
+          {
+            "title": "Skill",
+            "text": "Reusable instructions for a kind of task"
+          },
+          {
+            "title": "Hivemind",
+            "text": "Helps useful experience and skills move between supported agents"
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "==Agent== = does the work. ==Skill== = reusable guidance. ==Hivemind== = helps agents share useful experience, so it compounds instead of vanishing after each session."
+      },
+      {
+        "type": "heading",
+        "text": "The idea in one sentence",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "Hivemind helps your coding agents stop working like ==isolated developers== and start benefiting from what the agents around them have learned."
+      },
+      {
+        "type": "paragraph",
+        "text": "One agent learns something useful. It becomes a reusable skill. Another agent benefits. Over time, your AI coding workflow's experience ==compounds instead of disappearing after each session==."
+      },
+      {
+        "type": "paragraph",
+        "text": "To try it, the README's install is one line:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "npm i -g @deeplake/hivemind && hivemind install"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [LLM Routers: Why Your AI App Doesn't Need One Model for Everything](/blog/llm-routers-model-routing), the tool people most often confuse with this one."
+      },
+      {
+        "type": "heading",
+        "text": "References",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Hivemind on GitHub](https://github.com/activeloopai/hivemind): Activeloop's project, with supported agents, the capture, codify, propagate, compound loop, skills and setup.",
+          "[Hivemind README](https://github.com/activeloopai/hivemind/blob/main/README.md): how traces are captured, how patterns become SKILL.md files and how skills spread to connected agents.",
+          "[Hivemind architecture](https://github.com/activeloopai/hivemind/blob/main/docs/ARCHITECTURE.md): how it plugs into Codex, Cursor, Claude Code, OpenClaw and others through hooks, plugins and extensions.",
+          "[Hivemind graph skill](https://github.com/activeloopai/hivemind/blob/main/harnesses/claude-code/skills/hivemind-graph/SKILL.md): a real example skill that lets agents query a codebase graph.",
+          "[HiveMind in our Toolkit](/toolkit/hivemind): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-03",
+    "learn": [
+      "What Hivemind is, and what it isn't",
+      "Capture, codify, propagate, compound: how agent experience becomes skills",
+      "Why Hivemind is not an LLM router",
+      "Why past experience should be verified, not copied"
+    ]
+  },
+  {
     "slug": "llm-routers-model-routing",
     "category": "agents",
     "title": "LLM Routers: Why Your AI App Doesn't Need One Model for Everything",
@@ -15,10 +374,7 @@
         "alt": "LLM router: the right model for every task. Incoming requests of different kinds go to a router, which sends each one to the model that fits it best, such as a fast model for simple tasks or a stronger model for hard ones, and the answer goes back to the user."
       }
     },
-    "featured": {
-      "stat": "LLM Router",
-      "caption": "the right model for every request"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
@@ -409,7 +765,7 @@
       },
       {
         "type": "paragraph",
-        "text": "**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow](/blog/langgraph-ai-agents-workflow), where a router could be one node, and [Temporal](/blog/temporal-long-running-ai-workflows), for keeping multi-model workflows alive."
+        "text": "**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow](/blog/langgraph-ai-agents-workflow), where a router could be one node, [Temporal](/blog/temporal-long-running-ai-workflows), for keeping multi-model workflows alive, and [Hivemind](/blog/hivemind-coding-agents-share-experience), which people often confuse with a router."
       },
       {
         "type": "heading",
