@@ -39,6 +39,10 @@
         "text": "Now you're playing a completely different game. This is ==AI red teaming==: attacking your own AI on purpose to find the cracks before someone else does. With a tool like ==Promptfoo==, you can automate it instead of typing hundreds of attack prompts by hand."
       },
       {
+        "type": "paragraph",
+        "text": "▶ [Watch my Promptfoo red-team demo](#video-YVP8XB1dyIg)"
+      },
+      {
         "type": "cta",
         "label": "Try it yourself: open the Colab notebook",
         "href": "https://colab.research.google.com/drive/1G8CgJoTZFM_tCfW6SplHnMt99_mMrOpH"
@@ -383,6 +387,16 @@
       },
       {
         "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/YVP8XB1dyIg)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "YVP8XB1dyIg",
+        "title": "Promptfoo red-team demo (Uma's video)",
+        "caption": "Promptfoo red-team demo"
+      },
+      {
+        "type": "paragraph",
         "text": "**Also read:** [LangGraph: How AI Agents Actually Follow a Workflow](/blog/langgraph-ai-agents-workflow) and [RAG-Anything](/blog/rag-anything-multimodal-rag), two kinds of AI app worth red teaming before you ship them."
       },
       {
@@ -400,7 +414,8 @@
           "[Promptfoo on GitHub](https://github.com/promptfoo/promptfoo): source code, examples and releases.",
           "[OWASP Top 10 for LLM apps](https://genai.owasp.org/llm-top-10/): the common risks, including prompt injection and system prompt leakage.",
           "[Promptfoo in our Toolkit](/toolkit/promptfoo): our quick verdict.",
-          "[My Colab notebook](https://colab.research.google.com/drive/1G8CgJoTZFM_tCfW6SplHnMt99_mMrOpH): the experiment from this post."
+          "[My Colab notebook](https://colab.research.google.com/drive/1G8CgJoTZFM_tCfW6SplHnMt99_mMrOpH): the experiment from this post.",
+          "[My walkthrough video](https://youtu.be/YVP8XB1dyIg): the red-team demo, start to finish."
         ]
       }
     ],
