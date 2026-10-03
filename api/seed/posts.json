@@ -1,5 +1,363 @@
 [
   {
+    "slug": "arize-phoenix-ai-observability",
+    "category": "rag-and-documents",
+    "title": "Phoenix: The CCTV for Your AI Application",
+    "excerpt": "Your RAG app gave a weird answer. Was it the retrieval or the LLM? Arize Phoenix records every step, so you can rewind and see. With a real traced RAG pipeline you can run in Colab.",
+    "cover": {
+      "text": "Phoenix",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": null
+    },
+    "featured": {
+      "stat": "Phoenix",
+      "caption": "CCTV for your AI: see what happened inside"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You built a RAG app. It finds documents, hands the useful bits to an LLM, and the LLM writes an answer."
+      },
+      {
+        "type": "paragraph",
+        "text": "Then the annoying question shows up: ==\"Okay... but what actually happened inside my AI?\"== Did it find the right documents? What scores did they get? What context reached the LLM? What did the LLM do with it?"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's where Arize Phoenix comes in."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 8-minute Phoenix demo](#video-TBdFCNfcbVs)"
+      },
+      {
+        "type": "cta",
+        "label": "Try it yourself: open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1LZ8BPgJDoj2rYvxfAcSJ-NGCXxkBUYQy"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "==RAG finds== the information. ==The LLM generates== the answer. ==Phoenix shows== what happened along the way. It doesn't fix anything; it lets you see."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Arize Phoenix",
+            "href": "/toolkit/arize"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "First, a quick RAG refresher",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "RAG means ==retrieval-augmented generation==. Instead of answering only from what it learned in training, the LLM first gets relevant information from your own documents:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "User question",
+          "Find relevant information",
+          "Retrieved documents",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "RAG",
+            "text": "Finds the information."
+          },
+          {
+            "label": "LLM",
+            "text": "Uses it to write the answer."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Want the deeper version? Our posts on [ColBERT](/blog/colbert-when-semantic-search-isnt-enough) and [RAG-Anything](/blog/rag-anything-multimodal-rag) go into how retrieval works."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "RAG fetches. The LLM writes."
+      },
+      {
+        "type": "heading",
+        "text": "The problem: you only see the answer",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Say your RAG app gives a weird answer. All you see is: question in, weird answer out. What happened in the middle? Maybe:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "the wrong document was retrieved",
+          "the right document came back with a low score",
+          "the wrong context reached the LLM",
+          "the LLM misread good context",
+          "something else in the pipeline broke"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Staring at the final answer won't tell you which. ==You need to see the middle.=="
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A bad answer has many possible causes. You need to see the steps."
+      },
+      {
+        "type": "heading",
+        "text": "Phoenix is CCTV for your AI",
+        "id": "part-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "Think of a CCTV camera. It doesn't walk into the building and fix things. It ==records what happened==, so you can rewind and look."
+      },
+      {
+        "type": "paragraph",
+        "text": "Phoenix does that for your AI app. It ==traces== each run, so you can open it later and inspect:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "the user's question",
+          "the retrieval step",
+          "which documents came back",
+          "their retrieval scores",
+          "the context sent to the LLM",
+          "the LLM's response",
+          "the final answer"
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Be clear on what it does",
+        "text": "Phoenix ==doesn't fix the problem for you==. It helps you see it. Checking whether answers are actually good is a separate job (Phoenix has Evals for that)."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Phoenix records. You debug."
+      },
+      {
+        "type": "heading",
+        "text": "The RAG pipeline in our experiment",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "Our Colab uses a real, small RAG pipeline. retrieve() and ask_ai() are helper functions in the notebook: one searches our documents, the other calls an LLM through OpenRouter. First the question and retrieval:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "question = \"How does retrieval augmented generation help a language model?\"\nresults = retrieve(question)  # the documents that best match the question"
+      },
+      {
+        "type": "paragraph",
+        "text": "Then we join the documents' text into one ==context==, the information packet we hand to the LLM:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "context = \"\\n\\n\".join(f'{r[\"title\"]}: {r[\"text\"]}' for r in results)\nanswer = ask_ai(question, context)  # the LLM writes the answer from the context"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Question + retrieved context",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Remember: the ==information comes from RAG==, but the ==final wording comes from the LLM==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Question and context go in, the answer comes out."
+      },
+      {
+        "type": "heading",
+        "text": "Now turn on Phoenix",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "Now we wrap the pipeline in ==tracing==. Phoenix uses OpenTelemetry, a standard way to record what code does. Each step becomes a ==span==, and the whole run becomes a ==trace==:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from phoenix.otel import register\n\ntracer = register(project_name=\"rag-demo\").get_tracer(__name__)\n\ndef traced_rag(question):\n    with tracer.start_as_current_span(\"RAG application\") as root:\n        root.set_attribute(\"question\", question)\n\n        with tracer.start_as_current_span(\"Retrieval\") as span:\n            results = retrieve(question)\n            span.set_attribute(\"documents\", [r[\"title\"] for r in results])\n            span.set_attribute(\"scores\", [r[\"score\"] for r in results])\n\n        context = \"\\n\\n\".join(f'{r[\"title\"]}: {r[\"text\"]}' for r in results)\n        answer = ask_ai(question, context)\n        root.set_attribute(\"final_answer\", answer)\n        return results, answer"
+      },
+      {
+        "type": "paragraph",
+        "text": "Now every run records the question, which documents were retrieved, their scores, and the final answer. Your OpenRouter key stays in an environment variable or a Colab secret, never in the code."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Wrap each step in a span, and Phoenix can show you all of them."
+      },
+      {
+        "type": "heading",
+        "text": "Run a test and look at the trail",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's a second test from the experiment:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "test_question = \"How are vector databases used to store and search embeddings?\"\ntest_results, test_answer = traced_rag(test_question)\n\nprint(\"QUESTION:\", test_question)\nprint(\"\\nRETRIEVED:\")\nfor r in test_results:\n    print(f'- {r[\"title\"]}  score={r[\"score\"]:.3f}')\nprint(\"\\nANSWER:\\n\", test_answer)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Instead of just \"Here's the answer...\", you can now see the whole journey. In our run, two documents came back, one scoring ==0.811== and one ==0.385==:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Question",
+          "Retrieval",
+          "Document A: 0.811, Document B: 0.385",
+          "Retrieved context",
+          "LLM",
+          "Final answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Now when an answer looks wrong, you can ask the right question: ==did RAG fetch the wrong information, or did it fetch good information and the LLM fumble it?== That's the real value of tracing."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The trail tells you where it went wrong."
+      },
+      {
+        "type": "heading",
+        "text": "Try it yourself",
+        "id": "part-7"
+      },
+      {
+        "type": "callout",
+        "label": "Run it in Colab",
+        "text": "The full RAG pipeline with Phoenix tracing, ready to run: [open the Colab notebook](https://colab.research.google.com/drive/1LZ8BPgJDoj2rYvxfAcSJ-NGCXxkBUYQy). Add your OpenRouter key as a Colab secret."
+      },
+      {
+        "type": "cta",
+        "label": "Open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1LZ8BPgJDoj2rYvxfAcSJ-NGCXxkBUYQy"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/TBdFCNfcbVs)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "TBdFCNfcbVs",
+        "title": "Phoenix (Uma's demo video)",
+        "caption": "Phoenix · 8:07"
+      },
+      {
+        "type": "paragraph",
+        "text": "To try Phoenix on your own laptop: pip install arize-phoenix, then phoenix serve to open the Phoenix app."
+      },
+      {
+        "type": "heading",
+        "text": "RAG finds. LLM generates. Phoenix shows.",
+        "id": "part-8"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "RAG",
+            "text": "Finds useful information"
+          },
+          {
+            "title": "LLM",
+            "text": "Writes the answer"
+          },
+          {
+            "title": "Phoenix",
+            "text": "Shows what happened along the way"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Phoenix isn't another LLM. It isn't the RAG system. And it isn't a magic repair button. It's the ==visibility layer== for your AI app."
+      },
+      {
+        "type": "paragraph",
+        "text": "That gets more useful as your app grows from a demo into a real system with RAG, agents, tools and many steps. When something goes wrong, ==don't just stare at the final answer. Look at the trail.=="
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "==RAG finds== the information. ==The LLM generates== the answer. ==Phoenix shows== what happened along the way. It doesn't fix anything; it lets you see."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [Your AI Looks Smart. But Can You Break It?](/blog/ai-red-teaming-promptfoo), where Promptfoo tests your AI, and Phoenix helps you see why a test failed."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Phoenix docs](https://arize.com/docs/phoenix): setup, tracing, evals and running Phoenix locally or in the cloud.",
+          "[Phoenix tracing guide](https://arize.com/docs/phoenix/tracing/llm-traces): how traces and spans work, and how to add them to your app.",
+          "[Phoenix on GitHub](https://github.com/Arize-ai/phoenix): source code, examples and integrations.",
+          "[arize-phoenix on PyPI](https://pypi.org/project/arize-phoenix/): the Python package and its releases.",
+          "[OpenRouter docs](https://openrouter.ai/docs): the API our experiment uses to call the LLM.",
+          "[Arize Phoenix in our Toolkit](/toolkit/arize): our quick verdict.",
+          "[My Colab notebook](https://colab.research.google.com/drive/1LZ8BPgJDoj2rYvxfAcSJ-NGCXxkBUYQy) and [my demo video](https://youtu.be/TBdFCNfcbVs)."
+        ]
+      }
+    ],
+    "published_on": "2026-10-03",
+    "learn": [
+      "Why the final answer alone can't tell you what went wrong",
+      "What Phoenix records: question, documents, scores, context, answer",
+      "How to add tracing to a RAG pipeline with a few lines",
+      "How to tell a retrieval problem from an LLM problem"
+    ]
+  },
+  {
     "slug": "hivemind-coding-agents-share-experience",
     "category": "agents",
     "title": "Hivemind: What If Your Coding Agents Could Learn From Each Other?",
@@ -15,10 +373,7 @@
         "alt": "Hivemind, agents learning together: coding agents such as Codex, Cursor and Claude Code are connected through Hivemind, which turns useful experience from one agent's work into reusable skills the others can use."
       }
     },
-    "featured": {
-      "stat": "Hivemind",
-      "caption": "coding agents that learn from each other"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {

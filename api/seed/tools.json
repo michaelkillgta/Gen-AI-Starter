@@ -296,7 +296,7 @@
     "use_when": "Your agent gives a wrong answer and you need to see where it went wrong.",
     "skip_when": "You haven't built an agent yet.",
     "runs_on": "Your laptop",
-    "cost": "Free, open source",
+    "cost": "Free to self-host (Elastic License 2.0)",
     "get_it": "pip install arize-phoenix",
     "status": "notes",
     "note": "The privacy-friendly choice for observability.",
