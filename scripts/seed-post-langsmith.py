@@ -80,59 +80,82 @@ COVER_ALT = (
     "evaluation scores and a comparison between two versions of the app."
 )
 
+def example(title, situation, test, gives, look, *extra):
+    """One example tab, always read the same way: the situation, what you test, what LangSmith gives you and what
+    you'd look at, then a small diagram or sample where it helps."""
+    return tab(title,
+               *p(f"**The situation:** {situation}", f"**What you test:** {test}",
+                  f"**What LangSmith gives you:** {gives}", f"**What you'd look at:** {look}"),
+               *extra)
+
+
 EXAMPLES = {"type": "tabs", "label": "Pick an example", "items": [
-    tab("RAG apps",
-        *p("You change retrieval from the top 1 chunk to the top 3. Did the answers actually get better?",
-           "Build a dataset of questions with expected answers, run both versions, and compare the scores. Benchmarking "
-           "a RAG system like this is one of the main things LangSmith's docs cover."),
-        flow("Question", "Retriever", "Documents", "LLM", "Answer")),
-    tab("AI agents",
-        *p("Your agent can search the web, query a database, use a calculator and call APIs, and it gave a wrong "
-           "answer.",
-           "Instead of only staring at the final reply, open the trace and see every step: which tools it called, in "
-           "what order, and what each returned."),
-        flow("Agent", "Tool 1", "Tool 2", "Tool 3", "Final answer")),
-    tab("Prompt testing",
-        *p("Prompt V1 says \"Answer the user's question.\" Prompt V2 adds \"Explain clearly, keep it simple, give an "
-           "example.\" Which one is actually better?",
-           "Rather than testing 100 questions by hand twice, run the same dataset against both prompts and compare.")),
-    tab("Model comparison",
-        *p("You use Model A and want to try Model B. Don't ask \"which one feels better?\" Run the same benchmark "
-           "through both and compare the scores. Useful when you switch providers, versions or settings."),
-        flow("Same dataset", "Model A and Model B", "Scores", "Compare")),
-    tab("Customer support",
-        *p("Your test set holds real-style questions: \"How can I return my order?\", \"Where is my package?\", "
-           "\"What if my payment fails?\"",
-           "Check that the bot gives correct info, follows company rules, returns the required fields, uses the right "
-           "tools and keeps the right tone. Simple code checks handle structure; an LLM judge can score tone and "
-           "meaning.")),
-    tab("Coding agents",
-        *p("Your dataset is coding tasks: fix this bug, add this feature, write this function, refactor this code. "
-           "When version 2 of your agent ships, run the same tasks again and check: does the code compile, do the "
-           "tests pass, are the right files there?")),
-    tab("AI tutors",
-        *p("\"Explain Newton's second law to a Class 11 student.\" Build a dataset of real student questions and "
-           "score each answer: correct? clear? relevant? too complicated? Different evaluators can check different "
-           "qualities, then combine into one score.")),
-    tab("Regression testing",
-        *p("Your AI scores 92% on your test set. You tweak the prompt, and now it scores 76%. The app still "
-           "\"works\", but you just made it worse.",
-           "Running every new version against the same tests catches that before your users do. Don't let "
-           "yesterday's working AI become tomorrow's broken AI.")),
-    tab("Backtesting",
-        *p("A new model comes out. Instead of switching your live traffic straight away, run it on real past "
-           "questions from your app and compare with how the old version did. LangSmith calls this backtesting, and "
-           "it's a much safer way to make a big model change."),
-        flow("New model", "Historical examples", "Evaluate", "Compare with the old version")),
-    tab("Production monitoring",
-        *p("LangSmith isn't only for before launch. Once your app is live, it can trace real requests and run "
-           "online evaluators on them, so you spot quality dropping or odd answers early."),
-        flow("User request", "Live AI", "Answer", "Online evaluator", "Quality signal")),
-    tab("Human review",
-        *p("Some things a script can't judge, like whether a health-support reply is caring and useful. LangSmith "
-           "supports human annotation next to automatic checks: automated scores flag the uncertain cases, an expert "
-           "reviews them, and you sharpen your criteria."),
-        flow("AI output", "Automatic evaluation", "Uncertain cases", "Human review", "Better criteria")),
+    example("RAG apps",
+            "You switch retrieval from the top 1 chunk to the top 3. The app still runs, but are the answers better?",
+            "One dataset of questions with expected answers, run through the old and the new version.",
+            "Datasets, evaluators that score each answer, and experiments you can compare side by side.",
+            "Which questions improved, which got worse, and the overall score of each version.",
+            flow("Question", "Retriever", "Documents", "LLM", "Answer")),
+    example("AI agents",
+            "Your agent searches the web, queries a database, uses a calculator and calls APIs. Today it gave a wrong "
+            "answer, and the final reply doesn't say why.",
+            "The run that went wrong, step by step.",
+            "A trace of every step: each tool call, what it returned, and each model response.",
+            "The exact step where the agent took the wrong turn.",
+            flow("Agent", "Tool 1", "Tool 2", "Tool 3", "Final answer")),
+    example("Prompt testing",
+            "You rewrote your system prompt to be clearer and add examples. Is the new one actually better?",
+            "The same dataset of questions, run with prompt V1 and prompt V2.",
+            "Two experiments on one dataset, scored by the same evaluators, compared side by side.",
+            "Questions where V2 is better, questions where it got worse, and the overall difference.",
+            code("Prompt V1: Answer the user's question.\n\n"
+                 "Prompt V2: Answer clearly. Explain difficult concepts simply.\n"
+                 "           Give an example when useful.")),
+    example("Model comparison",
+            "Your app uses Model A, and Model B just came out. Should you switch?",
+            "The same benchmark dataset, run through both models.",
+            "Experiments for each model, scored the same way, plus pairwise comparison of the two answers.",
+            "Whether Model B is better, where it fails, and whether it's worth the switch.",
+            flow("Same dataset", "Model A and Model B", "Scores", "Compare")),
+    example("Customer support",
+            "Your support bot answers things like \"How can I return my order?\" and \"What if my payment fails?\"",
+            "A dataset of realistic support questions, run on every new version of the bot.",
+            "Code evaluators for structure and required fields, and an LLM judge for meaning and tone.",
+            "Wrong information, broken company rules, missing fields or the wrong tone."),
+    example("Coding agents",
+            "You built version 2 of your coding agent. Does it solve more tasks than version 1?",
+            "A set of tasks (fix this bug, add this feature, refactor this code) run on both versions.",
+            "Code evaluators that check each result automatically: does it compile, do the tests pass?",
+            "How many tasks each version solved, and which ones version 2 broke."),
+    example("AI tutors",
+            "Your tutor explains topics like Newton's second law to Class 11 students.",
+            "Hundreds of real student questions, run on each version of the tutor.",
+            "Different evaluators for different qualities (code checks, an LLM judge), combined into one score.",
+            "Answers that are wrong, unclear, too complicated or missing a key idea."),
+    example("Regression testing",
+            "Your AI scored 92% on your tests. You tweaked the prompt, and now it scores 76%. It still \"works\".",
+            "Your saved test set, run on every new version before release.",
+            "Repeatable experiments on the same dataset, so any drop shows up straight away.",
+            "The score change and the exact questions that broke.",
+            pair(("Before your change", "92%"), ("After your change", "76%: caught before release"))),
+    example("Backtesting",
+            "Your app has been live for months, and a new model just came out.",
+            "Real past user questions from production, run through the new model.",
+            "Backtesting: turning production history into a dataset and evaluating the new version on it.",
+            "Whether the new model beats what users actually got, before it touches live traffic.",
+            flow("New model", "Historical examples", "Evaluate", "Compare with the old version")),
+    example("Production monitoring",
+            "Your AI is live, and quality can drift in ways your tests never covered.",
+            "Real requests from real users, as they happen.",
+            "Traces of live runs and online evaluators that score them automatically.",
+            "Quality dropping over time, bad conversations, and new cases to add to your tests.",
+            flow("User request", "Live AI", "Answer", "Online evaluator", "Quality signal")),
+    example("Human review",
+            "Some answers need a person to judge, like whether a health-support reply is caring and useful.",
+            "The answers your automatic checks flag as uncertain.",
+            "Human annotation next to automatic evaluation, so experts can score and comment.",
+            "What the experts disagree with, so you can sharpen your automatic checks.",
+            flow("AI output", "Automatic evaluation", "Uncertain cases", "Human review", "Better criteria")),
 ]}
 
 BODY = [
@@ -190,10 +213,10 @@ BODY = [
     takeaway("It's not just monitoring. It's trace, evaluate, dataset, experiment."),
 
     h("Where can you use LangSmith?", "part-5"),
-    *p("Not just RAG. Anywhere you build AI and need to see what happened, test it, score it or compare versions. "
-       "Pick an example:"),
+    *p("Not just RAG. Anywhere you build AI and need to see what happened, test it, score it or compare versions.",
+       "Every example is the same loop: ==same test cases, different version, evaluate, compare==. Each one shows "
+       "the situation, what you test, which LangSmith feature does the job, and what you'd look at. Pick one:"),
     EXAMPLES,
-    *p("The pattern is always the same: ==same test cases, different AI version, evaluate, compare==."),
     takeaway("If you can write test questions for it, you can measure it."),
 
     h("What about Phoenix?", "part-6"),
