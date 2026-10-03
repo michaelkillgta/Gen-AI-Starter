@@ -416,27 +416,6 @@
     "position": 19
   },
   {
-    "slug": "agentops",
-    "name": "AgentOps",
-    "kind": "tool",
-    "group": "agents",
-    "short": "Catches agents burning money in loops.",
-    "plain": "Tracks your agent's tool calls, API costs and loops, and warns you before a runaway agent drains your budget.",
-    "use_when": "Your agent runs on its own and you pay per call.",
-    "skip_when": "You're running a few manual tests.",
-    "runs_on": "Cloud",
-    "cost": "Check pricing",
-    "get_it": "agentops.ai",
-    "status": "notes",
-    "note": "Autonomy without a budget is an uncontrolled process.",
-    "tags": [
-      "cost",
-      "monitoring",
-      "agents"
-    ],
-    "position": 20
-  },
-  {
     "slug": "twentyfirst",
     "name": "21st.dev",
     "kind": "tool",

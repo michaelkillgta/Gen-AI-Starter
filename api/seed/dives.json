@@ -1700,7 +1700,6 @@
     ],
     "read_minutes": null,
     "tools": [
-      "agentops",
       "llmrouter"
     ],
     "body": [

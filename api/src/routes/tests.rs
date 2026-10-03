@@ -118,7 +118,7 @@ async fn health_is_ok() {
 async fn tools_include_deep_dive_links() {
     let (s, body) = get("/tools").await;
     assert_eq!(s, StatusCode::OK);
-    assert_eq!(body["tools"].as_array().unwrap().len(), 28);
+    assert_eq!(body["tools"].as_array().unwrap().len(), 27);
     let langgraph = body["tools"]
         .as_array()
         .unwrap()
