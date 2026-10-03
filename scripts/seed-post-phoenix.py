@@ -180,7 +180,8 @@ BODY = [
        "steps. When something goes wrong, ==don't just stare at the final answer. Look at the trail.=="),
     box("Remember", BIG_IDEA),
     *p(f"**Also read:** [Your AI Looks Smart. But Can You Break It?]({PROMPTFOO_POST}), where Promptfoo tests your "
-       "AI, and Phoenix helps you see why a test failed."),
+       "AI, and Phoenix helps you see why a test failed. And [LangSmith](/blog/langsmith-testing-lab-for-ai), the "
+       "testing lab for comparing versions of your app."),
 
     h("Resources"),
     ul(f"[Phoenix docs]({DOCS}): setup, tracing, evals and running Phoenix locally or in the cloud.",
@@ -204,8 +205,8 @@ POST = {
                "so you can rewind and see. With a real traced RAG pipeline you can run in Colab.",
     "cover": {"text": "Phoenix", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": "/blog/phoenix/cctv.webp", "width": 1672, "height": 941, "alt": "Phoenix as CCTV for AI workflows: a camera watches each step of a RAG app, from the user's question through retrieval and the LLM to the answer, so you can replay what happened."}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Phoenix", "caption": "CCTV for your AI: see what happened inside"},
+    # Was featured until the LangSmith post (3 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-03",
@@ -222,9 +223,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)

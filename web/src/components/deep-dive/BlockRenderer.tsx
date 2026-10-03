@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import type { Block } from "@/lib/api-types/Block";
 import { CodeBlock } from "./CodeBlock";
+import { Tabs } from "./Tabs";
 import { InlineText } from "./InlineText";
 import { ZoomImage } from "./ZoomImage";
 import styles from "./BlockRenderer.module.css";
@@ -235,6 +236,15 @@ function renderBlock(b: Block, i: number, stepTotal: number) {
         </p>
       );
     }
+    case "tabs":
+      return (
+        <Tabs
+          key={i}
+          label={b.label}
+          titles={b.items.map((t) => t.title)}
+          panels={b.items.map((t) => t.blocks.map((x, n) => renderBlock(x, n, stepTotal)))}
+        />
+      );
     case "links":
       return (
         <nav key={i} className={styles.links} aria-label={b.label ?? "Links"}>

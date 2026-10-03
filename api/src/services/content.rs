@@ -60,6 +60,12 @@ fn blocks_words(blocks: &[Block]) -> usize {
                 .sum(),
             Block::Cards { items } => items.iter().map(|c| words(&c.title) + words(&c.text)).sum(),
             Block::Code(c) => words(&c.code),
+            // Readers usually open the first tab and maybe one more.
+            Block::Tabs { items, .. } => items
+                .iter()
+                .take(2)
+                .map(|t| words(&t.title) + blocks_words(&t.blocks))
+                .sum(),
         })
         .sum()
 }

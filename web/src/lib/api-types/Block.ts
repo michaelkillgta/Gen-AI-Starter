@@ -4,6 +4,7 @@ import type { CodeSample } from "./CodeSample";
 import type { CompareSide } from "./CompareSide";
 import type { LinkItem } from "./LinkItem";
 import type { PairItem } from "./PairItem";
+import type { TabItem } from "./TabItem";
 
 /**
  * One block of a deep dive or blog post body.
@@ -18,4 +19,4 @@ id: string | null, } | { "type": "image", src: string, alt: string, width: numbe
 /**
  * For loops: a last "↺ <label>" chip that sends you back to the start.
  */
-repeat: string | null, } | { "type": "links", label: string | null, items: Array<LinkItem>, } | { "type": "lead", items: Array<string>, } | { "type": "pull", text: string, } | { "type": "pair", items: Array<PairItem>, } | { "type": "cta", label: string, href: string, } | { "type": "compare", left: CompareSide, right: CompareSide, } | { "type": "cards", items: Array<CardItem>, } | { "type": "callout", label: string, text: string, } | { "type": "code" } & CodeSample;
+repeat: string | null, } | { "type": "links", label: string | null, items: Array<LinkItem>, } | { "type": "lead", items: Array<string>, } | { "type": "pull", text: string, } | { "type": "pair", items: Array<PairItem>, } | { "type": "cta", label: string, href: string, } | { "type": "compare", left: CompareSide, right: CompareSide, } | { "type": "cards", items: Array<CardItem>, } | { "type": "callout", label: string, text: string, } | { "type": "code" } & CodeSample | { "type": "tabs", label: string | null, items: Array<TabItem>, };

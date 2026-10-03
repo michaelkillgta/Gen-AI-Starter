@@ -404,7 +404,7 @@
     "use_when": "You build with LangChain or LangGraph and need to debug.",
     "skip_when": "You want everything local and private. Try Arize Phoenix.",
     "runs_on": "Cloud",
-    "cost": "Free tier, check limits",
+    "cost": "Free tier (5k traces a month), then paid",
     "get_it": "smith.langchain.com",
     "status": "notes",
     "note": "Very polished for debugging.",

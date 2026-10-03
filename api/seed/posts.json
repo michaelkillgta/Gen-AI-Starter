@@ -1,5 +1,536 @@
 [
   {
+    "slug": "langsmith-testing-lab-for-ai",
+    "category": "rag-and-documents",
+    "title": "LangSmith: The Testing Lab for Your AI Application",
+    "excerpt": "You changed your AI. Did it get better, or just different? LangSmith runs the same test questions through each version, scores them and compares. With 11 real examples and a Colab experiment.",
+    "cover": {
+      "text": "LangSmith",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/langsmith/testing-lab.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "The LangSmith testing lab: a dashboard for an AI app showing traces of each run, a dataset of test questions, evaluation scores and a comparison between two versions of the app."
+      }
+    },
+    "featured": {
+      "stat": "LangSmith",
+      "caption": "the testing lab for your AI application"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Building an AI app is easy to underestimate. You write a prompt, connect an LLM, add RAG, maybe some tools and agents. Then you change something and wonder: ==\"Did I make the AI better, or just different?\"=="
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the question LangSmith helps you answer."
+      },
+      {
+        "type": "cta",
+        "label": "Try it yourself: open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "LangSmith doesn't improve your AI. ==You change it==, and LangSmith ==helps you measure the change==: same test questions, different version, score both, compare."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "LangSmith",
+            "href": "/toolkit/langsmith"
+          },
+          {
+            "label": "Arize Phoenix",
+            "href": "/toolkit/arize"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "What is LangSmith?",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/langsmith/testing-lab.webp",
+        "alt": "The LangSmith testing lab: a dashboard for an AI app showing traces of each run, a dataset of test questions, evaluation scores and a comparison between two versions of the app.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration; the scores, model names and timings in it are examples."
+      },
+      {
+        "type": "paragraph",
+        "text": "LangSmith is a platform for ==developing, tracing, testing, evaluating and monitoring== AI apps, from the team behind LangChain. It works with or without LangChain, and there's a free tier (5,000 traces a month) before paid plans."
+      },
+      {
+        "type": "paragraph",
+        "text": "The best way to think of it: ==a testing lab for AI==. Normal software has tests. AI apps need them too, with one twist: LLMs don't always give the same answer twice. So besides \"did my code run?\", you also need to ask ==\"was the answer actually good?\"=="
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "LangSmith is where you test your AI, not just run it."
+      },
+      {
+        "type": "heading",
+        "text": "The problem with building AI",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Say you're building a RAG app:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "User question",
+          "Retriever",
+          "Relevant documents",
+          "LLM",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Version 1 works. Then you tweak it: top 3 documents instead of 1, different chunking, a new prompt, another model. It still runs. But ==did the answers improve?=="
+      },
+      {
+        "type": "paragraph",
+        "text": "You can't tell from one response. You need a ==repeatable test==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "\"It still runs\" isn't the same as \"it got better\"."
+      },
+      {
+        "type": "heading",
+        "text": "The core idea: same questions, different versions",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/langsmith/same-test.webp",
+        "alt": "Same test, different AI versions: one dataset of five questions with expected answers runs through RAG version 1 and RAG version 2, each set of answers is scored, and the scores are compared.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration; the scores, model names and timings in it are examples."
+      },
+      {
+        "type": "paragraph",
+        "text": "Write five questions with expected answers. That's your ==evaluation dataset==. Run version 1 on it and score the answers. Change the app, run version 2 on the same questions, score again:"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "RAG v1",
+            "text": "3 out of 5"
+          },
+          {
+            "label": "RAG v2",
+            "text": "5 out of 5"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Now you have ==evidence== that your change helped, at least on this test set. And remember who did what: you changed the RAG; LangSmith measured it."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Same questions, different version, compare the scores."
+      },
+      {
+        "type": "heading",
+        "text": "What LangSmith actually does",
+        "id": "part-4"
+      },
+      {
+        "type": "image",
+        "src": "/blog/langsmith/builds-better.webp",
+        "alt": "How LangSmith builds better AI: trace what happened in each run, evaluate whether answers were good, keep datasets of what to test, and run experiments to see if a change helped.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration; the scores, model names and timings in it are examples."
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Trace",
+            "text": "What happened? See each step of a run, from question to retriever to LLM to answer."
+          },
+          {
+            "title": "Evaluate",
+            "text": "Was it good? Score answers with code checks, an LLM judge or human review."
+          },
+          {
+            "title": "Dataset",
+            "text": "What should we test? A saved set of questions and expected answers."
+          },
+          {
+            "title": "Experiment",
+            "text": "Did the change help? Run versions on the same dataset and compare."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "An evaluator doesn't have to be fancy. In our experiment, each question has required concepts. For \"What does break do?\", a good answer must mention break, a word like stop, terminate or end, and loop. All there: ==score 1==. Anything missing: ==score 0==. Simple and reproducible."
+      },
+      {
+        "type": "paragraph",
+        "text": "Over time, your dataset becomes your app's ==test suite==. Keep the questions that matter, and every time you change the prompt, model, retrieval or agent logic, test the new version against the same set. That's ==regression testing for AI behaviour==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "It's not just monitoring. It's trace, evaluate, dataset, experiment."
+      },
+      {
+        "type": "heading",
+        "text": "Where can you use LangSmith?",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "Not just RAG. Anywhere you build AI and need to see what happened, test it, score it or compare versions. Pick an example:"
+      },
+      {
+        "type": "tabs",
+        "label": "Pick an example",
+        "items": [
+          {
+            "title": "RAG apps",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "You change retrieval from the top 1 chunk to the top 3. Did the answers actually get better?"
+              },
+              {
+                "type": "paragraph",
+                "text": "Build a dataset of questions with expected answers, run both versions, and compare the scores. Benchmarking a RAG system like this is one of the main things LangSmith's docs cover."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Question",
+                  "Retriever",
+                  "Documents",
+                  "LLM",
+                  "Answer"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "AI agents",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Your agent can search the web, query a database, use a calculator and call APIs, and it gave a wrong answer."
+              },
+              {
+                "type": "paragraph",
+                "text": "Instead of only staring at the final reply, open the trace and see every step: which tools it called, in what order, and what each returned."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Agent",
+                  "Tool 1",
+                  "Tool 2",
+                  "Tool 3",
+                  "Final answer"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Prompt testing",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Prompt V1 says \"Answer the user's question.\" Prompt V2 adds \"Explain clearly, keep it simple, give an example.\" Which one is actually better?"
+              },
+              {
+                "type": "paragraph",
+                "text": "Rather than testing 100 questions by hand twice, run the same dataset against both prompts and compare."
+              }
+            ]
+          },
+          {
+            "title": "Model comparison",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "You use Model A and want to try Model B. Don't ask \"which one feels better?\" Run the same benchmark through both and compare the scores. Useful when you switch providers, versions or settings."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Same dataset",
+                  "Model A and Model B",
+                  "Scores",
+                  "Compare"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Customer support",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Your test set holds real-style questions: \"How can I return my order?\", \"Where is my package?\", \"What if my payment fails?\""
+              },
+              {
+                "type": "paragraph",
+                "text": "Check that the bot gives correct info, follows company rules, returns the required fields, uses the right tools and keeps the right tone. Simple code checks handle structure; an LLM judge can score tone and meaning."
+              }
+            ]
+          },
+          {
+            "title": "Coding agents",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Your dataset is coding tasks: fix this bug, add this feature, write this function, refactor this code. When version 2 of your agent ships, run the same tasks again and check: does the code compile, do the tests pass, are the right files there?"
+              }
+            ]
+          },
+          {
+            "title": "AI tutors",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "\"Explain Newton's second law to a Class 11 student.\" Build a dataset of real student questions and score each answer: correct? clear? relevant? too complicated? Different evaluators can check different qualities, then combine into one score."
+              }
+            ]
+          },
+          {
+            "title": "Regression testing",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Your AI scores 92% on your test set. You tweak the prompt, and now it scores 76%. The app still \"works\", but you just made it worse."
+              },
+              {
+                "type": "paragraph",
+                "text": "Running every new version against the same tests catches that before your users do. Don't let yesterday's working AI become tomorrow's broken AI."
+              }
+            ]
+          },
+          {
+            "title": "Backtesting",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "A new model comes out. Instead of switching your live traffic straight away, run it on real past questions from your app and compare with how the old version did. LangSmith calls this backtesting, and it's a much safer way to make a big model change."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "New model",
+                  "Historical examples",
+                  "Evaluate",
+                  "Compare with the old version"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Production monitoring",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "LangSmith isn't only for before launch. Once your app is live, it can trace real requests and run online evaluators on them, so you spot quality dropping or odd answers early."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "User request",
+                  "Live AI",
+                  "Answer",
+                  "Online evaluator",
+                  "Quality signal"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Human review",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Some things a script can't judge, like whether a health-support reply is caring and useful. LangSmith supports human annotation next to automatic checks: automated scores flag the uncertain cases, an expert reviews them, and you sharpen your criteria."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "AI output",
+                  "Automatic evaluation",
+                  "Uncertain cases",
+                  "Human review",
+                  "Better criteria"
+                ],
+                "repeat": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The pattern is always the same: ==same test cases, different AI version, evaluate, compare==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "If you can write test questions for it, you can measure it."
+      },
+      {
+        "type": "heading",
+        "text": "What about Phoenix?",
+        "id": "part-6"
+      },
+      {
+        "type": "image",
+        "src": "/blog/langsmith/vs-phoenix.webp",
+        "alt": "Phoenix versus LangSmith: Phoenix gives a deep look at what happened inside one AI run, step by step; LangSmith runs the same test dataset through different versions of your app and compares the scores. Both can trace and evaluate.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration; the scores, model names and timings in it are examples."
+      },
+      {
+        "type": "paragraph",
+        "text": "If you've read our [Phoenix post](/blog/arize-phoenix-ai-observability), you'll spot overlap: Phoenix can evaluate too, and LangSmith can trace too. So don't think \"Phoenix traces, LangSmith evaluates\". That's too simple."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Phoenix",
+            "text": "\"Show me exactly what happened inside this run.\" A deep look at one execution."
+          },
+          {
+            "label": "LangSmith",
+            "text": "\"Test, score and compare my app systematically.\" Repeatable tests across versions."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The difference is more about ==how you use each one== than a strict line between features."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Both can trace and evaluate. Pick by what you're trying to do."
+      },
+      {
+        "type": "heading",
+        "text": "Try it yourself",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "Our Colab does exactly the core idea: ==same dataset, RAG v1, RAG v2, score both, compare==. Here's the shape of it with the LangSmith SDK. rag_v1 and rag_v2 are the two pipelines from the notebook, and your API key comes from the LANGSMITH_API_KEY environment variable:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from langsmith import Client\n\nclient = Client()  # reads LANGSMITH_API_KEY from the environment\ndataset = client.create_dataset(\"python-basics\")\nclient.create_examples(dataset_id=dataset.id, examples=[\n    {\"inputs\": {\"question\": \"What does break do?\"},\n     \"outputs\": {\"concepts\": [[\"break\"], [\"stop\", \"terminate\", \"end\"], [\"loop\"]]}},\n])\n\ndef has_concepts(outputs, reference_outputs):\n    answer = outputs[\"answer\"].lower()\n    ok = all(any(w in answer for w in group) for group in reference_outputs[\"concepts\"])\n    return {\"key\": \"concepts\", \"score\": int(ok)}\n\nfor name, rag in [(\"rag-v1\", rag_v1), (\"rag-v2\", rag_v2)]:\n    client.evaluate(rag, data=\"python-basics\", evaluators=[has_concepts], experiment_prefix=name)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Then open both experiments in LangSmith side by side and see which questions changed and why."
+      },
+      {
+        "type": "callout",
+        "label": "Run it in Colab",
+        "text": "The full RAG v1 vs v2 experiment, ready to run: [open the Colab notebook](https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L). Add your keys as Colab secrets."
+      },
+      {
+        "type": "cta",
+        "label": "Open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L"
+      },
+      {
+        "type": "heading",
+        "text": "The one sentence to remember",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "LangSmith helps you turn an AI app from something you ==casually try== into something you ==systematically trace, evaluate and improve==."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Not this",
+            "text": "Change something, ask ChatGPT twice, \"seems better 👍\"."
+          },
+          {
+            "label": "This",
+            "text": "Change something, run the same tests, evaluate, inspect failures, compare, change again."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "LangSmith doesn't improve your AI. ==You change it==, and LangSmith ==helps you measure the change==: same test questions, different version, score both, compare."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [Phoenix: The CCTV for Your AI Application](/blog/arize-phoenix-ai-observability), [Your AI Looks Smart. But Can You Break It?](/blog/ai-red-teaming-promptfoo) for testing your AI against attacks, and [LangGraph](/blog/langgraph-ai-agents-workflow) for agents worth tracing."
+      },
+      {
+        "type": "heading",
+        "text": "References",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[LangSmith: evaluation types](https://docs.langchain.com/langsmith/evaluation-types): benchmarking, regression testing, backtesting and every evaluator type.",
+          "[LangSmith: evaluation](https://www.langchain.com/langsmith/evaluation): the overview of datasets, experiments and comparing versions.",
+          "[LangSmith: observability](https://www.langchain.com/langsmith/observability): tracing and debugging your app and agents.",
+          "[LangSmith: code evaluators](https://github.com/langchain-ai/docs/blob/main/src/langsmith/code-evaluator-sdk.mdx): writing your own scoring functions in code.",
+          "[LangSmith: online evaluations](https://docs.langchain.com/langsmith/online-evaluations-llm-as-judge): scoring live production traffic with an LLM judge.",
+          "[LangSmith in our Toolkit](/toolkit/langsmith): our quick verdict.",
+          "[My Colab notebook](https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L): the RAG v1 vs v2 experiment."
+        ]
+      }
+    ],
+    "published_on": "2026-10-03",
+    "learn": [
+      "Why \"it still runs\" doesn't mean your AI got better",
+      "The core loop: same questions, different version, score, compare",
+      "What LangSmith does: trace, evaluate, datasets, experiments",
+      "11 places you can use it, from RAG to human review"
+    ]
+  },
+  {
     "slug": "arize-phoenix-ai-observability",
     "category": "rag-and-documents",
     "title": "Phoenix: The CCTV for Your AI Application",
@@ -15,10 +546,7 @@
         "alt": "Phoenix as CCTV for AI workflows: a camera watches each step of a RAG app, from the user's question through retrieval and the LLM to the answer, so you can replay what happened."
       }
     },
-    "featured": {
-      "stat": "Phoenix",
-      "caption": "CCTV for your AI: see what happened inside"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
@@ -357,7 +885,7 @@
       },
       {
         "type": "paragraph",
-        "text": "**Also read:** [Your AI Looks Smart. But Can You Break It?](/blog/ai-red-teaming-promptfoo), where Promptfoo tests your AI, and Phoenix helps you see why a test failed."
+        "text": "**Also read:** [Your AI Looks Smart. But Can You Break It?](/blog/ai-red-teaming-promptfoo), where Promptfoo tests your AI, and Phoenix helps you see why a test failed. And [LangSmith](/blog/langsmith-testing-lab-for-ai), the testing lab for comparing versions of your app."
       },
       {
         "type": "heading",

@@ -305,6 +305,21 @@ pub enum Block {
         text: String,
     },
     Code(CodeSample),
+    /// Clickable examples: a row of chips, one panel shown at a time (the first
+    /// by default). Each panel holds its own blocks.
+    Tabs {
+        #[serde(default)]
+        label: Option<String>,
+        items: Vec<TabItem>,
+    },
+}
+
+/// One tab of a `Tabs` block: its chip label and the blocks shown when picked.
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+pub struct TabItem {
+    pub title: String,
+    pub blocks: Vec<Block>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, TS)]
