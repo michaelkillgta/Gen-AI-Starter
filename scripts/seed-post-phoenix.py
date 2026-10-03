@@ -95,6 +95,8 @@ BODY = [
     takeaway("A bad answer has many possible causes. You need to see the steps."),
 
     h("Phoenix is CCTV for your AI", "part-3"),
+    {"type": "image", "src": "/blog/phoenix/cctv.webp", "width": 1672, "height": 941, "caption": 'An illustration; the names, scores and timings in it are examples.',
+     "alt": "Phoenix as CCTV for AI workflows: a camera watches each step of a RAG app, from the user's question through retrieval and the LLM to the answer, so you can replay what happened."},
     *p("Think of a CCTV camera. It doesn't walk into the building and fix things. It ==records what happened==, so "
        "you can rewind and look.",
        "Phoenix does that for your AI app. It ==traces== each run, so you can open it later and inspect:"),
@@ -138,6 +140,8 @@ BODY = [
     takeaway("Wrap each step in a span, and Phoenix can show you all of them."),
 
     h("Run a test and look at the trail", "part-6"),
+    {"type": "image", "src": "/blog/phoenix/dashboard.webp", "width": 1672, "height": 941, "caption": 'An illustration; the names, scores and timings in it are examples.',
+     "alt": 'What happened inside the AI: a pipeline of question, retrieval with document scores, context, LLM and answer, next to an observability dashboard showing the same run as a trace of steps.'},
     *p("Here's a second test from the experiment:"),
     code('test_question = "How are vector databases used to store and search embeddings?"\n'
          'test_results, test_answer = traced_rag(test_question)\n\n'
@@ -163,6 +167,8 @@ BODY = [
     *p("To try Phoenix on your own laptop: pip install arize-phoenix, then phoenix serve to open the Phoenix app."),
 
     h("RAG finds. LLM generates. Phoenix shows.", "part-8"),
+    {"type": "image", "src": "/blog/phoenix/pipeline.webp", "width": 1942, "height": 809, "caption": 'An illustration; the names, scores and timings in it are examples.',
+     "alt": 'RAG finds, LLM generates, Phoenix shows: RAG retrieves the useful information, the LLM writes the answer, and Phoenix watches the whole pipeline and shows what happened at each step.'},
     {"type": "cards", "items": [
         {"title": "RAG", "text": "Finds useful information"},
         {"title": "LLM", "text": "Writes the answer"},
@@ -196,7 +202,8 @@ POST = {
     "title": "Phoenix: The CCTV for Your AI Application",
     "excerpt": "Your RAG app gave a weird answer. Was it the retrieval or the LLM? Arize Phoenix records every step, "
                "so you can rewind and see. With a real traced RAG pipeline you can run in Colab.",
-    "cover": {"text": "Phoenix", "bg": "#211913", "fg": "#F2A93B", "image": None},
+    "cover": {"text": "Phoenix", "bg": "#211913", "fg": "#F2A93B",
+              "image": {"src": "/blog/phoenix/cctv.webp", "width": 1672, "height": 941, "alt": "Phoenix as CCTV for AI workflows: a camera watches each step of a RAG app, from the user's question through retrieval and the LLM to the answer, so you can replay what happened."}},
     # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
     "featured": {"stat": "Phoenix", "caption": "CCTV for your AI: see what happened inside"},
     "dive": None,
