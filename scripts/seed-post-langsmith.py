@@ -24,6 +24,9 @@ OBSERVABILITY = "https://www.langchain.com/langsmith/observability"
 CODE_EVALS = "https://github.com/langchain-ai/docs/blob/main/src/langsmith/code-evaluator-sdk.mdx"
 ONLINE_EVALS = "https://docs.langchain.com/langsmith/online-evaluations-llm-as-judge"
 COLAB = "https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L"
+# Uma's own recording (YouTube title "langsmith").
+VIDEO = "wCTA-NFFKcU"
+VIDEO_URL = f"https://youtu.be/{VIDEO}"
 ILLUSTRATION = "An illustration; the scores, model names and timings in it are examples."
 
 
@@ -161,7 +164,8 @@ EXAMPLES = {"type": "tabs", "label": "Pick an example", "items": [
 BODY = [
     *p("Building an AI app is easy to underestimate. You write a prompt, connect an LLM, add RAG, maybe some tools "
        "and agents. Then you change something and wonder: ==\"Did I make the AI better, or just different?\"==",
-       "That's the question LangSmith helps you answer."),
+       "That's the question LangSmith helps you answer.",
+       f"▶ [Watch my LangSmith demo](#video-{VIDEO})"),
     cta("Try it yourself: open the Colab notebook", COLAB),
     box("The one idea to remember", BIG_IDEA),
 
@@ -253,6 +257,8 @@ BODY = [
     box("Run it in Colab", f"The full RAG v1 vs v2 experiment, ready to run: [open the Colab notebook]({COLAB}). Add "
                            "your keys as Colab secrets."),
     cta("Open the Colab notebook", COLAB),
+    *p(f"**Watch it run.** I recorded the whole experiment. You can also [watch it on YouTube]({VIDEO_URL})."),
+    {"type": "video", "youtube_id": VIDEO, "title": "LangSmith demo (Uma's video)", "caption": "LangSmith demo"},
 
     h("The one sentence to remember", "part-8"),
     *p("LangSmith helps you turn an AI app from something you ==casually try== into something you ==systematically "
@@ -272,7 +278,8 @@ BODY = [
        f"[LangSmith: code evaluators]({CODE_EVALS}): writing your own scoring functions in code.",
        f"[LangSmith: online evaluations]({ONLINE_EVALS}): scoring live production traffic with an LLM judge.",
        "[LangSmith in our Toolkit](/toolkit/langsmith): our quick verdict.",
-       f"[My Colab notebook]({COLAB}): the RAG v1 vs v2 experiment."),
+       f"[My Colab notebook]({COLAB}): the RAG v1 vs v2 experiment.",
+       f"[My walkthrough video]({VIDEO_URL}): the experiment, start to finish."),
 ]
 
 # Tools used: shown as Toolkit pills just before the first part.

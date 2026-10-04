@@ -30,6 +30,10 @@
         "text": "That's the question LangSmith helps you answer."
       },
       {
+        "type": "paragraph",
+        "text": "▶ [Watch my LangSmith demo](#video-wCTA-NFFKcU)"
+      },
+      {
         "type": "cta",
         "label": "Try it yourself: open the Colab notebook",
         "href": "https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L"
@@ -603,6 +607,16 @@
         "href": "https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L"
       },
       {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole experiment. You can also [watch it on YouTube](https://youtu.be/wCTA-NFFKcU)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "wCTA-NFFKcU",
+        "title": "LangSmith demo (Uma's video)",
+        "caption": "LangSmith demo"
+      },
+      {
         "type": "heading",
         "text": "The one sentence to remember",
         "id": "part-8"
@@ -648,7 +662,8 @@
           "[LangSmith: code evaluators](https://github.com/langchain-ai/docs/blob/main/src/langsmith/code-evaluator-sdk.mdx): writing your own scoring functions in code.",
           "[LangSmith: online evaluations](https://docs.langchain.com/langsmith/online-evaluations-llm-as-judge): scoring live production traffic with an LLM judge.",
           "[LangSmith in our Toolkit](/toolkit/langsmith): our quick verdict.",
-          "[My Colab notebook](https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L): the RAG v1 vs v2 experiment."
+          "[My Colab notebook](https://colab.research.google.com/drive/1uQtqhzxSRPAOCWluB8_0XT-isF9WwY-L): the RAG v1 vs v2 experiment.",
+          "[My walkthrough video](https://youtu.be/wCTA-NFFKcU): the experiment, start to finish."
         ]
       }
     ],
