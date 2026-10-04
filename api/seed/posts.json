@@ -1,5 +1,548 @@
 [
   {
+    "slug": "supabase-explained",
+    "category": "ideas",
+    "title": "Supabase Explained: Your Backend Without Building Everything From Scratch",
+    "excerpt": "You built the frontend. Now where does the data go? Supabase gives you a database, file storage, logins, live updates and AI search, with a playground you can clone and break.",
+    "cover": {
+      "text": "Supabase",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/supabase/backend-platform.webp",
+        "width": 1536,
+        "height": 1024,
+        "alt": "Supabase as a backend platform: your app talks to Supabase, which provides a PostgreSQL database, file storage, authentication, realtime updates, APIs and pgvector for AI search."
+      }
+    },
+    "featured": {
+      "stat": "Supabase",
+      "caption": "your backend without building everything from scratch"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You built the frontend. The UI looks good, the buttons work, the page feels alive."
+      },
+      {
+        "type": "paragraph",
+        "text": "Then the question every developer hits: ==\"Okay... where does all this data actually go?\"== Your users need accounts. Your app needs a database, somewhere to store files, maybe live updates. If it's an AI app, maybe even vector search."
+      },
+      {
+        "type": "paragraph",
+        "text": "You could build all of that yourself. Or you could use ==Supabase==."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 12-minute Supabase walkthrough](#video-enFp4N34QJ4)"
+      },
+      {
+        "type": "cta",
+        "label": "Clone the Supabase Playground on GitHub",
+        "href": "https://github.com/michaelkillgta/Supabase-playground"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "==You build the app.== ==Supabase handles much of the backend== behind it: database, files, logins, live updates and AI search."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Supabase",
+            "href": "/toolkit/supabase"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "So what is Supabase?",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/supabase/backend-platform.webp",
+        "alt": "Supabase as a backend platform: your app talks to Supabase, which provides a PostgreSQL database, file storage, authentication, realtime updates, APIs and pgvector for AI search.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Supabase is a ==backend platform built around PostgreSQL==. It gives your app the backend services it needs, so you don't build each one from scratch."
+      },
+      {
+        "type": "paragraph",
+        "text": "Your app can be almost anything that can talk to an API: a web app, a mobile app, a Next.js or React app, a Flutter app or a Python program. The idea is simple:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your app",
+          "Supabase",
+          "Your data"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Your app sends a request, Supabase handles the backend side, and the result comes back."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Supabase is the backend your frontend has been looking for."
+      },
+      {
+        "type": "heading",
+        "text": "What Supabase actually gives you",
+        "id": "part-2"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "PostgreSQL database",
+            "text": "Your structured data: students, courses, scores, messages, orders. If your app needs to remember it, it usually goes here."
+          },
+          {
+            "title": "Storage",
+            "text": "Actual files: PDFs, images, videos, user uploads. Not everything belongs in a table."
+          },
+          {
+            "title": "Authentication",
+            "text": "Email and password, one-time codes, Google and other sign-in providers, and user sessions."
+          },
+          {
+            "title": "Realtime",
+            "text": "Your app listens for database changes and updates instantly. Great for chat, notifications and live dashboards."
+          }
+        ]
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Database",
+            "text": "Structured information."
+          },
+          {
+            "label": "Storage",
+            "text": "The actual files."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "We don't build login in our demo, because authentication could be a whole tutorial on its own. Just remember: ==Supabase can handle the boring login infrastructure== for you."
+      },
+      {
+        "type": "paragraph",
+        "text": "And realtime means no more app constantly asking \"anything new? anything new? anything new?\". The update comes to you."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Data, files, logins, live updates: the backend basics in one place."
+      },
+      {
+        "type": "heading",
+        "text": "How do you connect your app?",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/supabase/four-ways.webp",
+        "alt": "Ways to connect your app to Supabase, such as environment variables with the Supabase client in your app and the Supabase CLI for managing your project from the terminal.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration. This post covers the two most practical ways: environment variables and the CLI."
+      },
+      {
+        "type": "paragraph",
+        "text": "**1. Environment variables.** The easiest way. When you create a Supabase project, you get a ==project URL== and a ==publishable key== (older projects call it the anon key). Put them in your app's environment file. In a Next.js app:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co\nNEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key"
+      },
+      {
+        "type": "paragraph",
+        "text": "Then the Supabase client in your app uses them to talk to your project."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your app",
+          "Supabase client",
+          "Supabase project"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Keep secrets secret",
+        "text": "The publishable key is meant for the browser. Your ==secret or service-role key== and any third-party API keys are not. Never put them in frontend code."
+      },
+      {
+        "type": "paragraph",
+        "text": "**2. The Supabase CLI.** For when you're working on a project seriously and want your database changes to live alongside your code. From your terminal you can link your project, pull the database schema, create and push migrations, and run a local Supabase for development."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your code",
+          "Supabase CLI",
+          "Supabase project"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Environment variables",
+            "text": "Connect your app."
+          },
+          {
+            "label": "Supabase CLI",
+            "text": "Manage your development workflow."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "You don't need the CLI to understand Supabase. You'll want it once the project gets serious."
+      },
+      {
+        "type": "heading",
+        "text": "See it working: the playground",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "We built a small ==Supabase Playground== so you don't have to imagine what happens behind the scenes. The goal isn't a giant production app. It's: ==click something, see what happens, understand the backend==. Pick a part:"
+      },
+      {
+        "type": "tabs",
+        "label": "Try each part",
+        "items": [
+          {
+            "title": "Database",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Say you have a simple student app. You type Name: Uma, Role: Student, Score: 85, and click ==Add Student==."
+              },
+              {
+                "type": "paragraph",
+                "text": "Your app sends that to Supabase, Supabase saves it in PostgreSQL, and the result comes back. So when you see \"Uma | Student | 85\" on screen, it isn't living inside the frontend. ==It came from the backend==."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Your app",
+                  "Supabase",
+                  "PostgreSQL",
+                  "Data stored",
+                  "Response",
+                  "Your app"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Storage",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Now students can upload notes. You pick ==physics-notes.pdf==, and your app sends the file to Supabase Storage, which keeps the actual file."
+              },
+              {
+                "type": "paragraph",
+                "text": "Your database can store details about the file (its name, who uploaded it), while Storage holds the file itself. Simple."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Your app",
+                  "Upload PDF",
+                  "Supabase Storage",
+                  "physics-notes.pdf"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Realtime",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Open the playground in ==two browser tabs== looking at the same counter. Click +1 in Tab A."
+              },
+              {
+                "type": "paragraph",
+                "text": "The database changes, Supabase Realtime notices, and Tab B updates on its own. No refresh. That's the basic idea behind chat apps, notifications and live dashboards."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Tab A clicks +1",
+                  "Database changes",
+                  "Supabase Realtime",
+                  "Tab B updates"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "pgvector",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Your company has documents: work from home policy, leave policy, security policy, salary policy. Someone asks: ==\"Can I work remotely?\"=="
+              },
+              {
+                "type": "paragraph",
+                "text": "The document says \"Employees can work from home with manager approval.\" Different words, same meaning. pgvector lets you search by meaning, so the question still finds the right policy."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Question",
+                  "Embedding",
+                  "pgvector search",
+                  "\"Employees can work from home...\""
+                ],
+                "repeat": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Click, watch the data move, and the backend stops being a black box."
+      },
+      {
+        "type": "heading",
+        "text": "pgvector, without the scary maths",
+        "id": "part-5"
+      },
+      {
+        "type": "image",
+        "src": "/blog/supabase/pgvector.webp",
+        "alt": "pgvector, search by meaning in PostgreSQL: documents become embeddings stored in PostgreSQL with the pgvector extension, so a question like \"Can I work remotely?\" finds \"Employees can work from home with manager approval\" even though the words differ.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "The name sounds scary. You don't need vector maths to get why it's useful."
+      },
+      {
+        "type": "paragraph",
+        "text": "Text can be turned into ==embeddings==: lists of numbers that capture meaning. Supabase can store them in PostgreSQL with the pgvector extension, and then search for content with ==similar meaning==, not just matching words:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Documents",
+          "Embeddings",
+          "PostgreSQL + pgvector",
+          "Meaning-based search",
+          "Relevant content"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "That's why pgvector is so useful for AI apps and RAG systems."
+      },
+      {
+        "type": "paragraph",
+        "text": "Want the RAG side in more depth? See our posts on [Docling](/blog/docling-pdf-is-not-just-text) and [ColBERT](/blog/colbert-when-semantic-search-isnt-enough)."
+      },
+      {
+        "type": "callout",
+        "label": "Good to know",
+        "text": "pgvector is ==not a separate database==. It's a PostgreSQL extension that lets PostgreSQL store and search vector embeddings."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "pgvector finds what you meant, not just what you typed."
+      },
+      {
+        "type": "heading",
+        "text": "What about APIs?",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "Your app needs a way to talk to Supabase. That's what its ==APIs== are for. Your app asks \"give me the students\", Supabase asks PostgreSQL, and the data comes back:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Get students",
+          "Supabase",
+          "PostgreSQL",
+          "Student data",
+          "Your app"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't have to hand-build a separate backend endpoint for every basic database operation. That's a big part of why Supabase is so convenient."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Supabase gives your database an API out of the box."
+      },
+      {
+        "type": "heading",
+        "text": "The whole thing in one example",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine an education app. A student opens it, uploads their notes, asks a question and gets an answer. Behind the scenes:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Student data** goes to PostgreSQL.",
+          "**PDF notes** go to Storage.",
+          "**Live updates** come through Realtime.",
+          "**AI document search** uses pgvector."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Your app talks to all of it through the Supabase client and your project settings. ==You didn't build every backend piece yourself.== That's the point."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One app, four Supabase features, zero backend built from scratch."
+      },
+      {
+        "type": "heading",
+        "text": "Try it yourself",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "The best way to use this post: ==read, watch, clone, experiment==. Don't just look at the code. Change something. Break something. Add a row, upload a file, open two tabs, run a search. That's when Supabase starts making sense."
+      },
+      {
+        "type": "cta",
+        "label": "Clone the Supabase Playground on GitHub",
+        "href": "https://github.com/michaelkillgta/Supabase-playground"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the setup and walked through what's happening behind the scenes. You can also [watch it on YouTube](https://youtu.be/enFp4N34QJ4)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "enFp4N34QJ4",
+        "title": "Supabase (Uma's walkthrough video)",
+        "caption": "Supabase walkthrough · 11:48"
+      },
+      {
+        "type": "heading",
+        "text": "Final takeaway",
+        "id": "part-9"
+      },
+      {
+        "type": "paragraph",
+        "text": "Supabase isn't a magic box that replaces your whole app. It's the ==backend infrastructure== behind it. You build the frontend and the app logic; Supabase gives you the building blocks:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "PostgreSQL",
+            "text": "Store data"
+          },
+          {
+            "title": "Storage",
+            "text": "Store files"
+          },
+          {
+            "title": "Authentication",
+            "text": "Manage users"
+          },
+          {
+            "title": "Realtime",
+            "text": "Push live changes"
+          },
+          {
+            "title": "APIs",
+            "text": "Talk to your backend"
+          },
+          {
+            "title": "pgvector",
+            "text": "Search by meaning"
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "==You build the app.== ==Supabase handles much of the backend== behind it: database, files, logins, live updates and AI search."
+      },
+      {
+        "type": "paragraph",
+        "text": "Now go clone the playground and make something break. That's usually when the backend stops looking like a mysterious black box."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [Phoenix: The CCTV for Your AI Application](/blog/arize-phoenix-ai-observability), for seeing what your AI app does with the data you store here."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[My Supabase Playground on GitHub](https://github.com/michaelkillgta/Supabase-playground): the project from this post, ready to clone.",
+          "[My walkthrough video](https://youtu.be/enFp4N34QJ4): the setup and what happens behind the scenes.",
+          "[Supabase docs](https://supabase.com/docs): everything, from your first project onwards.",
+          "[API keys](https://supabase.com/docs/guides/api/api-keys): which key goes where, and which ones to keep secret.",
+          "[Storage](https://supabase.com/docs/guides/storage), [Realtime](https://supabase.com/docs/guides/realtime) and [pgvector](https://supabase.com/docs/guides/database/extensions/pgvector): the guides for each part of the playground.",
+          "[Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started): running Supabase locally and managing migrations.",
+          "[Supabase in our Toolkit](/toolkit/supabase): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-04",
+    "learn": [
+      "What Supabase is, and what it gives your app",
+      "Database vs Storage vs Realtime, with clickable examples",
+      "How to connect your app safely, and when to use the CLI",
+      "What pgvector does for AI search, without the maths"
+    ]
+  },
+  {
     "slug": "langsmith-testing-lab-for-ai",
     "category": "rag-and-documents",
     "title": "LangSmith: The Testing Lab for Your AI Application",
@@ -15,10 +558,7 @@
         "alt": "The LangSmith testing lab: a dashboard for an AI app showing traces of each run, a dataset of test questions, evaluation scores and a comparison between two versions of the app."
       }
     },
-    "featured": {
-      "stat": "LangSmith",
-      "caption": "the testing lab for your AI application"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
