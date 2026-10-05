@@ -1,5 +1,417 @@
 [
   {
+    "slug": "vercel-ai-sdk-more-than-a-prompt",
+    "category": "ideas",
+    "title": "Vercel AI SDK: Why Your AI App Needs More Than a Prompt",
+    "excerpt": "A prompt is easy. The app around it is the hard part: streaming, tools, structured data and switching providers. Here's what the Vercel AI SDK does, and when you actually need it.",
+    "cover": {
+      "text": "Vercel AI SDK",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/ai-sdk/experiment-vs-app.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "An AI experiment versus a real AI application. The experiment is just a prompt, a model and an answer. The real application adds a user interface, streaming, conversation memory, tool calls to databases and APIs, structured output and provider integration around the model."
+      }
+    },
+    "featured": {
+      "stat": "AI SDK",
+      "caption": "why your AI app needs more than a prompt"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You can send a prompt to an AI model and get an answer in a few lines of code. So, fair question: ==why would you need something like the Vercel AI SDK?=="
+      },
+      {
+        "type": "paragraph",
+        "text": "Because building an AI app isn't just sending a prompt. ==The prompt is easy. The app around it is the hard part==."
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "==A prompt gets you an AI response.== ==An AI SDK helps you build the app around it==: streaming, tools, structured data and switching providers."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Vercel AI SDK",
+            "href": "/toolkit/aisdk"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "A simple AI tutor gets complicated fast",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "Picture a simple AI tutor. At first it's just:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Student",
+          "Prompt",
+          "AI model",
+          "Answer"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Then your app needs more. You want the answer to appear ==while it's being written==. You want the AI to ==remember the conversation==. You want it to ==check a database== and use other tools. You want ==structured data==, not a wall of text. You might want to ==switch AI providers== later."
+      },
+      {
+        "type": "paragraph",
+        "text": "Now your simple prompt has become a real software engineering problem. That's where an AI SDK helps."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Every \"small\" feature adds plumbing around the prompt."
+      },
+      {
+        "type": "heading",
+        "text": "So what is the Vercel AI SDK?",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-sdk/experiment-vs-app.webp",
+        "alt": "An AI experiment versus a real AI application. The experiment is just a prompt, a model and an answer. The real application adds a user interface, streaming, conversation memory, tool calls to databases and APIs, structured output and provider integration around the model.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "The [Vercel AI SDK](https://ai-sdk.dev/docs/introduction) is a free, open-source ==TypeScript toolkit== that connects AI models to real apps, so you don't build all the AI plumbing yourself. Think of it as a ==bridge==:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your app",
+          "Vercel AI SDK",
+          "AI provider",
+          "AI model"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Every provider has its own API, request format, way of streaming, way of calling tools and way of sending back answers. The SDK gives your app ==one common way== to do all of that. That's the real value."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One toolkit instead of one integration per provider."
+      },
+      {
+        "type": "heading",
+        "text": "You don't want to learn every provider's API",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-sdk/multiple-providers.webp",
+        "alt": "One application, multiple AI providers: instead of wiring your app separately to each provider's own SDK, the app talks to the Vercel AI SDK, which connects to provider A, provider B or provider C.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Say you use one provider today and want to try another tomorrow. Without a common layer, you learn a new library and rewrite your code each time. With the SDK, your app talks to one interface and the provider sits behind it:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your app",
+          "Vercel AI SDK",
+          "Provider A, B or C"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "So you spend less time rewriting integration code and more time on the actual product."
+      },
+      {
+        "type": "paragraph",
+        "text": "One honest note: this doesn't make every provider identical. You still add each provider's package, and some features only exist on some providers. The SDK just ==handles most of the repetitive work==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Swap providers without rewriting your app."
+      },
+      {
+        "type": "heading",
+        "text": "Streaming makes the AI feel alive",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "Without streaming, a long answer feels like this: you ask, then you ==wait... wait... wait...==, then the whole thing appears at once."
+      },
+      {
+        "type": "paragraph",
+        "text": "With streaming, the answer ==appears word by word== as it's written, like every modern AI chat app: \"The\", \"The answer\", \"The answer is...\". The SDK makes that easy:"
+      },
+      {
+        "type": "code",
+        "language": "typescript",
+        "code": "import { streamText } from 'ai';\n\nconst result = streamText({\n  model: 'provider/model-name',   // pick any supported provider and model\n  prompt: 'Explain photosynthesis to a Class 9 student.',\n});\n\nfor await (const text of result.textStream) {\n  process.stdout.write(text);    // each piece arrives as it's generated\n}"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Streaming turns a waiting screen into a live answer."
+      },
+      {
+        "type": "heading",
+        "text": "The AI can do things, not just talk",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "A student asks: ==\"What was my physics score in the last test?\"== The model doesn't magically know your database. So your app gives it a ==tool==:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Student",
+          "AI",
+          "Tool: get physics score",
+          "Database",
+          "Score: 82",
+          "AI: \"Your physics score was 82.\""
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Now the AI is connected to something outside itself. The same idea works with search, weather APIs, calculators, internal company systems and other APIs. This is called ==tool calling==, and the SDK makes it much easier to set up."
+      },
+      {
+        "type": "paragraph",
+        "text": "Want agents that use tools in loops? See our [LangGraph post](/blog/langgraph-ai-agents-workflow)."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Tools let the AI reach your real data."
+      },
+      {
+        "type": "heading",
+        "text": "Sometimes you don't want plain text",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "Say your app analyses a student's performance. You don't want a paragraph like \"Your performance is good and you should focus more on mechanics...\" You want ==data your app can use==:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "{\n  \"score\": 82,\n  \"weak_topic\": \"Mechanics\",\n  \"difficulty\": \"Medium\",\n  \"recommendation\": \"Practice 20 questions\"\n}"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "AI",
+          "Structured output",
+          "Your app",
+          "Dashboard"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Now the AI isn't just writing text. It's producing ==structured data== your software can work with, and the SDK can check it matches the shape you asked for."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Structured output turns answers into data."
+      },
+      {
+        "type": "heading",
+        "text": "Prompting vs building an AI app",
+        "id": "part-7"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Prompting",
+            "text": "Prompt, model, answer. Done."
+          },
+          {
+            "label": "AI app development",
+            "text": "User, UI, AI SDK and model, plus streaming, tool calls, structured output, conversation and provider integration, all connected to your databases and APIs."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The second one is where ==software engineering== comes in."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Prompting is a moment. An app is a system."
+      },
+      {
+        "type": "heading",
+        "text": "Do you actually need it?",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "==No.== You can build an AI app without it, straight on a provider's own SDK or HTTP API. That works."
+      },
+      {
+        "type": "paragraph",
+        "text": "But as the app grows, you'll write a lot of the same integration code again and again. The SDK gives you reusable building blocks so you don't solve the same problems from scratch."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Don't think",
+            "text": "\"The Vercel AI SDK is required to use AI.\""
+          },
+          {
+            "label": "Think",
+            "text": "\"It's a developer tool that makes AI easier to build into apps.\""
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "And it ==isn't an AI model==. It doesn't think for you. The model provides the intelligence; the SDK is the ==integration layer== that helps your app talk to it."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your app",
+          "AI SDK",
+          "Provider",
+          "Model",
+          "Intelligence"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Useful, not required. A tool, not a brain."
+      },
+      {
+        "type": "heading",
+        "text": "The bigger picture",
+        "id": "part-9"
+      },
+      {
+        "type": "paragraph",
+        "text": "AI development is moving beyond \"write a clever prompt\". Real AI apps need a whole system around the model:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Frontend",
+            "text": "Where the user interacts"
+          },
+          {
+            "title": "AI SDK",
+            "text": "Handles the AI interaction"
+          },
+          {
+            "title": "Model provider",
+            "text": "Gives access to the model"
+          },
+          {
+            "title": "Tools",
+            "text": "Let the AI take actions"
+          },
+          {
+            "title": "Database",
+            "text": "Stores your app's data"
+          },
+          {
+            "title": "APIs",
+            "text": "Connect outside services"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The model is just one piece. The real engineering is ==connecting them all==."
+      },
+      {
+        "type": "paragraph",
+        "text": "Related: [LLM routers](/blog/llm-routers-model-routing) for choosing a model per request, and [Modal](/blog/modal-run-ai-in-the-cloud) for running your own models in the cloud."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The model is one component. The app is the whole machine."
+      },
+      {
+        "type": "heading",
+        "text": "The simplest way to remember it",
+        "id": "part-10"
+      },
+      {
+        "type": "paragraph",
+        "text": "If you're asking ==\"Can an AI answer this prompt?\"==, you probably don't need an AI SDK."
+      },
+      {
+        "type": "paragraph",
+        "text": "If you're asking ==\"How do I turn this AI into a real feature in my app?\"==, that's where it starts paying off. That's the difference between ==experimenting with AI and engineering an AI product==."
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "==A prompt gets you an AI response.== ==An AI SDK helps you build the app around it==: streaming, tools, structured data and switching providers."
+      },
+      {
+        "type": "heading",
+        "text": "References",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[AI SDK introduction](https://ai-sdk.dev/docs/introduction): what the SDK is and how its parts fit together.",
+          "[Providers and models](https://ai-sdk.dev/docs/foundations/providers-and-models): how one interface works across many AI providers.",
+          "[Generating and streaming text](https://ai-sdk.dev/docs/ai-sdk-core/generating-text): generateText and streamText, with examples.",
+          "[Tool calling](https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling): giving the model tools like database lookups and APIs.",
+          "[Structured data](https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data): getting typed JSON back instead of plain text.",
+          "[Building a chatbot](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot): the UI side, with streaming chat in React.",
+          "[Vercel AI SDK on GitHub](https://github.com/vercel/ai): source code, examples and releases.",
+          "[Vercel AI SDK in our Toolkit](/toolkit/aisdk): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-06",
+    "learn": [
+      "Why a prompt is only a small part of an AI app",
+      "What the Vercel AI SDK does: providers, streaming, tools, structured output",
+      "When you need it, and when you don't",
+      "Why an SDK is an integration layer, not an AI model"
+    ]
+  },
+  {
     "slug": "modal-run-ai-in-the-cloud",
     "category": "ideas",
     "title": "Modal: Run Your AI Code in the Cloud Without Managing Servers",
@@ -15,10 +427,7 @@
         "alt": "What is Modal: cloud compute explained. Your Python code is the recipe and Modal is the kitchen: it provides the cloud machines to run your code, so you don't set up or manage servers yourself."
       }
     },
-    "featured": {
-      "stat": "Modal",
-      "caption": "run your AI code in the cloud without managing servers"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {

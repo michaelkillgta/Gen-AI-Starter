@@ -220,8 +220,8 @@ POST = {
                "We deploy a real sentiment model behind a chat window in three commands.",
     "cover": {"text": "Modal", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/what-is-modal.webp", "width": 1536, "height": 1024, "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Modal", "caption": "run your AI code in the cloud without managing servers"},
+    # Was featured until the AI SDK post (6 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-06",
@@ -238,9 +238,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)
