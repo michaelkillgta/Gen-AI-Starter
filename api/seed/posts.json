@@ -1,5 +1,426 @@
 [
   {
+    "slug": "modal-run-ai-in-the-cloud",
+    "category": "ideas",
+    "title": "Modal: Run Your AI Code in the Cloud Without Managing Servers",
+    "excerpt": "Your laptop isn't a server. Modal runs your Python and AI code in the cloud, no server admin needed. We deploy a real sentiment model behind a chat window in three commands.",
+    "cover": {
+      "text": "Modal",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/modal/what-is-modal.webp",
+        "width": 1536,
+        "height": 1024,
+        "alt": "What is Modal: cloud compute explained. Your Python code is the recipe and Modal is the kitchen: it provides the cloud machines to run your code, so you don't set up or manage servers yourself."
+      }
+    },
+    "featured": {
+      "stat": "Modal",
+      "caption": "run your AI code in the cloud without managing servers"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You build an AI feature. Maybe a chatbot, maybe something that reads images, maybe a machine learning model."
+      },
+      {
+        "type": "paragraph",
+        "text": "Then the annoying question: ==\"Where does all this code actually run?\"== Your laptop isn't a production server. Renting and managing servers gets complicated fast: compute, deployment, scaling, environments."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's where Modal comes in."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 11-minute Modal walkthrough](#video-PqPG6SBkIo8)"
+      },
+      {
+        "type": "cta",
+        "label": "Get the Modal sentiment demo on GitHub",
+        "href": "https://github.com/michaelkillgta/Modal-Sentiment-demo"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "==Modal is where the code runs.== ==The model does the job.== ==Your frontend is where people use it.== Keep those three apart and Modal stops being mysterious."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Modal",
+            "href": "/toolkit/modal"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "So what is Modal?",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/modal/what-is-modal.webp",
+        "alt": "What is Modal: cloud compute explained. Your Python code is the recipe and Modal is the kitchen: it provides the cloud machines to run your code, so you don't set up or manage servers yourself.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Modal is a cloud platform that lets you ==run Python code and AI workloads in the cloud== without managing the servers underneath."
+      },
+      {
+        "type": "paragraph",
+        "text": "Think of it like this: ==your code is the recipe, Modal is the kitchen==. You write the Python; Modal provides the machines to run it. No setting up a traditional server just to run your AI code."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "You bring the code. Modal brings the cloud."
+      },
+      {
+        "type": "heading",
+        "text": "Modal isn't the AI model",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/modal/sentiment.webp",
+        "alt": "Sentiment analysis with a pretrained model: text goes in, and the model labels it positive or negative with a confidence score.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "This part matters. Modal ==doesn't do sentiment analysis by itself==. You ==run a sentiment model on Modal==."
+      },
+      {
+        "type": "paragraph",
+        "text": "In our demo, that's a pretrained model from Hugging Face, [distilbert-base-uncased-finetuned-sst-2-english](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english). It's already trained to label text as positive or negative. So there are three separate pieces:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Frontend",
+            "text": "Where the user types and sees the result."
+          },
+          {
+            "title": "Modal",
+            "text": "Where our Python code runs."
+          },
+          {
+            "title": "Sentiment model",
+            "text": "What actually does the analysis."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Modal is the place. The model is the worker."
+      },
+      {
+        "type": "heading",
+        "text": "Let's build something real",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/modal/workflow.webp",
+        "alt": "The Modal sentiment workflow: a user types a message in a chat window, the app sends it to Modal in the cloud, Modal runs the sentiment model, and the result goes back to the chat window.",
+        "width": 1774,
+        "height": 887,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "No boring \"Hello World\" this time. Picture a tiny app with a chat window. You type ==\"I absolutely love this product!\"=="
+      },
+      {
+        "type": "paragraph",
+        "text": "Your app sends that text to Modal, Modal runs the sentiment model, and back comes ==POSITIVE, with a confidence score==, right in your chat window."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "User",
+          "Chat window",
+          "Modal cloud",
+          "Sentiment model",
+          "Result"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "The best part: the model ==doesn't need to sit on your laptop==. It runs in Modal's cloud."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Type a sentence, get a feeling back, all running in the cloud."
+      },
+      {
+        "type": "heading",
+        "text": "Where does the model come from?",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "From ==Hugging Face==, which hosts thousands of pretrained models anyone can use. We pick a sentiment model and tell our Python code to use it."
+      },
+      {
+        "type": "paragraph",
+        "text": "We don't download it to our computer and then upload it to a server. When our code runs on Modal, the model is loaded right there."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Hugging Face",
+            "text": "Provides the model."
+          },
+          {
+            "label": "Modal",
+            "text": "Provides the place to run it."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "And your app uses the result."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Hugging Face has the model. Modal runs it. Your app shows it."
+      },
+      {
+        "type": "heading",
+        "text": "What about the backend?",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "A common question: \"If I don't have a backend server, how is this running?\" Normally you'd build:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Frontend",
+          "Node.js or FastAPI backend",
+          "Model"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "With Modal, ==your Python function becomes the cloud side== that your frontend talks to directly:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Frontend",
+          "Modal",
+          "Sentiment model"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Modal handles the infrastructure to run that Python code, which is a big reason it's interesting for AI apps. (If you need a database too, our [Supabase post](/blog/supabase-explained) covers that side.)"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Your Python function is the backend."
+      },
+      {
+        "type": "heading",
+        "text": "The three commands",
+        "id": "part-6"
+      },
+      {
+        "type": "image",
+        "src": "/blog/modal/three-commands.webp",
+        "alt": "Three commands to run sentiment analysis on Modal: pip install modal to get the tools, modal setup to connect your computer to your Modal account, and modal deploy modal_app.py to run your app in Modal's cloud.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Three commands make the basic workflow click:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "pip install modal            # 1. give your computer the Modal tools\nmodal setup                  # 2. connect this computer to your Modal account\nmodal deploy modal_app.py    # 3. run your Python app in Modal's cloud"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Install",
+          "Connect",
+          "Deploy"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's the heart of our modal_app.py, shortened. The full file in the repo adds input checks and cost limits:"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "import modal\n\nimage = modal.Image.debian_slim().pip_install(\"torch\", \"transformers\", \"fastapi[standard]\")\napp = modal.App(\"modal-sentiment-demo\")\n\n@app.cls(image=image, cpu=1.0, timeout=60)\nclass SentimentModel:\n    @modal.enter()\n    def load_model(self):  # runs once per container, not on every request\n        from transformers import pipeline\n        self.classifier = pipeline(\n            \"sentiment-analysis\",\n            model=\"distilbert/distilbert-base-uncased-finetuned-sst-2-english\",\n        )\n\n    @modal.fastapi_endpoint(method=\"POST\")\n    def predict(self, payload: dict):  # your frontend calls this URL\n        result = self.classifier(payload[\"text\"])[0]\n        return {\"label\": result[\"label\"], \"confidence\": round(result[\"score\"], 4)}"
+      },
+      {
+        "type": "paragraph",
+        "text": "It runs on ==CPU only== and scales down to zero when nobody's using it, so a demo like this stays cheap."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Install, connect, deploy. That's the whole loop."
+      },
+      {
+        "type": "heading",
+        "text": "What happens after you deploy",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "Your frontend has a chat box. You type ==\"The product was amazing!\"== Behind the scenes:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "User",
+          "Chat window",
+          "Modal",
+          "Sentiment model",
+          "POSITIVE",
+          "Chat window"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "The user doesn't need to know any of that. They just see the result."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "All the cloud work is invisible to the user."
+      },
+      {
+        "type": "heading",
+        "text": "Why this is useful",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "Tomorrow you might want to do something heavier:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "run a bigger machine learning model",
+          "process thousands of files",
+          "generate embeddings",
+          "run AI inference at scale",
+          "use GPUs for a heavy model",
+          "run Python jobs in the cloud"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "You probably don't want to become a ==server administrator== to do that. You want to focus on ==what your AI app should do==. Modal handles much of the infrastructure side. It's pay-per-use, with free monthly credits to start."
+      },
+      {
+        "type": "paragraph",
+        "text": "Running several models? Our [LLM router post](/blog/llm-routers-model-routing) shows how to pick the right one per request."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Spend your time on the AI, not the servers."
+      },
+      {
+        "type": "heading",
+        "text": "Modal in one sentence",
+        "id": "part-9"
+      },
+      {
+        "type": "paragraph",
+        "text": "Modal is a cloud platform that lets you ==run Python and AI workloads without managing the servers underneath==."
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "==Modal is where the code runs.== ==The model does the job.== ==Your frontend is where people use it.== Keep those three apart and Modal stops being mysterious."
+      },
+      {
+        "type": "heading",
+        "text": "Try it yourself",
+        "id": "part-10"
+      },
+      {
+        "type": "paragraph",
+        "text": "Clone the demo, run the three commands, and type a sentence into the chat box."
+      },
+      {
+        "type": "cta",
+        "label": "Get the Modal sentiment demo on GitHub",
+        "href": "https://github.com/michaelkillgta/Modal-Sentiment-demo"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole thing, setup to result. You can also [watch it on YouTube](https://youtu.be/PqPG6SBkIo8)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "PqPG6SBkIo8",
+        "title": "Modal sentiment demo (Uma's walkthrough video)",
+        "caption": "Modal sentiment demo · 11:00"
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[My Modal sentiment demo on GitHub](https://github.com/michaelkillgta/Modal-Sentiment-demo): the backend and chat frontend from this post.",
+          "[My walkthrough video](https://youtu.be/PqPG6SBkIo8): setup to result, step by step.",
+          "[Modal guide](https://modal.com/docs/guide): the official docs, from first function to deployment.",
+          "[Web endpoints](https://modal.com/docs/guide/webhooks): how a Modal function becomes a URL your frontend can call.",
+          "[Modal pricing](https://modal.com/pricing): pay per use, and the free monthly credits.",
+          "[The sentiment model on Hugging Face](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english): the DistilBERT model our demo uses.",
+          "[Modal in our Toolkit](/toolkit/modal): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-06",
+    "learn": [
+      "What Modal is, and why it isn't the AI model",
+      "How a frontend, Modal and a Hugging Face model fit together",
+      "The three commands: install, connect, deploy",
+      "How a Python function becomes your backend"
+    ]
+  },
+  {
     "slug": "supabase-explained",
     "category": "ideas",
     "title": "Supabase Explained: Your Backend Without Building Everything From Scratch",
@@ -15,10 +436,7 @@
         "alt": "Supabase as a backend platform: your app talks to Supabase, which provides a PostgreSQL database, file storage, authentication, realtime updates, APIs and pgvector for AI search."
       }
     },
-    "featured": {
-      "stat": "Supabase",
-      "caption": "your backend without building everything from scratch"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
@@ -513,7 +931,7 @@
       },
       {
         "type": "paragraph",
-        "text": "**Also read:** [Phoenix: The CCTV for Your AI Application](/blog/arize-phoenix-ai-observability), for seeing what your AI app does with the data you store here."
+        "text": "**Also read:** [Phoenix: The CCTV for Your AI Application](/blog/arize-phoenix-ai-observability), for seeing what your AI app does with the data you store here, and [Modal](/blog/modal-run-ai-in-the-cloud), for running the AI code itself."
       },
       {
         "type": "heading",

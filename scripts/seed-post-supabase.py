@@ -235,7 +235,8 @@ BODY = [
     *p("Now go clone the playground and make something break. That's usually when the backend stops looking like a "
        "mysterious black box.",
        f"**Also read:** [Phoenix: The CCTV for Your AI Application]({RAG_POSTS['Phoenix']}), for seeing what your AI "
-       "app does with the data you store here."),
+       "app does with the data you store here, and [Modal](/blog/modal-run-ai-in-the-cloud), for running the AI code "
+       "itself."),
 
     h("Resources"),
     ul(f"[My Supabase Playground on GitHub]({GITHUB}): the project from this post, ready to clone.",
@@ -260,8 +261,8 @@ POST = {
                "logins, live updates and AI search, with a playground you can clone and break.",
     "cover": {"text": "Supabase", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/backend-platform.webp", "width": SIZE[0], "height": SIZE[1], "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Supabase", "caption": "your backend without building everything from scratch"},
+    # Was featured until the Modal post (6 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-04",
@@ -278,9 +279,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)
