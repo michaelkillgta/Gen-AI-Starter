@@ -142,8 +142,8 @@ POST = {
                "providers. Here's what the Vercel AI SDK does, and when you actually need it.",
     "cover": {"text": "Vercel AI SDK", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/experiment-vs-app.webp", "width": SIZE[0], "height": SIZE[1], "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "AI SDK", "caption": "why your AI app needs more than a prompt"},
+    # Was featured until the CodeGraph post (7 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-06",
@@ -160,9 +160,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)

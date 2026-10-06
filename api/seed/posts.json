@@ -1,5 +1,305 @@
 [
   {
+    "slug": "codegraph-map-of-your-codebase",
+    "category": "agents",
+    "title": "CodeGraph: Give AI a Map of Your Codebase",
+    "excerpt": "Your project isn't a pile of files; it's a network. CodeGraph draws the map, so you and your AI coding assistant can find the right code instead of searching everything.",
+    "cover": {
+      "text": "CodeGraph",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/codegraph/connections.webp",
+        "width": 1536,
+        "height": 1024,
+        "alt": "CodeGraph, visualising your codebase connections: files, modules, functions and classes drawn as a network, with lines showing which parts import, call or depend on each other."
+      }
+    },
+    "featured": {
+      "stat": "CodeGraph",
+      "caption": "give AI a map of your codebase"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You ask an AI coding assistant: ==\"Add a password reset feature.\"== Sounds easy."
+      },
+      {
+        "type": "paragraph",
+        "text": "But your project has frontend, backend, auth, services, database and utils folders, plus hundreds of files. Before changing anything, the AI has to work out ==where the change belongs== and how the existing code is connected. That's where CodeGraph helps."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 6-minute CodeGraph walkthrough](#video-q4nrbn99Hv0)"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "A codebase isn't a pile of files. It's a ==network of relationships==. CodeGraph ==draws the map==; you (or your AI) still read the code."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "CodeGraph",
+            "href": "/toolkit/codegraph"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "What is CodeGraph?",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/codegraph/connections.webp",
+        "alt": "CodeGraph, visualising your codebase connections: files, modules, functions and classes drawn as a network, with lines showing which parts import, call or depend on each other.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Think of your codebase as a ==city==: files, packages, modules, functions, classes and dependencies. None of them live alone. Files import other files, functions call functions, classes get used all over."
+      },
+      {
+        "type": "paragraph",
+        "text": "CodeGraph turns those relationships into a picture. The [CodeGraph Visualizer](https://github.com/southerncoder/codegraph-visualizer) we use reads Python code and builds an ==interactive HTML graph== of it, without running your app."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Your project is a network, not a list."
+      },
+      {
+        "type": "heading",
+        "text": "Your code isn't just files",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/codegraph/files-to-map.webp",
+        "alt": "From files to a code map: a plain list of main.py, chatbot.py, rag.py, database.py and utils.py becomes a graph where main.py leads to chatbot.py, which uses rag.py and database.py, and rag.py uses utils.py.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Five files named main.py, chatbot.py, rag.py, database.py and utils.py tell you very little. Their ==connections== tell you how the app works: main.py starts chatbot.py, which uses rag.py and database.py, and rag.py leans on utils.py."
+      },
+      {
+        "type": "paragraph",
+        "text": "Same code. But now ==the architecture is visible==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The relationships are the architecture."
+      },
+      {
+        "type": "heading",
+        "text": "Why AI needs the map",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/codegraph/why-ai-needs-map.webp",
+        "alt": "Why AI needs a code map: without one, an AI searches everything, opens lots of files and works out the connections itself; with one, it reads the structure first, finds the relevant code and works on the feature.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "To add a feature, an AI needs to know where it belongs, what it depends on, and ==what else might break== if it changes something. Without that, it searches, guesses, opens lots of files and rebuilds the structure itself."
+      },
+      {
+        "type": "paragraph",
+        "text": "It's like visiting a huge city. You could wander until you figure it out, or open ==Google Maps==. The map doesn't walk for you. It just shows the roads."
+      },
+      {
+        "type": "paragraph",
+        "text": "For \"add password reset\", the map might point straight at this path:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Login page",
+          "Authentication",
+          "User service",
+          "Database"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your request",
+          "Read the code map",
+          "Find the relevant area",
+          "Read the actual code",
+          "Make the change"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A map turns guessing into navigating."
+      },
+      {
+        "type": "heading",
+        "text": "What CodeGraph is not",
+        "id": "part-4"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Not this",
+            "text": "CodeGraph = magic AI that writes the feature."
+          },
+          {
+            "label": "This",
+            "text": "Codebase → CodeGraph → relationship map → AI uses the structure → better navigation."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "CodeGraph ==isn't the AI==. It's a code analysis tool. How much it helps an AI depends on how the graph is plugged into the AI's workflow."
+      },
+      {
+        "type": "paragraph",
+        "text": "Same for tokens. An AI has a limited context window, and reading hundreds of unrelated files wastes it. So the honest claim isn't \"CodeGraph saves tokens\". It's: ==a code graph can help an AI focus on the relevant parts instead of rebuilding the whole structure from scratch==."
+      },
+      {
+        "type": "callout",
+        "label": "And it doesn't replace reading code",
+        "text": "The graph says ==what's connected==, not ==why== it was built that way. The graph is the map; the source code is the actual place."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Use the map to decide where to look. Then read the code."
+      },
+      {
+        "type": "heading",
+        "text": "I tried it on a small AI app",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "I built a tiny project, ==Codegraph-Demo==: a few Python files that work together. When it runs, the flow is Main, then Chatbot, then RAG, then Database. Looking at the files one by one doesn't show you that."
+      },
+      {
+        "type": "paragraph",
+        "text": "So instead of drawing the architecture by hand, I ran CodeGraph on it:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "pip install codegraph\ncodegraph /path/to/Codegraph-Demo"
+      },
+      {
+        "type": "paragraph",
+        "text": "It opens an interactive graph in your browser where you can explore modules, classes, functions and which parts connect to which. ==\"Which file talks to which?\" stops being a question.=="
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole walkthrough. You can also [watch it on YouTube](https://youtu.be/q4nrbn99Hv0)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "q4nrbn99Hv0",
+        "title": "CodeGraph (Uma's walkthrough video)",
+        "caption": "CodeGraph walkthrough · 6:11"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Five minutes with the graph beats an hour of opening files."
+      },
+      {
+        "type": "heading",
+        "text": "Why it matters more as projects grow",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "Five files? Easy. Fifty? Manageable. Five hundred? Your brain files for resignation. 🫠"
+      },
+      {
+        "type": "paragraph",
+        "text": "Developers know parts of a big system, never every connection. AI assistants have the same problem. ==The bigger the codebase, the more a map is worth.=="
+      },
+      {
+        "type": "paragraph",
+        "text": "For AI agents, there are also CodeGraph projects built for them, like [codegraph-ai's CodeGraph](https://github.com/codegraph-ai/CodeGraph), which gives agents a graph of functions, classes, imports and call chains through MCP and a VS Code extension."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Big codebase, bigger payoff."
+      },
+      {
+        "type": "heading",
+        "text": "In one picture",
+        "id": "part-7"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your codebase",
+          "CodeGraph",
+          "Relationship map: files, functions, classes",
+          "Better navigation",
+          "AI coding"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "A codebase isn't a pile of files. It's a ==network of relationships==. CodeGraph ==draws the map==; you (or your AI) still read the code."
+      },
+      {
+        "type": "paragraph",
+        "text": "==Don't make AI search a pile of code. Give it a map.== 🗺️"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [Hivemind](/blog/hivemind-coding-agents-share-experience), which shares what coding agents learn, and ships a code-graph skill of its own."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[CodeGraph Visualizer on GitHub](https://github.com/southerncoder/codegraph-visualizer): the open-source (MIT) Python tool from this post.",
+          "[codegraph-ai/CodeGraph on GitHub](https://github.com/codegraph-ai/CodeGraph): a code graph built for AI agents, through MCP and VS Code.",
+          "[My walkthrough video](https://youtu.be/q4nrbn99Hv0): CodeGraph on my demo app, step by step.",
+          "[CodeGraph in our Toolkit](/toolkit/codegraph): our quick verdict on another CodeGraph project for AI tools."
+        ]
+      }
+    ],
+    "published_on": "2026-10-07",
+    "learn": [
+      "Why a codebase is a network, not a list of files",
+      "How a code map helps AI find where a change belongs",
+      "What CodeGraph is not: not the AI, not a token saver by itself",
+      "How to run CodeGraph on your own Python project"
+    ]
+  },
+  {
     "slug": "vercel-ai-sdk-more-than-a-prompt",
     "category": "ideas",
     "title": "Vercel AI SDK: Why Your AI App Needs More Than a Prompt",
@@ -15,10 +315,7 @@
         "alt": "An AI experiment versus a real AI application. The experiment is just a prompt, a model and an answer. The real application adds a user interface, streaming, conversation memory, tool calls to databases and APIs, structured output and provider integration around the model."
       }
     },
-    "featured": {
-      "stat": "AI SDK",
-      "caption": "why your AI app needs more than a prompt"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
