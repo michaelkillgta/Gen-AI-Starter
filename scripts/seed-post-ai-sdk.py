@@ -73,130 +73,60 @@ COVER_ALT = (
 )
 
 BODY = [
-    *p("You can send a prompt to an AI model and get an answer in a few lines of code. So, fair question: ==why "
-       "would you need something like the Vercel AI SDK?==",
-       "Because building an AI app isn't just sending a prompt. ==The prompt is easy. The app around it is the hard "
-       "part==."),
+    *p("Sending a prompt to an AI model takes a few lines of code. So why use the Vercel AI SDK? Because ==the prompt "
+       "is easy; the app around it is the hard part==."),
     box("The one idea to remember", BIG_IDEA),
 
     h("A simple AI tutor gets complicated fast", "part-1"),
-    *p("Picture a simple AI tutor. At first it's just:"),
     flow("Student", "Prompt", "AI model", "Answer"),
-    *p("Then your app needs more. You want the answer to appear ==while it's being written==. You want the AI to "
-       "==remember the conversation==. You want it to ==check a database== and use other tools. You want ==structured "
-       "data==, not a wall of text. You might want to ==switch AI providers== later.",
-       "Now your simple prompt has become a real software engineering problem. That's where an AI SDK helps."),
-    takeaway("Every \"small\" feature adds plumbing around the prompt."),
+    *p("Then you want answers to ==stream in==, the AI to ==remember the chat==, ==check a database==, return "
+       "==structured data== and maybe ==switch providers==. Now it's a software engineering problem."),
 
-    h("So what is the Vercel AI SDK?", "part-2"),
+    h("What the SDK is", "part-2"),
     img("experiment-vs-app", COVER_ALT),
-    *p(f"The [Vercel AI SDK]({INTRO}) is a free, open-source ==TypeScript toolkit== that connects AI models to real "
-       "apps, so you don't build all the AI plumbing yourself. Think of it as a ==bridge==:"),
+    *p(f"The [Vercel AI SDK]({INTRO}) is a free, open-source ==TypeScript toolkit== that sits between your app and "
+       "AI providers. Instead of handling every provider's own API, streaming and tool format, your app uses ==one "
+       "common interface==."),
     flow("Your app", "Vercel AI SDK", "AI provider", "AI model"),
-    *p("Every provider has its own API, request format, way of streaming, way of calling tools and way of sending "
-       "back answers. The SDK gives your app ==one common way== to do all of that. That's the real value."),
-    takeaway("One toolkit instead of one integration per provider."),
 
-    h("You don't want to learn every provider's API", "part-3"),
+    h("What it gives you", "part-3"),
     img("multiple-providers",
-        "One application, multiple AI providers: instead of wiring your app separately to each provider's own SDK, "
-        "the app talks to the Vercel AI SDK, which connects to provider A, provider B or provider C."),
-    *p("Say you use one provider today and want to try another tomorrow. Without a common layer, you learn a new "
-       "library and rewrite your code each time. With the SDK, your app talks to one interface and the provider "
-       "sits behind it:"),
-    flow("Your app", "Vercel AI SDK", "Provider A, B or C"),
-    *p("So you spend less time rewriting integration code and more time on the actual product.",
-       "One honest note: this doesn't make every provider identical. You still add each provider's package, and "
-       "some features only exist on some providers. The SDK just ==handles most of the repetitive work==."),
-    takeaway("Swap providers without rewriting your app."),
-
-    h("Streaming makes the AI feel alive", "part-4"),
-    *p("Without streaming, a long answer feels like this: you ask, then you ==wait... wait... wait...==, then the "
-       "whole thing appears at once.",
-       "With streaming, the answer ==appears word by word== as it's written, like every modern AI chat app: \"The\", "
-       "\"The answer\", \"The answer is...\". The SDK makes that easy:"),
+        "One application, multiple AI providers: the app talks to the Vercel AI SDK, which connects to provider A, "
+        "provider B or provider C."),
+    {"type": "cards", "items": [
+        {"title": "Switch providers", "text": "Same code for provider A, B or C. You still add each provider's "
+                                              "package, and some features differ."},
+        {"title": "Streaming", "text": "The answer appears word by word instead of after a long wait."},
+        {"title": "Tool calling", "text": "The AI can look things up: \"What was my physics score?\" calls your "
+                                          "database and answers \"82\"."},
+        {"title": "Structured output", "text": "JSON your app can use, like a score and a weak topic, instead of a "
+                                               "paragraph."},
+    ]},
+    *p("Streaming, for example, is a few lines:"),
     code("import { streamText } from 'ai';\n\n"
          "const result = streamText({\n"
-         "  model: 'provider/model-name',   // pick any supported provider and model\n"
+         "  model: 'provider/model-name',\n"
          "  prompt: 'Explain photosynthesis to a Class 9 student.',\n"
          "});\n\n"
-         "for await (const text of result.textStream) {\n"
-         "  process.stdout.write(text);    // each piece arrives as it's generated\n"
-         "}", "typescript"),
-    takeaway("Streaming turns a waiting screen into a live answer."),
+         "for await (const text of result.textStream) process.stdout.write(text);", "typescript"),
 
-    h("The AI can do things, not just talk", "part-5"),
-    *p("A student asks: ==\"What was my physics score in the last test?\"== The model doesn't magically know your "
-       "database. So your app gives it a ==tool==:"),
-    flow("Student", "AI", "Tool: get physics score", "Database", "Score: 82", "AI: \"Your physics score was 82.\""),
-    *p("Now the AI is connected to something outside itself. The same idea works with search, weather APIs, "
-       "calculators, internal company systems and other APIs. This is called ==tool calling==, and the SDK makes "
-       "it much easier to set up.",
-       f"Want agents that use tools in loops? See our [LangGraph post]({LANGGRAPH_POST})."),
-    takeaway("Tools let the AI reach your real data."),
-
-    h("Sometimes you don't want plain text", "part-6"),
-    *p("Say your app analyses a student's performance. You don't want a paragraph like \"Your performance is good and "
-       "you should focus more on mechanics...\" You want ==data your app can use==:"),
-    code('{\n'
-         '  "score": 82,\n'
-         '  "weak_topic": "Mechanics",\n'
-         '  "difficulty": "Medium",\n'
-         '  "recommendation": "Practice 20 questions"\n'
-         '}', "text"),
-    flow("AI", "Structured output", "Your app", "Dashboard"),
-    *p("Now the AI isn't just writing text. It's producing ==structured data== your software can work with, and the "
-       "SDK can check it matches the shape you asked for."),
-    takeaway("Structured output turns answers into data."),
-
-    h("Prompting vs building an AI app", "part-7"),
-    pair(("Prompting", "Prompt, model, answer. Done."),
-         ("AI app development", "User, UI, AI SDK and model, plus streaming, tool calls, structured output, "
-                                "conversation and provider integration, all connected to your databases and APIs.")),
-    *p("The second one is where ==software engineering== comes in."),
-    takeaway("Prompting is a moment. An app is a system."),
-
-    h("Do you actually need it?", "part-8"),
-    *p("==No.== You can build an AI app without it, straight on a provider's own SDK or HTTP API. That works.",
-       "But as the app grows, you'll write a lot of the same integration code again and again. The SDK gives you "
-       "reusable building blocks so you don't solve the same problems from scratch."),
-    pair(("Don't think", "\"The Vercel AI SDK is required to use AI.\""),
-         ("Think", "\"It's a developer tool that makes AI easier to build into apps.\"")),
-    *p("And it ==isn't an AI model==. It doesn't think for you. The model provides the intelligence; the SDK is the "
-       "==integration layer== that helps your app talk to it."),
-    flow("Your app", "AI SDK", "Provider", "Model", "Intelligence"),
-    takeaway("Useful, not required. A tool, not a brain."),
-
-    h("The bigger picture", "part-9"),
-    *p("AI development is moving beyond \"write a clever prompt\". Real AI apps need a whole system around the "
-       "model:"),
-    {"type": "cards", "items": [
-        {"title": "Frontend", "text": "Where the user interacts"},
-        {"title": "AI SDK", "text": "Handles the AI interaction"},
-        {"title": "Model provider", "text": "Gives access to the model"},
-        {"title": "Tools", "text": "Let the AI take actions"},
-        {"title": "Database", "text": "Stores your app's data"},
-        {"title": "APIs", "text": "Connect outside services"},
-    ]},
-    *p("The model is just one piece. The real engineering is ==connecting them all==.",
-       f"Related: [LLM routers]({LLM_ROUTER_POST}) for choosing a model per request, and [Modal]({MODAL_POST}) for "
-       "running your own models in the cloud."),
-    takeaway("The model is one component. The app is the whole machine."),
-
-    h("The simplest way to remember it", "part-10"),
-    *p("If you're asking ==\"Can an AI answer this prompt?\"==, you probably don't need an AI SDK.",
-       "If you're asking ==\"How do I turn this AI into a real feature in my app?\"==, that's where it starts paying "
-       "off. That's the difference between ==experimenting with AI and engineering an AI product==."),
+    h("Do you actually need it?", "part-4"),
+    *p("==No.== You can call a provider's SDK or API directly. The AI SDK just saves you rewriting the same "
+       "integration code as your app grows. And it ==isn't an AI model==: the model thinks, the SDK connects."),
+    pair(("Just asking a prompt?", "You probably don't need it."),
+         ("Building a real AI feature?", "That's where it pays off.")),
     box("Remember", BIG_IDEA),
+    *p(f"**Also read:** [LangGraph]({LANGGRAPH_POST}) for agents that use tools, [LLM routers]({LLM_ROUTER_POST}) for "
+       f"picking a model per request, and [Modal]({MODAL_POST}) for running your own models."),
 
     h("References"),
-    ul(f"[AI SDK introduction]({INTRO}): what the SDK is and how its parts fit together.",
-       f"[Providers and models]({PROVIDERS}): how one interface works across many AI providers.",
-       f"[Generating and streaming text]({TEXT}): generateText and streamText, with examples.",
-       f"[Tool calling]({TOOLS}): giving the model tools like database lookups and APIs.",
-       f"[Structured data]({STRUCTURED}): getting typed JSON back instead of plain text.",
-       f"[Building a chatbot]({CHATBOT}): the UI side, with streaming chat in React.",
-       f"[Vercel AI SDK on GitHub]({REPO}): source code, examples and releases.",
+    ul(f"[AI SDK introduction]({INTRO}): what the SDK is and how its parts fit.",
+       f"[Providers and models]({PROVIDERS}): one interface across many providers.",
+       f"[Generating and streaming text]({TEXT}): generateText and streamText.",
+       f"[Tool calling]({TOOLS}): giving the model tools like database lookups.",
+       f"[Structured data]({STRUCTURED}): typed JSON instead of plain text.",
+       f"[Building a chatbot]({CHATBOT}): streaming chat UI in React.",
+       f"[Vercel AI SDK on GitHub]({REPO}): source code and examples.",
        "[Vercel AI SDK in our Toolkit](/toolkit/aisdk): our quick verdict."),
 ]
 
@@ -219,7 +149,7 @@ POST = {
     "published_on": "2026-10-06",
     "learn": [
         "Why a prompt is only a small part of an AI app",
-        "What the Vercel AI SDK does: providers, streaming, tools, structured output",
+        "What the Vercel AI SDK gives you: providers, streaming, tools, structured output",
         "When you need it, and when you don't",
         "Why an SDK is an integration layer, not an AI model",
     ],
