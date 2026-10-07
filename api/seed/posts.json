@@ -1,5 +1,285 @@
 [
   {
+    "slug": "graphify-whole-project-graph",
+    "category": "agents",
+    "title": "Graphify: CodeGraph, but for Your Whole Project",
+    "excerpt": "CodeGraph maps how your code connects. Graphify puts your docs, diagrams and other non-code stuff in the same graph, so your AI sees the whole project. Here's the difference and how to try it.",
+    "cover": {
+      "text": "Graphify",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": null
+    },
+    "featured": {
+      "stat": "Graphify",
+      "caption": "map your code and your docs in one graph"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Read our CodeGraph post? Then you already know ==90% of Graphify==. This one is the pinch of salt on top. 🧂"
+      },
+      {
+        "type": "cta",
+        "label": "New here? Read the CodeGraph post first",
+        "href": "/blog/codegraph-map-of-your-codebase"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "CodeGraph asks ==\"How is my code connected?\"== Graphify asks ==\"How is everything in my project connected?\"== Same graph idea, bigger map."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Graphify",
+            "href": "/toolkit/graphify"
+          },
+          {
+            "label": "CodeGraph",
+            "href": "/toolkit/codegraph"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Same idea, bigger scope",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "Quick recap from [CodeGraph](/blog/codegraph-map-of-your-codebase): your project is a ==network==, not a pile of files. Imports, calls and dependencies are the architecture, and a map of them helps an AI find the right code."
+      },
+      {
+        "type": "paragraph",
+        "text": "Graphify keeps all of that. Then it adds the stuff that ==isn't code==: your README, docs, PDFs, diagrams, screenshots, even videos. They all land in ==the same graph== as your code."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "CodeGraph",
+            "text": "\"How is my code connected?\" A code graph."
+          },
+          {
+            "label": "Graphify",
+            "text": "\"How is everything in my project connected?\" A knowledge graph."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Code graph vs knowledge graph. That's the whole upgrade."
+      },
+      {
+        "type": "heading",
+        "text": "The city, mapped twice",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Picture your project as a city. ==CodeGraph maps the roads between buildings==: which file leads to which."
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "main.py\n   ↓\napi.py\n   ↓\ndatabase.py"
+      },
+      {
+        "type": "paragraph",
+        "text": "==Graphify maps the whole city==: the roads, plus the signs, guidebooks and blueprints that explain them. The README points at the API, the API docs and the architecture diagram hang off the code they describe."
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "                README.md\n                    │\n                    ▼\nmain.py ──────► api.py ──────► database.py\n   │                │\n   ▼                ▼\nconfig.py       API Docs\n                    │\n                    ▼\n                architecture.png"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Roads only, or the whole city."
+      },
+      {
+        "type": "heading",
+        "text": "Side by side",
+        "id": "part-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "Everything CodeGraph does, Graphify does too:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "✅ Builds a graph of the codebase",
+          "✅ Code relationships",
+          "✅ Imports, calls and dependencies",
+          "✅ Helps AI understand the codebase"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's where they split:"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "CodeGraph",
+            "text": "Images and visual assets: not the focus. Documents and other non-code knowledge: not the focus. Overall: ==mostly a code graph==."
+          },
+          {
+            "label": "Graphify",
+            "text": "Images and visual assets: ✅. Documents and other non-code knowledge: ✅. Overall: ==a broader knowledge graph==."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "The real difference isn't images",
+        "text": "It's whether ==non-code information becomes part of the connected graph==. A diagram on its own is just a picture. Linked to the code it explains, it's context your AI can follow."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Not \"with images vs without\". Connected knowledge vs code only."
+      },
+      {
+        "type": "heading",
+        "text": "How Graphify works",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "Graphify runs as a ==skill inside your AI coding assistant== (Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot and more). Point it at a folder and it does two passes:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Code:** parsed ==locally== with tree-sitter. No AI model, nothing leaves your machine.",
+          "**Everything else** (docs, PDFs, images, video): read by ==your assistant's AI model==, which pulls out the concepts and links them to the code."
+        ]
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your folder",
+          "Code parsed locally",
+          "Docs and media read by the AI",
+          "One knowledge graph",
+          "Your AI queries it"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Every connection is tagged ==EXTRACTED== (written in the source) or ==INFERRED== (worked out by Graphify), so you can tell facts from guesses. You get three files: ==graph.html== to click around in, ==GRAPH_REPORT.md== with the highlights, and ==graph.json== your AI can query later without re-reading everything."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Code is mapped for free. Docs and media cost AI tokens."
+      },
+      {
+        "type": "heading",
+        "text": "Try it",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "You need Python 3.10+ and an AI coding assistant. Install it (note the ==double y== in the package name; pipx works too), then register it with your assistant:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "uv tool install graphifyy\ngraphify install"
+      },
+      {
+        "type": "paragraph",
+        "text": "Then, inside your assistant, run it on your project:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "/graphify ."
+      },
+      {
+        "type": "paragraph",
+        "text": "Open graphify-out/graph.html in your browser and see your code and docs as one map. Start with a ==small project==: the docs-and-media pass uses your AI's tokens, so bigger folders cost more."
+      },
+      {
+        "type": "callout",
+        "label": "Which Graphify?",
+        "text": "Several products share the name. This post is about the open-source ==Graphify-Labs/graphify== (Apache-2.0, version 0.9.79 when we checked), which started as safishamsi/graphify."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Two commands, one slash command, one map."
+      },
+      {
+        "type": "heading",
+        "text": "Which one should you use?",
+        "id": "part-6"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Use CodeGraph",
+            "text": "Your question is about code: where a change goes, what calls what. Cheap, and fine for big codebases."
+          },
+          {
+            "label": "Use Graphify",
+            "text": "The answer lives in docs and diagrams too: why it was built this way, what the architecture says. Best on small and medium projects."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "CodeGraph asks ==\"How is my code connected?\"== Graphify asks ==\"How is everything in my project connected?\"== Same graph idea, bigger map."
+      },
+      {
+        "type": "paragraph",
+        "text": "==CodeGraph shows the roads. Graphify shows the whole city.== 🏙️"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [CodeGraph](/blog/codegraph-map-of-your-codebase) for the basics, and [MCP](/blog/mcp-explained), since Graphify can also serve its graph to AI tools as an MCP server."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Graphify on GitHub](https://github.com/Graphify-Labs/graphify): the open-source (Apache-2.0) tool from this post.",
+          "[Graphify docs](https://docs.graphify.com): setup for each AI assistant, plus every command.",
+          "[graphifyy on PyPI](https://pypi.org/project/graphifyy/): the package, with the latest version.",
+          "[CodeGraph: Give AI a Map of Your Codebase](/blog/codegraph-map-of-your-codebase): the post this one builds on.",
+          "[Graphify in our Toolkit](/toolkit/graphify): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-07",
+    "learn": [
+      "How Graphify differs from CodeGraph: knowledge graph vs code graph",
+      "Why the real difference is connected non-code knowledge, not images",
+      "How Graphify builds its graph, and what it costs",
+      "How to try it in your AI coding assistant"
+    ]
+  },
+  {
     "slug": "mcp-explained",
     "category": "agents",
     "title": "MCP Explained Without the Headache: How AI Actually Connects to Other Tools",
@@ -15,10 +295,7 @@
         "alt": "How MCP works, using an Instagram bio: you ask \"What's my Instagram bio?\", the AI agent decides it needs the bio, its MCP client sends a request using MCP to an Instagram MCP server, the server runs its ready-made get_instagram_bio tool against the data source, and the result comes back through the client so the AI can answer."
       }
     },
-    "featured": {
-      "stat": "MCP",
-      "caption": "how AI actually connects to other tools"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
@@ -714,6 +991,10 @@
       },
       {
         "type": "paragraph",
+        "text": "**Next up:** [Graphify](/blog/graphify-whole-project-graph) takes the same idea further and maps your docs and diagrams too, not just your code."
+      },
+      {
+        "type": "paragraph",
         "text": "**Also read:** [Hivemind](/blog/hivemind-coding-agents-share-experience), which shares what coding agents learn, and ships a code-graph skill of its own."
       },
       {
@@ -728,6 +1009,7 @@
           "[CodeGraph Visualizer on GitHub](https://github.com/southerncoder/codegraph-visualizer): the open-source (MIT) Python tool from this post.",
           "[codegraph-ai/CodeGraph on GitHub](https://github.com/codegraph-ai/CodeGraph): a code graph built for AI agents, through MCP and VS Code.",
           "[My walkthrough video](https://youtu.be/q4nrbn99Hv0): CodeGraph on my demo app, step by step.",
+          "[Graphify: CodeGraph, but for Your Whole Project](/blog/graphify-whole-project-graph): the follow-up, for code plus docs.",
           "[CodeGraph in our Toolkit](/toolkit/codegraph): our quick verdict on another CodeGraph project for AI tools."
         ]
       }

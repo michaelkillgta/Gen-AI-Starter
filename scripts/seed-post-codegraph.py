@@ -15,6 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POSTS = os.path.join(ROOT, "api", "seed", "posts.json")
 IMG = "/blog/codegraph"
 HIVEMIND_POST = "/blog/hivemind-coding-agents-share-experience"
+GRAPHIFY_POST = "/blog/graphify-whole-project-graph"
 VISUALIZER = "https://github.com/southerncoder/codegraph-visualizer"
 AI_CODEGRAPH = "https://github.com/codegraph-ai/CodeGraph"
 # Uma's own recording (YouTube title "codegraph", 6:11).
@@ -151,6 +152,8 @@ BODY = [
          "AI coding"),
     box("Remember", BIG_IDEA),
     *p("==Don't make AI search a pile of code. Give it a map.== 🗺️",
+       f"**Next up:** [Graphify]({GRAPHIFY_POST}) takes the same idea further and maps your docs and diagrams "
+       "too, not just your code.",
        f"**Also read:** [Hivemind]({HIVEMIND_POST}), which shares what coding agents learn, and ships a code-graph "
        "skill of its own."),
 
@@ -159,6 +162,7 @@ BODY = [
        f"[codegraph-ai/CodeGraph on GitHub]({AI_CODEGRAPH}): a code graph built for AI agents, through MCP and VS "
        "Code.",
        f"[My walkthrough video]({VIDEO_URL}): CodeGraph on my demo app, step by step.",
+       f"[Graphify: CodeGraph, but for Your Whole Project]({GRAPHIFY_POST}): the follow-up, for code plus docs.",
        "[CodeGraph in our Toolkit](/toolkit/codegraph): our quick verdict on another CodeGraph project for AI "
        "tools."),
 ]
