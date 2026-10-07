@@ -49,7 +49,10 @@ export default async function PostPage({ params }: Props) {
         }}
       />
       <article className={styles.article}>
-        <nav aria-label="Breadcrumb" className={styles.crumbs}>
+        <nav
+          aria-label="Breadcrumb"
+          className={post.cover.image ? styles.crumbs : `${styles.crumbs} ${styles.crumbsNarrow}`}
+        >
           <Link href="/blog">Blog</Link>
           <span aria-hidden="true">/</span>
           <Link href={links.category(post.category.slug)}>{post.category.label}</Link>

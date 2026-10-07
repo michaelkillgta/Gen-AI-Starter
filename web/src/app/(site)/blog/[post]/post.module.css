@@ -19,6 +19,14 @@
   color: var(--color-muted);
 }
 
+/* Posts without a cover picture read in one 760px column: crumbs, title, cover
+   block and body all share its left edge. */
+.crumbsNarrow {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
 .crumbs a {
   color: var(--color-muted);
   min-height: var(--tap);
@@ -57,7 +65,7 @@
 
 .cover {
   width: 100%;
-  max-width: 960px;
+  max-width: 760px;
   margin-inline: auto;
   min-height: 160px;
   border-radius: 22px;
