@@ -1,5 +1,449 @@
 [
   {
+    "slug": "mcp-explained",
+    "category": "agents",
+    "title": "MCP Explained Without the Headache: How AI Actually Connects to Other Tools",
+    "excerpt": "MCP is just communication rules. The client lives in your AI app; the server brings ready-made tools. See how GitHub, Notion and Supabase servers connect, with a Colab to try.",
+    "cover": {
+      "text": "MCP",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/mcp/instagram-bio-flow.webp",
+        "width": 1536,
+        "height": 1024,
+        "alt": "How MCP works, using an Instagram bio: you ask \"What's my Instagram bio?\", the AI agent decides it needs the bio, its MCP client sends a request using MCP to an Instagram MCP server, the server runs its ready-made get_instagram_bio tool against the data source, and the result comes back through the client so the AI can answer."
+      }
+    },
+    "featured": {
+      "stat": "MCP",
+      "caption": "how AI actually connects to other tools"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "MCP, MCP servers, MCP clients, tools, resources, protocols... ==why does this need so many words?== 😭"
+      },
+      {
+        "type": "paragraph",
+        "text": "Forget the jargon for a minute. You only need three ideas, and one simple example."
+      },
+      {
+        "type": "cta",
+        "label": "Try it yourself: open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1EHOMvc8O7Oeb-lru3gd58KYN8rSMX7KK"
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 7-minute MCP walkthrough](#video-1DEQOF8i-_A)"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "==MCP== = the communication rules. ==MCP client== = the communicator inside your AI app. ==MCP server== = the program that provides the tools."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "GitHub MCP",
+            "href": "/toolkit/mcp-github"
+          },
+          {
+            "label": "Notion MCP",
+            "href": "/toolkit/mcp-notion"
+          },
+          {
+            "label": "Supabase MCP",
+            "href": "/toolkit/mcp-supabase"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "What problem is MCP solving?",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "You tell your AI coding app: ==\"Create a GitHub issue saying the login is broken.\"== The AI somehow has to talk to GitHub. It could use a custom API integration, a built-in integration, or ==MCP==."
+      },
+      {
+        "type": "paragraph",
+        "text": "MCP (Model Context Protocol) gives AI apps ==one standard way== to connect to outside tools and data."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One standard way for AI apps to plug into other tools."
+      },
+      {
+        "type": "heading",
+        "text": "MCP is rules, not a box in the middle",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Many explanations draw \"AI → MCP → server\", as if MCP were another program. It isn't. MCP is a ==protocol==: a set of rules for how two programs talk."
+      },
+      {
+        "type": "paragraph",
+        "text": "Think of WhatsApp. When you message a friend, the communication rules aren't a person sitting between you. They're just how the messages travel."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Real world",
+            "text": "Person → phone → communication rules → other person"
+          },
+          {
+            "label": "AI",
+            "text": "AI app → MCP client → MCP rules → MCP server"
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "MCP is the language, not a middleman."
+      },
+      {
+        "type": "heading",
+        "text": "The MCP client and the MCP server",
+        "id": "part-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "The ==MCP client== lives inside the AI app (Claude, Cursor, Antigravity or your own app). It finds out what a server can do and sends it requests. The AI model isn't the client; the client is part of the app around the model."
+      },
+      {
+        "type": "paragraph",
+        "text": "The ==MCP server== is a program that offers capabilities. A GitHub server might offer create_issue, search_code, get_pull_request and list_issues. Those are ==already built== by the server's developer. The AI doesn't write create_issue on the spot; it just decides \"I need that tool\"."
+      },
+      {
+        "type": "paragraph",
+        "text": "The server also knows how to talk to the real service, like GitHub's API, so the AI doesn't have to."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The client asks. The server already knows how to do it."
+      },
+      {
+        "type": "heading",
+        "text": "The whole loop, in one picture",
+        "id": "part-4"
+      },
+      {
+        "type": "image",
+        "src": "/blog/mcp/instagram-bio-flow.webp",
+        "alt": "How MCP works, using an Instagram bio: you ask \"What's my Instagram bio?\", the AI agent decides it needs the bio, its MCP client sends a request using MCP to an Instagram MCP server, the server runs its ready-made get_instagram_bio tool against the data source, and the result comes back through the client so the AI can answer.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration: Instagram is just an example service here."
+      },
+      {
+        "type": "paragraph",
+        "text": "You ask, ==\"What's my Instagram bio?\"== The AI decides it needs the bio. Its MCP client sends a request, using MCP, to an Instagram MCP server. The server runs its ready-made get_instagram_bio tool, gets the data, and the result travels back to the AI, which answers you."
+      },
+      {
+        "type": "paragraph",
+        "text": "Same loop for GitHub: you ask, the AI picks create_issue, the client sends the request, the server creates the issue, and you get \"Your issue has been created.\""
+      },
+      {
+        "type": "flow",
+        "items": [
+          "You",
+          "AI app",
+          "MCP client",
+          "MCP server",
+          "The service",
+          "Result back to you"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Request out, tool runs, result back. That's MCP."
+      },
+      {
+        "type": "heading",
+        "text": "Real servers, and how you connect them",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "One AI app can connect to ==many MCP servers== at once, each giving different tools, all speaking the same protocol. Pick one to see what it gives your AI and how you'd connect it:"
+      },
+      {
+        "type": "tabs",
+        "label": "Pick a server",
+        "items": [
+          {
+            "title": "GitHub",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "**What it gives your AI:** tools like search_code, create_issue, list_issues and get_pull_request, so it can work with your repos."
+              },
+              {
+                "type": "paragraph",
+                "text": "**How you connect:** add GitHub's official MCP server to your AI app (Claude, Cursor, VS Code and others) and sign in with GitHub. GitHub hosts it, so there's nothing to install. In apps that use a JSON config, it looks roughly like this (the exact format differs per app):"
+              },
+              {
+                "type": "code",
+                "language": "text",
+                "code": "{\n  \"mcpServers\": {\n    \"github\": { \"url\": \"https://api.githubcopilot.com/mcp/\" }\n  }\n}"
+              },
+              {
+                "type": "paragraph",
+                "text": "**Try asking:** \"Create a GitHub issue saying the login is broken.\""
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Your request",
+                  "AI app + MCP client",
+                  "GitHub MCP server: create_issue",
+                  "GitHub",
+                  "\"Issue created\""
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Notion",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "**What it gives your AI:** tools to search pages, read a page and create or update pages in your Notion workspace."
+              },
+              {
+                "type": "paragraph",
+                "text": "**How you connect:** add Notion from your AI app's connectors (or point the app at Notion's hosted MCP server) and sign in with Notion. You choose which workspace it can reach."
+              },
+              {
+                "type": "paragraph",
+                "text": "**Try asking:** \"Find my meeting notes from Monday and summarise them.\""
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Your request",
+                  "AI app + MCP client",
+                  "Notion MCP server: search_pages",
+                  "Notion",
+                  "Summary of your notes"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Supabase",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "**What it gives your AI:** tools to look at your tables, run SQL queries, check logs and manage your Supabase project."
+              },
+              {
+                "type": "paragraph",
+                "text": "**How you connect:** point your AI app at Supabase's hosted MCP server and sign in with your Supabase account:"
+              },
+              {
+                "type": "code",
+                "language": "text",
+                "code": "{\n  \"mcpServers\": {\n    \"supabase\": { \"url\": \"https://mcp.supabase.com/mcp\" }\n  }\n}"
+              },
+              {
+                "type": "callout",
+                "label": "Play it safe",
+                "text": "Supabase recommends connecting to a ==development project==, not live data, and turning on ==read-only mode== so the AI can look but not change anything."
+              },
+              {
+                "type": "paragraph",
+                "text": "**Try asking:** \"How many students scored above 80?\""
+              },
+              {
+                "type": "paragraph",
+                "text": "New to Supabase? Start with our [Supabase post](/blog/supabase-explained)."
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Your question",
+                  "AI app + MCP client",
+                  "Supabase MCP server: run SQL",
+                  "Your database",
+                  "The answer"
+                ],
+                "repeat": null
+              }
+            ]
+          },
+          {
+            "title": "Your own server",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "**What it gives your AI:** whatever you build. Say a student-info server with get_student, get_marks and get_attendance, sitting on a database with Rahul, Python, 87 marks, 92% attendance."
+              },
+              {
+                "type": "paragraph",
+                "text": "**How you connect:** you write the server (official SDKs exist for Python, TypeScript and more), then add it to your AI app like any other server."
+              },
+              {
+                "type": "paragraph",
+                "text": "**Try asking:** \"What are Rahul's marks?\""
+              },
+              {
+                "type": "flow",
+                "items": [
+                  "Your question",
+                  "AI app + MCP client",
+                  "Your MCP server: get_marks",
+                  "Student database",
+                  "87"
+                ],
+                "repeat": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Before you connect anything",
+        "text": "An MCP server can act for you: create issues, send messages, change records. Only connect servers from sources you trust, and give each one ==the least access it needs==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Many servers, one protocol."
+      },
+      {
+        "type": "heading",
+        "text": "MCP isn't just for reading data",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "Servers can offer tools that ==read== (get_profile, search_documents, get_issue) and tools that ==act== (create_issue, send_message, create_page, update_record)."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Read",
+            "text": "\"What's my latest GitHub issue?\""
+          },
+          {
+            "label": "Act",
+            "text": "\"Create a GitHub issue.\""
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "And MCP doesn't retrieve data by magic, write tools for you, replace GitHub or Notion, become your database or become the AI model. It just ==standardises how an AI app finds and uses outside capabilities==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Read or act, the pattern is the same."
+      },
+      {
+        "type": "heading",
+        "text": "Try it yourself",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "My Colab builds a small MCP server and connects to it, so you can watch the request and the result move through the loop."
+      },
+      {
+        "type": "cta",
+        "label": "Open the Colab notebook",
+        "href": "https://colab.research.google.com/drive/1EHOMvc8O7Oeb-lru3gd58KYN8rSMX7KK"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole walkthrough. You can also [watch it on YouTube](https://youtu.be/1DEQOF8i-_A)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "1DEQOF8i-_A",
+        "title": "MCP (Uma's walkthrough video)",
+        "caption": "MCP walkthrough · 7:20"
+      },
+      {
+        "type": "heading",
+        "text": "The three things to remember",
+        "id": "part-8"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "MCP",
+            "text": "The communication rules that let two programs understand each other."
+          },
+          {
+            "title": "MCP client",
+            "text": "The communicator inside your AI app. It finds and calls tools."
+          },
+          {
+            "title": "MCP server",
+            "text": "The capability provider, with ready-made tools for GitHub, Notion, databases, files, APIs and more."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "==MCP== = the communication rules. ==MCP client== = the communicator inside your AI app. ==MCP server== = the program that provides the tools."
+      },
+      {
+        "type": "paragraph",
+        "text": "Not a magic AI layer, not another model, not a database. Just ==a standard way for AI apps to work with outside tools==. Once that clicks, the alphabet soup gets a lot less scary."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [Vercel AI SDK](/blog/vercel-ai-sdk-more-than-a-prompt) for building the app around the model, and [CodeGraph](/blog/codegraph-map-of-your-codebase), which can reach AI agents through MCP."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[What is MCP?](https://modelcontextprotocol.io/docs/getting-started/intro): the official introduction.",
+          "[MCP specification](https://modelcontextprotocol.io/specification/latest): the full protocol, if you want the details.",
+          "[Official example servers](https://github.com/modelcontextprotocol/servers): reference servers and a list of community ones.",
+          "[GitHub MCP server](https://github.com/github/github-mcp-server): setup for GitHub's official server.",
+          "[Notion MCP](https://developers.notion.com/docs/mcp): connecting Notion to your AI tools.",
+          "[Supabase MCP](https://supabase.com/docs/guides/getting-started/mcp): setup, plus the safety settings.",
+          "[My Colab notebook](https://colab.research.google.com/drive/1EHOMvc8O7Oeb-lru3gd58KYN8rSMX7KK) and [my walkthrough video](https://youtu.be/1DEQOF8i-_A)."
+        ]
+      }
+    ],
+    "published_on": "2026-10-07",
+    "learn": [
+      "The three ideas behind MCP: protocol, client, server",
+      "Why MCP is a set of rules, not a program in the middle",
+      "How GitHub, Notion and Supabase MCP servers connect",
+      "Why MCP can act, not just read"
+    ]
+  },
+  {
     "slug": "codegraph-map-of-your-codebase",
     "category": "agents",
     "title": "CodeGraph: Give AI a Map of Your Codebase",
@@ -15,10 +459,7 @@
         "alt": "CodeGraph, visualising your codebase connections: files, modules, functions and classes drawn as a network, with lines showing which parts import, call or depend on each other."
       }
     },
-    "featured": {
-      "stat": "CodeGraph",
-      "caption": "give AI a map of your codebase"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {

@@ -175,8 +175,8 @@ POST = {
                "coding assistant can find the right code instead of searching everything.",
     "cover": {"text": "CodeGraph", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/connections.webp", "width": 1536, "height": 1024, "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "CodeGraph", "caption": "give AI a map of your codebase"},
+    # Was featured until the MCP post (7 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-07",
@@ -193,9 +193,6 @@ def main():
     with io.open(POSTS, encoding="utf-8") as f:
         posts = json.load(f)
     posts = [x for x in posts if x["slug"] != POST["slug"]]
-    # Only one Featured post at a time.
-    for x in posts:
-        x["featured"] = None
     posts.insert(0, POST)
     with io.open(POSTS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(posts, f, ensure_ascii=False, indent=2)
