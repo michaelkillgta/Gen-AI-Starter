@@ -1,258 +1,329 @@
 [
   {
-    "slug": "graphify-whole-project-graph",
+    "slug": "playwright-mcp-ai-controls-a-browser",
     "category": "agents",
-    "title": "Graphify: CodeGraph, but for Your Whole Project",
-    "excerpt": "CodeGraph maps how your code connects. Graphify puts your docs, diagrams and other non-code stuff in the same graph, so your AI sees the whole project. Here's the difference and how to try it.",
+    "title": "Playwright MCP: Let Your AI Control a Browser",
+    "excerpt": "Instead of telling you how to search a site, your AI can open the browser, click, type and read the page itself. Here's how Playwright MCP works, and how to set it up in one config line.",
     "cover": {
-      "text": "Graphify",
+      "text": "Playwright MCP",
       "bg": "#211913",
       "fg": "#F2A93B",
-      "image": null
+      "image": {
+        "src": "/blog/playwright-mcp/explained.webp",
+        "width": 1536,
+        "height": 1024,
+        "alt": "Playwright MCP browser automation explained: the AI agent talks over MCP to the Playwright MCP server, which uses Playwright to control a real browser that opens the website, clicks, types and reads the page."
+      }
     },
     "featured": {
-      "stat": "Graphify",
-      "caption": "map your code and your docs in one graph"
+      "stat": "Playwright MCP",
+      "caption": "let your AI control a browser"
     },
     "dive": null,
     "body": [
       {
         "type": "paragraph",
-        "text": "Read our CodeGraph post? Then you already know ==90% of Graphify==. This one is the pinch of salt on top. 🧂"
+        "text": "Imagine telling an AI: ==\"Open BookMyShow, select Hyderabad, search for a movie, and check if tickets are available.\"=="
       },
       {
-        "type": "cta",
-        "label": "New here? Read the CodeGraph post first",
-        "href": "/blog/codegraph-map-of-your-codebase"
+        "type": "paragraph",
+        "text": "Instead of giving you steps, the AI actually ==opens the browser, clicks, types, reads the page and keeps going==. That's what Playwright MCP makes possible."
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ [Watch my 7-minute Playwright MCP walkthrough](#video-HLjrFzmFaw8)"
       },
       {
         "type": "callout",
         "label": "The one idea to remember",
-        "text": "CodeGraph asks ==\"How is my code connected?\"== Graphify asks ==\"How is everything in my project connected?\"== Same graph idea, bigger map."
+        "text": "Playwright MCP isn't a browser. It's an ==MCP server that hands browser tools to your AI==, so it can navigate, click, type and read pages ==instead of just telling you how==."
       },
       {
         "type": "links",
         "label": "Tools used",
         "items": [
           {
-            "label": "Graphify",
-            "href": "/toolkit/graphify"
-          },
-          {
-            "label": "CodeGraph",
-            "href": "/toolkit/codegraph"
+            "label": "Playwright MCP",
+            "href": "/toolkit/mcp-playwright"
           }
         ]
       },
       {
         "type": "heading",
-        "text": "Same idea, bigger scope",
+        "text": "First: what is Playwright?",
         "id": "part-1"
       },
       {
         "type": "paragraph",
-        "text": "Quick recap from [CodeGraph](/blog/codegraph-map-of-your-codebase): your project is a ==network==, not a pile of files. Imports, calls and dependencies are the architecture, and a map of them helps an AI find the right code."
+        "text": "[Playwright](https://playwright.dev) is a ==browser automation library==. Software can use it to open websites, click buttons, type into boxes, pick options and read what's on the page. Normally you write the code yourself:"
+      },
+      {
+        "type": "code",
+        "language": "javascript",
+        "code": "await page.goto(\"https://example.com\");\nawait page.getByRole(\"button\", { name: \"Search\" }).click();"
       },
       {
         "type": "paragraph",
-        "text": "Graphify keeps all of that. Then it adds the stuff that ==isn't code==: your README, docs, PDFs, diagrams, screenshots, even videos. They all land in ==the same graph== as your code."
-      },
-      {
-        "type": "pair",
-        "items": [
-          {
-            "label": "CodeGraph",
-            "text": "\"How is my code connected?\" A code graph."
-          },
-          {
-            "label": "Graphify",
-            "text": "\"How is everything in my project connected?\" A knowledge graph."
-          }
-        ]
+        "text": "Here ==you're== driving Playwright. What if an AI agent could use those browser powers itself? That's where MCP comes in."
       },
       {
         "type": "callout",
         "label": "Takeaway",
-        "text": "Code graph vs knowledge graph. That's the whole upgrade."
+        "text": "Playwright controls browsers. MCP lets an AI hold the controls."
       },
       {
         "type": "heading",
-        "text": "The city, mapped twice",
+        "text": "How the pieces fit",
         "id": "part-2"
       },
       {
-        "type": "paragraph",
-        "text": "Picture your project as a city. ==CodeGraph maps the roads between buildings==: which file leads to which."
-      },
-      {
-        "type": "code",
-        "language": "text",
-        "code": "main.py\n   ↓\napi.py\n   ↓\ndatabase.py"
-      },
-      {
-        "type": "paragraph",
-        "text": "==Graphify maps the whole city==: the roads, plus the signs, guidebooks and blueprints that explain them. The README points at the API, the API docs and the architecture diagram hang off the code they describe."
-      },
-      {
-        "type": "code",
-        "language": "text",
-        "code": "                README.md\n                    │\n                    ▼\nmain.py ──────► api.py ──────► database.py\n   │                │\n   ▼                ▼\nconfig.py       API Docs\n                    │\n                    ▼\n                architecture.png"
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "Roads only, or the whole city."
-      },
-      {
-        "type": "heading",
-        "text": "Side by side",
-        "id": "part-3"
+        "type": "image",
+        "src": "/blog/playwright-mcp/explained.webp",
+        "alt": "Playwright MCP browser automation explained: the AI agent talks over MCP to the Playwright MCP server, which uses Playwright to control a real browser that opens the website, clicks, types and reads the page.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
       },
       {
         "type": "paragraph",
-        "text": "Everything CodeGraph does, Graphify does too:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "✅ Builds a graph of the codebase",
-          "✅ Code relationships",
-          "✅ Imports, calls and dependencies",
-          "✅ Helps AI understand the codebase"
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "Here's where they split:"
-      },
-      {
-        "type": "pair",
-        "items": [
-          {
-            "label": "CodeGraph",
-            "text": "Images and visual assets: not the focus. Documents and other non-code knowledge: not the focus. Overall: ==mostly a code graph==."
-          },
-          {
-            "label": "Graphify",
-            "text": "Images and visual assets: ✅. Documents and other non-code knowledge: ✅. Overall: ==a broader knowledge graph==."
-          }
-        ]
-      },
-      {
-        "type": "callout",
-        "label": "The real difference isn't images",
-        "text": "It's whether ==non-code information becomes part of the connected graph==. A diagram on its own is just a picture. Linked to the code it explains, it's context your AI can follow."
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "Not \"with images vs without\". Connected knowledge vs code only."
-      },
-      {
-        "type": "heading",
-        "text": "How Graphify works",
-        "id": "part-4"
-      },
-      {
-        "type": "paragraph",
-        "text": "Graphify runs as a ==skill inside your AI coding assistant== (Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot and more). Point it at a folder and it does two passes:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "**Code:** parsed ==locally== with tree-sitter. No AI model, nothing leaves your machine.",
-          "**Everything else** (docs, PDFs, images, video): read by ==your assistant's AI model==, which pulls out the concepts and links them to the code."
-        ]
+        "text": "MCP is a standard way for an AI app to talk to servers that offer tools (new to it? read our [MCP post](/blog/mcp-explained)). With Playwright, the chain is:"
       },
       {
         "type": "flow",
         "items": [
-          "Your folder",
-          "Code parsed locally",
-          "Docs and media read by the AI",
-          "One knowledge graph",
-          "Your AI queries it"
+          "AI agent",
+          "MCP",
+          "Playwright MCP server",
+          "Playwright",
+          "Browser"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "AI agent",
+            "text": "Understands your request and decides what to do."
+          },
+          {
+            "title": "MCP",
+            "text": "The communication rules between the agent and the server."
+          },
+          {
+            "title": "Playwright MCP server",
+            "text": "Offers browser tools to the AI: navigate, click, type, read."
+          },
+          {
+            "title": "Playwright",
+            "text": "Actually drives the browser."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "The agent decides. The server offers tools. Playwright does the clicking."
+      },
+      {
+        "type": "heading",
+        "text": "How it works: look, decide, act",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/playwright-mcp/task-flow.webp",
+        "alt": "An AI agent's task flow with Playwright MCP: the agent navigates to a site, takes a snapshot of the page, works out what is there, clicks and types, takes another snapshot and reads the results, deciding each step from what it sees.",
+        "width": 1774,
+        "height": 887,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "The AI doesn't write a new script. It uses the server's tools in a loop: ==look at the page, decide, act==, then look again."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Navigate",
+          "Take snapshot",
+          "Understand page",
+          "Click / type",
+          "Snapshot again",
+          "Read results"
         ],
         "repeat": null
       },
       {
         "type": "paragraph",
-        "text": "Every connection is tagged ==EXTRACTED== (written in the source) or ==INFERRED== (worked out by Graphify), so you can tell facts from guesses. You get three files: ==graph.html== to click around in, ==GRAPH_REPORT.md== with the highlights, and ==graph.json== your AI can query later without re-reading everything."
-      },
-      {
-        "type": "callout",
-        "label": "Takeaway",
-        "text": "Code is mapped for free. Docs and media cost AI tokens."
-      },
-      {
-        "type": "heading",
-        "text": "Try it",
-        "id": "part-5"
-      },
-      {
-        "type": "paragraph",
-        "text": "You need Python 3.10+ and an AI coding assistant. Install it (note the ==double y== in the package name; pipx works too), then register it with your assistant:"
-      },
-      {
-        "type": "code",
-        "language": "bash",
-        "code": "uv tool install graphifyy\ngraphify install"
-      },
-      {
-        "type": "paragraph",
-        "text": "Then, inside your assistant, run it on your project:"
+        "text": "The clever part is the ==snapshot==. Instead of a screenshot, Playwright MCP gives the AI a structured list of what's on the page, from its accessibility tree:"
       },
       {
         "type": "code",
         "language": "text",
-        "code": "/graphify ."
+        "code": "heading \"BookMyShow\"\ntextbox \"Search\"\nbutton \"Hyderabad\"\nbutton \"Mumbai\""
       },
       {
         "type": "paragraph",
-        "text": "Open graphify-out/graph.html in your browser and see your code and docs as one map. Start with a ==small project==: the docs-and-media pass uses your AI's tokens, so bigger folders cost more."
-      },
-      {
-        "type": "callout",
-        "label": "Which Graphify?",
-        "text": "Several products share the name. This post is about the open-source ==Graphify-Labs/graphify== (Apache-2.0, version 0.9.79 when we checked), which started as safishamsi/graphify."
+        "text": "So the AI doesn't guess where a button is from pixels. It knows ==exactly what's there== and can point at it."
       },
       {
         "type": "callout",
         "label": "Takeaway",
-        "text": "Two commands, one slash command, one map."
+        "text": "Structured snapshots, not screenshots. That's why it works reliably."
       },
       {
         "type": "heading",
-        "text": "Which one should you use?",
+        "text": "A real example",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "Ask: \"Open BookMyShow. Select Hyderabad. Search for Pushpa 2. Check if tickets are available.\" The AI might go:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Open BookMyShow",
+          "Look at the page",
+          "Click Hyderabad",
+          "Find the search box",
+          "Type \"Pushpa 2\"",
+          "Read the results",
+          "Tell you if tickets are available"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Each step depends on ==what it finds on the page==. That's the difference from a fixed script."
+      },
+      {
+        "type": "callout",
+        "label": "Use it responsibly",
+        "text": "Some websites block automated browsers or don't allow them in their terms. Check before you automate a real site, and never let an agent buy or book without your say-so. For practice, use demo sites like the one below."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A script follows steps. An agent reacts to the page."
+      },
+      {
+        "type": "heading",
+        "text": "Setting it up",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "No Playwright project, no automation script. You need ==Node.js 18 or newer== and an MCP-capable app, like VS Code with GitHub Copilot, Cursor or Claude Code. Most apps take a config like this:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "{\n  \"mcpServers\": {\n    \"playwright\": {\n      \"command\": \"npx\",\n      \"args\": [\"@playwright/mcp@latest\"]\n    }\n  }\n}"
+      },
+      {
+        "type": "paragraph",
+        "text": "In Claude Code it's one command:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "claude mcp add playwright npx @playwright/mcp@latest"
+      },
+      {
+        "type": "paragraph",
+        "text": "The browser downloads automatically the first time. After connecting, start a ==new agent chat== so the tools load."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One config entry and you're done."
+      },
+      {
+        "type": "heading",
+        "text": "Your first test",
         "id": "part-6"
       },
       {
-        "type": "pair",
+        "type": "paragraph",
+        "text": "Give your agent this, the same first test the official docs suggest:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "Navigate to https://demo.playwright.dev/todomvc\n\nAdd these three todos:\n- Learn MCP\n- Learn Playwright\n- Build AI Agents\n\nThen verify that all three were added."
+      },
+      {
+        "type": "paragraph",
+        "text": "No .js file. The agent uses the Playwright MCP tools to do it all in the browser."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Watch it run.** I recorded the whole thing. You can also [watch it on YouTube](https://youtu.be/HLjrFzmFaw8)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "HLjrFzmFaw8",
+        "title": "Playwright MCP (Uma's walkthrough video)",
+        "caption": "Playwright MCP walkthrough · 7:04"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Describe the task in plain English. The agent does the clicking."
+      },
+      {
+        "type": "heading",
+        "text": "The big picture",
+        "id": "part-7"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "You",
+          "AI agent (MCP client)",
+          "MCP",
+          "Playwright MCP server",
+          "Playwright",
+          "Browser",
+          "Website"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "cards",
         "items": [
           {
-            "label": "Use CodeGraph",
-            "text": "Your question is about code: where a change goes, what calls what. Cheap, and fine for big codebases."
+            "title": "MCP",
+            "text": "The communication rules"
           },
           {
-            "label": "Use Graphify",
-            "text": "The answer lives in docs and diagrams too: why it was built this way, what the architecture says. Best on small and medium projects."
+            "title": "AI agent",
+            "text": "The MCP client"
+          },
+          {
+            "title": "Playwright MCP",
+            "text": "The MCP server"
+          },
+          {
+            "title": "Playwright",
+            "text": "Browser automation"
+          },
+          {
+            "title": "Browser",
+            "text": "Where the actions happen"
           }
         ]
       },
       {
         "type": "callout",
         "label": "Remember",
-        "text": "CodeGraph asks ==\"How is my code connected?\"== Graphify asks ==\"How is everything in my project connected?\"== Same graph idea, bigger map."
+        "text": "Playwright MCP isn't a browser. It's an ==MCP server that hands browser tools to your AI==, so it can navigate, click, type and read pages ==instead of just telling you how==."
       },
       {
         "type": "paragraph",
-        "text": "==CodeGraph shows the roads. Graphify shows the whole city.== 🏙️"
-      },
-      {
-        "type": "paragraph",
-        "text": "**Also read:** [CodeGraph](/blog/codegraph-map-of-your-codebase) for the basics, and [MCP](/blog/mcp-explained), since Graphify can also serve its graph to AI tools as an MCP server."
+        "text": "**Also read:** [MCP Explained Without the Headache](/blog/mcp-explained), and [Your AI Looks Smart. But Can You Break It?](/blog/ai-red-teaming-promptfoo) for testing an agent before you trust it with a browser."
       },
       {
         "type": "heading",
@@ -263,20 +334,21 @@
         "type": "list",
         "ordered": false,
         "items": [
-          "[Graphify on GitHub](https://github.com/Graphify-Labs/graphify): the open-source (Apache-2.0) tool from this post.",
-          "[Graphify docs](https://docs.graphify.com): setup for each AI assistant, plus every command.",
-          "[graphifyy on PyPI](https://pypi.org/project/graphifyy/): the package, with the latest version.",
-          "[CodeGraph: Give AI a Map of Your Codebase](/blog/codegraph-map-of-your-codebase): the post this one builds on.",
-          "[Graphify in our Toolkit](/toolkit/graphify): our quick verdict."
+          "[Playwright MCP on GitHub](https://github.com/microsoft/playwright-mcp): the official server, setup for every app and the full tool list.",
+          "[Playwright MCP installation](https://playwright.dev/mcp/installation): the official setup guide.",
+          "[Getting started with Playwright MCP](https://github.com/microsoft/playwright/blob/main/docs/src/getting-started-mcp.md): Playwright's own walkthrough.",
+          "[Playwright](https://playwright.dev): the browser automation library underneath.",
+          "[My walkthrough video](https://youtu.be/HLjrFzmFaw8): the setup and first test, step by step.",
+          "[Playwright MCP in our Toolkit](/toolkit/mcp-playwright): our quick verdict."
         ]
       }
     ],
-    "published_on": "2026-10-07",
+    "published_on": "2026-10-08",
     "learn": [
-      "How Graphify differs from CodeGraph: knowledge graph vs code graph",
-      "Why the real difference is connected non-code knowledge, not images",
-      "How Graphify builds its graph, and what it costs",
-      "How to try it in your AI coding assistant"
+      "What Playwright is, and what MCP adds to it",
+      "How an AI agent looks, decides and acts in a browser",
+      "Why accessibility snapshots beat screenshots",
+      "How to set it up and run your first test"
     ]
   },
   {
@@ -718,6 +790,283 @@
       "Why MCP is a set of rules, not a program in the middle",
       "How GitHub, Notion and Supabase MCP servers connect",
       "Why MCP can act, not just read"
+    ]
+  },
+  {
+    "slug": "graphify-whole-project-graph",
+    "category": "agents",
+    "title": "Graphify: CodeGraph, but for Your Whole Project",
+    "excerpt": "CodeGraph maps how your code connects. Graphify puts your docs, diagrams and other non-code stuff in the same graph, so your AI sees the whole project. Here's the difference and how to try it.",
+    "cover": {
+      "text": "Graphify",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": null
+    },
+    "featured": null,
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Read our CodeGraph post? Then you already know ==90% of Graphify==. This one is the pinch of salt on top. 🧂"
+      },
+      {
+        "type": "cta",
+        "label": "New here? Read the CodeGraph post first",
+        "href": "/blog/codegraph-map-of-your-codebase"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "CodeGraph asks ==\"How is my code connected?\"== Graphify asks ==\"How is everything in my project connected?\"== Same graph idea, bigger map."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Graphify",
+            "href": "/toolkit/graphify"
+          },
+          {
+            "label": "CodeGraph",
+            "href": "/toolkit/codegraph"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Same idea, bigger scope",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "Quick recap from [CodeGraph](/blog/codegraph-map-of-your-codebase): your project is a ==network==, not a pile of files. Imports, calls and dependencies are the architecture, and a map of them helps an AI find the right code."
+      },
+      {
+        "type": "paragraph",
+        "text": "Graphify keeps all of that. Then it adds the stuff that ==isn't code==: your README, docs, PDFs, diagrams, screenshots, even videos. They all land in ==the same graph== as your code."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "CodeGraph",
+            "text": "\"How is my code connected?\" A code graph."
+          },
+          {
+            "label": "Graphify",
+            "text": "\"How is everything in my project connected?\" A knowledge graph."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Code graph vs knowledge graph. That's the whole upgrade."
+      },
+      {
+        "type": "heading",
+        "text": "The city, mapped twice",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Picture your project as a city. ==CodeGraph maps the roads between buildings==: which file leads to which."
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "main.py\n   ↓\napi.py\n   ↓\ndatabase.py"
+      },
+      {
+        "type": "paragraph",
+        "text": "==Graphify maps the whole city==: the roads, plus the signs, guidebooks and blueprints that explain them. The README points at the API, the API docs and the architecture diagram hang off the code they describe."
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "                README.md\n                    │\n                    ▼\nmain.py ──────► api.py ──────► database.py\n   │                │\n   ▼                ▼\nconfig.py       API Docs\n                    │\n                    ▼\n                architecture.png"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Roads only, or the whole city."
+      },
+      {
+        "type": "heading",
+        "text": "Side by side",
+        "id": "part-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "Everything CodeGraph does, Graphify does too:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "✅ Builds a graph of the codebase",
+          "✅ Code relationships",
+          "✅ Imports, calls and dependencies",
+          "✅ Helps AI understand the codebase"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's where they split:"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "CodeGraph",
+            "text": "Images and visual assets: not the focus. Documents and other non-code knowledge: not the focus. Overall: ==mostly a code graph==."
+          },
+          {
+            "label": "Graphify",
+            "text": "Images and visual assets: ✅. Documents and other non-code knowledge: ✅. Overall: ==a broader knowledge graph==."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "The real difference isn't images",
+        "text": "It's whether ==non-code information becomes part of the connected graph==. A diagram on its own is just a picture. Linked to the code it explains, it's context your AI can follow."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Not \"with images vs without\". Connected knowledge vs code only."
+      },
+      {
+        "type": "heading",
+        "text": "How Graphify works",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "Graphify runs as a ==skill inside your AI coding assistant== (Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot and more). Point it at a folder and it does two passes:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Code:** parsed ==locally== with tree-sitter. No AI model, nothing leaves your machine.",
+          "**Everything else** (docs, PDFs, images, video): read by ==your assistant's AI model==, which pulls out the concepts and links them to the code."
+        ]
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your folder",
+          "Code parsed locally",
+          "Docs and media read by the AI",
+          "One knowledge graph",
+          "Your AI queries it"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Every connection is tagged ==EXTRACTED== (written in the source) or ==INFERRED== (worked out by Graphify), so you can tell facts from guesses. You get three files: ==graph.html== to click around in, ==GRAPH_REPORT.md== with the highlights, and ==graph.json== your AI can query later without re-reading everything."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Code is mapped for free. Docs and media cost AI tokens."
+      },
+      {
+        "type": "heading",
+        "text": "Try it",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "You need Python 3.10+ and an AI coding assistant. Install it (note the ==double y== in the package name; pipx works too), then register it with your assistant:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "uv tool install graphifyy\ngraphify install"
+      },
+      {
+        "type": "paragraph",
+        "text": "Then, inside your assistant, run it on your project:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "/graphify ."
+      },
+      {
+        "type": "paragraph",
+        "text": "Open graphify-out/graph.html in your browser and see your code and docs as one map. Start with a ==small project==: the docs-and-media pass uses your AI's tokens, so bigger folders cost more."
+      },
+      {
+        "type": "callout",
+        "label": "Which Graphify?",
+        "text": "Several products share the name. This post is about the open-source ==Graphify-Labs/graphify== (Apache-2.0, version 0.9.79 when we checked), which started as safishamsi/graphify."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Two commands, one slash command, one map."
+      },
+      {
+        "type": "heading",
+        "text": "Which one should you use?",
+        "id": "part-6"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Use CodeGraph",
+            "text": "Your question is about code: where a change goes, what calls what. Cheap, and fine for big codebases."
+          },
+          {
+            "label": "Use Graphify",
+            "text": "The answer lives in docs and diagrams too: why it was built this way, what the architecture says. Best on small and medium projects."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "CodeGraph asks ==\"How is my code connected?\"== Graphify asks ==\"How is everything in my project connected?\"== Same graph idea, bigger map."
+      },
+      {
+        "type": "paragraph",
+        "text": "==CodeGraph shows the roads. Graphify shows the whole city.== 🏙️"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [CodeGraph](/blog/codegraph-map-of-your-codebase) for the basics, and [MCP](/blog/mcp-explained), since Graphify can also serve its graph to AI tools as an MCP server."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Graphify on GitHub](https://github.com/Graphify-Labs/graphify): the open-source (Apache-2.0) tool from this post.",
+          "[Graphify docs](https://docs.graphify.com): setup for each AI assistant, plus every command.",
+          "[graphifyy on PyPI](https://pypi.org/project/graphifyy/): the package, with the latest version.",
+          "[CodeGraph: Give AI a Map of Your Codebase](/blog/codegraph-map-of-your-codebase): the post this one builds on.",
+          "[Graphify in our Toolkit](/toolkit/graphify): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-07",
+    "learn": [
+      "How Graphify differs from CodeGraph: knowledge graph vs code graph",
+      "Why the real difference is connected non-code knowledge, not images",
+      "How Graphify builds its graph, and what it costs",
+      "How to try it in your AI coding assistant"
     ]
   },
   {
