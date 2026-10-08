@@ -763,7 +763,7 @@
       },
       {
         "type": "paragraph",
-        "text": "**Also read:** [Vercel AI SDK](/blog/vercel-ai-sdk-more-than-a-prompt) for building the app around the model, and [CodeGraph](/blog/codegraph-map-of-your-codebase), which can reach AI agents through MCP."
+        "text": "**Also read:** [Vercel AI SDK](/blog/vercel-ai-sdk-more-than-a-prompt) for building the app around the model, and [CodeGraph](/blog/codegraph-map-of-your-codebase), which can reach AI agents through MCP. And [Playwright MCP](/blog/playwright-mcp-ai-controls-a-browser), an MCP server that lets your AI control a browser."
       },
       {
         "type": "heading",

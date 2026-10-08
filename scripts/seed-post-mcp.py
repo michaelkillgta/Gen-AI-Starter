@@ -195,7 +195,8 @@ BODY = [
     *p("Not a magic AI layer, not another model, not a database. Just ==a standard way for AI apps to work with "
        "outside tools==. Once that clicks, the alphabet soup gets a lot less scary.",
        f"**Also read:** [Vercel AI SDK]({AI_SDK_POST}) for building the app around the model, and [CodeGraph]"
-       f"({CODEGRAPH_POST}), which can reach AI agents through MCP."),
+       f"({CODEGRAPH_POST}), which can reach AI agents through MCP. And [Playwright MCP]"
+       "(/blog/playwright-mcp-ai-controls-a-browser), an MCP server that lets your AI control a browser."),
 
     h("Resources"),
     ul(f"[What is MCP?]({INTRO}): the official introduction.",
