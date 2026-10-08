@@ -1,5 +1,370 @@
 [
   {
+    "slug": "context7-mcp-check-the-docs",
+    "category": "agents",
+    "title": "Context7 MCP: What If Your AI Could Check the Docs Before Coding?",
+    "excerpt": "Your AI wrote confident code with a deprecated API. Context7 lets it check the current library docs first. Here's how it works and how to connect it to Antigravity, Cursor, Codex and ChatGPT.",
+    "cover": {
+      "text": "Context7",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/context7/one-server.webp",
+        "width": 1536,
+        "height": 1024,
+        "alt": "Context7 MCP, one server, many AI tools: coding agents like Antigravity, Cursor, Codex and Claude connect to the Context7 MCP server, which looks up current library documentation and hands the relevant part back before the agent writes code."
+      }
+    },
+    "featured": {
+      "stat": "Context7",
+      "caption": "let your AI check the docs before coding"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "You ask your AI coding agent: ==\"Build this feature using the latest Next.js API.\"== It writes beautiful code. You run it. 💥 ==Deprecated API.=="
+      },
+      {
+        "type": "paragraph",
+        "text": "The AI knows a lot. But knowing a lot isn't the same as ==having today's docs open in front of you==. That's where Context7 comes in."
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "Context7 is the ==\"check the docs first\" button== for your AI coding agent. It doesn't make the AI smarter; it gives it ==the right docs at the right moment==."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Context7 MCP",
+            "href": "/toolkit/mcp-context7"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "The \"check the docs\" button for AI",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/context7/one-server.webp",
+        "alt": "Context7 MCP, one server, many AI tools: coding agents like Antigravity, Cursor, Codex and Claude connect to the Context7 MCP server, which looks up current library documentation and hands the relevant part back before the agent writes code.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "Picture coding with a friend. You ask how the latest Supabase API works. Instead of guessing, they say ==\"wait, let me check the docs\"==, open the right page and carry on."
+      },
+      {
+        "type": "paragraph",
+        "text": "[Context7](https://context7.com) gives your AI agent that same habit. It's an ==MCP server== (made by Upstash) that lets coding agents fetch the relevant library docs when they need them."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "You",
+          "AI agent",
+          "\"Let me check the docs\"",
+          "Context7",
+          "Relevant docs",
+          "AI writes the code"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Check first, then code."
+      },
+      {
+        "type": "heading",
+        "text": "Why we need it",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Libraries change. APIs change. Methods get deprecated. The code that worked two years ago might not be the recommended way today."
+      },
+      {
+        "type": "paragraph",
+        "text": "Your AI learned from ==older tutorials, answers and docs==. Meanwhile the library moved on to a new API. So the AI might confidently write ==the old way==."
+      },
+      {
+        "type": "callout",
+        "label": "Does Context7 update the AI?",
+        "text": "==No.== It doesn't retrain the AI or change what it knows. It adds the relevant docs to the current task: the AI's knowledge plus fresh docs, only for this job."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A docs lookup tool, not a new brain."
+      },
+      {
+        "type": "heading",
+        "text": "Where MCP comes in",
+        "id": "part-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "New to MCP? Our [MCP post](/blog/mcp-explained) explains it simply. For Context7, the roles are:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "AI agent",
+            "text": "Decides what to do and writes the code."
+          },
+          {
+            "title": "MCP",
+            "text": "The communication rules that connect the agent to the tool."
+          },
+          {
+            "title": "Context7",
+            "text": "Finds the library and returns its relevant documentation."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Context7 gives the agent two tools: ==resolve-library-id== finds the library you mean, and ==query-docs== fetches the relevant part of its docs. (Older versions, like the extension in the screenshot, call the second one get-library-docs.)"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Find the library, then get the docs. Two tools, one job."
+      },
+      {
+        "type": "heading",
+        "text": "Connect it to your AI app",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "The server lives at ==https://mcp.context7.com/mcp==. How you connect depends on your app. Pick yours:"
+      },
+      {
+        "type": "tabs",
+        "label": "Pick your app",
+        "items": [
+          {
+            "title": "Antigravity",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Open the ==Extensions== marketplace, search for ==Context7 MCP Server== and install the one from Upstash. That's it: the agent can now call Context7's tools."
+              },
+              {
+                "type": "image",
+                "src": "/blog/context7/antigravity-extension.webp",
+                "alt": "The Context7 MCP Server extension by Upstash in Antigravity's Extensions marketplace, with Install, Disable and Uninstall buttons and a list of its tools.",
+                "width": 903,
+                "height": 778,
+                "caption": "Uma's screenshot: Context7 MCP Server installed in Antigravity."
+              }
+            ]
+          },
+          {
+            "title": "Cursor",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "Add Context7 to your project's ==.cursor/mcp.json== (or through Cursor's MCP settings):"
+              },
+              {
+                "type": "image",
+                "src": "/blog/context7/mcp-json.webp",
+                "alt": "A .cursor/mcp.json file with an mcpServers entry named context7 pointing to https://mcp.context7.com/mcp.",
+                "width": 431,
+                "height": 192,
+                "caption": "Uma's Cursor setup."
+              },
+              {
+                "type": "code",
+                "language": "text",
+                "code": "{\n  \"mcpServers\": {\n    \"context7\": { \"url\": \"https://mcp.context7.com/mcp\" }\n  }\n}"
+              },
+              {
+                "type": "paragraph",
+                "text": "Some apps call the field \"serverUrl\" instead of \"url\", like in the screenshot; follow your app's docs."
+              }
+            ]
+          },
+          {
+            "title": "Codex",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "OpenAI's own Codex docs use Context7 as their example. One command in your terminal:"
+              },
+              {
+                "type": "code",
+                "language": "bash",
+                "code": "codex mcp add context7 -- npx -y @upstash/context7-mcp"
+              },
+              {
+                "type": "paragraph",
+                "text": "Codex saves it in ==~/.codex/config.toml==. Run ==codex mcp list== to check it's there."
+              }
+            ]
+          },
+          {
+            "title": "ChatGPT",
+            "blocks": [
+              {
+                "type": "paragraph",
+                "text": "The ==ChatGPT desktop app== shares its MCP setup with Codex on the same computer, so once you've added Context7 with the Codex command, the desktop app can use it too."
+              },
+              {
+                "type": "paragraph",
+                "text": "The ChatGPT website works differently: it can only reach MCP servers through its own connector settings, so check what your plan supports there."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Free API key",
+        "text": "Context7 works without one, but a free key from your Context7 dashboard gives ==higher rate limits==. Keep it in your app's settings or an environment variable, never in code you share."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One server, many AI apps."
+      },
+      {
+        "type": "heading",
+        "text": "Now test it",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't ask \"What is Context7?\" Give it a ==real coding task==:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "Build this feature using the current library API.\nBefore implementing it, check the relevant documentation using Context7."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Without Context7",
+            "text": "You → AI: \"I know how this library works\" → code (maybe outdated)."
+          },
+          {
+            "label": "With Context7",
+            "text": "You → AI: \"I need the docs\" → Context7 → current docs → code."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The AI still does the thinking and writes the code. Context7 just hands it ==the right documentation==."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "One extra step can save you from a deprecated API."
+      },
+      {
+        "type": "heading",
+        "text": "What Context7 is not",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "==Not Google.== Google searches the whole web. Context7 is built around ==developer docs and library usage==: \"How does this library's API work?\", not \"what happened in tech this week?\""
+      },
+      {
+        "type": "paragraph",
+        "text": "==Not your AI agent.== It doesn't build your app, decide what your product does, or replace Cursor, Antigravity or Codex. It's one tool your agent can use."
+      },
+      {
+        "type": "paragraph",
+        "text": "For example, you say \"Add authentication using this library.\" The agent needs to know which API to use, what's available now, what config it needs and whether the old way is deprecated. Context7 gives it the current answer before it writes a line."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Your feature",
+          "AI agent",
+          "\"Need the docs\"",
+          "Context7",
+          "Current docs",
+          "Implementation"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A specialist for docs, not a search engine and not an agent."
+      },
+      {
+        "type": "heading",
+        "text": "The mental model",
+        "id": "part-7"
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "Context7 is the ==\"check the docs first\" button== for your AI coding agent. It doesn't make the AI smarter; it gives it ==the right docs at the right moment==."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Without it",
+            "text": "\"Why the hell doesn't this work?\""
+          },
+          {
+            "label": "With it",
+            "text": "\"Yep. That's the current API.\""
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "==Check the docs. Then code.== 🚀"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [MCP Explained](/blog/mcp-explained), [Playwright MCP](/blog/playwright-mcp-ai-controls-a-browser) for another MCP server, and [Vercel AI SDK](/blog/vercel-ai-sdk-more-than-a-prompt), a library that changes fast enough to need Context7."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Context7](https://context7.com): search libraries and get your free API key.",
+          "[Context7 on GitHub](https://github.com/upstash/context7): Upstash's official server (MIT), with setup for each app.",
+          "[Codex MCP setup](https://developers.openai.com/codex/mcp): OpenAI's guide to adding MCP servers to Codex and the ChatGPT desktop app.",
+          "[Context7 MCP in our Toolkit](/toolkit/mcp-context7): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-09",
+    "learn": [
+      "Why AI writes outdated code, and how Context7 fixes it",
+      "What Context7 does and doesn't do",
+      "How to connect it in Antigravity, Cursor, Codex and ChatGPT",
+      "How to test it with a real coding task"
+    ]
+  },
+  {
     "slug": "playwright-mcp-ai-controls-a-browser",
     "category": "agents",
     "title": "Playwright MCP: Let Your AI Control a Browser",
@@ -15,10 +380,7 @@
         "alt": "Playwright MCP browser automation explained: the AI agent talks over MCP to the Playwright MCP server, which uses Playwright to control a real browser that opens the website, clicks, types and reads the page."
       }
     },
-    "featured": {
-      "stat": "Playwright MCP",
-      "caption": "let your AI control a browser"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {
