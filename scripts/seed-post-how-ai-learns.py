@@ -347,6 +347,11 @@ BODY = [
     ),
 ]
 
+# Tools used: shown as Toolkit pills just before the first step.
+TOOLS_USED = {"type": "links", "label": "Tools used",
+              "items": [{"label": "Teachable Machine", "href": "/toolkit/teachable"}]}
+BODY.insert(next(i for i, b in enumerate(BODY) if b["type"] == "heading"), TOOLS_USED)
+
 POST = {
     "slug": "how-ai-actually-learns",
     "category": "learning-with-ai",
@@ -366,7 +371,7 @@ POST = {
         "Why tools like this train in seconds (transfer learning)",
     ],
     # Newest post with a "featured" line = the big Featured box at the top of /blog.
-    "featured": {"stat": "8 steps", "caption": "to teach a computer with your own photos, then catch it getting things wrong"},
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-09-28",

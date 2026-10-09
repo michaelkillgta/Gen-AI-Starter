@@ -218,7 +218,7 @@ async fn blog_filters_by_category() {
     let count = |t: &str| body.iter().filter(|b| b["type"] == t).count();
     assert_eq!(count("image"), 10);
     assert_eq!(count("video"), 2);
-    assert_eq!(count("links"), 1);
+    assert_eq!(count("links"), 2); // step links + "Tools used"
     assert!(count("flow") >= 3 && count("list") >= 5);
     assert!(
         body.iter()

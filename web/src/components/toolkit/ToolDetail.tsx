@@ -94,11 +94,24 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
         )}
       </div>
 
-      {tool.note && (
-        <div className={styles.note}>
-          <span className={styles.label}>From my notes</span>
-          <span>{tool.note}</span>
+      {/* A tool with its own blog post links to it; the others keep the short note. */}
+      {tool.posts.length > 0 ? (
+        <div className={styles.dives}>
+          <span className={styles.label}>Read the blog</span>
+          {tool.posts.map((p) => (
+            <Link key={p.slug} href={links.post(p.slug)} className={styles.dive}>
+              <span className={styles.diveTrack}>Blog post</span>
+              <span className={styles.diveTitle}>{p.title}</span>
+            </Link>
+          ))}
         </div>
+      ) : (
+        tool.note && (
+          <div className={styles.note}>
+            <span className={styles.label}>From my notes</span>
+            <span>{tool.note}</span>
+          </div>
+        )
       )}
 
       {variant === "panel" && (

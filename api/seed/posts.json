@@ -1,5 +1,1016 @@
 [
   {
+    "slug": "how-ai-actually-learns",
+    "category": "learning-with-ai",
+    "title": "How AI Actually Learns: I Taught a Computer With My Own Images",
+    "excerpt": "I taught Google's Teachable Machine to tell my spectacles from my phone in a few minutes, then tried to break it. Here's what that shows about how machine learning really works.",
+    "cover": {
+      "text": "8 steps",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/how-ai-actually-learns/how-ai-learns.webp",
+        "width": 1312,
+        "height": 1199,
+        "alt": "Infographic of the whole experiment: How AI actually learns, in 5 minutes with your webcam."
+      }
+    },
+    "learn": [
+      "How a computer learns from examples instead of rules",
+      "The difference between training and inference",
+      "Why a model breaks when the situation changes, and what that says about your data",
+      "Why tools like this train in seconds (transfer learning)"
+    ],
+    "featured": null,
+    "dive": null,
+    "body": [
+      {
+        "type": "lead",
+        "items": [
+          "Everywhere we look, someone is talking about AI.",
+          "ChatGPT. Face unlock. Recommendation systems. Self-driving cars.",
+          "But there is one question that gets surprisingly confusing when you first enter AI:"
+        ]
+      },
+      {
+        "type": "pull",
+        "text": "How does a computer actually learn?"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": null,
+            "text": "You can read about neural networks for hours."
+          },
+          {
+            "label": null,
+            "text": "Or you can teach one yourself in a few minutes."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "That's what I did with Google's [Teachable Machine](/toolkit/teachable). It runs in the browser and lets you create simple machine-learning models using images, sounds, or poses."
+      },
+      {
+        "type": "cta",
+        "label": "Open Teachable Machine",
+        "href": "https://teachablemachine.withgoogle.com/"
+      },
+      {
+        "type": "paragraph",
+        "text": "And this tiny experiment made the basic idea of machine learning much easier for me to understand."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Teachable Machine",
+            "href": "/toolkit/teachable"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "First, See the Whole Thing",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Before getting into the individual steps, look at this image."
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/how-ai-learns.webp",
+        "alt": "Infographic: How AI actually learns in 5 minutes with your webcam. Ten panels: open Teachable Machine, create two classes (phone and empty hand), record examples, train the model, test it (98% phone), break it with a TV remote (92% phone), see what it actually learned (same room, same hand, similar background), change the situation (left hand, low light, far away), the big idea (it finds patterns in your examples) and why it trains so fast (transfer learning).",
+        "width": 1312,
+        "height": 1199,
+        "caption": "The whole experiment on one page. Click to enlarge."
+      },
+      {
+        "type": "paragraph",
+        "text": "Think of this image as the map for the entire experiment:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Give examples",
+          "Train",
+          "Test",
+          "Change the situation",
+          "See where the model fails",
+          "Understand what it learned"
+        ]
+      },
+      {
+        "type": "lead",
+        "items": [
+          "You don't even need to read the article yet.",
+          "Just look at the flow.",
+          "Want to see the whole experiment?"
+        ]
+      },
+      {
+        "type": "video",
+        "youtube_id": "yd901VdqxPU",
+        "title": "Teachable Machine walkthrough (1:23)",
+        "caption": "▶ The full Teachable Machine walkthrough. It's about 1 minute 23 seconds, and it shows the actual process from beginning to prediction."
+      },
+      {
+        "type": "paragraph",
+        "text": "Now let's break down what happened."
+      },
+      {
+        "type": "heading",
+        "text": "Step 1: Open Teachable Machine",
+        "id": "step-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "Start at the Teachable Machine homepage."
+      },
+      {
+        "type": "paragraph",
+        "text": "The idea is simple:"
+      },
+      {
+        "type": "paragraph",
+        "text": "You give the computer examples, and it learns to distinguish between them."
+      },
+      {
+        "type": "paragraph",
+        "text": "Click **Get Started**."
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/step-1-get-started.webp",
+        "alt": "Step 1: the Teachable Machine homepage, with an arrow pointing to the blue Get Started button.",
+        "width": 3086,
+        "height": 1344,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "No Python."
+      },
+      {
+        "type": "paragraph",
+        "text": "No installing libraries."
+      },
+      {
+        "type": "paragraph",
+        "text": "No terminal."
+      },
+      {
+        "type": "paragraph",
+        "text": "We're just going to experiment."
+      },
+      {
+        "type": "heading",
+        "text": "Step 2: Choose What You Want the Computer to Learn",
+        "id": "step-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Teachable Machine gives you different types of projects."
+      },
+      {
+        "type": "paragraph",
+        "text": "You can teach it using:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Images",
+          "Audio",
+          "Poses"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "For this experiment, we want images."
+      },
+      {
+        "type": "paragraph",
+        "text": "So choose **Image Project**."
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/step-2-image-project.webp",
+        "alt": "Step 2: the New Project screen with Image Project, Audio Project and Pose Project; an arrow points to Image Project.",
+        "width": 2948,
+        "height": 1408,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This is already an important ML idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "We're defining what kind of information the model is going to learn from."
+      },
+      {
+        "type": "paragraph",
+        "text": "In our case:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Images",
+          "Prediction"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Step 3: Choose the Image Model",
+        "id": "step-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "You'll see options for the image model."
+      },
+      {
+        "type": "paragraph",
+        "text": "For a normal beginner experiment, choose the **Standard Image Model**."
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/step-3-standard-model.webp",
+        "alt": "Step 3: the New Image Project dialog with Standard image model and Embedded image model; an arrow points to Standard image model.",
+        "width": 2814,
+        "height": 1504,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't get stuck on the technical details here."
+      },
+      {
+        "type": "paragraph",
+        "text": "We're not trying to build the next computer-vision research system."
+      },
+      {
+        "type": "paragraph",
+        "text": "We're trying to understand one thing:"
+      },
+      {
+        "type": "paragraph",
+        "text": "How can examples teach a machine to recognize something?"
+      },
+      {
+        "type": "paragraph",
+        "text": "That is today's experiment."
+      },
+      {
+        "type": "heading",
+        "text": "Step 4: Create Your Classes",
+        "id": "step-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "Now the interesting part begins."
+      },
+      {
+        "type": "paragraph",
+        "text": "A class simply means:"
+      },
+      {
+        "type": "paragraph",
+        "text": "“This is category A.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "and"
+      },
+      {
+        "type": "paragraph",
+        "text": "“This is category B.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "In our experiment, let's use:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Class 1:** Spectacles",
+          "**Class 2:** Phone"
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/step-4-classes.webp",
+        "alt": "Step 4: two classes named Spectacles and Phone, each with an Upload button, and notes to upload images of different spectacles and different smartphones.",
+        "width": 3074,
+        "height": 1344,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Now we're essentially telling the system:"
+      },
+      {
+        "type": "paragraph",
+        "text": "“These are the two things I want you to learn to distinguish.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "This is where machine learning starts feeling less mysterious."
+      },
+      {
+        "type": "paragraph",
+        "text": "We're not writing a giant list of rules like:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "If shape = this\nand color = this\nand position = this\nthen it's a phone."
+      },
+      {
+        "type": "paragraph",
+        "text": "We're providing examples."
+      },
+      {
+        "type": "heading",
+        "text": "Step 5: Give It Examples",
+        "id": "step-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "Now we need to actually teach it."
+      },
+      {
+        "type": "paragraph",
+        "text": "Click **Upload** and give the first class examples of spectacles."
+      },
+      {
+        "type": "paragraph",
+        "text": "Then do the same for the phone class."
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/step-5-upload-class-1.webp",
+        "alt": "Step 5: the upload panel for Class 1, with the “Choose images from your files” button highlighted for uploading pictures of spectacles.",
+        "width": 2912,
+        "height": 1468,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "For example:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Spectacles class:** upload several images of spectacles.",
+          "**Phone class:** upload several images of phones."
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/step-5-upload-class-2.webp",
+        "alt": "Moving on to Class 2: an arrow points to its Upload button to add phone images, with a reminder that no class should be left empty.",
+        "width": 2672,
+        "height": 1600,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "And here's where something very important is happening."
+      },
+      {
+        "type": "paragraph",
+        "text": "You aren't giving the model a definition of a phone."
+      },
+      {
+        "type": "paragraph",
+        "text": "You're giving it examples of phones."
+      },
+      {
+        "type": "paragraph",
+        "text": "You aren't explaining:"
+      },
+      {
+        "type": "paragraph",
+        "text": "“A phone is a rectangular electronic device with a screen.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "You're simply saying:"
+      },
+      {
+        "type": "paragraph",
+        "text": "“Here are examples that belong to Class 2.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the fundamental idea we want to understand."
+      },
+      {
+        "type": "heading",
+        "text": "Step 6: More Examples Don't Automatically Mean Better",
+        "id": "step-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine you give the model only one photo of spectacles."
+      },
+      {
+        "type": "paragraph",
+        "text": "Then you give it one photo of a phone."
+      },
+      {
+        "type": "paragraph",
+        "text": "It has very little information to work with."
+      },
+      {
+        "type": "paragraph",
+        "text": "Now imagine you give it many examples."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Different angles.",
+          "Different positions.",
+          "Different backgrounds.",
+          "Different lighting.",
+          "Different objects."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Now it has more variety to learn from."
+      },
+      {
+        "type": "paragraph",
+        "text": "This leads to one of the biggest lessons in machine learning:"
+      },
+      {
+        "type": "callout",
+        "label": "Key idea",
+        "text": "The quality and variety of your training examples matter."
+      },
+      {
+        "type": "paragraph",
+        "text": "The model can only learn patterns that exist in the data you give it."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's why real machine learning datasets are such a big deal."
+      },
+      {
+        "type": "heading",
+        "text": "Step 7: Train the Model",
+        "id": "step-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "Now comes the button everyone wants to press."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Train Model**."
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/step-7-train.webp",
+        "alt": "Step 7: both classes have images, and an arrow points to the Train Model button in the Training panel.",
+        "width": 2754,
+        "height": 1536,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Click it."
+      },
+      {
+        "type": "paragraph",
+        "text": "Wait."
+      },
+      {
+        "type": "paragraph",
+        "text": "And now the model has been trained using the examples you provided."
+      },
+      {
+        "type": "paragraph",
+        "text": "This is the moment where people often imagine:"
+      },
+      {
+        "type": "paragraph",
+        "text": "“The AI has now understood what a phone is.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "Not quite."
+      },
+      {
+        "type": "paragraph",
+        "text": "And this is where things get interesting."
+      },
+      {
+        "type": "heading",
+        "text": "Step 8: Let's Test It",
+        "id": "step-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "Once training is finished, the model gives you a live prediction."
+      },
+      {
+        "type": "paragraph",
+        "text": "Point the webcam at something from your training examples."
+      },
+      {
+        "type": "paragraph",
+        "text": "You'll see probabilities for the different classes."
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/step-8-prediction.webp",
+        "alt": "Step 8: the trained model's webcam preview. The output shows 39% for Class 1 and 61% for Class 2, with arrows explaining that the model matched the object to Class 2.",
+        "width": 2912,
+        "height": 1462,
+        "caption": null
+      },
+      {
+        "type": "paragraph",
+        "text": "For example:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Spectacles: 39%",
+          "Phone: 61%"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The model is basically saying:"
+      },
+      {
+        "type": "paragraph",
+        "text": "“Based on what I learned from the examples, this input looks more like Class 2.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "That prediction is called **inference**."
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't need to memorize that word yet."
+      },
+      {
+        "type": "paragraph",
+        "text": "Just remember:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Training",
+            "text": "Learn from examples."
+          },
+          {
+            "title": "Inference",
+            "text": "Use what was learned to make a prediction."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "That's a very important distinction in AI."
+      },
+      {
+        "type": "heading",
+        "text": "Now Let's Break the Model",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This is my favorite part."
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't just show the model the exact examples you trained it on."
+      },
+      {
+        "type": "paragraph",
+        "text": "Try to fool it."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Give it a different background.",
+          "Change the lighting.",
+          "Change the angle.",
+          "Use a different phone.",
+          "Move the object farther away.",
+          "Show it something that looks visually similar."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "And watch what happens."
+      },
+      {
+        "type": "paragraph",
+        "text": "Because now we're asking the real question:"
+      },
+      {
+        "type": "callout",
+        "label": "The real question",
+        "text": "Did the model actually learn the thing we wanted it to learn? Or did it simply find some patterns in our training examples?"
+      },
+      {
+        "type": "heading",
+        "text": "What Did It Actually Learn?",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This is where the experiment becomes machine learning."
+      },
+      {
+        "type": "paragraph",
+        "text": "Suppose every phone image you uploaded had:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "a similar background",
+          "the phone in roughly the same position",
+          "the same type of lighting",
+          "your hand appearing in the same way"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "You might think:"
+      },
+      {
+        "type": "paragraph",
+        "text": "“I taught it what a phone looks like.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "But the model doesn't know what “phone” means in the human sense."
+      },
+      {
+        "type": "paragraph",
+        "text": "It is learning patterns from the input examples."
+      },
+      {
+        "type": "paragraph",
+        "text": "So some patterns you never intended to teach can become useful to the model."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's why changing the situation can make the prediction worse."
+      },
+      {
+        "type": "paragraph",
+        "text": "And suddenly we get a much better understanding of why training data matters."
+      },
+      {
+        "type": "heading",
+        "text": "This Is the Core Machine Learning Loop",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Look at the big image again."
+      },
+      {
+        "type": "image",
+        "src": "/blog/how-ai-actually-learns/how-ai-learns.webp",
+        "alt": "Infographic: How AI actually learns in 5 minutes with your webcam. Ten panels: open Teachable Machine, create two classes (phone and empty hand), record examples, train the model, test it (98% phone), break it with a TV remote (92% phone), see what it actually learned (same room, same hand, similar background), change the situation (left hand, low light, far away), the big idea (it finds patterns in your examples) and why it trains so fast (transfer learning).",
+        "width": 1312,
+        "height": 1199,
+        "caption": "The whole experiment on one page. Click to enlarge."
+      },
+      {
+        "type": "paragraph",
+        "text": "You can reduce the whole experiment to this:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Examples",
+          "Training",
+          "Learn patterns",
+          "New input",
+          "Prediction",
+          "Test the prediction",
+          "Improve the examples"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the basic loop."
+      },
+      {
+        "type": "paragraph",
+        "text": "Not all of modern AI works exactly like this, but this experiment gives you the intuition behind supervised learning and classification."
+      },
+      {
+        "type": "heading",
+        "text": "And Then There Is the Sneaky Problem",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine you trained the model using:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Phone:** always in your right hand.",
+          "**Spectacles:** always on a table."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Now you test:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Phone:** in your left hand."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The model may struggle."
+      },
+      {
+        "type": "paragraph",
+        "text": "Why?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Because your original data had a pattern you didn't realize was there."
+      },
+      {
+        "type": "paragraph",
+        "text": "You wanted it to learn:"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Phone vs Spectacles.**"
+      },
+      {
+        "type": "paragraph",
+        "text": "But your examples may have accidentally taught it:"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Right-hand setup vs table setup.**"
+      },
+      {
+        "type": "paragraph",
+        "text": "This is why good training data matters."
+      },
+      {
+        "type": "paragraph",
+        "text": "And this is also why testing only on the same kind of examples used during training can give you a false sense that everything is perfect."
+      },
+      {
+        "type": "heading",
+        "text": "So Why Did This Train So Quickly?",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This is another cool part of the experiment."
+      },
+      {
+        "type": "paragraph",
+        "text": "You didn't spend six hours training a giant model from zero."
+      },
+      {
+        "type": "paragraph",
+        "text": "You clicked a button and got a result in a browser."
+      },
+      {
+        "type": "paragraph",
+        "text": "One reason is **transfer learning**."
+      },
+      {
+        "type": "paragraph",
+        "text": "Think about it like this."
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine hiring an artist who already knows how to recognize:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "edges",
+          "shapes",
+          "textures",
+          "basic visual patterns"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't need to teach them what a shape is from scratch."
+      },
+      {
+        "type": "paragraph",
+        "text": "You just give them a new task:"
+      },
+      {
+        "type": "paragraph",
+        "text": "“Now help me separate these two categories.”"
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the basic intuition behind transfer learning."
+      },
+      {
+        "type": "paragraph",
+        "text": "Instead of starting from zero, an already-trained model can provide useful learned representations, and you adapt it for your smaller task."
+      },
+      {
+        "type": "paragraph",
+        "text": "That is one of the reasons tools like this can make experimentation so fast."
+      },
+      {
+        "type": "heading",
+        "text": "You Just Saw Machine Learning Without the Math",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "And that's actually the point."
+      },
+      {
+        "type": "paragraph",
+        "text": "You didn't need to start with:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "matrices",
+          "gradients",
+          "loss functions",
+          "backpropagation",
+          "neural-network equations"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Those concepts become important later."
+      },
+      {
+        "type": "paragraph",
+        "text": "But before learning all of that, I think it's useful to understand the basic story first."
+      },
+      {
+        "type": "paragraph",
+        "text": "A machine-learning model gets examples."
+      },
+      {
+        "type": "paragraph",
+        "text": "It learns patterns from those examples."
+      },
+      {
+        "type": "paragraph",
+        "text": "You give it something new."
+      },
+      {
+        "type": "paragraph",
+        "text": "It makes a prediction."
+      },
+      {
+        "type": "paragraph",
+        "text": "Then you test whether those predictions actually work outside the examples it saw."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's the idea you just watched happen."
+      },
+      {
+        "type": "heading",
+        "text": "The 1-Minute Recap",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Here is the entire experiment again:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "1. Open Teachable Machine",
+          "2. Choose Image Project",
+          "3. Create classes",
+          "4. Give examples",
+          "5. Train the model",
+          "6. Show it new data",
+          "7. Get a prediction",
+          "8. Change the situation",
+          "9. Watch where it fails",
+          "10. Ask what the model actually learned"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "And that's where the real learning starts."
+      },
+      {
+        "type": "heading",
+        "text": "Watch the Complete Experiment",
+        "id": null
+      },
+      {
+        "type": "video",
+        "youtube_id": "yd901VdqxPU",
+        "title": "Teachable Machine walkthrough (1:23)",
+        "caption": "🎥 The full 1:23 walkthrough."
+      },
+      {
+        "type": "links",
+        "label": "Or explore the experiment step by step:",
+        "items": [
+          {
+            "label": "Step 1",
+            "href": "#step-1"
+          },
+          {
+            "label": "Step 2",
+            "href": "#step-2"
+          },
+          {
+            "label": "Step 3",
+            "href": "#step-3"
+          },
+          {
+            "label": "Step 4",
+            "href": "#step-4"
+          },
+          {
+            "label": "Step 5",
+            "href": "#step-5"
+          },
+          {
+            "label": "Step 6",
+            "href": "#step-6"
+          },
+          {
+            "label": "Step 7",
+            "href": "#step-7"
+          },
+          {
+            "label": "Step 8",
+            "href": "#step-8"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Your turn",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Open [Teachable Machine](https://teachablemachine.withgoogle.com/) and create two classes of your own."
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't worry about making a perfect model."
+      },
+      {
+        "type": "paragraph",
+        "text": "Actually, try to break it."
+      },
+      {
+        "type": "paragraph",
+        "text": "Because the moment you see your model confidently get something wrong, machine learning stops feeling like magic."
+      },
+      {
+        "type": "paragraph",
+        "text": "It starts feeling understandable."
+      }
+    ],
+    "published_on": "2026-09-28"
+  },
+  {
     "slug": "context7-mcp-check-the-docs",
     "category": "agents",
     "title": "Context7 MCP: What If Your AI Could Check the Docs Before Coding?",
@@ -8554,1007 +9565,6 @@
       "What each of the 6 stages looks like with AI",
       "How a developer's work moves from typing code to directing and reviewing it"
     ]
-  },
-  {
-    "slug": "how-ai-actually-learns",
-    "category": "learning-with-ai",
-    "title": "How AI Actually Learns: I Taught a Computer With My Own Images",
-    "excerpt": "I taught Google's Teachable Machine to tell my spectacles from my phone in a few minutes, then tried to break it. Here's what that shows about how machine learning really works.",
-    "cover": {
-      "text": "8 steps",
-      "bg": "#211913",
-      "fg": "#F2A93B",
-      "image": {
-        "src": "/blog/how-ai-actually-learns/how-ai-learns.webp",
-        "width": 1312,
-        "height": 1199,
-        "alt": "Infographic of the whole experiment: How AI actually learns, in 5 minutes with your webcam."
-      }
-    },
-    "learn": [
-      "How a computer learns from examples instead of rules",
-      "The difference between training and inference",
-      "Why a model breaks when the situation changes, and what that says about your data",
-      "Why tools like this train in seconds (transfer learning)"
-    ],
-    "featured": null,
-    "dive": null,
-    "body": [
-      {
-        "type": "lead",
-        "items": [
-          "Everywhere we look, someone is talking about AI.",
-          "ChatGPT. Face unlock. Recommendation systems. Self-driving cars.",
-          "But there is one question that gets surprisingly confusing when you first enter AI:"
-        ]
-      },
-      {
-        "type": "pull",
-        "text": "How does a computer actually learn?"
-      },
-      {
-        "type": "pair",
-        "items": [
-          {
-            "label": null,
-            "text": "You can read about neural networks for hours."
-          },
-          {
-            "label": null,
-            "text": "Or you can teach one yourself in a few minutes."
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "That's what I did with Google's [Teachable Machine](/toolkit/teachable). It runs in the browser and lets you create simple machine-learning models using images, sounds, or poses."
-      },
-      {
-        "type": "cta",
-        "label": "Open Teachable Machine",
-        "href": "https://teachablemachine.withgoogle.com/"
-      },
-      {
-        "type": "paragraph",
-        "text": "And this tiny experiment made the basic idea of machine learning much easier for me to understand."
-      },
-      {
-        "type": "heading",
-        "text": "First, See the Whole Thing",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Before getting into the individual steps, look at this image."
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/how-ai-learns.webp",
-        "alt": "Infographic: How AI actually learns in 5 minutes with your webcam. Ten panels: open Teachable Machine, create two classes (phone and empty hand), record examples, train the model, test it (98% phone), break it with a TV remote (92% phone), see what it actually learned (same room, same hand, similar background), change the situation (left hand, low light, far away), the big idea (it finds patterns in your examples) and why it trains so fast (transfer learning).",
-        "width": 1312,
-        "height": 1199,
-        "caption": "The whole experiment on one page. Click to enlarge."
-      },
-      {
-        "type": "paragraph",
-        "text": "Think of this image as the map for the entire experiment:"
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Give examples",
-          "Train",
-          "Test",
-          "Change the situation",
-          "See where the model fails",
-          "Understand what it learned"
-        ]
-      },
-      {
-        "type": "lead",
-        "items": [
-          "You don't even need to read the article yet.",
-          "Just look at the flow.",
-          "Want to see the whole experiment?"
-        ]
-      },
-      {
-        "type": "video",
-        "youtube_id": "yd901VdqxPU",
-        "title": "Teachable Machine walkthrough (1:23)",
-        "caption": "▶ The full Teachable Machine walkthrough. It's about 1 minute 23 seconds, and it shows the actual process from beginning to prediction."
-      },
-      {
-        "type": "paragraph",
-        "text": "Now let's break down what happened."
-      },
-      {
-        "type": "heading",
-        "text": "Step 1: Open Teachable Machine",
-        "id": "step-1"
-      },
-      {
-        "type": "paragraph",
-        "text": "Start at the Teachable Machine homepage."
-      },
-      {
-        "type": "paragraph",
-        "text": "The idea is simple:"
-      },
-      {
-        "type": "paragraph",
-        "text": "You give the computer examples, and it learns to distinguish between them."
-      },
-      {
-        "type": "paragraph",
-        "text": "Click **Get Started**."
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/step-1-get-started.webp",
-        "alt": "Step 1: the Teachable Machine homepage, with an arrow pointing to the blue Get Started button.",
-        "width": 3086,
-        "height": 1344,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "No Python."
-      },
-      {
-        "type": "paragraph",
-        "text": "No installing libraries."
-      },
-      {
-        "type": "paragraph",
-        "text": "No terminal."
-      },
-      {
-        "type": "paragraph",
-        "text": "We're just going to experiment."
-      },
-      {
-        "type": "heading",
-        "text": "Step 2: Choose What You Want the Computer to Learn",
-        "id": "step-2"
-      },
-      {
-        "type": "paragraph",
-        "text": "Teachable Machine gives you different types of projects."
-      },
-      {
-        "type": "paragraph",
-        "text": "You can teach it using:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "Images",
-          "Audio",
-          "Poses"
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "For this experiment, we want images."
-      },
-      {
-        "type": "paragraph",
-        "text": "So choose **Image Project**."
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/step-2-image-project.webp",
-        "alt": "Step 2: the New Project screen with Image Project, Audio Project and Pose Project; an arrow points to Image Project.",
-        "width": 2948,
-        "height": 1408,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "This is already an important ML idea."
-      },
-      {
-        "type": "paragraph",
-        "text": "We're defining what kind of information the model is going to learn from."
-      },
-      {
-        "type": "paragraph",
-        "text": "In our case:"
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Images",
-          "Prediction"
-        ]
-      },
-      {
-        "type": "heading",
-        "text": "Step 3: Choose the Image Model",
-        "id": "step-3"
-      },
-      {
-        "type": "paragraph",
-        "text": "You'll see options for the image model."
-      },
-      {
-        "type": "paragraph",
-        "text": "For a normal beginner experiment, choose the **Standard Image Model**."
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/step-3-standard-model.webp",
-        "alt": "Step 3: the New Image Project dialog with Standard image model and Embedded image model; an arrow points to Standard image model.",
-        "width": 2814,
-        "height": 1504,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Don't get stuck on the technical details here."
-      },
-      {
-        "type": "paragraph",
-        "text": "We're not trying to build the next computer-vision research system."
-      },
-      {
-        "type": "paragraph",
-        "text": "We're trying to understand one thing:"
-      },
-      {
-        "type": "paragraph",
-        "text": "How can examples teach a machine to recognize something?"
-      },
-      {
-        "type": "paragraph",
-        "text": "That is today's experiment."
-      },
-      {
-        "type": "heading",
-        "text": "Step 4: Create Your Classes",
-        "id": "step-4"
-      },
-      {
-        "type": "paragraph",
-        "text": "Now the interesting part begins."
-      },
-      {
-        "type": "paragraph",
-        "text": "A class simply means:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“This is category A.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "and"
-      },
-      {
-        "type": "paragraph",
-        "text": "“This is category B.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "In our experiment, let's use:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "**Class 1:** Spectacles",
-          "**Class 2:** Phone"
-        ]
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/step-4-classes.webp",
-        "alt": "Step 4: two classes named Spectacles and Phone, each with an Upload button, and notes to upload images of different spectacles and different smartphones.",
-        "width": 3074,
-        "height": 1344,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Now we're essentially telling the system:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“These are the two things I want you to learn to distinguish.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "This is where machine learning starts feeling less mysterious."
-      },
-      {
-        "type": "paragraph",
-        "text": "We're not writing a giant list of rules like:"
-      },
-      {
-        "type": "code",
-        "language": "text",
-        "code": "If shape = this\nand color = this\nand position = this\nthen it's a phone."
-      },
-      {
-        "type": "paragraph",
-        "text": "We're providing examples."
-      },
-      {
-        "type": "heading",
-        "text": "Step 5: Give It Examples",
-        "id": "step-5"
-      },
-      {
-        "type": "paragraph",
-        "text": "Now we need to actually teach it."
-      },
-      {
-        "type": "paragraph",
-        "text": "Click **Upload** and give the first class examples of spectacles."
-      },
-      {
-        "type": "paragraph",
-        "text": "Then do the same for the phone class."
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/step-5-upload-class-1.webp",
-        "alt": "Step 5: the upload panel for Class 1, with the “Choose images from your files” button highlighted for uploading pictures of spectacles.",
-        "width": 2912,
-        "height": 1468,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "For example:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "**Spectacles class:** upload several images of spectacles.",
-          "**Phone class:** upload several images of phones."
-        ]
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/step-5-upload-class-2.webp",
-        "alt": "Moving on to Class 2: an arrow points to its Upload button to add phone images, with a reminder that no class should be left empty.",
-        "width": 2672,
-        "height": 1600,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "And here's where something very important is happening."
-      },
-      {
-        "type": "paragraph",
-        "text": "You aren't giving the model a definition of a phone."
-      },
-      {
-        "type": "paragraph",
-        "text": "You're giving it examples of phones."
-      },
-      {
-        "type": "paragraph",
-        "text": "You aren't explaining:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“A phone is a rectangular electronic device with a screen.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "You're simply saying:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“Here are examples that belong to Class 2.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "That's the fundamental idea we want to understand."
-      },
-      {
-        "type": "heading",
-        "text": "Step 6: More Examples Don't Automatically Mean Better",
-        "id": "step-6"
-      },
-      {
-        "type": "paragraph",
-        "text": "Imagine you give the model only one photo of spectacles."
-      },
-      {
-        "type": "paragraph",
-        "text": "Then you give it one photo of a phone."
-      },
-      {
-        "type": "paragraph",
-        "text": "It has very little information to work with."
-      },
-      {
-        "type": "paragraph",
-        "text": "Now imagine you give it many examples."
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "Different angles.",
-          "Different positions.",
-          "Different backgrounds.",
-          "Different lighting.",
-          "Different objects."
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "Now it has more variety to learn from."
-      },
-      {
-        "type": "paragraph",
-        "text": "This leads to one of the biggest lessons in machine learning:"
-      },
-      {
-        "type": "callout",
-        "label": "Key idea",
-        "text": "The quality and variety of your training examples matter."
-      },
-      {
-        "type": "paragraph",
-        "text": "The model can only learn patterns that exist in the data you give it."
-      },
-      {
-        "type": "paragraph",
-        "text": "That's why real machine learning datasets are such a big deal."
-      },
-      {
-        "type": "heading",
-        "text": "Step 7: Train the Model",
-        "id": "step-7"
-      },
-      {
-        "type": "paragraph",
-        "text": "Now comes the button everyone wants to press."
-      },
-      {
-        "type": "paragraph",
-        "text": "**Train Model**."
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/step-7-train.webp",
-        "alt": "Step 7: both classes have images, and an arrow points to the Train Model button in the Training panel.",
-        "width": 2754,
-        "height": 1536,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Click it."
-      },
-      {
-        "type": "paragraph",
-        "text": "Wait."
-      },
-      {
-        "type": "paragraph",
-        "text": "And now the model has been trained using the examples you provided."
-      },
-      {
-        "type": "paragraph",
-        "text": "This is the moment where people often imagine:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“The AI has now understood what a phone is.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "Not quite."
-      },
-      {
-        "type": "paragraph",
-        "text": "And this is where things get interesting."
-      },
-      {
-        "type": "heading",
-        "text": "Step 8: Let's Test It",
-        "id": "step-8"
-      },
-      {
-        "type": "paragraph",
-        "text": "Once training is finished, the model gives you a live prediction."
-      },
-      {
-        "type": "paragraph",
-        "text": "Point the webcam at something from your training examples."
-      },
-      {
-        "type": "paragraph",
-        "text": "You'll see probabilities for the different classes."
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/step-8-prediction.webp",
-        "alt": "Step 8: the trained model's webcam preview. The output shows 39% for Class 1 and 61% for Class 2, with arrows explaining that the model matched the object to Class 2.",
-        "width": 2912,
-        "height": 1462,
-        "caption": null
-      },
-      {
-        "type": "paragraph",
-        "text": "For example:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "Spectacles: 39%",
-          "Phone: 61%"
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "The model is basically saying:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“Based on what I learned from the examples, this input looks more like Class 2.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "That prediction is called **inference**."
-      },
-      {
-        "type": "paragraph",
-        "text": "You don't need to memorize that word yet."
-      },
-      {
-        "type": "paragraph",
-        "text": "Just remember:"
-      },
-      {
-        "type": "cards",
-        "items": [
-          {
-            "title": "Training",
-            "text": "Learn from examples."
-          },
-          {
-            "title": "Inference",
-            "text": "Use what was learned to make a prediction."
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "That's a very important distinction in AI."
-      },
-      {
-        "type": "heading",
-        "text": "Now Let's Break the Model",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "This is my favorite part."
-      },
-      {
-        "type": "paragraph",
-        "text": "Don't just show the model the exact examples you trained it on."
-      },
-      {
-        "type": "paragraph",
-        "text": "Try to fool it."
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "Give it a different background.",
-          "Change the lighting.",
-          "Change the angle.",
-          "Use a different phone.",
-          "Move the object farther away.",
-          "Show it something that looks visually similar."
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "And watch what happens."
-      },
-      {
-        "type": "paragraph",
-        "text": "Because now we're asking the real question:"
-      },
-      {
-        "type": "callout",
-        "label": "The real question",
-        "text": "Did the model actually learn the thing we wanted it to learn? Or did it simply find some patterns in our training examples?"
-      },
-      {
-        "type": "heading",
-        "text": "What Did It Actually Learn?",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "This is where the experiment becomes machine learning."
-      },
-      {
-        "type": "paragraph",
-        "text": "Suppose every phone image you uploaded had:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "a similar background",
-          "the phone in roughly the same position",
-          "the same type of lighting",
-          "your hand appearing in the same way"
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "You might think:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“I taught it what a phone looks like.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "But the model doesn't know what “phone” means in the human sense."
-      },
-      {
-        "type": "paragraph",
-        "text": "It is learning patterns from the input examples."
-      },
-      {
-        "type": "paragraph",
-        "text": "So some patterns you never intended to teach can become useful to the model."
-      },
-      {
-        "type": "paragraph",
-        "text": "That's why changing the situation can make the prediction worse."
-      },
-      {
-        "type": "paragraph",
-        "text": "And suddenly we get a much better understanding of why training data matters."
-      },
-      {
-        "type": "heading",
-        "text": "This Is the Core Machine Learning Loop",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Look at the big image again."
-      },
-      {
-        "type": "image",
-        "src": "/blog/how-ai-actually-learns/how-ai-learns.webp",
-        "alt": "Infographic: How AI actually learns in 5 minutes with your webcam. Ten panels: open Teachable Machine, create two classes (phone and empty hand), record examples, train the model, test it (98% phone), break it with a TV remote (92% phone), see what it actually learned (same room, same hand, similar background), change the situation (left hand, low light, far away), the big idea (it finds patterns in your examples) and why it trains so fast (transfer learning).",
-        "width": 1312,
-        "height": 1199,
-        "caption": "The whole experiment on one page. Click to enlarge."
-      },
-      {
-        "type": "paragraph",
-        "text": "You can reduce the whole experiment to this:"
-      },
-      {
-        "type": "flow",
-        "items": [
-          "Examples",
-          "Training",
-          "Learn patterns",
-          "New input",
-          "Prediction",
-          "Test the prediction",
-          "Improve the examples"
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "That's the basic loop."
-      },
-      {
-        "type": "paragraph",
-        "text": "Not all of modern AI works exactly like this, but this experiment gives you the intuition behind supervised learning and classification."
-      },
-      {
-        "type": "heading",
-        "text": "And Then There Is the Sneaky Problem",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Imagine you trained the model using:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "**Phone:** always in your right hand.",
-          "**Spectacles:** always on a table."
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "Now you test:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "**Phone:** in your left hand."
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "The model may struggle."
-      },
-      {
-        "type": "paragraph",
-        "text": "Why?"
-      },
-      {
-        "type": "paragraph",
-        "text": "Because your original data had a pattern you didn't realize was there."
-      },
-      {
-        "type": "paragraph",
-        "text": "You wanted it to learn:"
-      },
-      {
-        "type": "paragraph",
-        "text": "**Phone vs Spectacles.**"
-      },
-      {
-        "type": "paragraph",
-        "text": "But your examples may have accidentally taught it:"
-      },
-      {
-        "type": "paragraph",
-        "text": "**Right-hand setup vs table setup.**"
-      },
-      {
-        "type": "paragraph",
-        "text": "This is why good training data matters."
-      },
-      {
-        "type": "paragraph",
-        "text": "And this is also why testing only on the same kind of examples used during training can give you a false sense that everything is perfect."
-      },
-      {
-        "type": "heading",
-        "text": "So Why Did This Train So Quickly?",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "This is another cool part of the experiment."
-      },
-      {
-        "type": "paragraph",
-        "text": "You didn't spend six hours training a giant model from zero."
-      },
-      {
-        "type": "paragraph",
-        "text": "You clicked a button and got a result in a browser."
-      },
-      {
-        "type": "paragraph",
-        "text": "One reason is **transfer learning**."
-      },
-      {
-        "type": "paragraph",
-        "text": "Think about it like this."
-      },
-      {
-        "type": "paragraph",
-        "text": "Imagine hiring an artist who already knows how to recognize:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "edges",
-          "shapes",
-          "textures",
-          "basic visual patterns"
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "You don't need to teach them what a shape is from scratch."
-      },
-      {
-        "type": "paragraph",
-        "text": "You just give them a new task:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“Now help me separate these two categories.”"
-      },
-      {
-        "type": "paragraph",
-        "text": "That's the basic intuition behind transfer learning."
-      },
-      {
-        "type": "paragraph",
-        "text": "Instead of starting from zero, an already-trained model can provide useful learned representations, and you adapt it for your smaller task."
-      },
-      {
-        "type": "paragraph",
-        "text": "That is one of the reasons tools like this can make experimentation so fast."
-      },
-      {
-        "type": "heading",
-        "text": "You Just Saw Machine Learning Without the Math",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "And that's actually the point."
-      },
-      {
-        "type": "paragraph",
-        "text": "You didn't need to start with:"
-      },
-      {
-        "type": "list",
-        "ordered": false,
-        "items": [
-          "matrices",
-          "gradients",
-          "loss functions",
-          "backpropagation",
-          "neural-network equations"
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "Those concepts become important later."
-      },
-      {
-        "type": "paragraph",
-        "text": "But before learning all of that, I think it's useful to understand the basic story first."
-      },
-      {
-        "type": "paragraph",
-        "text": "A machine-learning model gets examples."
-      },
-      {
-        "type": "paragraph",
-        "text": "It learns patterns from those examples."
-      },
-      {
-        "type": "paragraph",
-        "text": "You give it something new."
-      },
-      {
-        "type": "paragraph",
-        "text": "It makes a prediction."
-      },
-      {
-        "type": "paragraph",
-        "text": "Then you test whether those predictions actually work outside the examples it saw."
-      },
-      {
-        "type": "paragraph",
-        "text": "That's the idea you just watched happen."
-      },
-      {
-        "type": "heading",
-        "text": "The 1-Minute Recap",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Here is the entire experiment again:"
-      },
-      {
-        "type": "flow",
-        "items": [
-          "1. Open Teachable Machine",
-          "2. Choose Image Project",
-          "3. Create classes",
-          "4. Give examples",
-          "5. Train the model",
-          "6. Show it new data",
-          "7. Get a prediction",
-          "8. Change the situation",
-          "9. Watch where it fails",
-          "10. Ask what the model actually learned"
-        ]
-      },
-      {
-        "type": "paragraph",
-        "text": "And that's where the real learning starts."
-      },
-      {
-        "type": "heading",
-        "text": "Watch the Complete Experiment",
-        "id": null
-      },
-      {
-        "type": "video",
-        "youtube_id": "yd901VdqxPU",
-        "title": "Teachable Machine walkthrough (1:23)",
-        "caption": "🎥 The full 1:23 walkthrough."
-      },
-      {
-        "type": "links",
-        "label": "Or explore the experiment step by step:",
-        "items": [
-          {
-            "label": "Step 1",
-            "href": "#step-1"
-          },
-          {
-            "label": "Step 2",
-            "href": "#step-2"
-          },
-          {
-            "label": "Step 3",
-            "href": "#step-3"
-          },
-          {
-            "label": "Step 4",
-            "href": "#step-4"
-          },
-          {
-            "label": "Step 5",
-            "href": "#step-5"
-          },
-          {
-            "label": "Step 6",
-            "href": "#step-6"
-          },
-          {
-            "label": "Step 7",
-            "href": "#step-7"
-          },
-          {
-            "label": "Step 8",
-            "href": "#step-8"
-          }
-        ]
-      },
-      {
-        "type": "heading",
-        "text": "Your turn",
-        "id": null
-      },
-      {
-        "type": "paragraph",
-        "text": "Open [Teachable Machine](https://teachablemachine.withgoogle.com/) and create two classes of your own."
-      },
-      {
-        "type": "paragraph",
-        "text": "Don't worry about making a perfect model."
-      },
-      {
-        "type": "paragraph",
-        "text": "Actually, try to break it."
-      },
-      {
-        "type": "paragraph",
-        "text": "Because the moment you see your model confidently get something wrong, machine learning stops feeling like magic."
-      },
-      {
-        "type": "paragraph",
-        "text": "It starts feeling understandable."
-      }
-    ],
-    "published_on": "2026-09-28"
   },
   {
     "slug": "does-ai-make-you-a-lazy-learner",

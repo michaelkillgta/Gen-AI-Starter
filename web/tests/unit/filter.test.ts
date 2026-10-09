@@ -5,7 +5,7 @@ import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 
 const tool = (over: Partial<ToolWithDives>): ToolWithDives => ({
   slug: "x", name: "X", kind: "tool", group: "ship", short: "", plain: "", use_when: "", skip_when: "",
-  runs_on: "", cost: "", get_it: "", status: "notes", note: null, tags: [], position: 1, dives: [],
+  runs_on: "", cost: "", get_it: "", status: "notes", note: null, tags: [], position: 1, dives: [], posts: [],
   ...over,
 });
 

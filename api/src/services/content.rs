@@ -91,6 +91,8 @@ pub async fn tools(state: &AppState) -> ApiResult<ToolsResponse> {
     let tools = state.repos.tools.tools().await?;
     let tracks = state.repos.tracks.tracks().await?;
     let dives = state.repos.tracks.dives().await?;
+    let mut all_posts = state.repos.blog.posts().await?;
+    all_posts.sort_by(|a, b| b.published_on.cmp(&a.published_on));
     let tools = tools
         .into_iter()
         .map(|tool| {
@@ -99,13 +101,27 @@ pub async fn tools(state: &AppState) -> ApiResult<ToolsResponse> {
                 .filter(|d| d.tools.contains(&tool.slug))
                 .map(|d| dive_ref(d, &tracks))
                 .collect();
-            ToolWithDives { tool, dives }
+            let href = format!("/toolkit/{}", tool.slug);
+            let posts = all_posts
+                .iter()
+                .filter(|p| p.body.iter().any(|b| is_tools_used_link(b, &href)))
+                .map(|p| PostRef {
+                    slug: p.slug.clone(),
+                    title: p.title.clone(),
+                })
+                .collect();
+            ToolWithDives { tool, dives, posts }
         })
         .collect();
     Ok(ToolsResponse {
         tools,
         start_lists: state.repos.tools.start_lists().await?,
     })
+}
+
+/// A post's "Tools used" row links to `href` (e.g. "/toolkit/docling").
+fn is_tools_used_link(b: &Block, href: &str) -> bool {
+    matches!(b, Block::Links { label: Some(l), items } if l == "Tools used" && items.iter().any(|i| i.href == href))
 }
 
 pub async fn tool(state: &AppState, slug: &str) -> ApiResult<ToolWithDives> {
