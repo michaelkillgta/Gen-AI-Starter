@@ -39,8 +39,8 @@
 
 .catOn,
 .catOn:hover {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
+  background: var(--color-fill);
+  border-color: var(--color-fill);
   color: var(--color-on-ink);
 }
 
@@ -59,6 +59,7 @@
   overflow: hidden;
   color: var(--color-ink);
   text-decoration: none;
+  box-shadow: var(--card-edge);
 }
 
 .featured:hover {
@@ -147,6 +148,7 @@
   color: var(--color-ink);
   text-decoration: none;
   transition: transform 0.16s ease;
+  box-shadow: var(--card-edge);
 }
 
 .card:hover {

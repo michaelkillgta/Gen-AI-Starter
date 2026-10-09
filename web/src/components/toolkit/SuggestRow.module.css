@@ -51,7 +51,7 @@
   min-height: var(--tap);
   padding: 0 18px;
   border-radius: var(--radius-sm);
-  background: var(--color-ink);
+  background: var(--color-fill);
   color: var(--color-on-ink);
   font-size: 15px;
   font-weight: 600;

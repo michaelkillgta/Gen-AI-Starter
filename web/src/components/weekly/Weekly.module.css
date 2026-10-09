@@ -45,6 +45,7 @@
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas: "what num" "why why" "call call";
   gap: 16px;
+  box-shadow: var(--card-edge);
 }
 
 .num {
@@ -186,6 +187,7 @@
   border: 1px solid var(--color-line-card);
   color: var(--color-ink);
   text-decoration: none;
+  box-shadow: var(--card-edge);
 }
 
 .archiveItem:hover {

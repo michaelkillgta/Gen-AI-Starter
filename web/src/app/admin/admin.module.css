@@ -73,6 +73,7 @@
   color: var(--color-ink);
   text-decoration: none;
   transition: border-color 0.15s ease, transform 0.15s ease;
+  box-shadow: var(--card-edge);
 }
 
 .card:hover,
@@ -132,6 +133,7 @@
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   overflow: hidden;
+  box-shadow: var(--card-edge);
 }
 
 .feed li + li {

@@ -17,6 +17,7 @@
   color: var(--color-ink);
   text-decoration: none;
   transition: transform 0.16s ease;
+  box-shadow: var(--card-edge);
 }
 
 .item:hover {

@@ -10,6 +10,11 @@
   gap: 16px;
 }
 
+/* Let the dark theme's top glow show through the header. */
+:global(html[data-theme="dark"]) .header {
+  background: transparent;
+}
+
 .barWrap {
   border-bottom: 1px solid var(--color-line);
 }
@@ -48,7 +53,7 @@
   min-height: var(--tap);
   padding: 0 18px;
   border-radius: var(--radius-sm);
-  background: var(--color-ink);
+  background: var(--color-fill);
   color: var(--color-on-ink);
   font-size: 15px;
   font-weight: 600;
@@ -101,8 +106,8 @@
 
 .pillActive,
 .pillActive:hover {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
+  background: var(--color-fill);
+  border-color: var(--color-fill);
   color: var(--color-on-ink);
 }
 

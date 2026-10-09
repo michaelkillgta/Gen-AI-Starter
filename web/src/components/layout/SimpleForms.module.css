@@ -8,6 +8,7 @@
   border: 1px solid var(--color-line-card);
   border-radius: var(--radius-xl);
   padding: 22px;
+  box-shadow: var(--card-edge);
 }
 
 .choices {

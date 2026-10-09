@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-shadow: var(--card-edge);
 }
 
 .n {
@@ -231,6 +232,7 @@
 
 .cardDark .cardStageNum {
   background: var(--color-accent);
+  box-shadow: var(--accent-glow);
 }
 
 .cardFoot {

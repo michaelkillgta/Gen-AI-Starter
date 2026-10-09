@@ -110,7 +110,7 @@ textarea::placeholder {
   z-index: 100;
   padding: 12px 16px;
   border-radius: var(--radius-sm);
-  background: var(--color-ink);
+  background: var(--color-fill);
   color: var(--color-on-ink);
   font-weight: 600;
   text-decoration: none;
@@ -129,4 +129,23 @@ textarea::placeholder {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------- Dark theme extras (colours themselves live in tokens.css) ---------- */
+
+/* A warm marigold glow at the top of every page, fading into the near-black. */
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(70rem 30rem at 50% -10rem, rgba(242, 169, 59, 0.22), transparent 70%),
+    radial-gradient(50rem 30rem at 100% 0, rgba(196, 71, 26, 0.12), transparent 70%),
+    var(--color-bg);
+  background-repeat: no-repeat;
+}
+
+/* Big headings get a soft cream-to-gold sheen. */
+:root[data-theme="dark"] h1 {
+  background-image: linear-gradient(180deg, #fff8ec 35%, #f6cf8f 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

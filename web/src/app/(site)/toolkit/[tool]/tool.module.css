@@ -56,6 +56,7 @@
   background: var(--color-surface);
   border: 1px solid var(--color-line-card);
   text-decoration: none;
+  box-shadow: var(--card-edge);
 }
 
 .relatedName {

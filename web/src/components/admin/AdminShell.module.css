@@ -116,7 +116,7 @@
 
 .navOn,
 .navOn:hover {
-  background: var(--color-ink);
+  background: var(--color-fill);
   color: var(--color-on-ink);
 }
 

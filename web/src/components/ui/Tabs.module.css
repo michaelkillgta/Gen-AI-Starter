@@ -32,8 +32,8 @@
 
 .on,
 .on:hover {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
+  background: var(--color-fill);
+  border-color: var(--color-fill);
   color: var(--color-on-ink);
 }
 

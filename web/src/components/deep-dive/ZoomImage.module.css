@@ -15,6 +15,7 @@
   background: var(--color-surface);
   overflow: hidden;
   cursor: zoom-in;
+  box-shadow: var(--card-edge);
 }
 
 .open:hover {
@@ -41,7 +42,7 @@
   gap: 6px;
   padding: 5px 10px;
   border-radius: var(--radius-pill);
-  background: var(--color-ink);
+  background: var(--color-fill);
   color: var(--color-on-ink);
   font-size: 12px;
   font-weight: 600;

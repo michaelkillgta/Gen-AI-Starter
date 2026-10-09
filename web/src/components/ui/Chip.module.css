@@ -21,8 +21,8 @@
 }
 
 .on-ink {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
+  background: var(--color-fill);
+  border-color: var(--color-fill);
   color: var(--color-on-ink);
 }
 
@@ -31,6 +31,7 @@
   border-color: var(--color-accent);
   color: var(--color-on-accent);
   font-weight: 600;
+  box-shadow: var(--accent-glow);
 }
 
 .count {

@@ -13,6 +13,7 @@
   justify-content: center;
   background: var(--color-accent);
   color: var(--color-on-accent);
+  box-shadow: var(--accent-glow);
 }
 
 .word {
@@ -25,7 +26,7 @@
 .tag {
   padding: 3px 10px;
   border-radius: var(--radius-pill);
-  background: var(--color-ink);
+  background: var(--color-fill);
   color: var(--color-on-ink);
   font-size: 12px;
   font-weight: 600;

@@ -33,7 +33,7 @@
 }
 
 .dark {
-  background: var(--color-ink);
+  background: var(--color-fill);
   color: var(--color-on-ink);
 }
 
@@ -44,6 +44,7 @@
 .accent {
   background: var(--color-accent);
   color: var(--color-on-accent);
+  box-shadow: var(--accent-glow);
 }
 
 .accent:hover:not(:disabled) {

@@ -24,6 +24,7 @@
   --color-on-dark: #fbf8f3;
   --color-on-dark-muted: #c9bbaa;
   --color-code-text: #efe6da;
+  --color-fill: #1c1713;            /* selected chips, tabs, dark buttons */
   --color-on-ink: #fbf8f3;          /* text on ink-filled buttons, chips and tabs */
   --color-on-ink-muted: #c9bbaa;
   --color-on-accent: #1c1713;       /* text on marigold, the same in both themes */
@@ -98,6 +99,8 @@
   --shadow-float: 0 24px 50px -30px rgba(60, 40, 20, 0.45);
   --shadow-panel: 0 30px 60px -40px rgba(60, 40, 20, 0.35);
   --shadow-seg: 0 1px 3px rgba(60, 40, 20, 0.18);
+  --card-edge: 0 0 #0000;           /* lit top edge on cards, dark mode only */
+  --accent-glow: 0 0 #0000;         /* glow under marigold buttons, dark mode only */
 
   /* Layout */
   --content-max: 1440px;
@@ -116,85 +119,93 @@
 /*
  * Warm dark theme. The <html data-theme> attribute is set before first paint by the
  * script in app/layout.tsx: the saved choice from the header toggle, else the OS setting.
- * Marigold and the cover colours stay as they are; everything else is re-tuned so
- * text keeps WCAG AA contrast on the brown-black background.
+ * A deep warm near-black with a marigold glow (globals.css), cards with a lit edge,
+ * marigold for selected things and brighter category colours. Marigold itself and
+ * the light theme are unchanged; text keeps WCAG AA contrast.
  */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
   /* Surfaces */
-  --color-bg: #1a1712;
-  --color-surface: #231f19;
-  --color-panel: #2d2720;
-  --color-dark: #12100c;
-  --color-dark-raised: #2a241d;
-  --color-dark-border: #3e352b;
+  --color-bg: #12100c;
+  --color-surface: #1c1813;
+  --color-panel: #262019;
+  --color-dark: #221b13;           /* feature panels: a touch warmer than cards */
+  --color-dark-raised: #2f261c;
+  --color-dark-border: #45382a;
 
-  /* Text */
-  --color-ink: #efe6da;
-  --color-ink-soft: #ddd2c4;
-  --color-body: #e3d9cc;
-  --color-muted: #bcaf9f;
-  --color-muted-2: #ac9f90;
-  --color-faint: #9c8f80;
-  --color-number: #85786a;
-  --color-on-dark: #efe6da;
-  --color-on-dark-muted: #c2b4a3;
+  /* Text: headings bright, long text a little softer */
+  --color-ink: #fbf1e3;
+  --color-ink-soft: #e9ddce;
+  --color-body: #e8ddcf;
+  --color-muted: #c5b7a6;
+  --color-muted-2: #b3a594;
+  --color-faint: #a19383;
+  --color-number: #8a7d6e;
+  --color-on-dark: #fbf1e3;
+  --color-on-dark-muted: #cbbca9;
   --color-code-text: #efe6da;
-  --color-on-ink: #1a1712;
-  --color-on-ink-muted: #5e534a;
-  --color-on-success: #1a1712;
-  --color-on-dark-caption: #c9bbaa;
-  --color-on-dark-tint: rgba(255, 254, 252, 0.08);
-  --color-dark-bubble: #2d2720;
-  --color-dashed-on-dark: #4a3f33;
+  --color-on-dark-caption: #d3c4b2;
+  --color-on-dark-tint: rgba(255, 236, 200, 0.08);
+  --color-dark-bubble: #3a2e22;
+  --color-dashed-on-dark: #5a4a37;
 
-  /* Brand: marigold is unchanged; the darker text shades get lighter to read on brown */
+  /* Selected chips, tabs and dark buttons turn marigold */
+  --color-fill: #f2a93b;
+  --color-on-ink: #1a1712;
+  --color-on-ink-muted: #4a3a24;
+  --color-accent-on-ink: #5c3a06;
+  --color-on-success: #12100c;
+
+  /* Brand: marigold is unchanged; the darker text shades get lighter to read on dark */
   --color-accent-ink: #f2a93b;
-  --color-accent-on-ink: #8a5a10;
-  --color-hover: #ee8a5c;
-  --color-danger: #f08a62;
-  --color-success: #8cc296;
+  --color-accent-hover: #f7b956;
+  --color-hover: #f39566;
+  --color-danger: #f39566;
+  --color-success: #93cf9d;
 
   /* Lines */
-  --color-line: #2e2821;
-  --color-line-card: #362f27;
-  --color-line-input: #463d33;
-  --color-line-soft: #29231d;
-  --color-line-dashed: #4d4337;
-  --color-avatar: #3b3229;
-  --color-line-strong: #574b3e;
-  --color-line-hover: #5e5244;
-  --color-hover-wash: rgba(255, 254, 252, 0.05);
-  --tint-green-line: #35503a;
-  --tint-amber-line: #5c4720;
-  --tint-clay-line: #5a3d30;
-  --tint-rose-line: #553546;
+  --color-line: #2a231c;
+  --color-line-card: #3a3026;
+  --color-line-input: #4a3e31;
+  --color-line-soft: #272019;
+  --color-line-dashed: #57493a;
+  --color-avatar: #3d3226;
+  --color-line-strong: #5e5040;
+  --color-line-hover: #8a6a3a;
+  --color-hover-wash: rgba(255, 236, 200, 0.05);
+  --tint-green-line: #2f6b3c;
+  --tint-amber-line: #7a5a1c;
+  --tint-clay-line: #7a4630;
+  --tint-rose-line: #7a3a5c;
 
-  /* Tool types */
-  --type-tool-bg: #3a2d13;    --type-tool-fg: #f2c46f;
-  --type-library-bg: #20321f; --type-library-fg: #a9d1ae;
-  --type-package-bg: #342a21; --type-package-fg: #dcc6b0;
-  --type-mcp-bg: #3a2231;     --type-mcp-fg: #e8b6d2;
+  /* Tool types: richer than light mode so each kind stands out */
+  --type-tool-bg: #45320c;    --type-tool-fg: #ffcf73;
+  --type-library-bg: #163a1e; --type-library-fg: #9fe0aa;
+  --type-package-bg: #3d2c1d; --type-package-fg: #f0cfae;
+  --type-mcp-bg: #4a1d38;     --type-mcp-fg: #ffb3dc;
 
   /* Tool status dots */
-  --status-using: #8cc296;
-  --status-tested: #efe6da;
+  --status-using: #93cf9d;
+  --status-notes: #f2a93b;
+  --status-tested: #fbf1e3;
 
   /* Weekly verdicts */
-  --verdict-use-bg: #20321f;  --verdict-use-fg: #a9d1ae;
-  --verdict-wait-bg: #3a2d13; --verdict-wait-fg: #f2c46f;
-  --verdict-skip-bg: #3d2119; --verdict-skip-fg: #f2a283;
+  --verdict-use-bg: #163a1e;  --verdict-use-fg: #9fe0aa;
+  --verdict-wait-bg: #45320c; --verdict-wait-fg: #ffcf73;
+  --verdict-skip-bg: #4d1f12; --verdict-skip-fg: #ffab8a;
 
   /* Use it / skip it boxes */
-  --use-bg: #1f2a1e;  --use-fg: #cddfc8;
-  --skip-bg: #2e1f18; --skip-fg: #ecccbe;
-  --highlight-bg: #3a2d13;
-  --bad-bg: #2a1e18;  --bad-line: #4d3226;
-  --good-bg: #1e281d; --good-line: #34482f;
+  --use-bg: #13261a;  --use-fg: #d2ead0;
+  --skip-bg: #2e1810; --skip-fg: #f2d2c4;
+  --highlight-bg: #3b2a0c;
+  --bad-bg: #2a1810;  --bad-line: #5c3020;
+  --good-bg: #13241a; --good-line: #2c5235;
 
-  /* Shadows */
-  --shadow-float: 0 24px 50px -30px rgba(0, 0, 0, 0.7);
-  --shadow-panel: 0 30px 60px -40px rgba(0, 0, 0, 0.65);
+  /* Shadows and glows */
+  --shadow-float: 0 24px 50px -24px rgba(0, 0, 0, 0.8);
+  --shadow-panel: 0 30px 60px -30px rgba(0, 0, 0, 0.75);
   --shadow-seg: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --card-edge: inset 0 1px 0 rgba(255, 228, 180, 0.07);
+  --accent-glow: 0 8px 28px -8px rgba(242, 169, 59, 0.6);
 }

@@ -85,6 +85,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  box-shadow: var(--card-edge);
 }
 
 .cardTitle {
@@ -335,6 +336,7 @@
   font-weight: 600;
   line-height: 1.35;
   color: var(--color-ink);
+  box-shadow: var(--card-edge);
 }
 
 .flowNum {
@@ -365,6 +367,7 @@
 .flowRepeat .flowNum {
   background: var(--color-accent);
   color: var(--color-on-accent);
+  box-shadow: var(--accent-glow);
 }
 
 .flowStep:not(:last-child)::after {
@@ -482,11 +485,12 @@
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
+  box-shadow: var(--accent-glow);
 }
 
 .cta:hover,
 .cta:focus-visible {
-  background: var(--color-ink);
+  background: var(--color-fill);
   color: var(--color-on-ink);
 }
 
@@ -762,10 +766,10 @@
   color: var(--color-on-dark);
 }
 
-/* A near-black chip would barely stand out on the dark page: invert it instead. */
+/* A near-black chip would barely stand out on the dark page: use the fill colour. */
 :global(html[data-theme="dark"]) .tabChipOn {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
+  background: var(--color-fill);
+  border-color: var(--color-fill);
   color: var(--color-on-ink);
 }
 
@@ -777,6 +781,7 @@
   border: 1px solid var(--color-line-card);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
+  box-shadow: var(--card-edge);
 }
 
 .tabPanel[hidden] {
