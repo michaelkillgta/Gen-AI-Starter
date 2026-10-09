@@ -4,6 +4,7 @@ import { Badge, Button, StatusDot } from "@/components/ui";
 import { GROUPS, KIND_LABEL, STATUS_LABEL, monogram } from "@/features/toolkit/filter";
 import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 import { links } from "@/lib/links";
+import { site } from "@/lib/site";
 import { CopyButton } from "./CopyButton";
 import styles from "./ToolDetail.module.css";
 
@@ -74,6 +75,29 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
         </div>
       </div>
 
+      {/* The tool's main blog post (most specific first). It's Uma's own take, so it sits high up. */}
+      {blog && (
+        <div className={styles.fromBlog}>
+          <span className={styles.label}>From {site.author.name}&rsquo;s blog</span>
+          <Link href={links.post(blog.slug)} className={styles.blogCard}>
+            <span className={styles.blogIcon} aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
+                <path
+                  d="M10.5 2.5l3 3L6 13H3v-3l7.5-7.5ZM9 4l3 3"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className={styles.blogTitle}>{blog.title}</span>
+            <svg className={styles.blogArrow} width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </div>
+      )}
+
       <div className={styles.dives}>
         <span className={styles.label}>Learn it in a deep dive</span>
         {tool.dives.length > 0 ? (
@@ -103,18 +127,11 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
         </div>
       )}
 
-      {/* The tool's main blog post (most specific first); otherwise its own page. */}
-      {blog ? (
-        <Link href={links.post(blog.slug)} className={`${styles.dive} ${styles.blogButton}`}>
-          <span className={styles.diveTrack}>Read the blog</span>
-          <span className={styles.diveTitle}>{blog.title}</span>
-        </Link>
-      ) : (
-        variant === "panel" && (
-          <Button href={links.tool(tool.slug)} variant="light" block>
-            Open the {tool.name} page
-          </Button>
-        )
+      {/* No blog post yet: link to the tool's own page instead. */}
+      {!blog && variant === "panel" && (
+        <Button href={links.tool(tool.slug)} variant="light" block>
+          Open the {tool.name} page
+        </Button>
       )}
       {variant === "page" && tool.tags.length > 0 && (
         <div className={styles.tags}>

@@ -81,6 +81,7 @@
   --skip-bg: #fbefe8; --skip-fg: #5a3b2e;
   --highlight-bg: #fbebc8;          /* deep dive links, TL;DR box */
   --dive-bg: #fbebc8; --dive-fg: #6e4a0b;   /* "Deep dive" tags and labels */
+  --blog-bg: #fbf1f6; --blog-line: #e8c9da; --blog-fg: #6b2f50; --blog-icon-bg: #f2e3ec;  /* "From Uma's blog" card */
   --bad-bg: #fdf6f2;  --bad-line: #f1d9cc;
   --good-bg: #f4f8f2; --good-line: #d6e4d2;
 
@@ -207,6 +208,7 @@
   --skip-bg: #2d1618; --skip-fg: #fecaca;
   --highlight-bg: #10332f;
   --dive-bg: #10332f; --dive-fg: #5eead4;
+  --blog-bg: #241a2f; --blog-line: #4f2c4b; --blog-fg: #f9b8dc; --blog-icon-bg: #3b1d3a;
   --bad-bg: #2a1518;  --bad-line: #5a2a2e;
   --good-bg: #0f2a26; --good-line: #1f5c52;
 

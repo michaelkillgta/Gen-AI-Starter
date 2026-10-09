@@ -353,7 +353,56 @@
   }
 }
 
-/* The bottom "Read the blog" button: the deep-dive card style, always showing its label. */
-.blogButton .diveTrack {
-  display: block;
+/* "From Uma's blog": a soft rose card, the same pink as the home page's "New on the blog". */
+.fromBlog {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.blogCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--blog-line);
+  border-radius: var(--radius-md);
+  background: var(--blog-bg);
+  color: var(--blog-fg);
+  text-decoration: none;
+}
+
+.blogCard:hover {
+  color: var(--blog-fg);
+  border-color: var(--blog-fg);
+}
+
+.blogIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--blog-icon-bg);
+  color: var(--blog-fg);
+}
+
+.blogTitle {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.blogArrow {
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+
+.blogCard:hover .blogArrow {
+  transform: translateX(2px);
 }
