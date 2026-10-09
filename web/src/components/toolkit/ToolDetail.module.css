@@ -352,3 +352,8 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* The bottom "Read the blog" button: the deep-dive card style, always showing its label. */
+.blogButton .diveTrack {
+  display: block;
+}

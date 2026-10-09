@@ -102,10 +102,15 @@ pub async fn tools(state: &AppState) -> ApiResult<ToolsResponse> {
                 .map(|d| dive_ref(d, &tracks))
                 .collect();
             let href = format!("/toolkit/{}", tool.slug);
-            let posts = all_posts
+            // Most specific first (fewest tools in its "Tools used" row), then newest.
+            let mut matched: Vec<(usize, &Post)> = all_posts
                 .iter()
-                .filter(|p| p.body.iter().any(|b| is_tools_used_link(b, &href)))
-                .map(|p| PostRef {
+                .filter_map(|p| tools_used_count(p, &href).map(|n| (n, p)))
+                .collect();
+            matched.sort_by_key(|(n, _)| *n);
+            let posts = matched
+                .into_iter()
+                .map(|(_, p)| PostRef {
                     slug: p.slug.clone(),
                     title: p.title.clone(),
                 })
@@ -119,9 +124,14 @@ pub async fn tools(state: &AppState) -> ApiResult<ToolsResponse> {
     })
 }
 
-/// A post's "Tools used" row links to `href` (e.g. "/toolkit/docling").
-fn is_tools_used_link(b: &Block, href: &str) -> bool {
-    matches!(b, Block::Links { label: Some(l), items } if l == "Tools used" && items.iter().any(|i| i.href == href))
+/// If the post's "Tools used" row links to `href` (e.g. "/toolkit/docling"), how many tools that row lists.
+fn tools_used_count(p: &Post, href: &str) -> Option<usize> {
+    p.body.iter().find_map(|b| match b {
+        Block::Links { label: Some(l), items } if l == "Tools used" && items.iter().any(|i| i.href == href) => {
+            Some(items.len())
+        }
+        _ => None,
+    })
 }
 
 pub async fn tool(state: &AppState, slug: &str) -> ApiResult<ToolWithDives> {

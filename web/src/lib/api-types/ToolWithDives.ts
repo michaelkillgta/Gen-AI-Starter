@@ -7,6 +7,6 @@ import type { ToolStatus } from "./ToolStatus";
 
 export type ToolWithDives = { dives: Array<DiveRef>, 
 /**
- * Blog posts that list this tool in their "Tools used" row, newest first.
+ * Blog posts that list this tool in their "Tools used" row, most specific first.
  */
 posts: Array<PostRef>, slug: string, name: string, kind: ToolKind, group: ToolGroup, short: string, plain: string, use_when: string, skip_when: string, runs_on: string, cost: string, get_it: string, status: ToolStatus, note: string | null, tags: Array<string>, position: number, };

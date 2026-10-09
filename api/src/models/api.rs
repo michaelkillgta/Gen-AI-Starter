@@ -34,7 +34,7 @@ pub struct ToolWithDives {
     #[ts(flatten)]
     pub tool: Tool,
     pub dives: Vec<DiveRef>,
-    /// Blog posts that list this tool in their "Tools used" row, newest first.
+    /// Blog posts that list this tool in their "Tools used" row, most specific first.
     pub posts: Vec<PostRef>,
 }
 

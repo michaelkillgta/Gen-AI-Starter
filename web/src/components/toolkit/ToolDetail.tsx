@@ -18,6 +18,7 @@ type Props = {
 export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Props) {
   const Heading = headingLevel;
   const group = GROUPS.find((g) => g.value === tool.group);
+  const blog = tool.posts[0];
   return (
     <div className={`${styles.detail} ${styles[variant]}`}>
       {variant !== "inline" && (
@@ -94,30 +95,26 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
         )}
       </div>
 
-      {/* A tool with its own blog post links to it; the others keep the short note. */}
-      {tool.posts.length > 0 ? (
-        <div className={styles.dives}>
-          <span className={styles.label}>Read the blog</span>
-          {tool.posts.map((p) => (
-            <Link key={p.slug} href={links.post(p.slug)} className={styles.dive}>
-              <span className={styles.diveTrack}>Blog post</span>
-              <span className={styles.diveTitle}>{p.title}</span>
-            </Link>
-          ))}
+      {/* Tools without a blog post yet keep the short note. */}
+      {!blog && tool.note && (
+        <div className={styles.note}>
+          <span className={styles.label}>From my notes</span>
+          <span>{tool.note}</span>
         </div>
-      ) : (
-        tool.note && (
-          <div className={styles.note}>
-            <span className={styles.label}>From my notes</span>
-            <span>{tool.note}</span>
-          </div>
-        )
       )}
 
-      {variant === "panel" && (
-        <Button href={links.tool(tool.slug)} variant="light" block>
-          Open the {tool.name} page
-        </Button>
+      {/* The tool's main blog post (most specific first); otherwise its own page. */}
+      {blog ? (
+        <Link href={links.post(blog.slug)} className={`${styles.dive} ${styles.blogButton}`}>
+          <span className={styles.diveTrack}>Read the blog</span>
+          <span className={styles.diveTitle}>{blog.title}</span>
+        </Link>
+      ) : (
+        variant === "panel" && (
+          <Button href={links.tool(tool.slug)} variant="light" block>
+            Open the {tool.name} page
+          </Button>
+        )
       )}
       {variant === "page" && tool.tags.length > 0 && (
         <div className={styles.tags}>
