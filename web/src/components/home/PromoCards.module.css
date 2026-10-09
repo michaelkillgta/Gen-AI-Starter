@@ -56,9 +56,9 @@
 .accent,
 .accent:hover {
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
 }
-.accent .text { color: #3a2e24; }
+.accent .text { color: var(--color-on-accent-muted); }
 
 .panel,
 .panel:hover {

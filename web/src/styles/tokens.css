@@ -3,6 +3,8 @@
  * Every colour, font and radius used by components comes from here.
  */
 :root {
+  color-scheme: light;
+
   /* Surfaces */
   --color-bg: #fbf8f3;
   --color-surface: #fffefc;
@@ -22,11 +24,22 @@
   --color-on-dark: #fbf8f3;
   --color-on-dark-muted: #c9bbaa;
   --color-code-text: #efe6da;
+  --color-on-ink: #fbf8f3;          /* text on ink-filled buttons, chips and tabs */
+  --color-on-ink-muted: #c9bbaa;
+  --color-on-accent: #1c1713;       /* text on marigold, the same in both themes */
+  --color-on-accent-muted: #3a2e24;
+  --color-on-success: #fffefc;      /* tick on a green circle */
+  --color-on-dark-caption: #d3c4b2;
+  --color-on-dark-tint: rgba(255, 254, 252, 0.14);
+  --color-dark-bubble: #3a2e24;
+  --color-dashed-on-dark: #5a4636;
 
   /* Brand */
   --color-accent: #f2a93b;         /* marigold */
   --color-accent-ink: #8a5a10;     /* amber text on light */
   --color-hover: #c4471a;
+  --color-accent-hover: #e89c28;
+  --color-accent-on-ink: #f2a93b;   /* marigold text on an ink fill */
   --color-danger: #a83b14;
   --color-success: #2f5d3a;
 
@@ -37,6 +50,13 @@
   --color-line-soft: #f0e9df;
   --color-line-dashed: #d9cdbd;
   --color-avatar: #e6dbcb;
+  --color-line-strong: #d6cbbc;
+  --color-line-hover: #cdbfae;
+  --color-hover-wash: rgba(255, 254, 252, 0.6);
+  --tint-green-line: #b9cfb3;
+  --tint-amber-line: #e6c98a;
+  --tint-clay-line: #e0bba8;
+  --tint-rose-line: #e2bfd2;
 
   /* Tool types (chip background / text) */
   --type-tool-bg: #fbebc8;    --type-tool-fg: #6e4a0b;
@@ -58,6 +78,8 @@
   --use-bg: #f2f6ef;  --use-fg: #33402f;
   --skip-bg: #fbefe8; --skip-fg: #5a3b2e;
   --highlight-bg: #fbebc8;          /* deep dive links, TL;DR box */
+  --bad-bg: #fdf6f2;  --bad-line: #f1d9cc;
+  --good-bg: #f4f8f2; --good-line: #d6e4d2;
 
   /* Fonts (set by next/font in app/layout.tsx) */
   --font-display: var(--font-bricolage), "Bricolage Grotesque", system-ui, sans-serif;
@@ -89,4 +111,90 @@
   --fs-h2: clamp(1.75rem, 1.3rem + 1.6vw, 2.25rem);         /* 28 → 36 */
   --fs-h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);        /* 22 → 28 */
   --fs-lead: clamp(1rem, 0.93rem + 0.3vw, 1.25rem);         /* 16 → 20 */
+}
+
+/*
+ * Warm dark theme. The <html data-theme> attribute is set before first paint by the
+ * script in app/layout.tsx: the saved choice from the header toggle, else the OS setting.
+ * Marigold and the cover colours stay as they are; everything else is re-tuned so
+ * text keeps WCAG AA contrast on the brown-black background.
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --color-bg: #1a1712;
+  --color-surface: #231f19;
+  --color-panel: #2d2720;
+  --color-dark: #12100c;
+  --color-dark-raised: #2a241d;
+  --color-dark-border: #3e352b;
+
+  /* Text */
+  --color-ink: #efe6da;
+  --color-ink-soft: #ddd2c4;
+  --color-body: #e3d9cc;
+  --color-muted: #bcaf9f;
+  --color-muted-2: #ac9f90;
+  --color-faint: #9c8f80;
+  --color-number: #85786a;
+  --color-on-dark: #efe6da;
+  --color-on-dark-muted: #c2b4a3;
+  --color-code-text: #efe6da;
+  --color-on-ink: #1a1712;
+  --color-on-ink-muted: #5e534a;
+  --color-on-success: #1a1712;
+  --color-on-dark-caption: #c9bbaa;
+  --color-on-dark-tint: rgba(255, 254, 252, 0.08);
+  --color-dark-bubble: #2d2720;
+  --color-dashed-on-dark: #4a3f33;
+
+  /* Brand: marigold is unchanged; the darker text shades get lighter to read on brown */
+  --color-accent-ink: #f2a93b;
+  --color-accent-on-ink: #8a5a10;
+  --color-hover: #ee8a5c;
+  --color-danger: #f08a62;
+  --color-success: #8cc296;
+
+  /* Lines */
+  --color-line: #2e2821;
+  --color-line-card: #362f27;
+  --color-line-input: #463d33;
+  --color-line-soft: #29231d;
+  --color-line-dashed: #4d4337;
+  --color-avatar: #3b3229;
+  --color-line-strong: #574b3e;
+  --color-line-hover: #5e5244;
+  --color-hover-wash: rgba(255, 254, 252, 0.05);
+  --tint-green-line: #35503a;
+  --tint-amber-line: #5c4720;
+  --tint-clay-line: #5a3d30;
+  --tint-rose-line: #553546;
+
+  /* Tool types */
+  --type-tool-bg: #3a2d13;    --type-tool-fg: #f2c46f;
+  --type-library-bg: #20321f; --type-library-fg: #a9d1ae;
+  --type-package-bg: #342a21; --type-package-fg: #dcc6b0;
+  --type-mcp-bg: #3a2231;     --type-mcp-fg: #e8b6d2;
+
+  /* Tool status dots */
+  --status-using: #8cc296;
+  --status-tested: #efe6da;
+
+  /* Weekly verdicts */
+  --verdict-use-bg: #20321f;  --verdict-use-fg: #a9d1ae;
+  --verdict-wait-bg: #3a2d13; --verdict-wait-fg: #f2c46f;
+  --verdict-skip-bg: #3d2119; --verdict-skip-fg: #f2a283;
+
+  /* Use it / skip it boxes */
+  --use-bg: #1f2a1e;  --use-fg: #cddfc8;
+  --skip-bg: #2e1f18; --skip-fg: #ecccbe;
+  --highlight-bg: #3a2d13;
+  --bad-bg: #2a1e18;  --bad-line: #4d3226;
+  --good-bg: #1e281d; --good-line: #34482f;
+
+  /* Shadows */
+  --shadow-float: 0 24px 50px -30px rgba(0, 0, 0, 0.7);
+  --shadow-panel: 0 30px 60px -40px rgba(0, 0, 0, 0.65);
+  --shadow-seg: 0 1px 3px rgba(0, 0, 0, 0.5);
 }

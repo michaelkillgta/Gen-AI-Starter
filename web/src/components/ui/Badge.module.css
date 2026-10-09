@@ -21,7 +21,7 @@
 .skip    { background: var(--verdict-skip-bg); color: var(--verdict-skip-fg); }
 .neutral { background: var(--color-panel);     color: var(--color-ink-soft); }
 .dark    { background: var(--color-dark);      color: var(--color-accent); }
-.accent  { background: var(--color-accent);    color: var(--color-ink); }
+.accent  { background: var(--color-accent);    color: var(--color-on-accent); }
 
 .dot {
   flex-shrink: 0;

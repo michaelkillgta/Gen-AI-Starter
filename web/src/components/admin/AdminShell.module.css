@@ -117,7 +117,7 @@
 .navOn,
 .navOn:hover {
   background: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
 }
 
 .navCount {

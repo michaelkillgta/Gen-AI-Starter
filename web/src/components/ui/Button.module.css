@@ -34,21 +34,21 @@
 
 .dark {
   background: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
 }
 
 .dark:hover:not(:disabled) {
-  color: var(--color-accent);
+  color: var(--color-accent-on-ink);
 }
 
 .accent {
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
 }
 
 .accent:hover:not(:disabled) {
-  background: #e89c28;
-  color: var(--color-ink);
+  background: var(--color-accent-hover);
+  color: var(--color-on-accent);
 }
 
 .outline {

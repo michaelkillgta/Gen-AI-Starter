@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
 }
 
 .word {
@@ -26,7 +26,7 @@
   padding: 3px 10px;
   border-radius: var(--radius-pill);
   background: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
   font-size: 12px;
   font-weight: 600;
 }

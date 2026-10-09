@@ -307,7 +307,7 @@
 
 .more:hover {
   background: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
 }
 
 @media (min-width: 640px) {
@@ -318,7 +318,7 @@
 
   .card:hover {
     transform: translateY(-2px);
-    border-color: #cdbfae;
+    border-color: var(--color-line-hover);
   }
 
   .cardMain {

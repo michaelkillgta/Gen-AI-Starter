@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { adminLogout } from "@/features/admin/actions";
 import { TABLES, isThisWeek, rowsOf, type TableKey } from "@/features/admin/tables";
 import type { AdminData } from "@/lib/api-types/AdminData";
@@ -57,6 +58,7 @@ export function AdminShell({ current, data, children }: { current: Section; data
             <span className={styles.dot} aria-hidden="true" />
             Signed in
           </span>
+          <ThemeToggle />
           <form action={adminLogout}>
             <button type="submit" className={styles.signOut}>
               Sign out

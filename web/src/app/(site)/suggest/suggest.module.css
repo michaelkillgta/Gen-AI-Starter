@@ -44,7 +44,7 @@
   align-items: center;
   justify-content: center;
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 15px;

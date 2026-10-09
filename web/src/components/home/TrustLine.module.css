@@ -8,8 +8,8 @@
   align-items: flex-start;
   gap: 10px;
   padding: 22px 0;
-  border-top: 1px solid #e2d8ca;
-  border-bottom: 1px solid #e2d8ca;
+  border-top: 1px solid var(--color-line-input);
+  border-bottom: 1px solid var(--color-line-input);
 }
 
 .text {

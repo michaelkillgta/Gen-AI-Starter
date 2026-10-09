@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 
+import { THEME_SCRIPT } from "@/components/layout/theme";
 import { site } from "@/lib/site";
 import "@/styles/globals.css";
 
@@ -36,14 +37,25 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FBF8F3",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FBF8F3" },
+    { media: "(prefers-color-scheme: dark)", color: "#1A1712" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${bricolage.variable} ${geist.variable} ${geistMono.variable}`}>
+    // data-theme is set by THEME_SCRIPT before React hydrates, hence suppressHydrationWarning.
+    <html
+      lang="en-IN"
+      className={`${bricolage.variable} ${geist.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>{children}</body>
     </html>
   );

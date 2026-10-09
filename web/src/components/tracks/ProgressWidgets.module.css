@@ -48,7 +48,7 @@
   padding: 6px 12px;
   border-radius: var(--radius-pill);
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
 }
 
 .readTag {
@@ -68,7 +68,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  border: 1.5px solid #d6cbbc;
+  border: 1.5px solid var(--color-line-strong);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@
 .dotDone {
   border: none;
   background: var(--color-success);
-  color: var(--color-surface);
+  color: var(--color-on-success);
 }
 
 .markRow {

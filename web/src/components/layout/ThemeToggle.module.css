@@ -1,0 +1,30 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: 1px solid var(--color-line-input);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  border-color: var(--color-ink);
+}
+
+.sun {
+  display: none;
+}
+
+:global(html[data-theme="dark"]) .sun {
+  display: block;
+}
+
+:global(html[data-theme="dark"]) .moon {
+  display: none;
+}

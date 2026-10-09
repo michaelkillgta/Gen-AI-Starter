@@ -60,19 +60,19 @@
   color: var(--color-faint);
 }
 
-.green { border-color: #b9cfb3; }
-.green .icon { background: #e6efe3; color: var(--color-success); }
+.green { border-color: var(--tint-green-line); }
+.green .icon { background: var(--verdict-use-bg); color: var(--color-success); }
 .green .eyebrow { color: var(--color-success); }
 
-.amber { border-color: #e6c98a; }
-.amber .icon { background: #f7ebcf; color: #7a5410; }
-.amber .eyebrow { color: #7a5410; }
+.amber { border-color: var(--tint-amber-line); }
+.amber .icon { background: var(--verdict-wait-bg); color: var(--verdict-wait-fg); }
+.amber .eyebrow { color: var(--verdict-wait-fg); }
 
-.clay { border-color: #e0bba8; }
+.clay { border-color: var(--tint-clay-line); }
 .clay .icon { background: var(--color-panel); color: var(--color-ink); }
 .clay .eyebrow { color: var(--color-muted); }
 
-.rose { border-color: #e2bfd2; }
+.rose { border-color: var(--tint-rose-line); }
 .rose .icon { background: var(--type-mcp-bg); color: var(--type-mcp-fg); }
 .rose .eyebrow { color: var(--type-mcp-fg); }
 

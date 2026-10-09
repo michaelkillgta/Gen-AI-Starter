@@ -7,6 +7,7 @@ import { focusWaitlist, WAITLIST_ID } from "@/components/challenge/waitlist-anch
 import { isActive, mainNav } from "@/lib/site";
 import { Logo } from "./Logo";
 import styles from "./SiteHeader.module.css";
+import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * Desktop (1024px+): logo, full menu and a call-to-action button in one 76px bar.
@@ -40,16 +41,19 @@ export function SiteHeader() {
             );
           })}
         </nav>
-        <Link
-          href={ctaHref}
-          className={styles.cta}
-          onClick={(e) => {
-            // Already on the page with the form: scroll to it and start typing.
-            if (pathname === "/challenge" && focusWaitlist()) e.preventDefault();
-          }}
-        >
-          Build with us, free
-        </Link>
+        <div className={styles.actions}>
+          <Link
+            href={ctaHref}
+            className={styles.cta}
+            onClick={(e) => {
+              // Already on the page with the form: scroll to it and start typing.
+              if (pathname === "/challenge" && focusWaitlist()) e.preventDefault();
+            }}
+          >
+            Build with us, free
+          </Link>
+          <ThemeToggle />
+        </div>
       </div>
       </div>
 

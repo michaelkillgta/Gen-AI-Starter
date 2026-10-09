@@ -106,7 +106,7 @@
 }
 
 .item:hover {
-  background: rgba(255, 254, 252, 0.6);
+  background: var(--color-hover-wash);
   color: var(--color-ink);
 }
 

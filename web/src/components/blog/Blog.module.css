@@ -41,7 +41,7 @@
 .catOn:hover {
   background: var(--color-ink);
   border-color: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
 }
 
 /* ---------- Featured ---------- */
@@ -92,7 +92,7 @@
 .statCaption {
   font-size: 16px;
   line-height: 1.5;
-  color: #d3c4b2;
+  color: var(--color-on-dark-caption);
   max-width: 420px;
 }
 

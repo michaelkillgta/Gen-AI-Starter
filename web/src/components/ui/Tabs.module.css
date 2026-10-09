@@ -34,7 +34,7 @@
 .on:hover {
   background: var(--color-ink);
   border-color: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
 }
 
 .tabLabel {
@@ -51,7 +51,7 @@
 }
 
 .on .tabSub {
-  color: var(--color-on-dark-muted);
+  color: var(--color-on-ink-muted);
 }
 
 @media (min-width: 640px) {

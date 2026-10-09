@@ -52,14 +52,14 @@
   padding: 0 18px;
   border-radius: var(--radius-sm);
   background: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
 }
 
 .suggestMain:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-on-ink);
 }
 
 .suggestSecondary {

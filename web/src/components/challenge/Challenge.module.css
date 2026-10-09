@@ -145,7 +145,7 @@
   height: 48px;
   border-radius: 50%;
   background: var(--color-success);
-  color: var(--color-surface);
+  color: var(--color-on-success);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,7 +221,7 @@
   left: 27px;
   top: 28px;
   bottom: 28px;
-  border-left: 2px dashed #5a4636;
+  border-left: 2px dashed var(--color-dashed-on-dark);
 }
 
 .step {
@@ -240,7 +240,7 @@
   height: 56px;
   border-radius: 50%;
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -284,7 +284,7 @@
   height: 26px;
   border-radius: 50%;
   background: var(--color-success);
-  color: var(--color-surface);
+  color: var(--color-on-success);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -429,7 +429,7 @@
 
 .roles span {
   flex: 1;
-  background: rgba(255, 254, 252, 0.14);
+  background: var(--color-on-dark-tint);
   border-radius: var(--radius-md);
   padding: 10px;
   font-size: 13px;
@@ -444,7 +444,7 @@
 
 .chatQ {
   align-self: flex-start;
-  background: #3a2e24;
+  background: var(--color-dark-bubble);
   border-radius: 12px 12px 12px 4px;
   padding: 9px 12px;
 }
@@ -452,7 +452,7 @@
 .chatA {
   align-self: flex-end;
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
   border-radius: 12px 12px 4px 12px;
   padding: 9px 12px;
 }
@@ -464,7 +464,7 @@
   gap: 10px;
   font-size: 13px;
   font-weight: 600;
-  color: #2a5233;
+  color: var(--type-library-fg);
 }
 
 .flow span {
@@ -490,7 +490,7 @@
 
 .pills .pillLast {
   background: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
 }
 
 .projectBody {
@@ -613,7 +613,7 @@
     top: 27px;
     bottom: auto;
     border-left: 0;
-    border-top: 2px dashed #5a4636;
+    border-top: 2px dashed var(--color-dashed-on-dark);
   }
 
   .step {

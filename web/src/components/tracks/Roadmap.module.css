@@ -35,7 +35,7 @@
 .tabOn:hover {
   background: var(--color-ink);
   border-color: var(--color-ink);
-  color: var(--color-on-dark);
+  color: var(--color-on-ink);
 }
 
 .tabWho {
@@ -45,7 +45,7 @@
 }
 
 .tabOn .tabWho {
-  color: var(--color-accent);
+  color: var(--color-accent-on-ink);
 }
 
 .tabLabel {
@@ -61,7 +61,7 @@
 }
 
 .tabOn .tabSub {
-  color: var(--color-on-dark-muted);
+  color: var(--color-on-ink-muted);
 }
 
 /* ---------- Layout ---------- */
@@ -205,7 +205,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 1.5px solid #d6cbbc;
+  border: 1.5px solid var(--color-line-strong);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -216,7 +216,7 @@
 .navDotDone {
   border: none;
   background: var(--color-success);
-  color: var(--color-surface);
+  color: var(--color-on-success);
 }
 
 .navText {
