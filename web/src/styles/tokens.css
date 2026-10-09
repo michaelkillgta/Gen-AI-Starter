@@ -15,11 +15,11 @@
 
   /* Text */
   --color-ink: #1c1713;
-  --color-ink-soft: #3e352e;
-  --color-body: #2e2620;           /* long-form article text */
-  --color-muted: #5e534a;
-  --color-muted-2: #6e6155;
-  --color-faint: #766a5d;          /* design had #8A7D70; darkened to pass 4.5:1 contrast */
+  --color-ink-soft: #383029;
+  --color-body: #29221d;           /* long-form article text */
+  --color-muted: #554b43;
+  --color-muted-2: #63574d;
+  --color-faint: #6a5f54;          /* design had #8A7D70; darkened to pass 4.5:1 contrast */
   --color-number: #948676;         /* large list numbers (design #B5A898, darkened for 3:1 contrast) */
   --color-on-dark: #fbf8f3;
   --color-on-dark-muted: #c9bbaa;
@@ -77,8 +77,8 @@
   --verdict-skip-bg: #fbe6dc; --verdict-skip-fg: #a83b14;
 
   /* Use it / skip it boxes */
-  --use-bg: #f2f6ef;  --use-fg: #33402f;
-  --skip-bg: #fbefe8; --skip-fg: #5a3b2e;
+  --use-bg: #f2f6ef;  --use-fg: #2b3727;
+  --skip-bg: #fbefe8; --skip-fg: #4f3328;
   --highlight-bg: #fbebc8;          /* deep dive links, TL;DR box */
   --dive-bg: #fbebc8; --dive-fg: #6e4a0b;   /* "Deep dive" tags and labels */
   --blog-bg: #fbf1f6; --blog-line: #e8c9da; --blog-fg: #6b2f50; --blog-icon-bg: #f2e3ec;  /* "From Uma's blog" card */
