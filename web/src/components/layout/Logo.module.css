@@ -16,12 +16,11 @@
   width: 30px;
   height: 30px;
   border-radius: 9px;
-  background: var(--color-accent);
-  color: var(--color-on-accent);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--accent-glow);
 }
 
 .word {

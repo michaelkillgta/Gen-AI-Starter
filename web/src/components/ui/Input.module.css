@@ -23,7 +23,7 @@
 .input:focus {
   outline: none;
   border-color: var(--color-ink);
-  box-shadow: 0 0 0 3px rgba(242, 169, 59, 0.35);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .area {
@@ -63,7 +63,7 @@
 
 .search:focus-within {
   border-color: var(--color-ink);
-  box-shadow: 0 0 0 3px rgba(242, 169, 59, 0.35);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
 .searchHero {

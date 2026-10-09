@@ -133,19 +133,40 @@ textarea::placeholder {
 
 /* ---------- Dark theme extras (colours themselves live in tokens.css) ---------- */
 
-/* A warm marigold glow at the top of every page, fading into the near-black. */
+/* A cool teal and indigo glow at the top of every page, fading into the navy. */
 :root[data-theme="dark"] body {
   background:
-    radial-gradient(70rem 30rem at 50% -10rem, rgba(242, 169, 59, 0.22), transparent 70%),
-    radial-gradient(50rem 30rem at 100% 0, rgba(196, 71, 26, 0.12), transparent 70%),
+    radial-gradient(60rem 28rem at 50% -8rem, rgba(45, 212, 191, 0.13), transparent 70%),
+    radial-gradient(48rem 30rem at 100% -4rem, rgba(99, 102, 241, 0.16), transparent 70%),
+    radial-gradient(40rem 26rem at 0 -6rem, rgba(56, 189, 248, 0.07), transparent 70%),
     var(--color-bg);
   background-repeat: no-repeat;
 }
 
-/* Big headings get a soft cream-to-gold sheen. */
-:root[data-theme="dark"] h1 {
-  background-image: linear-gradient(180deg, #fff8ec 35%, #f6cf8f 120%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* A faint grid behind the top of the page that fades out as you scroll down. */
+:root[data-theme="dark"] body::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 640px;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(170, 200, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(170, 200, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center top;
+  -webkit-mask-image: radial-gradient(ellipse 70% 100% at 50% 0, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 100% at 50% 0, #000 20%, transparent 75%);
+}
+
+/* Smooth, quiet hover and focus changes on everything clickable. */
+a,
+button,
+input,
+textarea,
+select {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: 0.18s;
+  transition-timing-function: ease;
 }

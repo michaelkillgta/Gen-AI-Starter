@@ -342,7 +342,7 @@
 }
 
 .inviteLink {
-  color: var(--color-danger);
+  color: var(--color-link-strong);
   font-weight: 600;
 }
 
@@ -370,7 +370,7 @@
 .projectsEyebrow {
   font-size: 15px;
   font-weight: 600;
-  color: var(--color-danger);
+  color: var(--color-link-strong);
 }
 
 .projectsTitle {
@@ -654,4 +654,10 @@
   .projectBody {
     padding: 26px 28px 30px;
   }
+}
+
+/* Dark theme: cover colours come from the post data (made for the light theme), so swap them for the navy panel and mint. */
+:global(html[data-theme="dark"]) .cover {
+  background: var(--color-dark) !important;
+  color: var(--color-accent-ink) !important;
 }

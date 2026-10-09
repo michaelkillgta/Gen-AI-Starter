@@ -200,3 +200,20 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* Dark theme: cover colours come from the post data (made for the light theme), so swap them for the navy panel and mint. */
+:global(html[data-theme="dark"]) .hero {
+  background: var(--color-dark) !important;
+  border: 1px solid var(--color-dark-border);
+  box-shadow: var(--card-edge), var(--shadow-panel);
+}
+
+:global(html[data-theme="dark"]) .facts,
+:global(html[data-theme="dark"]) .stepsLabel {
+  color: var(--color-accent-ink) !important;
+}
+
+:global(html[data-theme="dark"]) .stepNum {
+  background: var(--color-accent) !important;
+  color: var(--color-on-accent);
+}

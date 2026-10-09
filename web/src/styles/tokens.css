@@ -42,6 +42,7 @@
   --color-accent-hover: #e89c28;
   --color-accent-on-ink: #f2a93b;   /* marigold text on an ink fill */
   --color-danger: #a83b14;
+  --color-link-strong: #a83b14;     /* "Read the post", "When to use it" */
   --color-success: #2f5d3a;
 
   /* Lines */
@@ -79,6 +80,7 @@
   --use-bg: #f2f6ef;  --use-fg: #33402f;
   --skip-bg: #fbefe8; --skip-fg: #5a3b2e;
   --highlight-bg: #fbebc8;          /* deep dive links, TL;DR box */
+  --dive-bg: #fbebc8; --dive-fg: #6e4a0b;   /* "Deep dive" tags and labels */
   --bad-bg: #fdf6f2;  --bad-line: #f1d9cc;
   --good-bg: #f4f8f2; --good-line: #d6e4d2;
 
@@ -100,7 +102,10 @@
   --shadow-panel: 0 30px 60px -40px rgba(60, 40, 20, 0.35);
   --shadow-seg: 0 1px 3px rgba(60, 40, 20, 0.18);
   --card-edge: 0 0 #0000;           /* lit top edge on cards, dark mode only */
-  --accent-glow: 0 0 #0000;         /* glow under marigold buttons, dark mode only */
+  --accent-glow: 0 0 #0000;         /* glow under accent buttons, dark mode only */
+  --focus-ring: rgba(242, 169, 59, 0.35);
+  --color-brand: #f2a93b;           /* logo square: marigold in both themes */
+  --color-on-brand: #1c1713;
 
   /* Layout */
   --content-max: 1440px;
@@ -117,95 +122,99 @@
 }
 
 /*
- * Warm dark theme. The <html data-theme> attribute is set before first paint by the
- * script in app/layout.tsx: the saved choice from the header toggle, else the OS setting.
- * A deep warm near-black with a marigold glow (globals.css), cards with a lit edge,
- * marigold for selected things and brighter category colours. Marigold itself and
- * the light theme are unchanged; text keeps WCAG AA contrast.
+ * Dark theme: "midnight + mint". The <html data-theme> attribute is set before first
+ * paint by the script in app/layout.tsx: the saved choice from the header toggle,
+ * else the OS setting. Deep navy with a cool teal/indigo glow (globals.css), mint as
+ * the accent, category colours tuned for navy. Only the logo keeps marigold.
+ * The light theme is unchanged; text keeps WCAG AA contrast.
  */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
   /* Surfaces */
-  --color-bg: #12100c;
-  --color-surface: #1c1813;
-  --color-panel: #262019;
-  --color-dark: #221b13;           /* feature panels: a touch warmer than cards */
-  --color-dark-raised: #2f261c;
-  --color-dark-border: #45382a;
+  --color-bg: #0b1120;
+  --color-surface: #131c2e;
+  --color-panel: #1a2438;
+  --color-dark: #16213a;           /* feature panels */
+  --color-dark-raised: #1e2a44;
+  --color-dark-border: #2c3a58;
 
-  /* Text: headings bright, long text a little softer */
-  --color-ink: #fbf1e3;
-  --color-ink-soft: #e9ddce;
-  --color-body: #e8ddcf;
-  --color-muted: #c5b7a6;
-  --color-muted-2: #b3a594;
-  --color-faint: #a19383;
-  --color-number: #8a7d6e;
-  --color-on-dark: #fbf1e3;
-  --color-on-dark-muted: #cbbca9;
-  --color-code-text: #efe6da;
-  --color-on-dark-caption: #d3c4b2;
-  --color-on-dark-tint: rgba(255, 236, 200, 0.08);
-  --color-dark-bubble: #3a2e22;
-  --color-dashed-on-dark: #5a4a37;
+  /* Text */
+  --color-ink: #e6eaf2;
+  --color-ink-soft: #d3d9e4;
+  --color-body: #d9dee8;
+  --color-muted: #a3adbf;
+  --color-muted-2: #94a0b4;
+  --color-faint: #8d9ab0;
+  --color-number: #6b778c;
+  --color-on-dark: #e6eaf2;
+  --color-on-dark-muted: #aab4c5;
+  --color-code-text: #e2e8f0;
+  --color-on-dark-caption: #b8c1d1;
+  --color-on-dark-tint: rgba(200, 220, 255, 0.08);
+  --color-dark-bubble: #22304a;
+  --color-dashed-on-dark: #3a4a66;
 
-  /* Selected chips, tabs and dark buttons turn marigold */
-  --color-fill: #f2a93b;
-  --color-on-ink: #1a1712;
-  --color-on-ink-muted: #4a3a24;
-  --color-accent-on-ink: #5c3a06;
-  --color-on-success: #12100c;
-
-  /* Brand: marigold is unchanged; the darker text shades get lighter to read on dark */
-  --color-accent-ink: #f2a93b;
-  --color-accent-hover: #f7b956;
-  --color-hover: #f39566;
-  --color-danger: #f39566;
-  --color-success: #93cf9d;
+  /* Mint accent: buttons, selected chips and tabs, links */
+  --color-accent: #2dd4bf;
+  --color-accent-hover: #5eead4;
+  --color-accent-ink: #5eead4;
+  --color-fill: #2dd4bf;
+  --color-on-ink: #04211d;
+  --color-on-ink-muted: #0f4a42;
+  --color-accent-on-ink: #0b3b35;
+  --color-on-accent: #04211d;
+  --color-on-accent-muted: #0f4a42;
+  --color-on-success: #0b1120;
+  --color-hover: #5eead4;
+  --color-danger: #fb8c7a;
+  --color-link-strong: #5eead4;
+  --color-success: #86efac;
 
   /* Lines */
-  --color-line: #2a231c;
-  --color-line-card: #3a3026;
-  --color-line-input: #4a3e31;
-  --color-line-soft: #272019;
-  --color-line-dashed: #57493a;
-  --color-avatar: #3d3226;
-  --color-line-strong: #5e5040;
-  --color-line-hover: #8a6a3a;
-  --color-hover-wash: rgba(255, 236, 200, 0.05);
-  --tint-green-line: #2f6b3c;
-  --tint-amber-line: #7a5a1c;
-  --tint-clay-line: #7a4630;
-  --tint-rose-line: #7a3a5c;
+  --color-line: #1c2638;
+  --color-line-card: #263350;
+  --color-line-input: #33415e;
+  --color-line-soft: #18213a;
+  --color-line-dashed: #3a4866;
+  --color-avatar: #263350;
+  --color-line-strong: #46557a;
+  --color-line-hover: #3aa89a;
+  --color-hover-wash: rgba(200, 220, 255, 0.05);
+  --tint-green-line: #1f5c3d;
+  --tint-amber-line: #6b5418;
+  --tint-clay-line: #6b3c2c;
+  --tint-rose-line: #6b2f55;
 
-  /* Tool types: richer than light mode so each kind stands out */
-  --type-tool-bg: #45320c;    --type-tool-fg: #ffcf73;
-  --type-library-bg: #163a1e; --type-library-fg: #9fe0aa;
-  --type-package-bg: #3d2c1d; --type-package-fg: #f0cfae;
-  --type-mcp-bg: #4a1d38;     --type-mcp-fg: #ffb3dc;
+  /* Tool types */
+  --type-tool-bg: #3a2f10;    --type-tool-fg: #fcd34d;
+  --type-library-bg: #0f3b2e; --type-library-fg: #6ee7b7;
+  --type-package-bg: #2a2f45; --type-package-fg: #c7d2fe;
+  --type-mcp-bg: #3b1d3a;     --type-mcp-fg: #f9a8d4;
 
   /* Tool status dots */
-  --status-using: #93cf9d;
-  --status-notes: #f2a93b;
-  --status-tested: #fbf1e3;
+  --status-using: #6ee7b7;
+  --status-notes: #7dd3fc;
+  --status-tested: #e6eaf2;
 
   /* Weekly verdicts */
-  --verdict-use-bg: #163a1e;  --verdict-use-fg: #9fe0aa;
-  --verdict-wait-bg: #45320c; --verdict-wait-fg: #ffcf73;
-  --verdict-skip-bg: #4d1f12; --verdict-skip-fg: #ffab8a;
+  --verdict-use-bg: #0f3b2e;  --verdict-use-fg: #6ee7b7;
+  --verdict-wait-bg: #3a2f10; --verdict-wait-fg: #fcd34d;
+  --verdict-skip-bg: #451a1a; --verdict-skip-fg: #fca5a5;
 
   /* Use it / skip it boxes */
-  --use-bg: #13261a;  --use-fg: #d2ead0;
-  --skip-bg: #2e1810; --skip-fg: #f2d2c4;
-  --highlight-bg: #3b2a0c;
-  --bad-bg: #2a1810;  --bad-line: #5c3020;
-  --good-bg: #13241a; --good-line: #2c5235;
+  --use-bg: #0f2a26;  --use-fg: #ccfbf1;
+  --skip-bg: #2d1618; --skip-fg: #fecaca;
+  --highlight-bg: #10332f;
+  --dive-bg: #10332f; --dive-fg: #5eead4;
+  --bad-bg: #2a1518;  --bad-line: #5a2a2e;
+  --good-bg: #0f2a26; --good-line: #1f5c52;
 
   /* Shadows and glows */
   --shadow-float: 0 24px 50px -24px rgba(0, 0, 0, 0.8);
   --shadow-panel: 0 30px 60px -30px rgba(0, 0, 0, 0.75);
   --shadow-seg: 0 1px 3px rgba(0, 0, 0, 0.5);
-  --card-edge: inset 0 1px 0 rgba(255, 228, 180, 0.07);
-  --accent-glow: 0 8px 28px -8px rgba(242, 169, 59, 0.6);
+  --card-edge: inset 0 1px 0 rgba(170, 200, 255, 0.06);
+  --accent-glow: 0 6px 22px -10px rgba(45, 212, 191, 0.55);
+  --focus-ring: rgba(45, 212, 191, 0.35);
 }

@@ -53,7 +53,9 @@ export function HomeExplorer({ tools, startLists, thisWeek }: Props) {
           <Avatar initial={site.author.initial} size={24} />
           Curated by {site.author.name}, an {site.author.role}
         </span>
-        <h1 className={styles.title}>Find the right AI tool, explained simply.</h1>
+        <h1 className={styles.title}>
+          Find the right AI tool, explained <span className={styles.titleAccent}>simply.</span>
+        </h1>
         <p className={styles.lead}>
           What each AI tool does, when to use it, and when to skip it. Made for freshers and students in India.
         </p>

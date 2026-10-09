@@ -11,9 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-accent);
-  color: var(--color-on-accent);
-  box-shadow: var(--accent-glow);
+  background: var(--color-brand);
+  color: var(--color-on-brand);
 }
 
 .word {

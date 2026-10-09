@@ -172,8 +172,8 @@
 .diveTag {
   flex-shrink: 0;
   font-weight: 600;
-  color: var(--type-tool-fg);
-  background: var(--type-tool-bg);
+  color: var(--dive-fg);
+  background: var(--dive-bg);
   padding: 3px 8px;
   border-radius: var(--radius-pill);
 }
@@ -187,7 +187,7 @@
   background: transparent;
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-danger);
+  color: var(--color-link-strong);
   cursor: pointer;
 }
 
