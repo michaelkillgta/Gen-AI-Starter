@@ -353,7 +353,7 @@
   }
 }
 
-/* "From Uma's blog": a soft card in its own colour (lavender; see --blog-* in tokens.css). */
+/* "From Uma's blog": a soft rose card, the same pink as the home page's "New on the blog". */
 .fromBlog {
   display: flex;
   flex-direction: column;
