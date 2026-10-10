@@ -22,7 +22,9 @@ const nextConfig: NextConfig = {
   output: process.env.BUILD_STANDALONE === "1" ? "standalone" : undefined,
   // The web app is its own project (the repo root's package.json is only dev tooling),
   // so server.js lands at the top of .next/standalone.
-  outputFileTracingRoot: path.join(__dirname),
+  // process.cwd(), not __dirname: Next always runs from web/, and __dirname is undefined
+  // when the config is compiled as ESM (the fallback compiler does that).
+  outputFileTracingRoot: path.resolve(process.cwd()),
   // Track addresses from before the two-track plan (Sept 2026).
   async redirects() {
     return [
