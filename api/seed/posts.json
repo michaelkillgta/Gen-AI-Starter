@@ -1011,6 +1011,558 @@
     "published_on": "2026-09-28"
   },
   {
+    "slug": "docker-from-code-to-running-app",
+    "category": "ideas",
+    "title": "Docker Explained: From Code to a Running App",
+    "excerpt": "It works on my laptop, so why not on yours? Docker packages your app with everything it needs and runs it in a container. Here's the Dockerfile, image and container idea, with a real project you can run.",
+    "cover": {
+      "text": "Docker",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/docker/code-to-running-app.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "Docker explained, from code to a running app: a student at a laptop, a Dockerfile with FROM node:22-alpine, WORKDIR /app, COPY, RUN npm run build and CMD serve, an arrow to an Image box, then an arrow to a Container holding the running website."
+      }
+    },
+    "featured": null,
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Ever built an application on your laptop, only to discover that it doesn't work on someone else's computer?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Maybe they have a different Node.js version. Maybe a dependency is missing. Or perhaps their environment is configured differently."
+      },
+      {
+        "type": "paragraph",
+        "text": "This is one of the problems Docker helps solve. 🐳"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "Docker helps you ==package applications with the files, dependencies and environment they need==, then run them in ==isolated containers==."
+      },
+      {
+        "type": "paragraph",
+        "text": "Let's understand how it works by running a real project, without getting lost in technical jargon."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Docker",
+            "href": "/toolkit/docker"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/blog/docker/code-to-running-app.webp",
+        "alt": "Docker explained, from code to a running app: a student at a laptop, a Dockerfile with FROM node:22-alpine, WORKDIR /app, COPY, RUN npm run build and CMD serve, an arrow to an Image box, then an arrow to a Container holding the running website.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea: a Dockerfile becomes an image, and the image becomes a running container."
+      },
+      {
+        "type": "heading",
+        "text": "First, what is Docker?",
+        "id": "part-1"
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine you've built a website using Node.js."
+      },
+      {
+        "type": "paragraph",
+        "text": "To run it, your computer needs the right runtime, application files, dependencies and startup command. Installing and configuring everything manually on every computer can become a headache."
+      },
+      {
+        "type": "paragraph",
+        "text": "Docker helps you define how your application should be packaged and run. You can then create a ==reusable image== and start ==containers== from it on compatible systems."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Think of Docker as a toolkit for packaging and running applications consistently."
+      },
+      {
+        "type": "heading",
+        "text": "Meet the three concepts that matter most",
+        "id": "part-2"
+      },
+      {
+        "type": "paragraph",
+        "text": "Before running any commands, understand these three building blocks."
+      },
+      {
+        "type": "heading",
+        "text": "Dockerfile: the instructions",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "A Dockerfile is a text file containing instructions that tell Docker how to build an image. This is the one from [Docker's beginner project](https://github.com/docker/welcome-to-docker), without its comments:"
+      },
+      {
+        "type": "code",
+        "language": "dockerfile",
+        "code": "FROM node:22-alpine\n\nWORKDIR /app\n\nCOPY package*.json ./\nCOPY ./src ./src\nCOPY ./public ./public\nCOPY .npmrc .\n\nRUN npm ci \\\n    && npm install -g serve@latest \\\n    && npm run build \\\n    && rm -fr node_modules\n\nEXPOSE 3000\n\nCMD [\"serve\", \"-s\", \"build\"]"
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't need to understand every instruction yet. At a high level, this Dockerfile tells Docker to:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Start with a Node.js environment.",
+          "Copy the application's files.",
+          "Install the required packages.",
+          "Build the website.",
+          "Configure the command that serves the built website."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Think of the Dockerfile as a recipe.** It describes how to prepare your application."
+      },
+      {
+        "type": "paragraph",
+        "text": "Writing a recipe doesn't mean you've cooked the food. Similarly, creating a Dockerfile ==doesn't automatically create an image==."
+      },
+      {
+        "type": "heading",
+        "text": "Image: the packaged application",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "This is where many beginners get confused."
+      },
+      {
+        "type": "paragraph",
+        "text": "During the build, Docker assembles a filesystem and configuration based on your Dockerfile. The resulting ==image== is a reusable package from which containers can be created. You can think of it as a prepared application template."
+      },
+      {
+        "type": "paragraph",
+        "text": "An image commonly includes:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Application files",
+            "text": "Your code or built website."
+          },
+          {
+            "title": "Runtime environment",
+            "text": "The software needed to execute the application."
+          },
+          {
+            "title": "Dependencies",
+            "text": "Libraries and packages the application requires."
+          },
+          {
+            "title": "Configuration",
+            "text": "Information such as the default startup command."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "These are useful categories for understanding an image, not four literal layers that every image must contain."
+      },
+      {
+        "type": "callout",
+        "label": "One important detail",
+        "text": "An image is ==not a running application==. It is the package used to create a running container."
+      },
+      {
+        "type": "heading",
+        "text": "Container: the application running in isolation",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Now you have an image. What happens when you want to run your application?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Docker creates a ==container== from that image and starts the configured process."
+      },
+      {
+        "type": "paragraph",
+        "text": "A container provides an isolated environment for the application to run in. It has its own runtime state and writable filesystem layer, while ==sharing the host operating system's kernel== through the container runtime."
+      },
+      {
+        "type": "paragraph",
+        "text": "You can start, stop and remove containers independently. You can also create multiple containers from the same image."
+      },
+      {
+        "type": "image",
+        "src": "/blog/docker/dockerfile-image-container.webp",
+        "alt": "Dockerfile vs Image vs Container. The Dockerfile is a text file of instructions you write (base image, working directory, copy files, install dependencies, expose port, start command). The image is the packaged application made by docker build: application code, dependencies, runtime and configuration, a read-only template you can reuse. The container is a running instance made by docker run, with its own isolated environment; you can start, stop and remove it, and run many from one image. Below: the flow Dockerfile, docker build, Image, docker run, Container, your app, plus the cake analogy and a table of key differences.",
+        "width": 1672,
+        "height": 941,
+        "caption": "All three on one page, with the cake analogy and a table of key differences. Click to enlarge."
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "==Dockerfile== = instructions. ==Image== = packaged application. ==Container== = running instance created from the image."
+      },
+      {
+        "type": "heading",
+        "text": "What does \"instance\" mean?",
+        "id": "part-3"
+      },
+      {
+        "type": "paragraph",
+        "text": "An instance simply means one occurrence or copy of something that has been created."
+      },
+      {
+        "type": "paragraph",
+        "text": "Suppose you have one image called ==student-frontend==. You can create one container from it. You could create another container from that same image as well. Each container is a separate instance, with its own runtime state."
+      },
+      {
+        "type": "paragraph",
+        "text": "The image is the reusable template. A container is an instance created from that template."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "A container is more than a copy of the image's files: it also has ==its own writable layer and running processes==."
+      },
+      {
+        "type": "heading",
+        "text": "How Docker works, step by step",
+        "id": "part-4"
+      },
+      {
+        "type": "image",
+        "src": "/blog/docker/workflow.webp",
+        "alt": "Docker workflow in five steps: 1 Dockerfile (instructions), 2 Build (install dependencies, run build commands, prepare the application), 3 Image (packaged application), 4 Container (running instance), 5 Running app (website available).",
+        "width": 1672,
+        "height": 941,
+        "caption": "The Docker workflow: each step has a different purpose."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Dockerfile",
+          "Build",
+          "Image",
+          "Run",
+          "Container",
+          "Running application"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "heading",
+        "text": "Step 1: Get a project",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "We'll use Docker's beginner-friendly project, [welcome-to-docker on GitHub](https://github.com/docker/welcome-to-docker). Clone the repository and enter its directory:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "git clone https://github.com/docker/welcome-to-docker.git\ncd welcome-to-docker"
+      },
+      {
+        "type": "paragraph",
+        "text": "The project contains a website and a Dockerfile."
+      },
+      {
+        "type": "heading",
+        "text": "Step 2: Build an image",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Run this command from inside the project directory:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "docker build -t student-frontend ."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "==docker build== tells Docker to build an image.",
+          "==-t student-frontend== gives the image a name.",
+          "==.== tells Docker to use the current directory as the build context, making the project's files available to the build."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Docker reads the Dockerfile and follows its instructions. If the build succeeds, you will have an image named student-frontend. Check it with:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "docker images"
+      },
+      {
+        "type": "heading",
+        "text": "Step 3: Run a container",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Having an image doesn't mean the website is already running. Now tell Docker to create and start a container from that image:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "docker run -d --name student-website -p 8080:3000 student-frontend"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "==docker run== creates and starts a container.",
+          "==-d== runs it in the background.",
+          "==--name student-website== gives the container a recognizable name.",
+          "==-p 8080:3000== connects port 8080 on your computer to port 3000 inside the container.",
+          "==student-frontend== identifies the image to use."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Open ==http://localhost:8080== in your browser. If the build and container startup succeed, you should see your website."
+      },
+      {
+        "type": "heading",
+        "text": "Step 4: Check that the container is running",
+        "id": null
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "docker ps                     # lists running containers\ndocker logs student-website   # shows your application's logs"
+      },
+      {
+        "type": "callout",
+        "label": "When something goes wrong",
+        "text": "A container can be created successfully and then stop if the application hits an error, so ==checking its status and logs== is the first step when troubleshooting."
+      },
+      {
+        "type": "video",
+        "youtube_id": "aZv3iYZv7Io",
+        "title": "Docker (Uma's walkthrough video)",
+        "caption": "Docker walkthrough · 7:22"
+      },
+      {
+        "type": "heading",
+        "text": "Why do we need both docker build and docker run?",
+        "id": "part-5"
+      },
+      {
+        "type": "paragraph",
+        "text": "This is the key distinction. When you write a Dockerfile, you have only written instructions. ==docker build== follows those instructions to produce an image. ==docker run== creates and starts a container from an image."
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "docker build                 # builds an image from the Dockerfile and build context\ndocker images                # lists local images\ndocker run                   # creates and starts a container from an image\ndocker ps                    # lists running containers\ndocker ps -a                 # lists running and stopped containers\ndocker logs student-website  # displays container logs\ndocker stop student-website  # stops a running container"
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Build makes the package. Run starts it."
+      },
+      {
+        "type": "heading",
+        "text": "Can we use Docker without writing a Dockerfile?",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "Yes! The [repository's README](https://github.com/docker/welcome-to-docker) gives two ways to run the website."
+      },
+      {
+        "type": "tabs",
+        "label": "Pick a way",
+        "items": [
+          {
+            "title": "Use a published image",
+            "blocks": [
+              {
+                "type": "code",
+                "language": "bash",
+                "code": "docker run -d -p 8088:80 \\\n  --name welcome-to-docker \\\n  docker/welcome-to-docker"
+              },
+              {
+                "type": "paragraph",
+                "text": "Then open ==http://localhost:8088==."
+              },
+              {
+                "type": "paragraph",
+                "text": "Here you're using the image the project maintainers have already published. If the image isn't available locally, Docker tries to download it from a registry. You don't need to build it yourself."
+              }
+            ]
+          },
+          {
+            "title": "Build your own image",
+            "blocks": [
+              {
+                "type": "code",
+                "language": "bash",
+                "code": "docker build -t welcome-to-docker .\n\ndocker run -d -p 8088:3000 \\\n  --name welcome-to-docker \\\n  welcome-to-docker"
+              },
+              {
+                "type": "paragraph",
+                "text": "Open the same address, ==http://localhost:8088==. This builds an image from the local Dockerfile and starts a container from it."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The port mappings differ because these two images use different internal ports."
+      },
+      {
+        "type": "callout",
+        "label": "Note",
+        "text": "Container names must be ==unique on your Docker host==. If you already have a container called welcome-to-docker, remove or rename it before using the name again."
+      },
+      {
+        "type": "heading",
+        "text": "What about public and private images?",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "These terms generally refer to ==where images are stored and who can access them==. A public image can be accessed by others under the registry's public-access rules. A private image requires the right permissions. For example, Docker Hub can store images that other developers download and use."
+      },
+      {
+        "type": "paragraph",
+        "text": "Containers are different. Whether a running container's app is reachable from the internet depends on its network configuration, published ports, firewall rules and the surrounding infrastructure."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Publishing a port ==doesn't automatically make a website public== on the internet."
+      },
+      {
+        "type": "heading",
+        "text": "Why do developers use Docker?",
+        "id": "part-8"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Consistent environments",
+            "text": "Package the runtime and dependencies an application needs."
+          },
+          {
+            "title": "Share applications",
+            "text": "Publish images that other developers can pull and run."
+          },
+          {
+            "title": "Separate applications",
+            "text": "Run apps in isolated containers with their own runtime state."
+          },
+          {
+            "title": "Repeat deployments",
+            "text": "Start new containers from the same image without rebuilding the package every time."
+          },
+          {
+            "title": "Scale workloads",
+            "text": "Run multiple containers from an image when the app and infrastructure support it."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Docker doesn't guarantee that every application will work identically everywhere. Compatibility, configuration, hardware, networking and external services can still matter. But it gives you ==a much more repeatable way== to package and run software."
+      },
+      {
+        "type": "heading",
+        "text": "The simplest way to remember everything",
+        "id": "part-9"
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Real-world analogy",
+            "text": "Dockerfile = the recipe. Image = the prepared cake, ready to be served. Container = the cake being served and used."
+          },
+          {
+            "label": "In developer terms",
+            "text": "The Dockerfile says how to prepare the app. The image packages what it needs to run. The container is an instance of the image, where the app executes."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The analogy isn't perfect, but it helps explain the relationship. Here's the complete flow one last time:"
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Dockerfile",
+          "docker build",
+          "Image",
+          "docker run",
+          "Container",
+          "Running application"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "You don't run the Dockerfile directly. You use it to ==build an image==, and then you use the image to ==create and start a container==."
+      },
+      {
+        "type": "paragraph",
+        "text": "Once this distinction clicks, you have the foundation for more advanced topics such as Docker Compose, volumes, networking and multi-stage builds. 🚀"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [Modal](/blog/modal-run-ai-in-the-cloud), which runs your Python in containers in the cloud, and [Supabase](/blog/supabase-explained) for the database side of your app."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Welcome to Docker on GitHub](https://github.com/docker/welcome-to-docker): Docker's official beginner project, the one used in this post.",
+          "[Docker: Get started](https://docs.docker.com/get-started/): Docker's own beginner guide.",
+          "[Uma's Docker walkthrough video](https://youtu.be/aZv3iYZv7Io): every step above, on screen.",
+          "[Docker in our Toolkit](/toolkit/docker): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-11",
+    "learn": [
+      "What Docker is, and the problem it solves",
+      "Dockerfile vs image vs container, without the jargon",
+      "How to build and run a real project with docker build and docker run",
+      "Published vs self-built images, and public vs private"
+    ]
+  },
+  {
     "slug": "context7-mcp-check-the-docs",
     "category": "agents",
     "title": "Context7 MCP: What If Your AI Could Check the Docs Before Coding?",
