@@ -1198,7 +1198,7 @@
       },
       {
         "type": "paragraph",
-        "text": "A container provides an isolated environment for the application to run in. It has its own runtime state and writable filesystem layer, while ==sharing the host operating system's kernel== through the container runtime."
+        "text": "A container provides an isolated environment for the application to run in. It has its own runtime state and writable filesystem layer, while ==sharing the kernel of the machine it runs on==. (On Windows and Mac, Docker Desktop runs a small Linux virtual machine, so your containers share that machine's kernel.)"
       },
       {
         "type": "paragraph",
@@ -1210,7 +1210,7 @@
         "alt": "Dockerfile vs Image vs Container. The Dockerfile is a text file of instructions you write (base image, working directory, copy files, install dependencies, expose port, start command). The image is the packaged application made by docker build: application code, dependencies, runtime and configuration, a read-only template you can reuse. The container is a running instance made by docker run, with its own isolated environment; you can start, stop and remove it, and run many from one image. Below: the flow Dockerfile, docker build, Image, docker run, Container, your app, plus the cake analogy and a table of key differences.",
         "width": 1672,
         "height": 941,
-        "caption": "All three on one page, with the cake analogy and a table of key differences. Click to enlarge."
+        "caption": "All three on one page, with the cake analogy and a table of key differences. The Dockerfile in the picture is a simplified example, not the project's. Click to enlarge."
       },
       {
         "type": "callout",
@@ -1250,7 +1250,7 @@
         "alt": "Docker workflow in five steps: 1 Dockerfile (instructions), 2 Build (install dependencies, run build commands, prepare the application), 3 Image (packaged application), 4 Container (running instance), 5 Running app (website available).",
         "width": 1672,
         "height": 941,
-        "caption": "The Docker workflow: each step has a different purpose."
+        "caption": "The Docker workflow: each step has a different purpose. The Dockerfile in the picture is shortened."
       },
       {
         "type": "flow",
@@ -1410,7 +1410,7 @@
               },
               {
                 "type": "paragraph",
-                "text": "Here you're using the image the project maintainers have already published. If the image isn't available locally, Docker tries to download it from a registry. You don't need to build it yourself."
+                "text": "Here you're using the image the project maintainers have already published on ==Docker Hub==. If the image isn't on your computer yet, Docker downloads it from Docker Hub, its default registry. You don't need to build it yourself."
               }
             ]
           },
@@ -1432,12 +1432,12 @@
       },
       {
         "type": "paragraph",
-        "text": "The port mappings differ because these two images use different internal ports."
+        "text": "The port mappings differ because the two images serve the site differently: the published image uses a web server listening on ==port 80==, while the Dockerfile's image runs serve on ==port 3000==."
       },
       {
         "type": "callout",
         "label": "Note",
-        "text": "Container names must be ==unique on your Docker host==. If you already have a container called welcome-to-docker, remove or rename it before using the name again."
+        "text": "Container names must be ==unique on your Docker host==. Both ways above use the name welcome-to-docker, so before trying the second one, remove the first container with ==docker rm -f welcome-to-docker== (or pick a different name)."
       },
       {
         "type": "heading",
@@ -1446,7 +1446,7 @@
       },
       {
         "type": "paragraph",
-        "text": "These terms generally refer to ==where images are stored and who can access them==. A public image can be accessed by others under the registry's public-access rules. A private image requires the right permissions. For example, Docker Hub can store images that other developers download and use."
+        "text": "These terms generally refer to ==where images are stored and who can access them==. A public image can be accessed by others under the registry's public-access rules. A private image requires the right permissions. For example, Docker Hub can store images that other developers download and use: the docker/welcome-to-docker image above is a public one."
       },
       {
         "type": "paragraph",
@@ -1549,7 +1549,7 @@
         "items": [
           "[Welcome to Docker on GitHub](https://github.com/docker/welcome-to-docker): Docker's official beginner project, the one used in this post.",
           "[Docker: Get started](https://docs.docker.com/get-started/): Docker's own beginner guide.",
-          "[Uma's Docker walkthrough video](https://youtu.be/aZv3iYZv7Io): every step above, on screen.",
+          "[Uma's Docker walkthrough video](https://youtu.be/aZv3iYZv7Io): the walkthrough on screen.",
           "[Docker in our Toolkit](/toolkit/docker): our quick verdict."
         ]
       }

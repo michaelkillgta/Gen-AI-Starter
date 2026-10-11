@@ -428,7 +428,7 @@
     "cost": "Free for personal use; big companies pay",
     "get_it": "docker.com",
     "status": "notes",
-    "note": "On Windows, Docker Desktop runs through WSL 2 and wants 8 GB of RAM. Companies with 250+ staff or $10M+ revenue need a paid plan.",
+    "note": "On Windows, Docker Desktop usually runs through WSL 2 and needs 8 GB of RAM. Companies with 250+ staff or $10M+ revenue need a paid plan.",
     "tags": [
       "containers",
       "deploy",
