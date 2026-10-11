@@ -416,6 +416,28 @@
     "position": 19
   },
   {
+    "slug": "docker",
+    "name": "Docker",
+    "kind": "tool",
+    "group": "ship",
+    "short": "Package your app so it runs the same everywhere.",
+    "plain": "Bundles your code with everything it needs into a container, so the app that works on your laptop works the same way on a server or someone else's machine.",
+    "use_when": "You're deploying an API or RAG service, or your setup steps keep breaking on other machines.",
+    "skip_when": "You're only running a notebook or one script. A virtual environment is enough.",
+    "runs_on": "Your laptop, any server",
+    "cost": "Free for personal use; big companies pay",
+    "get_it": "docker.com",
+    "status": "notes",
+    "note": "On Windows, Docker Desktop runs through WSL 2 and wants 8 GB of RAM. Companies with 250+ staff or $10M+ revenue need a paid plan.",
+    "tags": [
+      "containers",
+      "deploy",
+      "devops",
+      "hosting"
+    ],
+    "position": 20
+  },
+  {
     "slug": "twentyfirst",
     "name": "21st.dev",
     "kind": "tool",
