@@ -26,6 +26,18 @@ export function BlockRenderer({ blocks, post = false }: { blocks: Block[]; post?
   const out: ReactNode[] = [];
   for (let i = 0; i < blocks.length; ) {
     const b = blocks[i];
+    // Back-to-back buttons share one row: the first solid, the rest outlined.
+    if (b.type === "cta" && blocks[i + 1]?.type === "cta") {
+      let end = i + 1;
+      while (end < blocks.length && blocks[end].type === "cta") end++;
+      out.push(
+        <div key={i} className={styles.ctaRow}>
+          {blocks.slice(i, end).map((x, n) => draw(x, i + n))}
+        </div>,
+      );
+      i = end;
+      continue;
+    }
     // A step runs until the next heading of any kind.
     let end = i + 1;
     if (isStep(b)) while (end < blocks.length && blocks[end].type !== "heading") end++;

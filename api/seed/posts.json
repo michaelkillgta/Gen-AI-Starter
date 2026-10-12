@@ -1042,6 +1042,21 @@
         "text": "That's where ==REA (Reverse Engineer Anything)== comes in."
       },
       {
+        "type": "cta",
+        "label": "Explore REA",
+        "href": "https://rea.tools/"
+      },
+      {
+        "type": "cta",
+        "label": "GitHub",
+        "href": "https://github.com/morluto/rea"
+      },
+      {
+        "type": "cta",
+        "label": "▶ Watch my video",
+        "href": "https://youtu.be/ACRmRDsCfwY"
+      },
+      {
         "type": "links",
         "label": "Tools used",
         "items": [
@@ -1050,15 +1065,6 @@
             "href": "/toolkit/rea"
           }
         ]
-      },
-      {
-        "type": "cta",
-        "label": "Explore REA",
-        "href": "https://rea.tools/"
-      },
-      {
-        "type": "paragraph",
-        "text": "Source code: [REA on GitHub](https://github.com/morluto/rea) (MIT licence)."
       },
       {
         "type": "heading",

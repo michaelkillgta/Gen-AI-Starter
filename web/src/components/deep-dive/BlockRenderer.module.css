@@ -494,6 +494,31 @@
   color: var(--color-on-ink);
 }
 
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.ctaRow .ctaWrap {
+  margin: 0;
+}
+
+.ctaRow .ctaWrap + .ctaWrap .cta {
+  border: 1.5px solid var(--color-number);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: none;
+}
+
+.ctaRow .ctaWrap + .ctaWrap .cta:hover,
+.ctaRow .ctaWrap + .ctaWrap .cta:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
 @media (min-width: 640px) {
   .pair {
     grid-template-columns: repeat(2, minmax(0, 1fr));
