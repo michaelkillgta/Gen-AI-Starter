@@ -1011,6 +1011,479 @@
     "published_on": "2026-09-28"
   },
   {
+    "slug": "rea-reverse-engineer-anything",
+    "category": "agents",
+    "title": "REA: Give Your AI Agent an X-Ray for Software",
+    "excerpt": "You see a feature in an app and want it in your project, but how was it actually built? REA lets your AI agent inspect the software first and show you the evidence before it builds your version.",
+    "cover": {
+      "text": "REA",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/rea/layers.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "A finished web app dashboard peeled apart into see-through layers behind it: the interface, its UI components, the code, a tree of modules, the servers and database it talks to, and its files and settings."
+      }
+    },
+    "featured": null,
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "**Ever seen a feature in an app and thought, \"I want to build this in my own project, but how did they actually make it?\"** 🔍"
+      },
+      {
+        "type": "paragraph",
+        "text": "Your AI coding assistant can already build websites, write code and install libraries. But there's a catch: it might know how to build ==a similar feature== without knowing how ==the specific app you're looking at== actually works."
+      },
+      {
+        "type": "paragraph",
+        "text": "That's where ==REA (Reverse Engineer Anything)== comes in."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "REA",
+            "href": "/toolkit/rea"
+          }
+        ]
+      },
+      {
+        "type": "cta",
+        "label": "Explore REA",
+        "href": "https://rea.tools/"
+      },
+      {
+        "type": "paragraph",
+        "text": "Source code: [REA on GitHub](https://github.com/morluto/rea) (MIT licence)."
+      },
+      {
+        "type": "heading",
+        "text": "What exactly is REA?",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/rea/layers.webp",
+        "alt": "A finished web app dashboard peeled apart into see-through layers behind it: the interface, its UI components, the code, a tree of modules, the servers and database it talks to, and its files and settings.",
+        "width": 1672,
+        "height": 941,
+        "caption": "An illustration of the idea: the layers underneath a finished app."
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine you discover an amazing animated menu on a website."
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't have the original source code. You can see the menu working, but you don't know which components, libraries or techniques make it work."
+      },
+      {
+        "type": "paragraph",
+        "text": "REA helps your AI assistant ==investigate the software==, discover relevant technical details, and ==explain its findings with evidence==."
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "Think of REA as an ==X-ray machine for software==. It helps reveal what can be discovered underneath the finished product, depending on what's accessible."
+      },
+      {
+        "type": "heading",
+        "text": "Without REA vs. with REA",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/rea/without-vs-with.webp",
+        "alt": "Without REA vs with REA. Without REA, you ask an AI coding agent to build an animated menu from a website; it uses general knowledge and your instructions, makes assumptions, recreates the feature from scratch and may miss key details, so the result is a similar feature but not a perfect match. With REA, REA first investigates the website, identifies components and UI, finds libraries and patterns and shares findings such as React components, Framer Motion and CSS animations with your AI agent, so the result is a feature built with real insights from the target app.",
+        "width": 1672,
+        "height": 941,
+        "caption": "From guesswork to evidence. Click to enlarge."
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagine giving your AI coding agent this instruction:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "Build the animated menu from this website."
+      },
+      {
+        "type": "pair",
+        "items": [
+          {
+            "label": "Without REA",
+            "text": "Your agent uses its existing knowledge, your description, screenshots and available docs to build a similar menu. It might choose React, CSS animations or an animation library, but those choices aren't necessarily what the original website uses."
+          },
+          {
+            "label": "With REA",
+            "text": "Your agent asks REA to inspect the target first. REA may uncover relevant components, dependencies, scripts or implementation details, and the agent uses those findings to make more informed choices."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "You move from ==guessing== how a feature was built to ==deciding based on actual evidence==."
+      },
+      {
+        "type": "heading",
+        "text": "How does REA actually work?",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/rea/finished-app-to-ai-built.webp",
+        "alt": "From finished app to AI-built version in four steps. 1 Finished software: a working app, website or file with no source code. 2 REA inspects: UI components, libraries, network requests, file structure and architecture. 3 Evidence and explanation: for example a components folder, a Recharts import, API endpoints and detected technologies like Next.js, Tailwind CSS and Supabase. 4 AI agent builds your own version. REA looks and reports; the AI agent does the building.",
+        "width": 1672,
+        "height": 941,
+        "caption": "REA looks and reports; your AI agent does the building."
+      },
+      {
+        "type": "paragraph",
+        "text": "REA connects to your AI coding agent through ==MCP (Model Context Protocol)==, which lets the agent call external tools. New to MCP? Our [MCP post](/blog/mcp-explained) explains it simply."
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          "**You give an instruction:** \"Investigate how search works in this application.\"",
+          "**The agent calls REA:** it selects relevant inspection tools for the target software.",
+          "**REA investigates:** it examines accessible code, dependencies, program structure or runtime behaviour, depending on the target and the tools selected.",
+          "**REA returns evidence:** findings that can include code references, library information, relationships and limitations.",
+          "**The agent reasons:** it uses those findings to explain how the feature works and plan an implementation.",
+          "**The agent builds:** it writes and tests your version in your own project."
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "The important distinction",
+        "text": "REA is ==not== the AI coding assistant. ==REA investigates and provides evidence; your AI agent interprets the findings and does the building.=="
+      },
+      {
+        "type": "heading",
+        "text": "How does REA discover packages and libraries?",
+        "id": "part-4"
+      },
+      {
+        "type": "paragraph",
+        "text": "Say the website you're investigating uses React components and an animation library. REA doesn't magically know every dependency. It uses inspection methods that fit the target. For example, it may examine:"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Package metadata",
+            "text": "Dependency declarations and package versions, when available."
+          },
+          {
+            "title": "JavaScript files",
+            "text": "Modules, imports, source maps and relationships between components."
+          },
+          {
+            "title": "Website behaviour",
+            "text": "Page structure, scripts, network observations and browser captures. This needs a Chrome-family browser."
+          },
+          {
+            "title": "Compiled software",
+            "text": "Assembly, pseudocode, symbols and references, through a native-analysis provider like Hopper, Ghidra or IDA."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Your agent can combine these findings to explain the likely implementation."
+      },
+      {
+        "type": "callout",
+        "label": "One limitation matters",
+        "text": "Finding a library name ==doesn't automatically prove== that the library creates a particular animation. The agent needs relevant evidence, and some original source code or implementation details may be unavailable."
+      },
+      {
+        "type": "heading",
+        "text": "Six practical ways to use REA",
+        "id": "part-5"
+      },
+      {
+        "type": "image",
+        "src": "/blog/rea/six-ways.webp",
+        "alt": "Six ways you can use REA: 1 learn how a feature works, 2 research products and competitors, 3 understand what an app does, such as its permissions and network requests, 4 security work on software you own or have permission to test, 5 understand or recover old software, 6 debug your own apps by mapping minified production code back to readable logic. Each panel has how REA helps and an example.",
+        "width": 1672,
+        "height": 941,
+        "caption": "Six ways to use REA, with an example for each. Click to enlarge."
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Learn how a feature works",
+            "text": "Learn the technique behind a website's feature and build your own version. Example: the structure behind an animated navigation menu."
+          },
+          {
+            "title": "Research products and competitors",
+            "text": "Examine accessible technical details of similar products before choosing your own architecture. Example: how different dashboards organise their components."
+          },
+          {
+            "title": "Understand app behaviour and privacy",
+            "text": "Inspect accessible network requests, app permissions or runtime behaviour. Example: which endpoints a website contacts."
+          },
+          {
+            "title": "Support security research",
+            "text": "Look for potential vulnerabilities in software you own or have permission to test. Example: how your application handles user input."
+          },
+          {
+            "title": "Recover legacy software",
+            "text": "Analyse old or compiled programs whose source code is missing, to understand and preserve them. Example: a legacy desktop application."
+          },
+          {
+            "title": "Debug production applications",
+            "text": "Inspect compiled or minified code to trace the logic behind a problem. Example: a production JavaScript app that behaves unexpectedly."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "REA supports different targets through different tools. ==Not every inspection capability applies to every app, file or operating system.=="
+      },
+      {
+        "type": "heading",
+        "text": "Let's install REA",
+        "id": "part-6"
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't need to write your own reverse-engineering system. REA provides a command-line package called ==rea-agents== that registers its MCP server and installs matching workflow instructions for supported coding agents."
+      },
+      {
+        "type": "heading",
+        "text": "Step 1: Install Node.js",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "REA needs a supported Node.js version and npm:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Node.js 22.x, version 22.19 or newer",
+          "Node.js 24.x, version 24.11 or newer",
+          "Node.js 26 or newer"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Node.js 23 and 25 aren't supported. Download it from [nodejs.org](https://nodejs.org/), then open your terminal, PowerShell or VS Code terminal and check:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "node -v\nnpm -v"
+      },
+      {
+        "type": "paragraph",
+        "text": "Both commands should show version numbers."
+      },
+      {
+        "type": "heading",
+        "text": "Step 2: Set up REA",
+        "id": null
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "npx rea-agents setup"
+      },
+      {
+        "type": "paragraph",
+        "text": "To explicitly ask for the latest published version, use ==npx rea-agents@latest setup==. What happens next:"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          "REA offers a list of supported AI coding agents.",
+          "You choose the ones you use, such as Claude Code, Codex, Cursor or Gemini CLI.",
+          "REA shows the proposed configuration changes.",
+          "You review and approve them. REA backs up your existing configuration first.",
+          "Setup registers the REA MCP server and installs matching workflow instructions."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Setup can also offer to install ==Hopper== (with your approval) for analysing compiled programs, or use an existing Ghidra or IDA. You don't need one for JavaScript or .NET inspection."
+      },
+      {
+        "type": "heading",
+        "text": "Step 3: Restart your AI coding agent",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Restart your coding assistant or reconnect its MCP servers so it loads REA's tools. The exact steps depend on your client. If REA's tools don't appear, check the official [installation guide](https://github.com/morluto/rea/blob/main/docs/installation.md)."
+      },
+      {
+        "type": "heading",
+        "text": "Step 4: Give it a real task",
+        "id": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Try this prompt inside your connected coding agent:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "Investigate how search works in this application.\n\nUse REA to inspect the relevant software.\nShow me the evidence for how the feature works,\nincluding relevant components, dependencies, and\ncode references where available.\n\nExplain the findings in simple English, identify\nanything you could not verify, and help me build\na similar feature in my own project."
+      },
+      {
+        "type": "paragraph",
+        "text": "Replace the example with a target you ==own or are authorized to inspect==."
+      },
+      {
+        "type": "callout",
+        "label": "Note",
+        "text": "The prompt is an example, not a guarantee that every detail will be available. Results depend on the target and the inspection tools REA can use."
+      },
+      {
+        "type": "video",
+        "youtube_id": "ACRmRDsCfwY",
+        "title": "REA (Uma's walkthrough video)",
+        "caption": "REA walkthrough"
+      },
+      {
+        "type": "callout",
+        "label": "Keep it updated",
+        "text": "REA changes quickly. If you installed the CLI globally, run ==rea update==. If you use npx, run ==npx rea-agents@latest setup== again and restart your agent."
+      },
+      {
+        "type": "heading",
+        "text": "Can you use REA without an AI agent?",
+        "id": "part-7"
+      },
+      {
+        "type": "paragraph",
+        "text": "Yes. REA also has command-line analysis tools, so you can inspect some targets directly. For example, to analyse a JavaScript or Electron app directory:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "npx -y rea-agents@latest analyze-javascript-application \"/absolute/path/to/app\" --json"
+      },
+      {
+        "type": "paragraph",
+        "text": "Replace the placeholder with the real path to your app. On Windows, use a path like ==D:/apps/example==."
+      },
+      {
+        "type": "paragraph",
+        "text": "It returns structured findings about the app's modules, imports and Electron boundaries, with the evidence for each. It ==doesn't need a native analysis engine==."
+      },
+      {
+        "type": "paragraph",
+        "text": "For regular terminal use, install the CLI globally and check its commands:"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "npm install --global rea-agents\nrea --help"
+      },
+      {
+        "type": "paragraph",
+        "text": "For more commands and target-specific requirements, see the official [CLI guide](https://github.com/morluto/rea/blob/main/docs/cli.md)."
+      },
+      {
+        "type": "heading",
+        "text": "Does REA upload your application?",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "REA's docs say ==analysis runs locally==. But your AI agent still sends your prompts and REA's tool results to ==its model provider==, under that provider's setup and data policies."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Be mindful of what you inspect and what you send to your AI provider, especially private source code or sensitive data."
+      },
+      {
+        "type": "heading",
+        "text": "What should you remember?",
+        "id": "part-9"
+      },
+      {
+        "type": "paragraph",
+        "text": "REA doesn't replace your AI coding agent. It gives the agent another way to investigate software before deciding how to build something."
+      },
+      {
+        "type": "compare",
+        "left": {
+          "title": "Normal AI agent",
+          "tone": "bad",
+          "steps": [
+            "Uses existing knowledge and available context",
+            "May infer how a feature was built",
+            "Builds the requested feature"
+          ],
+          "result": "Builds a similar feature"
+        },
+        "right": {
+          "title": "AI agent + REA",
+          "tone": "good",
+          "steps": [
+            "Can investigate a specific target first",
+            "Can use inspection evidence when available",
+            "Investigates, explains, then helps implement"
+          ],
+          "result": "Builds from evidence"
+        }
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "A normal AI agent can build a feature. ==REA helps it investigate how an existing feature works== before building your version."
+      },
+      {
+        "type": "callout",
+        "label": "Use REA responsibly",
+        "text": "For learning, authorised security research, interoperability and software preservation. ==Inspect only software and data you have permission to examine.=="
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [MCP Explained](/blog/mcp-explained), [Context7 MCP](/blog/context7-mcp-check-the-docs) and [Playwright MCP](/blog/playwright-mcp-ai-controls-a-browser), two more tools your agent can call."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[REA official website](https://rea.tools/): what it does and how to start.",
+          "[REA on GitHub](https://github.com/morluto/rea): source code (MIT).",
+          "[Installation guide](https://github.com/morluto/rea/blob/main/docs/installation.md): supported agents, providers, updates and uninstall.",
+          "[Step-by-step guides](https://rea.tools/guides/): worked guides for websites, JavaScript and native apps.",
+          "[Real-world showcases](https://rea.tools/showcase/): case studies like Notion's clipboard bridge.",
+          "[Uma's REA walkthrough video](https://youtu.be/ACRmRDsCfwY)",
+          "[REA in our Toolkit](/toolkit/rea): our quick verdict."
+        ]
+      }
+    ],
+    "published_on": "2026-10-12",
+    "learn": [
+      "What REA is, and why it isn't your AI agent",
+      "How REA finds components, libraries and code references",
+      "How to install it and give your agent a real task",
+      "What stays on your computer, and how to use it responsibly"
+    ]
+  },
+  {
     "slug": "docker-from-code-to-running-app",
     "category": "ideas",
     "title": "Docker Explained: From Code to a Running App",

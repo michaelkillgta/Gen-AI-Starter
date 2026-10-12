@@ -608,5 +608,27 @@
       "connector"
     ],
     "position": 28
+  },
+  {
+    "slug": "rea",
+    "name": "REA",
+    "kind": "mcp",
+    "group": "ship",
+    "short": "Lets your AI agent inspect how existing software works.",
+    "plain": "Reverse Engineer Anything: an MCP server and command-line tool that inspects apps, websites and binaries on your computer and hands your AI agent the evidence, like components, libraries and code references.",
+    "use_when": "You want to understand how a feature in an existing app works before building your own version.",
+    "skip_when": "You already have the source code, or you don't have permission to inspect the software.",
+    "runs_on": "Your laptop, through your AI app",
+    "cost": "Free, MIT licence",
+    "get_it": "npx rea-agents setup",
+    "status": "notes",
+    "note": "Analysis runs locally, but your agent still sends the results to its model provider. Deep analysis of compiled programs needs Hopper, Ghidra or IDA.",
+    "tags": [
+      "reverse-engineering",
+      "evidence",
+      "cli",
+      "connector"
+    ],
+    "position": 29
   }
 ]
