@@ -3,15 +3,22 @@
 /* The Python course app: home roadmap, lesson player and full notes. Mounted by PythonCourse.tsx. */
 import { PARTS, NEXT_PARTS, L, AGENT, WEEKS, INTERVIEW } from "@/content/python/lessons";
 import notes from "@/content/python/notes.json";
+import { createProgress } from "./progress";
 import { esc, hlPy, H, $, $$, codeLines, pyRepr, pyFloat, sleep, reduced, W, frame } from "./widgets";
 
 /** Wires the course into the markup inside `root`. Returns a cleanup function. */
 export function mountCourse(root, { toggleTheme }) {
   /* ============ state ============ */
-  const KEY = 'ft_python_brand_v1';
-  let S = {done:{}, seen:{}, last:null};
-  try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e){}
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} };
+  // Appendix B rows that are not lessons, in order (their index is stored in the cookie).
+  const GAP_KEYS = (() => {
+    const t = document.createElement('template'); t.innerHTML = notes.appendix.B.html;
+    return [...t.content.querySelectorAll('table.cmp tbody tr')].map(tr => [...tr.children])
+      .filter(tds => tds.length >= 3 && tds[0].textContent.trim() === '☐' && !parseInt(tds[tds.length - 1].textContent, 10))
+      .map(tds => tds[1].textContent.trim().slice(0, 40));
+  })();
+  const P = createProgress(GAP_KEYS);
+  let S = P.S;
+  const save = () => P.save();
   const TOTAL = Object.keys(L).length;
   const hasLab = n => L[n].steps.some(s => s.k === 'lab');
   const partOf = n => PARTS.find(p => p.ch.includes(n));
@@ -22,13 +29,26 @@ export function mountCourse(root, { toggleTheme }) {
 
   /* ============ home ============ */
   let filter = 'all';
+  function renderActivity(){
+    const a = P.activity(), any = a.learned || a.labs || a.streak || a.monthDays || S.last;
+    const chip = (n, label) => `<div class="act-chip"><b>${n}</b><span>${label}</span></div>`;
+    $('#activity').innerHTML = chip(a.streak, 'day streak') + chip(a.monthDays, a.monthDays === 1 ? 'day this month' : 'days this month') + chip(a.labs, a.labs === 1 ? 'lab tried' : 'labs tried')
+      + `<p class="act-note">Saved in this browser only.${any ? ' <button class="act-reset" id="actReset">Reset my progress</button>' : ''}</p>`;
+    const r = $('#actReset');
+    if (r) r.onclick = () => {
+      if (!confirm('Reset your Python progress? This clears lessons learned, labs tried and your study days in this browser.')) return;
+      P.reset(); S = P.S; renderHome(); toast('Progress reset');
+    };
+  }
   function renderHome(){
     const done = Object.keys(S.done).filter(k => S.done[k]).length;
     $('#ringNum').textContent = `${done}/${TOTAL}`;
     $('#ringArc').setAttribute('stroke-dashoffset', 94.25 * (1 - done / TOTAL));
     const next = S.last && L[S.last] ? S.last : (Object.keys(L).map(Number).find(n => !S.done[n]) || 1);
-    $('#continueBtn').textContent = S.last ? `Continue lesson ${next} →` : 'Start lesson 1 →';
-    $('#continueBtn').onclick = () => openLesson(next, S.last ? (S.seen[next] || 0) : 0);
+    const resume = S.last && L[S.last];
+    $('#continueBtn').textContent = !resume ? 'Start lesson 1 →' : S.mode === 'notes' ? `Continue lesson ${next} notes →` : `Continue lesson ${next}, step ${(S.step || 0) + 1} →`;
+    $('#continueBtn').onclick = () => !resume ? openLesson(next, 0) : S.mode === 'notes' ? openNotes(next) : openLesson(next, S.step || 0);
+    renderActivity();
 
     // 3D stack: Part I at the bottom
     $('#stack').innerHTML = PARTS.map((p, i) => {
@@ -53,7 +73,7 @@ export function mountCourse(root, { toggleTheme }) {
       return `<div class="part" id="part-${p.id}"><div class="part-side"><div class="roman">${p.roman}</div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="meta">${d}/${p.ch.length} learned · ${p.ch.reduce((a,n)=>a+L[n].mins,0)} min</div></div>
         <div class="chapters">${list.map(n => {
           const c = L[n], st = S.done[n] ? 'done' : (S.seen[n] ? 'partial' : '');
-          return `<button class="ch ${st}" data-ch="${n}"><span class="n"><span>Lesson ${n} · ${c.mins} min</span><span class="check" aria-hidden="true">✓</span></span><span class="t">${esc(c.t)}</span><span class="d">${esc(c.d)}</span><span class="badges">${hasLab(n)?'<span class="pill lab">INTERACTIVE LAB</span>':''}${c.core?'<span class="pill core">AGENT CORE</span>':''}${S.seen[n] && !S.done[n] ? `<span class="pill">step ${S.seen[n]+1}</span>` : ''}</span></button>`;
+          return `<button class="ch ${st}" data-ch="${n}"><span class="n"><span>Lesson ${n} · ${c.mins} min</span><span class="check" aria-hidden="true">✓</span></span><span class="t">${esc(c.t)}</span><span class="d">${esc(c.d)}</span><span class="badges">${hasLab(n)?(S.labs[n]?'<span class="pill lab">LAB TRIED ✓</span>':'<span class="pill lab">INTERACTIVE LAB</span>'):''}${c.core?'<span class="pill core">AGENT CORE</span>':''}${S.seen[n] && !S.done[n] ? `<span class="pill">step ${S.seen[n]+1}</span>` : ''}</span></button>`;
         }).join('') || '<p class="mini">Nothing here for this filter.</p>'}</div></div>`;
     }).join('') + NEXT_PARTS.map(p => `<div class="part locked"><div class="part-side"><div class="roman" style="color:var(--ink-3)">${p.roman}</div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="meta">coming next</div></div>
         <div class="chapters">${p.items.map(it => `<div class="ch"><span class="n"><span>Planned</span></span><span class="t">${esc(it[0])}</span><span class="d">${esc(it[1])}</span></div>`).join('')}</div></div>`).join('');
@@ -102,7 +122,7 @@ export function mountCourse(root, { toggleTheme }) {
 
   function openLesson(n, step){
     cur = n; idx = Math.min(step || 0, stepsOf(n).length - 1); answered = {};
-    S.last = n; save();
+    S.last = n; S.step = idx; S.mode = 'learn'; P.logToday(); save();
     $('#lesson').hidden = false; document.body.style.overflow = 'hidden';
     noteKey = null; setMode('learn'); $('#lMode').hidden = false;
     const p = partOf(n);
@@ -124,7 +144,7 @@ export function mountCourse(root, { toggleTheme }) {
   function renderStep(){
     if (cleanup) { try { cleanup(); } catch(e){} cleanup = null; }
     const steps = stepsOf(cur), st = steps[idx], c = L[cur];
-    S.seen[cur] = Math.max(S.seen[cur] || 0, idx); save();
+    S.seen[cur] = Math.max(S.seen[cur] || 0, idx); if (S.last === cur) S.step = idx; save();
     $('#lSegs').innerHTML = steps.map((s, i) => `<button class="${i === idx ? 'cur' : i <= (S.seen[cur]||0) ? 'seen' : ''}" data-i="${i}" title="Step ${i+1}" aria-label="Go to step ${i+1}"></button>`).join('');
     $$('#lSegs button').forEach(b => b.onclick = () => { idx = +b.dataset.i; renderStep(); });
     const stage = $('#lStage');
@@ -160,7 +180,7 @@ export function mountCourse(root, { toggleTheme }) {
       const done = () => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1300); };
       try { navigator.clipboard.writeText(txt).then(done, () => selectText(b.dataset.copy)); } catch(e){ selectText(b.dataset.copy); }
     });
-    if (st.k === 'lab'){ try { const r = W[st.w]($('#wmount')); if (typeof r === 'function') cleanup = r; } catch(e){ $('#wmount').innerHTML = `<div class="note">This lab could not start: ${esc(e.message)}</div>`; console.error(e); } }
+    if (st.k === 'lab'){ const lessonN = cur; const tried = () => { if (!S.labs[lessonN]) { S.labs[lessonN] = true; P.logToday(); save(); } }; $('#wmount').addEventListener('click', tried, {once:true}); $('#wmount').addEventListener('input', tried, {once:true}); try { const r = W[st.w]($('#wmount')); if (typeof r === 'function') cleanup = r; } catch(e){ $('#wmount').innerHTML = `<div class="note">This lab could not start: ${esc(e.message)}</div>`; console.error(e); } }
     if (st.k === 'predict'){
       $$('.opt', stage).forEach(b => b.onclick = () => {
         const i = +b.dataset.o; answered[idx] = i;
@@ -233,7 +253,8 @@ export function mountCourse(root, { toggleTheme }) {
     key = String(key); noteKey = key;
     const ch = isChKey(key), d = ch ? NOTES.chapters[key] : NOTES.appendix[key];
     if (!d) return;
-    if (ch) { cur = +key; S.last = cur; save(); }
+    if (ch) { cur = +key; S.last = cur; S.mode = 'notes'; }
+    P.logToday(); save();
     $('#lesson').hidden = false; document.body.style.overflow = 'hidden';
     setMode('notes');
     $('#lMode').hidden = !ch;

@@ -29,6 +29,12 @@ export default function PrivacyPage() {
           <li>
             <strong>Your progress in tracks</strong> is saved only in your own browser. It never reaches me.
           </li>
+          <li>
+            <strong>Your Python course progress</strong> (lessons learned, labs tried, your last lesson and the days you
+            studied) is saved in a small cookie called <code>ft_py</code> and in your browser&apos;s storage, for one
+            year. It only helps the Python page pick up where you left off. Use &ldquo;Reset my progress&rdquo; on that
+            page to clear it.
+          </li>
         </ul>
 
         <h2>What I don&apos;t do</h2>

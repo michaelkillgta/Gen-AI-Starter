@@ -459,3 +459,29 @@
 /* ---------- Fit inside the Field Tested site ---------- */
 .pyc{--f-display:var(--font-display);--f-body:var(--font-body);--f-mono:var(--font-mono)}
 .pyc .wrap{max-width:var(--content-max);padding-left:var(--gutter);padding-right:var(--gutter)}
+
+/* ---------- Your activity (progress saved in the ft_py cookie) ---------- */
+.pyc .act{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:16px}
+.pyc .act-chip{display:flex;align-items:baseline;gap:6px}
+.pyc .act-chip b{font-family:var(--f-display);font-size:20px;font-weight:700;line-height:1;color:var(--ink)}
+.pyc .act-chip span{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3)}
+.pyc .act-note{flex-basis:100%;margin:0;font-size:13px;color:var(--ink-3)}
+.pyc .act-reset{all:unset;cursor:pointer;margin-left:6px;text-decoration:underline;text-underline-offset:3px}
+.pyc .act-reset:hover{color:var(--bad)}
+.pyc .act-reset:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:4px}
+@media (max-width:640px){
+  .pyc .act{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .pyc .act-chip{background:var(--sheet);border:1px solid var(--line);border-radius:var(--r-m);padding:8px 10px;flex-direction:column;gap:3px}
+  .pyc .act-note{grid-column:1 / -1}
+}
+
+/* ---------- Tighter home: hero and "Pick a lesson" share the first screen ---------- */
+.pyc .hero{padding-block:28px 12px;gap:32px}
+.pyc .hero .lede{margin:14px 0 18px}
+.pyc .hero .rule{margin:16px 0 0;padding:8px 12px;gap:10px;align-items:center;border-radius:var(--r-m)}
+.pyc .hero .rule p{font-size:13.5px;line-height:1.45}
+.pyc .stack{height:400px}
+.pyc .stack-inner{transform:translateY(56px) rotateX(56deg) rotateZ(-36deg)}
+.pyc #roadmap{margin-top:12px}
+@media (max-width:860px){.pyc .stack{height:330px}.pyc .stack-inner{transform:translateY(20px) rotateX(56deg) rotateZ(-36deg)}}
+@media (max-width:640px){.pyc .hero .rule{display:block}.pyc .hero .rule .tag{display:inline-block;margin:0 8px 4px 0}.pyc .hero .rule p{display:inline}}
