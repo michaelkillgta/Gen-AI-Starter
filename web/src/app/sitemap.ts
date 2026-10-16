@@ -5,7 +5,7 @@ import { links } from "@/lib/links";
 import { site } from "@/lib/site";
 
 const staticPaths = [
-  "/", "/toolkit", "/tracks", "/weekly", "/weekly/archive", "/challenge", "/blog",
+  "/", "/toolkit", "/tracks", "/weekly", "/weekly/archive", "/challenge", "/blog", "/python",
   "/about", "/suggest", "/contact", "/privacy", "/terms",
 ];
 

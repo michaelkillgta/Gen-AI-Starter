@@ -123,16 +123,27 @@
   }
 
   .bar {
-    gap: 40px;
+    gap: 24px;
   }
 
+  /* Six menu links: tighter spacing so they fit at 1024px. */
   .menu {
     display: flex;
-    gap: 28px;
+    gap: 20px;
   }
 
   .pills {
     display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .bar {
+    gap: 40px;
+  }
+
+  .menu {
+    gap: 28px;
   }
 }
 

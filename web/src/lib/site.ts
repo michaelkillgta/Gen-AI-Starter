@@ -37,6 +37,7 @@ export const mainNav: NavItem[] = [
   { href: "/weekly", label: "Worth It? Weekly" },
   { href: "/challenge", label: "Build challenge" },
   { href: "/blog", label: "Blog" },
+  { href: "/python", label: "Python" },
 ];
 
 export const footerNav = {
