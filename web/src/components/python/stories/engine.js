@@ -209,6 +209,8 @@ export function game(el, spec){
   const item = $('.sg-item'), belt = $('.sg-belt'), arch = $('.sg-arch');
   const timers = [];
   const later = (fn, ms) => timers.push(setTimeout(fn, reduced() ? 0 : ms));
+  const codeOf = it => (it.prose || spec.prose) ? '# ' + it.show.replace(/
+/g, ' ') : it.code;
   const term = (code, out) => code.split('\n').map(l => `<span class="p">&gt;&gt;&gt;</span> ${hlPy(l)}`).join('\n') + '\n' + (out == null ? '<span class="p"># your call...</span>' : esc(out));
   const visual = (it, revealed) => (it.card || spec.show === 'card')
     ? `<div class="sg-card ${revealed ? 'rev' : ''}"><pre>${hlPy(it.show)}</pre></div>`
@@ -222,7 +224,7 @@ export function game(el, spec){
     item.innerHTML = visual(it, false);
     belt.classList.add('run'); item.classList.add('enter');
     later(() => { belt.classList.remove('run'); item.classList.remove('enter'); }, 700);
-    $('.sg-out').innerHTML = term(it.code, null);
+    $('.sg-out').innerHTML = term(codeOf(it), null);
     $('.sg-q').textContent = it.q || spec.q || '';
     $('.sg-pick').innerHTML = opts.map(o => `<button class="chipb ${colorOf(o)}" data-o="${esc(o)}">${esc(o)}</button>`).join('');
     $$('.sg-pick button').forEach(b => b.onclick = () => answer(b.dataset.o));
@@ -239,7 +241,7 @@ export function game(el, spec){
       item.innerHTML = visual(it, true);
       item.classList.add(ok ? 'ok' : 'no');
       if (ok){ score++; streak++; best = Math.max(best, streak); } else streak = 0;
-      $('.sg-out').innerHTML = term(it.code, it.out);
+      $('.sg-out').innerHTML = term(codeOf(it), it.out);
       const last = i === N - 1;
       $('.sg-fb').innerHTML = `<b class="${ok ? 'yes' : 'nope'}">${ok ? 'Correct.' : `Not quite. The answer is ${esc(it.a)}.`}</b> ${esc(it.why)} <button class="btn btn-ink sg-next">${last ? 'See your score →' : 'Next →'}</button>`;
       scoreLine();

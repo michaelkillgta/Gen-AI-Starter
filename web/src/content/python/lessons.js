@@ -765,6 +765,7 @@ print(list(gen), list(gen))`, 'What does this print?', ["['a', 'b'] ['a', 'b']",
 L[20] = {t:'Classes, objects, __init__ and self', d:'Agents, memory stores and clients are classes.', mins:14, core:true,
  goals:['Define a class and create objects from it','Understand what __init__ and self do','Give objects their own methods'],
  steps:[
+  lab('Story: The agent factory', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_20'),
   rd('A class is a blueprint; an object is a thing built from it', `<p>The class <code>Agent</code> describes what every agent has and does. Each call to <code>Agent(...)</code> builds a new object with its own data.</p>`, R`class Agent:
     def __init__(self, name, model):
         self.name = name
@@ -788,6 +789,7 @@ print(b.x)`, 'What does this print?', ['1','2','10'], 1, 'Each object has its ow
     def hi():
         return "hi"
 print(Bot().hi())`, 'What happens?', ['hi','TypeError','None'], 1, 'Python passes the object as the first argument, but hi has no self parameter. TypeError: takes 0 positional arguments but 1 was given.'),
+  lab('Game: Object builder', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_20'),
   task('Write a ChatSession class that stores its own history.', R`class ChatSession:
     def __init__(self, system_prompt):
         self.history = [{"role": "system", "content": system_prompt}]
@@ -804,6 +806,7 @@ print(len(s.history))   # 2`)
 L[21] = {t:'Instance vs class attributes', d:'Data per object vs data shared by all.', mins:10, core:true,
  goals:['Tell instance attributes from class attributes','Avoid the shared mutable class attribute bug'],
  steps:[
+  lab('Story: Shared or personal?', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_21'),
   rd('Two places to store data', `<p>An <b>instance attribute</b> is set on <code>self</code>, usually in <code>__init__</code>. Each object has its own. A <b>class attribute</b> is written in the class body. All objects share it.</p>`, R`class Agent:
     provider = "openai"            # class attribute: shared
 
@@ -819,6 +822,7 @@ print(a.provider, b.provider, a.name, b.name)`, R`openai openai A B`),
 x, y = A(), A()
 x.n = 5
 print(A.n, y.n)`, 'What does this print?', ['5 5','0 0','0 5'], 1, 'x.n = 5 creates an instance attribute on x only. A.n and y.n are still 0.'),
+  lab('Game: Attribute lookup', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_21'),
   task('Use a class attribute for a shared constant and instance attributes for state.', R`class Agent:
     MAX_STEPS = 5                  # same for all agents
 
@@ -831,6 +835,7 @@ print(A.n, y.n)`, 'What does this print?', ['5 5','0 0','0 5'], 1, 'x.n = 5 crea
 L[22] = {t:'Instance, class and static methods', d:'Alternative constructors like Agent.from_env().', mins:10,
  goals:['Know what each method type receives','Write an alternative constructor with @classmethod','Use @staticmethod for helpers'],
  steps:[
+  lab('Story: Three kinds of methods', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_22'),
   rd('Three kinds of method', `<p>The difference is what Python passes as the first argument.</p>`, null, null, {table:[['Kind','First parameter','Use it for'],['instance method','self (the object)','work with this object\'s data'],['@classmethod','cls (the class)','alternative constructors'],['@staticmethod','nothing','helpers that belong with the class']]}),
   rd('@classmethod: build an object another way', `<p>A class method gets the class as <code>cls</code>. It can call <code>cls(...)</code> to build an object from a config file or from environment variables.</p>`, R`import os
 
@@ -860,6 +865,7 @@ print(A().f(3))`, 'What does this print?', ['6','TypeError','None'], 0, 'A stati
         return cls.__name__
 class B(A): pass
 print(B.who())`, 'What does this print?', ['A','B','cls'], 1, 'cls is the class you called the method on. Here that is B. This is why class methods work well with inheritance.'),
+  lab('Game: Method sorter', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_22'),
   task('Add a from_dict class method to a Message class.', R`class Message:
     def __init__(self, role, content):
         self.role = role
@@ -877,6 +883,7 @@ print(m.role, m.content)`)
 L[23] = {t:'Encapsulation: _private and __mangled', d:'Read SDK code and know what not to touch.', mins:6,
  goals:['Read the underscore conventions','Know what name mangling does'],
  steps:[
+  lab('Story: Inside an SDK client', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_23'),
   rd('Three naming levels', `<p>Python has no real private attributes. It uses names to show intent.</p>`, null, null, {table:[['Name','Meaning'],['name','Public. Use it freely.'],['_name','Internal. Please do not use it from outside. Python does not stop you.'],['__name','Name mangling. Python renames it to _ClassName__name to avoid clashes in subclasses.']]}),
   rd('In practice', `<p>SDKs keep internals like <code>self._client</code> with one underscore. When you read their source code, the underscore tells you: this can change in any release, so do not depend on it.</p>`, R`class LLMClient:
     def __init__(self, key):
@@ -891,6 +898,7 @@ sk-123`),
     def __init__(self):
         self.__x = 1
 print(A().__x)`, 'What happens?', ['1','AttributeError','None'], 1, 'The attribute was renamed to _A__x, so __x is not found outside the class.'),
+  lab('Game: Underscore check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_23'),
   task('Write a class with a public method and an internal helper.', R`class Retriever:
     def search(self, query):
         return self._rank(["d1", "d2"], query)
@@ -903,6 +911,7 @@ print(A().__x)`, 'What happens?', ['1','AttributeError','None'], 1, 'The attribu
 L[24] = {t:'The @property decorator', d:'Computed values and validation that look like attributes.', mins:8,
  goals:['Use @property for a computed value','Add a setter that validates'],
  steps:[
+  lab('Story: Smart attributes', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_24'),
   rd('A method that you read like an attribute', `<p><code>@property</code> lets you write <code>agent.message_count</code> without brackets. Python calls the method for you.</p>`, R`class Agent:
     def __init__(self):
         self.history = []
@@ -936,6 +945,7 @@ c.temperature = 5`, R`ValueError: temperature must be between 0 and 2`, {ai:'Pyd
         return 42
 a = A()
 print(a.x())`, 'What happens?', ['42','TypeError','None'], 1, 'a.x already returns 42. Then 42() fails: TypeError: \'int\' object is not callable.'),
+  lab('Game: Property tester', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_24'),
   task('Add a read-only property total_tokens to a usage class.', R`class Usage:
     def __init__(self, prompt, completion):
         self.prompt = prompt
@@ -952,6 +962,7 @@ print(Usage(42, 18).total_tokens)   # 60`)
 L[25] = {t:'Dunder methods', d:'Make your objects work with print, len, == and ().', mins:14,
  goals:['Know what __repr__, __str__, __eq__, __len__, __call__ and __iter__ do','See which Python syntax calls which method'],
  steps:[
+  lab('Story: Teaching objects Python', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_25'),
   rd('Python syntax calls dunder methods', `<p>"Dunder" means double underscore. When you write <code>len(x)</code>, Python calls <code>x.__len__()</code>. When you write <code>x()</code>, it calls <code>x.__call__()</code>.</p>`),
   lab('Which method runs?', `<p>Click a line of normal Python. See which dunder method Python calls on the agent object, and what it returns.</p>`, 'dunder'),
   rd('__repr__ vs __str__', `<p><code>__repr__</code> is for developers. It should look like code and appears in logs and the REPL. <code>__str__</code> is for users and is used by <code>print()</code>. If you only write one, write <code>__repr__</code>.</p>`, R`class Agent:
@@ -965,6 +976,7 @@ print([Agent("gpt-4o")])`, R`[Agent(model='gpt-4o')]`),
     def __len__(self):
         return 0
 print(bool(A()))`, 'What does this print?', ['True','False','An error'], 1, 'With no __bool__, Python uses __len__. A length of 0 is falsy.'),
+  lab('Game: Dunder detective', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_25'),
   task('Make a ToolRegistry that supports len(), "in" and calling by name.', R`class ToolRegistry:
     def __init__(self):
         self._tools = {}
@@ -988,6 +1000,7 @@ print(len(reg), "ping" in reg, reg("ping"))`)
 L[26] = {t:'Composition vs inheritance', d:'"Has a" usually beats "is a".', mins:10,
  goals:['Tell is-a from has-a relationships','Choose composition for agents'],
  steps:[
+  lab('Story: Building an agent from parts', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_26'),
   rd('Inheritance: is-a', `<p>A subclass gets all methods of its parent and can change some. Use it when B really <b>is a</b> kind of A.</p>`, R`class BaseTool:
     def run(self, **args):
         raise NotImplementedError
@@ -1004,6 +1017,7 @@ class WeatherTool(BaseTool):           # a WeatherTool IS a tool
         docs = self.retriever.search(q)
         return self.llm.complete(q, docs)`, null, {ai:'Production agents mostly use composition. To test, pass in a fake LLM. To change provider, pass in a different client.'}),
   pr(null, 'A ChatBot needs an OpenAI client, a vector store and a logger. Which design is best?', ['class ChatBot(OpenAI, VectorStore, Logger)','class ChatBot with self.llm, self.store, self.log','Copy the code of all three into ChatBot'], 1, 'A chatbot is not a vector store. It has one. Composition keeps the parts separate and swappable.'),
+  lab('Game: Is a or has a?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_26'),
   task('Write a fake LLM and pass it into an agent for a test.', R`class FakeLLM:
     def complete(self, q, docs):
         return f"fake answer to {q} using {len(docs)} docs"
@@ -1020,6 +1034,7 @@ print(agent.ask("What is RAG?"))`)
 L[27] = {t:'Abstract base classes and Protocols', d:'Swap OpenAI, Anthropic or Ollama behind one interface.', mins:12,
  goals:['Force subclasses to implement methods with abc','Describe a shape with a Protocol','Choose between the two'],
  steps:[
+  lab('Story: One interface, many models', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_27'),
   rd('An ABC is a contract you must inherit', `<p>An abstract base class lists methods that every subclass must write. Python refuses to create an object of a class that is missing one.</p>`, R`from abc import ABC, abstractmethod
 
 class LLM(ABC):
@@ -1045,6 +1060,7 @@ def index(e: Embedder, docs):
 print(index(LocalEmbedder(), ["a"]))`, R`[[0.1, 0.2]]`),
   rd('Which one?', `<p>Use an <b>ABC</b> when you own the base class and want a hard error at creation time. Use a <b>Protocol</b> when you want to accept classes from other libraries without changing them.</p>`),
   pr(null, 'You want your agent to accept any object with a .complete(prompt) method, including a third-party client you cannot edit. Which tool fits?', ['An ABC','A Protocol','A dataclass'], 1, 'A Protocol matches by shape, so the third-party class does not need to inherit from anything.'),
+  lab('Game: Interface check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_27'),
   task('Write two LLM classes that both match one Protocol, and swap them.', R`from typing import Protocol
 
 class ChatModel(Protocol):

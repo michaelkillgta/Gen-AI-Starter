@@ -149,6 +149,7 @@ export const stories = {
 };
 
 const card = (show, a, o, out, why, q) => ({show, code: show, a, o, out, why, ...(q ? {q} : {})});
+const P = (...args) => ({...card(...args), prose: true});
 
 export const games = {
   11: {title: 'Call tracer', show: 'card', q: 'What does it print?', items: [
@@ -210,8 +211,8 @@ export const games = {
     card('def f():\n    """Add two numbers."""\nprint(f.__doc__)', 'Add two numbers.', ['Add two numbers.', 'None', 'f'], 'Add two numbers.', 'The first string in the body is the docstring.'),
     card('def f():\n    x = 1\n    """Not a docstring."""\nprint(f.__doc__)', 'None', ['Not a docstring.', 'None', 'Error'], 'None', 'A docstring must be the first statement.'),
     card('def f():\n    # Adds numbers\n    pass\nprint(f.__doc__)', 'None', ['Adds numbers', 'None', '# Adds numbers'], 'None', 'Comments are not docstrings. The model never sees them.'),
-    card('Which helps the LLM most?\nA: """Search."""\nB: """Search the wiki for a topic."""', 'B', ['A', 'B'], 'B', 'Say what the tool does and on which data.'),
-    card('def get(q):\n    """Get stuff."""\n# good tool name and docstring?', 'no', ['yes', 'no'], 'no', 'Both are vague. The model cannot tell when to use it.'),
+    P('Which helps the LLM most?\nA: """Search."""\nB: """Search the wiki for a topic."""', 'B', ['A', 'B'], 'B', 'Say what the tool does and on which data.'),
+    P('def get(q):\n    """Get stuff."""\n# good tool name and docstring?', 'no', ['yes', 'no'], 'no', 'Both are vague. The model cannot tell when to use it.'),
   ]},
   19: {title: 'Generator lab', show: 'card', q: 'What does it print?', items: [
     card('def g():\n    yield 1\n    yield 2\nprint(type(g()).__name__)', 'generator', ['generator', 'int', 'function'], 'generator', 'Calling a generator function returns a generator.'),
