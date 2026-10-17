@@ -209,8 +209,7 @@ export function game(el, spec){
   const item = $('.sg-item'), belt = $('.sg-belt'), arch = $('.sg-arch');
   const timers = [];
   const later = (fn, ms) => timers.push(setTimeout(fn, reduced() ? 0 : ms));
-  const codeOf = it => (it.prose || spec.prose) ? '# ' + it.show.replace(/
-/g, ' ') : it.code;
+  const codeOf = it => (it.prose || spec.prose) ? '# ' + it.show.split('\n').join(' ') : it.code;
   const term = (code, out) => code.split('\n').map(l => `<span class="p">&gt;&gt;&gt;</span> ${hlPy(l)}`).join('\n') + '\n' + (out == null ? '<span class="p"># your call...</span>' : esc(out));
   const visual = (it, revealed) => (it.card || spec.show === 'card')
     ? `<div class="sg-card ${revealed ? 'rev' : ''}"><pre>${hlPy(it.show)}</pre></div>`
