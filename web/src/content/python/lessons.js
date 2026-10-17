@@ -398,6 +398,7 @@ print(a is c, a[0] is c[0])   # False False`)
 L[11] = {t:'Functions, return values and defaults', d:'Every agent tool is a function.', mins:14, core:true,
  goals:['Define functions with parameters and return values','Know the difference between return and print','Avoid the mutable default argument trap'],
  steps:[
+  lab('Story: The tool machine', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_11'),
   rd('A function is a named, reusable block', `<p><code>def</code> creates a function. Parameters are the names in the brackets. Arguments are the values you pass when you call it.</p>`, R`def search_docs(query, top_k=3):
     return [f"doc about {query}"] * top_k
 
@@ -428,6 +429,7 @@ print(add("b"))`, 'What does this print?', ["['b']","['a', 'b']","An error"], 1,
   pr(R`def f():
     x = 1
 print(f())`, 'What does this print?', ['1','None','An error'], 1, 'The function has no return statement, so it returns None.'),
+  lab('Game: Call tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_11'),
   task('Write the safe version of add_msg, and test it twice.', R`def add_msg(msg, history=None):
     if history is None:
         history = []          # a new list for every call
@@ -442,6 +444,7 @@ print(add_msg("bye"))    # ['bye']`)
 L[12] = {t:'*args, **kwargs and unpacking', d:'How an agent calls tool(**args).', mins:14, core:true,
  goals:['Accept any number of arguments with *args and **kwargs','Unpack lists with * and dicts with **','Understand the line result = TOOLS[name](**args)'],
  steps:[
+  lab('Story: Packing and unpacking arguments', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_12'),
   rd('*args collects extra positional arguments', `<p>A star before a parameter collects all extra positional arguments into a <b>tuple</b>.</p>`, R`def total(*args):
     print(args)
     return sum(args)
@@ -468,6 +471,7 @@ print(f(*nums))`, 'What does this print?', ['[1, 2, 3]','6','TypeError'], 1, '*n
   pr(R`def f(**kw):
     return type(kw).__name__
 print(f(x=1))`, 'What does this print?', ['tuple','dict','kwargs'], 1, '**kw always collects keyword arguments into a dict.'),
+  lab('Game: Unpacking scanner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_12'),
   task('Write a wrapper that passes every argument through to another function.', R`def call_llm(prompt, model="gpt-4o-mini", temperature=0.0):
     return f"{model}/{temperature}: {prompt}"
 
@@ -482,6 +486,7 @@ print(logged_call("Hi", temperature=0.5))`)
 L[13] = {t:'Positional-only and keyword-only parameters', d:'Force clear calls with / and *.', mins:9,
  goals:['Read / and * in a function signature','Know which calls are valid','See why SDKs use keyword-only options'],
  steps:[
+  lab('Story: Three kinds of slots', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_13'),
   rd('Two ways to pass an argument', `<p>By <b>position</b>: <code>f(1, 2)</code>. By <b>keyword</b>: <code>f(a=1, b=2)</code>. Normally, both work. Two symbols in the signature can restrict this.</p>`),
   rd('/ and * in a signature', `<p>Everything <b>before</b> <code>/</code> is positional-only. Everything <b>after</b> <code>*</code> is keyword-only. Parameters between them accept both.</p>`, R`def call_llm(prompt, /, model="gpt-4o-mini", *, temperature=0.0):
     ...`, null, {table:[['Parameter','Position','Keyword'],['prompt','yes','no'],['model','yes','yes'],['temperature','no','yes']]}),
@@ -490,6 +495,7 @@ L[13] = {t:'Positional-only and keyword-only parameters', d:'Force clear calls w
   pr(R`def f(a, *, b):
     return a + b
 print(f(1, 2))`, 'What happens?', ['3','TypeError','None'], 1, 'b is keyword-only. You must write f(1, b=2).'),
+  lab('Game: Signature judge', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_13'),
   task('Write a function with one positional-only and two keyword-only parameters. Try a call that breaks each rule.', R`def embed(text, /, *, model="text-embedding-3-small", normalize=True):
     return f"{model} normalize={normalize}: {text[:20]}"
 
@@ -502,6 +508,7 @@ print(embed("hello world", normalize=False))
 L[14] = {t:'Functions as objects and tool registries', d:'Store functions in a dict and call them by name.', mins:12, core:true,
  goals:['Store a function in a variable and in a dict','Pass a function into another function','Build the tool registry that every agent uses'],
  steps:[
+  lab('Story: The tool registry', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_14'),
   rd('A function is an object', `<p>Without brackets, <code>get_weather</code> is the function object itself. With brackets, <code>get_weather("Pune")</code> calls it. You can give a function another name.</p>`, R`def get_weather(city):
     return f"Sunny in {city}"
 
@@ -528,6 +535,7 @@ x = hi
 print(type(x).__name__)`, 'What does this print?', ['str','function','NoneType'], 1, 'x = hi stores the function. It does not call it.'),
   pr(R`TOOLS = {"a": len}
 print(TOOLS.get("b", lambda *_: "unknown")("x"))`, 'What does this print?', ['1','unknown','KeyError'], 1, '"b" is missing, so .get returns the fallback function, and that function is then called.'),
+  lab('Game: Registry runner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_14'),
   task('Build a safe dispatcher that returns an error string for an unknown tool.', R`def run_tool(name, args):
     fn = TOOLS.get(name)
     if fn is None:
@@ -542,6 +550,7 @@ print(run_tool("send_email", {}))`)
 L[15] = {t:'lambda, map() and filter()', d:'Small inline functions for sorting and filtering.', mins:12,
  goals:['Write a lambda','Transform with map and keep items with filter','Know when a comprehension is clearer'],
  steps:[
+  lab('Story: Sorting search results', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_15'),
   rd('lambda is a one-line function', `<p><code>lambda x: x * 2</code> is the same as a <code>def</code> with one <code>return</code>. It has no name. Use it for short key functions.</p>`, R`double = lambda x: x * 2
 print(double(4))
 
@@ -558,6 +567,7 @@ print(a == b, b)`, R`True [0.9, 0.8]`),
   pr(R`print(list(filter(None, [0, 1, "", "a", None])))`, 'What does this print?', ["[0, 1, '', 'a', None]","[1, 'a']","[]"], 1, 'filter(None, ...) keeps only truthy items.'),
   pr(R`m = map(str.upper, ["a", "b"])
 print(list(m), list(m))`, 'What does this print?', ["['A', 'B'] ['A', 'B']","['A', 'B'] []","An error"], 1, 'map is an iterator. After you use it once, it is empty.'),
+  lab('Game: Lambda lab', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_15'),
   task('Sort tool results by score, keep the top 2, and get only their text.', R`results = [
     {"text": "A", "score": 0.3},
     {"text": "B", "score": 0.95},
@@ -571,6 +581,7 @@ print([r["text"] for r in top])   # ['B', 'C']`)
 L[16] = {t:'Scope (LEGB) and closures', d:'Where Python looks for a name.', mins:16, core:true,
  goals:['Use the LEGB rule to find which value a name has','Understand UnboundLocalError','Write a closure and use nonlocal'],
  steps:[
+  lab('Story: Where Python looks for a name', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_16'),
   rd('Scope is where a name is visible', `<p>When Python sees a name, it searches four places in a fixed order. It stops at the first match.</p><ul><li><b>L</b>ocal: inside the current function</li><li><b>E</b>nclosing: inside an outer function</li><li><b>G</b>lobal: at the top of the file</li><li><b>B</b>uilt-in: names like <code>len</code> and <code>print</code></li></ul>`),
   lab('Watch Python search the layers', `<p>Each layer is a scope. Remove definitions of <code>model</code> and press <b>Look up</b>. Python searches from the top layer down.</p>`, 'legb'),
   rd('UnboundLocalError', `<p>If a function <b>assigns</b> to a name anywhere, Python treats that name as local in the whole function. Reading it before the assignment fails.</p>`, R`count = 0
@@ -597,6 +608,7 @@ def outer():
 print(outer())`, 'What does this print?', ['global','enclosing','NameError'], 1, 'inner has no local x, so Python looks in the enclosing function and finds "enclosing".'),
   pr(R`fns = [lambda: i for i in range(3)]
 print([f() for f in fns])`, 'What does this print?', ['[0, 1, 2]','[2, 2, 2]','[0, 0, 0]'], 1, 'All three lambdas read i when they are called. By then the loop has finished and i is 2. Fix it with lambda i=i: i.'),
+  lab('Game: Scope detective', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_16'),
   task('Write a closure that builds a prompt prefixer.', R`def make_prefixer(prefix):
     def add(text):
         return f"{prefix}: {text}"
@@ -610,6 +622,7 @@ print(as_system("Be concise."))   # SYSTEM: Be concise.`)
 L[17] = {t:'Decorators', d:'How @tool registers your function.', mins:14, core:true,
  goals:['Understand that @deco means fn = deco(fn)','Write your own decorator with *args, **kwargs','Use functools.wraps and decorators with arguments'],
  steps:[
+  lab('Story: Wrapping a tool', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_17'),
   rd('@ is a shortcut', `<p>A decorator is a function that takes a function and returns a function. The <code>@</code> line is only a short way to write a reassignment.</p>`, R`@log_calls
 def get_weather(city): ...
 
@@ -655,6 +668,7 @@ print(list(TOOLS))`, R`['search_docs']`, {ai:'LangChain, the OpenAI Agents SDK a
 def hi(name):
     return f"hi {name}"
 print(hi.__name__)`, 'What does this print?', ['hi','w','shout'], 1, 'Without functools.wraps, the decorated name is the wrapper\'s name. That is why wraps is important.'),
+  lab('Game: Decorator tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_17'),
   task('Write a decorator with an argument: @retry(times=3).', R`from functools import wraps
 
 def retry(times):
@@ -675,6 +689,7 @@ def retry(times):
 L[18] = {t:'Docstrings', d:'The LLM reads your docstring to choose a tool.', mins:8,
  goals:['Write a docstring and read it with help() and __doc__','Write tool docstrings that an LLM can use well'],
  steps:[
+  lab('Story: What the model reads', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_18'),
   rd('A docstring is the first string in a function', `<p>Put a string in triple quotes as the first line of a function. Python stores it in <code>fn.__doc__</code>.</p>`, R`def get_weather(city: str) -> str:
     """Get the current weather for a city.
 
@@ -690,6 +705,7 @@ print(get_weather.__doc__.splitlines()[0])`, R`Get the current weather for a cit
     x = 1
     """Not a docstring"""
 print(f.__doc__)`, 'What does this print?', ['Not a docstring','None','An error'], 1, 'A docstring must be the first statement in the function body.'),
+  lab('Game: Docstring check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_18'),
   task('Write a tool with a docstring a model can act on. Then print it with help().', R`def search_docs(query: str, top_k: int = 3) -> list[str]:
     """Search the company handbook.
 
@@ -708,6 +724,7 @@ help(search_docs)`)
 L[19] = {t:'Iterators, generators and yield', d:'How token streaming works.', mins:12, core:true,
  goals:['Understand iter() and next()','Write a generator with yield','Know why generators save memory'],
  steps:[
+  lab('Story: Streaming tokens', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_19'),
   rd('An iterator gives one item at a time', `<p>A <code>for</code> loop calls <code>iter()</code> on the list, then <code>next()</code> again and again. When the items run out, Python raises <code>StopIteration</code> and the loop ends.</p>`, R`it = iter(["a", "b"])
 print(next(it))
 print(next(it))
@@ -732,6 +749,7 @@ x = g()
 print(type(x).__name__)`, 'What does this print?', ['int','generator','function'], 1, 'Calling a generator function does not run its body. It returns a generator object.'),
   pr(R`gen = (c for c in "ab")
 print(list(gen), list(gen))`, 'What does this print?', ["['a', 'b'] ['a', 'b']","['a', 'b'] []","An error"], 1, 'A generator can be used only once.'),
+  lab('Game: Generator lab', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_19'),
   task('Write a generator that reads a big file line by line and yields only non-empty lines.', R`def read_chunks(path):
     with open(path, encoding="utf-8") as f:
         for line in f:

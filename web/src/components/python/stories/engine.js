@@ -115,6 +115,8 @@ export function story(el, spec){
     $('.st-code pre').innerHTML = lines.length
       ? lines.map(([l, now]) => `<span class="${now ? 'hl' : ''}">${hlPy(l) || ' '}</span>`).join('\n') + (sc.out ? '\n' + sc.out.split('\n').map(o => `<span class="c"># ${esc(o)}</span>`).join('\n') : '')
       : `<span class="c"># ${esc(spec.empty || 'no code yet')}</span>`;
+    { const pre = $('.st-code pre'), hls = pre.querySelectorAll('.hl'), last = hls[hls.length - 1];
+      pre.scrollTop = last ? Math.max(0, last.offsetTop + last.offsetHeight - pre.clientHeight + 40) : 0; }
     const boxes = Object.entries(st).filter(([, a]) => (a.kind || 'box') === 'box');
     const live = boxes.filter(([, a]) => !a.gone).length, gone = boxes.length - live;
     $('.st-alive').textContent = spec.count === false || !boxes.length ? '' : `${live} object${live === 1 ? '' : 's'}${gone ? ` · ${gone} freed` : ''}`;

@@ -24,7 +24,7 @@
 .pyc .st-title { font-size: 22px; font-weight: 700; letter-spacing: -.015em; }
 .pyc .st-body { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.6; min-height: 7.5em; }
 .pyc .st-code { margin: 4px 0 0; }
-.pyc .st-code pre { min-height: 8.6em; }
+.pyc .st-code pre { min-height: 8.6em; max-height: 15.5em; overflow-y: auto; position: relative; scroll-behavior: smooth; }
 .pyc .st-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 6px; }
 .pyc .st-nav .btn { padding: 9px 14px; font-size: 14px; }
 .pyc .st-nav .btn:disabled { opacity: .45; cursor: default; }
@@ -134,7 +134,7 @@
 .pyc .st-cells { position: absolute; inset: 0; display: flex; }
 .pyc .st-cells i { flex: 1; border-right: 1px dashed var(--line-2); font: 700 11px var(--f-mono); font-style: normal; color: var(--ink-3); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 3px; }
 .pyc .st-cells i:last-child { border-right: 0; }
-.pyc .st-shelf > b { position: absolute; left: 50%; top: 0; white-space: nowrap; font: 700 12px var(--f-mono); color: var(--ink-2); background: var(--sheet); border: 1px solid var(--line-2); border-radius: 6px; padding: 2px 8px; transform-origin: 50% 100%; transform: translate(-50%, -100%) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))) translateY(-4px); }
+.pyc .st-shelf > b { position: absolute; left: 10px; top: 0; white-space: nowrap; font: 700 12px var(--f-mono); color: var(--ink-2); background: var(--sheet); border: 1px solid var(--line-2); border-radius: 6px; padding: 2px 8px; transform-origin: 50% 100%; transform: translate(0, -100%) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))) translateY(-4px); }
 .pyc .st-shelf > b:empty { display: none; }
 .pyc .st-link { position: absolute; left: var(--x); top: var(--y); width: var(--len); height: 4px; margin-top: -2px; transform-origin: 0 50%; transform: translateZ(3px) rotate(var(--ang)); background: var(--amber); border-radius: 2px; transform-style: preserve-3d; transition: width .6s ease; }
 .pyc .st-link.dash { background: repeating-linear-gradient(90deg, var(--amber) 0 8px, transparent 8px 14px); }
