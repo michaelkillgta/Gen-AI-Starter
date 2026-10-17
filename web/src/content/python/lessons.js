@@ -536,7 +536,12 @@ print(type(x).__name__)`, 'What does this print?', ['str','function','NoneType']
   pr(R`TOOLS = {"a": len}
 print(TOOLS.get("b", lambda *_: "unknown")("x"))`, 'What does this print?', ['1','unknown','KeyError'], 1, '"b" is missing, so .get returns the fallback function, and that function is then called.'),
   lab('Game: Registry runner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_14'),
-  task('Build a safe dispatcher that returns an error string for an unknown tool.', R`def run_tool(name, args):
+  task('Build a safe dispatcher that returns an error string for an unknown tool.', R`def get_weather(city):
+    return f"Sunny in {city}"
+
+TOOLS = {"get_weather": get_weather}
+
+def run_tool(name, args):
     fn = TOOLS.get(name)
     if fn is None:
         return f"Error: unknown tool {name!r}"
@@ -1018,7 +1023,16 @@ class WeatherTool(BaseTool):           # a WeatherTool IS a tool
         return self.llm.complete(q, docs)`, null, {ai:'Production agents mostly use composition. To test, pass in a fake LLM. To change provider, pass in a different client.'}),
   pr(null, 'A ChatBot needs an OpenAI client, a vector store and a logger. Which design is best?', ['class ChatBot(OpenAI, VectorStore, Logger)','class ChatBot with self.llm, self.store, self.log','Copy the code of all three into ChatBot'], 1, 'A chatbot is not a vector store. It has one. Composition keeps the parts separate and swappable.'),
   lab('Game: Is a or has a?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_26'),
-  task('Write a fake LLM and pass it into an agent for a test.', R`class FakeLLM:
+  task('Write a fake LLM and pass it into an agent for a test.', R`class RAGAgent:
+    def __init__(self, llm, retriever):
+        self.llm = llm
+        self.retriever = retriever
+
+    def ask(self, q):
+        docs = self.retriever.search(q)
+        return self.llm.complete(q, docs)
+
+class FakeLLM:
     def complete(self, q, docs):
         return f"fake answer to {q} using {len(docs)} docs"
 
@@ -1260,7 +1274,10 @@ except ValueError:
 finally:
     print("cleanup")`, 'What happens?', ['value, then cleanup','cleanup, then KeyError crashes the program','Nothing'], 1, 'KeyError is not a ValueError, so it is not caught. finally still runs before the error goes up.'),
   lab('Game: Exception tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_32'),
-  task('Wrap a tool call the way an agent does.', R`def safe_call(fn, **args):
+  task('Wrap a tool call the way an agent does.', R`def get_weather(city):
+    return f"Sunny in {city}"
+
+def safe_call(fn, **args):
     try:
         return fn(**args)
     except TypeError as e:
@@ -1299,7 +1316,12 @@ def call_llm(prompt):
   pr(R`base = 1
 print([base * 2 ** a for a in range(4)])`, 'What does this print?', ['[1, 2, 3, 4]','[1, 2, 4, 8]','[2, 4, 6, 8]'], 1, '2 ** 0 is 1, then 2, 4, 8.'),
   lab('Game: Retry or not?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_33'),
-  task('Add jitter and a maximum wait to your hand-written retry.', R`wait = min(10, base * 2 ** attempt) + random.uniform(0, 0.5)`)
+  task('Add jitter and a maximum wait to your hand-written retry.', R`import random
+
+base = 1
+for attempt in range(5):
+    wait = min(10, base * 2 ** attempt) + random.uniform(0, 0.5)
+    print(f"attempt {attempt}: wait {wait:.2f}s")`)
  ],
  sum:[['backoff','Wait longer after each failure'],['jitter','A small random extra wait'],['429 / 503','Retry these'],['400 / 401','Do not retry these'],['tenacity','@retry(stop=..., wait=...)']]};
 
