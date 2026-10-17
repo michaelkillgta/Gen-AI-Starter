@@ -485,3 +485,25 @@
 .pyc #roadmap{margin-top:12px}
 @media (max-width:860px){.pyc .stack{height:330px}.pyc .stack-inner{transform:translateY(20px) rotateX(56deg) rotateZ(-36deg)}}
 @media (max-width:640px){.pyc .hero .rule{display:block}.pyc .hero .rule .tag{display:inline-block;margin:0 8px 4px 0}.pyc .hero .rule p{display:inline}}
+
+/* ---------- "Your turn" code runner (Pyodide in the browser) ---------- */
+.pyc .run{margin-top:16px;background:var(--sheet);border:1px solid var(--line);border-radius:var(--r-l);padding:14px;box-shadow:var(--edge)}
+.pyc .run-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.pyc .run-h .eyebrow{color:var(--amber-ink)}
+.pyc .run-ed,.pyc .run-in{display:block;width:100%;box-sizing:border-box;resize:vertical;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--code-line);border-radius:var(--r-m);padding:12px 14px;font:14px/1.6 var(--f-mono);tab-size:4;caret-color:var(--amber)}
+.pyc .run-ed{min-height:190px}
+.pyc .run-in{margin-top:8px;min-height:0}
+.pyc .run-ed::placeholder,.pyc .run-in::placeholder{color:var(--code-dim)}
+.pyc .run-ed:focus,.pyc .run-in:focus{outline:2px solid var(--amber);outline-offset:1px}
+.pyc .run-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin-top:10px}
+.pyc .run-bar .btn{padding:9px 16px;font-size:14px}
+.pyc .run-bar .btn:disabled{opacity:.7;cursor:progress}
+.pyc .run-peek{all:unset;cursor:pointer;font-size:13.5px;color:var(--ink-3);text-decoration:underline;text-underline-offset:3px}
+.pyc .run-peek:hover{color:var(--ink)}
+.pyc .run-peek:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:4px}
+.pyc .run-state{margin-left:auto;color:var(--ink-3)}
+.pyc .run-note{margin:10px 0 0;font-size:13.5px;color:var(--ink-2);background:var(--amber-soft);border-radius:var(--r-m);padding:8px 12px}
+.pyc .run-out{margin:10px 0 0;min-height:64px;max-height:300px;overflow:auto;background:var(--sunk);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-m);padding:10px 14px;font:13.5px/1.55 var(--f-mono);white-space:pre-wrap;word-break:break-word}
+.pyc .run-err{color:var(--bad)}
+.pyc .run-dim{color:var(--ink-3)}
+@media (max-width:560px){.pyc .run-keys{display:none}.pyc .run-state{margin-left:0;flex-basis:100%}}

@@ -4,6 +4,7 @@
 import { PARTS, NEXT_PARTS, L, AGENT, WEEKS, INTERVIEW } from "@/content/python/lessons";
 import notes from "@/content/python/notes.json";
 import { createProgress } from "./progress";
+import { mountRunner } from "./runner";
 import { esc, hlPy, H, $, $$, codeLines, pyRepr, pyFloat, sleep, reduced, W, frame } from "./widgets";
 
 /** Wires the course into the markup inside `root`. Returns a cleanup function. */
@@ -164,7 +165,7 @@ export function mountCourse(root, { toggleTheme }) {
         <div class="opts">${st.o.map((o, i) => `<button class="opt ${a !== undefined ? (i === st.a ? 'right' : i === a ? 'wrong' : '') : ''}" data-o="${i}" ${a !== undefined ? 'disabled' : ''}><span class="lt">${'ABCD'[i]}</span><code>${esc(o)}</code></button>`).join('')}</div>
         <div id="explain">${a !== undefined ? explainHTML(st, a) : ''}</div>`;
     } else if (st.k === 'task'){
-      html = `<div class="kind task">Your turn · on your laptop</div><h2>Type it. Run it. No AI help.</h2><div class="body"><p>${esc(st.b)}</p></div>${codeBlock(st.code)}<div class="note">Close this page while you type. Then compare. If you needed to look, do it again tomorrow.</div>`;
+      html = `<div class="kind task">Your turn</div><h2>Type it. Run it. No AI help.</h2><div class="body"><p>${esc(st.b)}</p></div>${codeBlock(st.code)}<div class="note">Read the example, then type it from memory in the box below and press Run. You can also run it on your laptop. If you needed to look, do it again tomorrow.</div><div id="rmount"></div>`;
     } else if (st.k === 'summary'){
       const on = !!S.done[cur], nx = L[cur + 1] ? cur + 1 : null;
       html = `<div class="kind read">Summary</div><h2>Remember these</h2><div class="terms">${c.sum.map(t => `<div class="term"><b>${esc(t[0])}</b><span>${esc(t[1])}</span></div>`).join('')}</div>
@@ -188,6 +189,7 @@ export function mountCourse(root, { toggleTheme }) {
         $('#explain').innerHTML = explainHTML(st, i); updateNav();
       });
     }
+    if (st.k === 'task'){ const r = mountRunner($('#rmount'), { example: st.code, key: cur }); if (typeof r === 'function') cleanup = r; }
     { const tn = $('#toNotes'); if (tn) tn.onclick = () => openNotes(cur); }
     if (st.k === 'summary'){
       $('#masterBtn').onclick = () => { S.done[cur] = !S.done[cur]; if (!S.done[cur]) delete S.done[cur]; save(); if (S.done[cur]) toast(`Lesson ${cur} marked as learned`); renderStep(); };
