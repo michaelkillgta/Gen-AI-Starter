@@ -1226,6 +1226,7 @@ except ValidationError as e:
 L[32] = {t:'Exceptions: try, except, else, finally', d:'When a tool fails, tell the LLM and keep going.', mins:14, core:true,
  goals:['Catch errors with try / except','Know when else and finally run','raise errors and write custom exception classes'],
  steps:[
+  lab('Story: When a tool breaks', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_32'),
   rd('An exception stops the program, unless you catch it', `<p>Code inside <code>try</code> runs normally. If an error happens, Python jumps to the matching <code>except</code> block. The program does not crash.</p>`, R`try:
     n = int("abc")
 except ValueError as e:
@@ -1258,6 +1259,7 @@ except ValueError:
     print("value")
 finally:
     print("cleanup")`, 'What happens?', ['value, then cleanup','cleanup, then KeyError crashes the program','Nothing'], 1, 'KeyError is not a ValueError, so it is not caught. finally still runs before the error goes up.'),
+  lab('Game: Exception tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_32'),
   task('Wrap a tool call the way an agent does.', R`def safe_call(fn, **args):
     try:
         return fn(**args)
@@ -1274,6 +1276,7 @@ print(safe_call(get_weather, town="Pune"))`)
 L[33] = {t:'Retry with backoff and tenacity', d:'Survive 429 and 503 errors.', mins:10, core:true,
  goals:['Write retry with exponential backoff by hand','Use tenacity for the same thing in one decorator'],
  steps:[
+  lab('Story: Surviving a busy API', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_33'),
   rd('Why retry?', `<p>LLM APIs fail often for short times: <code>429 Too Many Requests</code>, <code>503 Overloaded</code>, timeouts. The fix is to wait and try again. Each wait is longer than the last: 1s, 2s, 4s. This is <b>exponential backoff</b>.</p>`),
   lab('Watch backoff happen', `<p>Set how often the API fails. Press <b>Run request</b>. The page runs the attempts at 10x speed.</p>`, 'retry'),
   rd('Write it once by hand', `<p>Writing it yourself once makes the library easy to understand.</p>`, R`import random, time
@@ -1295,6 +1298,7 @@ def call_llm(prompt):
     ...`, null, {note:'Retry only errors that can pass: 429, 5xx, timeouts. Do not retry 400 or 401. The same bad request fails every time.'}),
   pr(R`base = 1
 print([base * 2 ** a for a in range(4)])`, 'What does this print?', ['[1, 2, 3, 4]','[1, 2, 4, 8]','[2, 4, 6, 8]'], 1, '2 ** 0 is 1, then 2, 4, 8.'),
+  lab('Game: Retry or not?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_33'),
   task('Add jitter and a maximum wait to your hand-written retry.', R`wait = min(10, base * 2 ** attempt) + random.uniform(0, 0.5)`)
  ],
  sum:[['backoff','Wait longer after each failure'],['jitter','A small random extra wait'],['429 / 503','Retry these'],['400 / 401','Do not retry these'],['tenacity','@retry(stop=..., wait=...)']]};
@@ -1302,6 +1306,7 @@ print([base * 2 ** a for a in range(4)])`, 'What does this print?', ['[1, 2, 3, 
 L[34] = {t:'JSON and malformed LLM output', d:'Parse tool arguments safely.', mins:10, core:true,
  goals:['Use json.loads and json.dumps','Clean up common LLM JSON mistakes','Fall back safely when JSON is broken'],
  steps:[
+  lab('Story: Reading JSON from the model', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_34'),
   rd('loads and dumps', `<p><code>json.loads</code> turns a JSON <b>s</b>tring into Python objects. <code>json.dumps</code> turns Python objects into a JSON string. Remember: the <b>s</b> means string.</p>`, R`import json
 raw = '{"city": "Pune", "days": 2}'
 args = json.loads(raw)
@@ -1312,6 +1317,7 @@ print(json.dumps({"ok": True, "items": None}))`, R`Pune
   lab('Repair LLM output', `<p>Pick a real kind of broken output. Press <b>Parse</b> and watch each repair step.</p>`, 'jsonfix'),
   pr(R`import json
 print(json.loads("{'a': 1}"))`, 'What happens?', ["{'a': 1}","JSONDecodeError","{'a': '1'}"], 1, 'JSON requires double quotes. Single quotes are Python syntax, not JSON.'),
+  lab('Game: JSON parser', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_34'),
   task('Write a parse_llm_json function with a fence fallback.', R`import json, re
 
 def parse_llm_json(text):
@@ -1328,6 +1334,7 @@ def parse_llm_json(text):
 L[35] = {t:'Files with pathlib: text, CSV, JSON', d:'Load prompts and knowledge bases.', mins:9,
  goals:['Build paths with pathlib','Read and write text, JSON and CSV'],
  steps:[
+  lab('Story: Loading the knowledge base', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_35'),
   rd('Path objects', `<p><code>Path</code> joins folders with <code>/</code> and works the same on Windows, macOS and Linux.</p>`, R`from pathlib import Path
 
 root = Path("data")
@@ -1350,6 +1357,7 @@ with open("evals.csv", newline="", encoding="utf-8") as f:
         print(row["question"], float(row["score"]))`),
   pr(R`from pathlib import Path
 print(Path("docs") / "a.md")`, 'What does this print on Linux?', ['docs/a.md','docsa.md','TypeError'], 0, 'The / operator joins path parts with the correct separator.'),
+  lab('Game: Path lab', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_35'),
   task('Load every .md file in a folder into a list of documents.', R`from pathlib import Path
 
 docs = []
@@ -1362,6 +1370,7 @@ print(len(docs))`)
 L[36] = {t:'Environment variables and python-dotenv', d:'Never hardcode an API key.', mins:7,
  goals:['Read settings from os.environ','Load a .env file with python-dotenv','Keep keys out of Git'],
  steps:[
+  lab('Story: Keeping the key secret', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_36'),
   rd('Read from the environment', `<p><code>os.environ["KEY"]</code> fails if the key is missing. <code>os.getenv("KEY", default)</code> returns a default.</p>`, R`import os
 key = os.getenv("OPENAI_API_KEY")
 if key is None:
@@ -1378,6 +1387,7 @@ print(os.getenv("MODEL"))`, R`gpt-4o-mini`, {note:'Every environment variable is
   pr(R`import os
 os.environ["RETRIES"] = "3"
 print(os.environ["RETRIES"] + 1)`, 'What happens?', ['4','31','TypeError'], 2, 'The value is the string "3". Use int(os.environ["RETRIES"]) + 1.'),
+  lab('Game: Secret keeper', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_36'),
   task('Make a small settings loader with safe defaults.', R`import os
 from dotenv import load_dotenv
 
@@ -1394,6 +1404,7 @@ print(SETTINGS)`)
 L[37] = {t:'HTTP with requests and httpx', d:'Call real APIs inside your tools.', mins:12,
  goals:['Make GET and POST requests','Read status codes and decide what to do','Send headers and bearer tokens; know when to use httpx'],
  steps:[
+  lab('Story: Calling a real API', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_37'),
   rd('A request and a response', `<p>Your code sends a <b>method</b> (GET, POST), a <b>URL</b>, <b>headers</b> and sometimes a JSON <b>body</b>. The server returns a <b>status code</b>, headers and a body.</p>`, R`import requests
 
 res = requests.get(
@@ -1415,6 +1426,7 @@ async def fetch(city):
 
 # asyncio.run(fetch("Pune"))`),
   pr(null, 'Your tool gets 401 Unauthorized. What should the agent do?', ['Retry with backoff','Stop and report a bad or missing API key','Parse the body as JSON'], 1, 'A retry sends the same wrong key again. Fix the credentials instead.'),
+  lab('Game: HTTP status check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_37'),
   task('Write a weather tool with a timeout and clear error messages.', R`import requests
 
 def get_weather(city: str) -> str:
@@ -1432,6 +1444,7 @@ def get_weather(city: str) -> str:
 L[38] = {t:'Regex and the standard library', d:'re, collections, itertools, functools, datetime, uuid.', mins:15,
  goals:['Extract text from LLM output with re','Use defaultdict, Counter and deque','Know what itertools, functools, datetime and uuid give you'],
  steps:[
+  lab('Story: The standard toolbox', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_38'),
   rd('re: find patterns in text', `<p>A regular expression describes a text pattern. <code>re.search</code> finds the first match. <code>re.findall</code> finds all. <code>re.sub</code> replaces.</p>`, R`import re
 text = "<think>plan...</think>The answer is 42."
 clean = re.sub(r"<think>.*?</think>", "", text, flags=re.S)
@@ -1469,6 +1482,7 @@ print(str(uuid.uuid4())[:8])                # trace id`),
 d = deque([1, 2, 3], maxlen=3)
 d.append(4)
 print(list(d))`, 'What does this print?', ['[1, 2, 3, 4]','[2, 3, 4]','[1, 2, 3]'], 1, 'A deque with maxlen drops the oldest item when you add a new one.'),
+  lab('Game: Toolbox quiz', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_38'),
   task('Extract a fenced JSON block from model text.', R`import re, json
 text = 'Sure!\n` + '```json\\n{"city": "Pune"}\\n```' + R`'
 m = re.search(r"` + '```json\\s*(.*?)\\s*```' + R`", text, re.S)
