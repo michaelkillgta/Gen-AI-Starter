@@ -507,3 +507,8 @@
 .pyc .run-err{color:var(--bad)}
 .pyc .run-dim{color:var(--ink-3)}
 @media (max-width:560px){.pyc .run-keys{display:none}.pyc .run-state{margin-left:0;flex-basis:100%}}
+.pyc .code .chead .run-btn{all:unset;cursor:pointer;margin-left:auto;margin-right:12px;color:var(--code-kw);font-size:11px;font-weight:700;letter-spacing:.06em}
+.pyc .code .chead .run-btn:hover{color:var(--code-fg)}
+.pyc .code .chead .run-btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:3px}
+.pyc .run-inline .run{margin:6px 0 16px}
+.pyc .run-inline .run-ed{min-height:0}

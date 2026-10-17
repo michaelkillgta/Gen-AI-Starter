@@ -4,7 +4,7 @@
 import { PARTS, NEXT_PARTS, L, AGENT, WEEKS, INTERVIEW } from "@/content/python/lessons";
 import notes from "@/content/python/notes.json";
 import { createProgress } from "./progress";
-import { mountRunner } from "./runner";
+import { mountRunner, attachRunButtons } from "./runner";
 import { esc, hlPy, H, $, $$, codeLines, pyRepr, pyFloat, sleep, reduced, W, frame } from "./widgets";
 
 /** Wires the course into the markup inside `root`. Returns a cleanup function. */
@@ -189,6 +189,7 @@ export function mountCourse(root, { toggleTheme }) {
         $('#explain').innerHTML = explainHTML(st, i); updateNav();
       });
     }
+    if (st.k === 'read') attachRunButtons(stage);
     if (st.k === 'task'){ const r = mountRunner($('#rmount'), { example: st.code, key: cur }); if (typeof r === 'function') cleanup = r; }
     { const tn = $('#toNotes'); if (tn) tn.onclick = () => openNotes(cur); }
     if (st.k === 'summary'){
@@ -294,6 +295,7 @@ export function mountCourse(root, { toggleTheme }) {
       const m = b.closest('details'); if (m) m.open = false;
     });
     if (key === 'B') wireChecklist(stage);
+    attachRunButtons(stage);
     const tl = $('#nToLearn'); if (tl) tl.onclick = () => openLesson(cur, S.seen[cur] || 0);
     const tn = $('#nToNext'); if (tn) tn.onclick = () => openNotes(nextK);
     updateNav();

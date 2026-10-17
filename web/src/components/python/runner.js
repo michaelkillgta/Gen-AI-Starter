@@ -78,20 +78,21 @@ function limits(code){
  * Mounts the editor into `el`. `example` is the lesson snippet (shown above, not
  * pre-filled), `key` keeps each lesson's draft in this browser.
  */
-export function mountRunner(el, { example, key }){
+export function mountRunner(el, { example, key, prefill = false, autorun = false }){
   const draftKey = 'ft_py_draft_' + key;
   let draft = '';
-  try { draft = localStorage.getItem(draftKey) || ''; } catch (e) {}
+  if (prefill) draft = example;
+  else try { draft = localStorage.getItem(draftKey) || ''; } catch (e) {}
   const notes = limits(example);
   const wantsInput = /\binput\s*\(/.test(example);
   el.innerHTML = `<div class="run">
-    <div class="run-h"><span class="eyebrow">Try it here · real Python in your browser</span><span class="mini run-keys">Ctrl + Enter to run</span></div>
+    <div class="run-h"><span class="eyebrow">${prefill ? 'Edit and run this example' : 'Try it here · real Python in your browser'}</span><span class="mini run-keys">Ctrl + Enter to run</span></div>
     <textarea class="run-ed" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Your Python code" placeholder="Type the code here, without copying. Then press Run."></textarea>
     ${wantsInput ? '<textarea class="run-in" rows="2" spellcheck="false" aria-label="Program input, one line per input() call" placeholder="Input for input(), one line each"></textarea>' : ''}
     <div class="run-bar">
       <button class="btn btn-ink run-go">▶ Run</button>
-      <button class="btn btn-ghost run-clear">Clear</button>
-      <button class="run-peek">Stuck? Paste the example</button>
+      <button class="btn btn-ghost run-clear">${prefill ? 'Reset' : 'Clear'}</button>
+      ${prefill ? '' : '<button class="run-peek">Stuck? Paste the example</button>'}
       <span class="mini run-state" aria-live="polite"></span>
     </div>
     ${notes.map(n => `<p class="run-note">${esc(n)}</p>`).join('')}
@@ -102,7 +103,7 @@ export function mountRunner(el, { example, key }){
   ed.value = draft;
   let running = false, timer = null, myId = 0;
 
-  const save = () => { try { localStorage.setItem(draftKey, ed.value); } catch (e) {} };
+  const save = () => { if (prefill) return; try { localStorage.setItem(draftKey, ed.value); } catch (e) {} };
   ed.addEventListener('input', save);
   ed.addEventListener('keydown', e => {
     e.stopPropagation(); // keep lesson arrow-key shortcuts out of the editor
@@ -152,9 +153,44 @@ export function mountRunner(el, { example, key }){
     catch (e) { write('Could not start Python in this browser: ' + e.message, 'run-err'); finish(''); }
   }
   go.onclick = run;
-  el.querySelector('.run-clear').onclick = () => { ed.value = ''; save(); out.innerHTML = '<span class="run-dim"># output appears here</span>'; state.textContent = ''; ed.focus(); };
-  el.querySelector('.run-peek').onclick = () => { ed.value = example; save(); ed.focus(); };
+  el.querySelector('.run-clear').onclick = () => { ed.value = prefill ? example : ''; save(); out.innerHTML = '<span class="run-dim"># output appears here</span>'; state.textContent = ''; ed.focus(); };
+  const peek = el.querySelector('.run-peek');
+  if (peek) peek.onclick = () => { ed.value = example; save(); ed.focus(); };
+  if (prefill) ed.rows = Math.min(18, Math.max(4, example.split('\n').length + 1));
+  if (autorun) run();
 
   // Leaving the step stops a running program.
   return () => { if (running){ killWorker(); } handlers.delete(myId); clearTimeout(timer); };
+}
+
+/** A fragment, shell command or data sample: not worth a Run button. */
+const notRunnable = code => {
+  const lines = code.split('\n');
+  return !code.trim() || /^[ \t]/.test(code) || /:\s*$/.test(lines[lines.length - 1]) || /^\s*(\$|pip |>>>|\{|\[)/.test(code) || code.includes('…');
+};
+
+/** Adds "Run" to every Python code block in `root` (lesson examples, full notes). */
+export function attachRunButtons(root){
+  root.querySelectorAll('.code:not(.out)').forEach(block => {
+    if (block.dataset.hl === '0' || block.dataset.run) return;
+    const pre = block.querySelector('pre'), head = block.querySelector('.chead');
+    if (!pre || !head) return;
+    const code = pre.textContent.replace(/\s+$/, '');
+    if (notRunnable(code)) return;
+    block.dataset.run = '1';
+    const btn = document.createElement('button');
+    btn.className = 'run-btn'; btn.textContent = '▶ Run';
+    btn.setAttribute('aria-label', 'Edit and run this example');
+    head.querySelector('span').after(btn);
+    let box = null;
+    btn.onclick = () => {
+      if (box){ box.remove(); box = null; btn.textContent = '▶ Run'; return; }
+      box = document.createElement('div');
+      box.className = 'run-inline';
+      const next = block.nextElementSibling;
+      (next && next.classList.contains('out') ? next : block).after(box);
+      mountRunner(box, { example: code, key: 'inline', prefill: true, autorun: true });
+      btn.textContent = 'Hide';
+    };
+  });
 }
