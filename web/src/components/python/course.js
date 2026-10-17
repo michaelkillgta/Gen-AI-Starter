@@ -186,10 +186,11 @@ export function mountCourse(root, { toggleTheme }) {
       $$('.opt', stage).forEach(b => b.onclick = () => {
         const i = +b.dataset.o; answered[idx] = i;
         $$('.opt', stage).forEach((x, j) => { x.disabled = true; if (j === st.a) x.classList.add('right'); else if (j === i) x.classList.add('wrong'); });
-        $('#explain').innerHTML = explainHTML(st, i); updateNav();
+        $('#explain').innerHTML = explainHTML(st, i); updateNav(); attachRunButtons(stage); // Run appears once the answer is chosen
       });
     }
-    if (st.k === 'read') attachRunButtons(stage);
+    if (st.k === 'read' || st.k === 'task') attachRunButtons(stage);
+    if (st.k === 'predict' && answered[idx] !== undefined) attachRunButtons(stage);
     if (st.k === 'task'){ const r = mountRunner($('#rmount'), { example: st.code, key: cur }); if (typeof r === 'function') cleanup = r; }
     { const tn = $('#toNotes'); if (tn) tn.onclick = () => openNotes(cur); }
     if (st.k === 'summary'){
