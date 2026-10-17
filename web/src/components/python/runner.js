@@ -78,7 +78,7 @@ function limits(code){
  * Mounts the editor into `el`. `example` is the lesson snippet (shown above, not
  * pre-filled), `key` keeps each lesson's draft in this browser.
  */
-export function mountRunner(el, { example, key, prefill = false, autorun = false }){
+export function mountRunner(el, { example, key, prefill = false, autorun = false, onState = null, onClose = null }){
   const draftKey = 'ft_py_draft_' + key;
   let draft = '';
   if (prefill) draft = example;
@@ -86,7 +86,7 @@ export function mountRunner(el, { example, key, prefill = false, autorun = false
   const notes = limits(example);
   const wantsInput = /\binput\s*\(/.test(example);
   el.innerHTML = `<div class="run">
-    <div class="run-h"><span class="eyebrow">${prefill ? 'Edit and run this example' : 'Try it here · real Python in your browser'}</span><span class="mini run-keys">Ctrl + Enter to run</span></div>
+    <div class="run-h"><span class="eyebrow">${prefill ? 'Edit and run this example' : 'Try it here · real Python in your browser'}</span><span class="run-hr"><span class="mini run-keys">Ctrl + Enter to run</span>${onClose ? '<button class="run-x" aria-label="Close the runner" title="Close">×</button>' : ''}</span></div>
     <textarea class="run-ed" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Your Python code" placeholder="Type the code here, without copying. Then press Run."></textarea>
     ${wantsInput ? '<textarea class="run-in" rows="2" spellcheck="false" aria-label="Program input, one line per input() call" placeholder="Input for input(), one line each"></textarea>' : ''}
     <div class="run-bar">
@@ -132,14 +132,14 @@ export function mountRunner(el, { example, key, prefill = false, autorun = false
   };
   const finish = msg => {
     running = false; clearTimeout(timer); handlers.delete(myId);
-    go.disabled = false; go.textContent = '▶ Run'; state.textContent = msg || '';
+    go.disabled = false; go.textContent = '▶ Run'; state.textContent = msg || ''; if (onState) onState('idle');
   };
 
   function run(){
     if (running) return;
     const code = ed.value;
     if (!code.trim()){ out.innerHTML = '<span class="run-dim"># type some code first</span>'; return; }
-    running = true; go.disabled = true; go.textContent = 'Running...';
+    running = true; go.disabled = true; go.textContent = 'Running...'; if (onState) onState('running');
     out.innerHTML = ''; state.textContent = 'Starting...'; myId = nextId++;
     handlers.set(myId, m => {
       if (m.type === 'status') state.textContent = m.text;
@@ -157,6 +157,8 @@ export function mountRunner(el, { example, key, prefill = false, autorun = false
   const peek = el.querySelector('.run-peek');
   if (peek) peek.onclick = () => { ed.value = example; save(); ed.focus(); };
   if (prefill) ed.rows = Math.min(18, Math.max(4, example.split('\n').length + 1));
+  if (onClose) el.querySelector('.run-x').onclick = onClose;
+  el.runNow = run;
   if (autorun) run();
 
   // Leaving the step stops a running program.
@@ -169,8 +171,22 @@ const notRunnable = code => {
   return !code.trim() || /^[ \t]/.test(code) || /:\s*$/.test(lines[lines.length - 1]) || /^\s*(\$|pip |>>>|\{|\[)/.test(code) || code.includes('…');
 };
 
-/** Adds "Run" to every Python code block in `root` (lesson examples, full notes). */
+const ICON_PLAY = '<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.6v8.8a.6.6 0 0 0 .9.5l7-4.4a.6.6 0 0 0 0-1L3.9 1.1a.6.6 0 0 0-.9.5z" fill="currentColor"/></svg>';
+const ICON_SPIN = '<svg class="run-spin" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="18 10" stroke-linecap="round"/></svg>';
+const ICON_COPY = '<svg class="i-copy" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="8.5" height="9" rx="1.6"/><path d="M10.5 5V3.6A1.6 1.6 0 0 0 8.9 2H4.1A1.6 1.6 0 0 0 2.5 3.6v6.3A1.6 1.6 0 0 0 4.1 11.5H5"/></svg><svg class="i-ok" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5"/></svg>';
+
+/** Turns a text "Copy" button into an icon button (course.js toggles .copied). */
+function iconCopy(b){
+  if (b.dataset.icon) return;
+  b.dataset.icon = '1';
+  b.classList.add('copy-btn');
+  b.innerHTML = ICON_COPY;
+  b.setAttribute('aria-label', 'Copy code'); b.title = 'Copy';
+}
+
+/** Adds a Run button (and an icon Copy button) to every Python code block in `root`. */
 export function attachRunButtons(root){
+  root.querySelectorAll('.code .chead [data-copy]').forEach(iconCopy);
   root.querySelectorAll('.code:not(.out)').forEach(block => {
     if (block.dataset.hl === '0' || block.dataset.run) return;
     const pre = block.querySelector('pre'), head = block.querySelector('.chead');
@@ -179,18 +195,25 @@ export function attachRunButtons(root){
     if (notRunnable(code)) return;
     block.dataset.run = '1';
     const btn = document.createElement('button');
-    btn.className = 'run-btn'; btn.textContent = '▶ Run';
-    btn.setAttribute('aria-label', 'Edit and run this example');
-    head.querySelector('span').after(btn);
+    btn.className = 'run-btn';
+    btn.setAttribute('aria-label', 'Run this code');
+    const idle = () => { btn.innerHTML = ICON_PLAY + '<span>Run</span>'; btn.classList.remove('busy'); };
+    const busy = () => { btn.innerHTML = ICON_SPIN + '<span>Running</span>'; btn.classList.add('busy'); };
+    idle();
+    const copy = head.querySelector('[data-copy]');
+    // Predict headers say "run it in your head"; once answered, the Run button replaces that hint.
+    if (!copy) head.querySelectorAll(':scope > span').forEach((sp, k) => { if (k > 0) sp.remove(); });
+    if (copy) head.insertBefore(btn, copy); else head.append(btn);
     let box = null;
+    const close = () => { if (box){ box.remove(); box = null; } idle(); };
     btn.onclick = () => {
-      if (box){ box.remove(); box = null; btn.textContent = '▶ Run'; return; }
+      if (btn.classList.contains('busy')) return;
+      if (box){ box.runNow(); return; }
       box = document.createElement('div');
       box.className = 'run-inline';
       const next = block.nextElementSibling;
       (next && next.classList.contains('out') ? next : block).after(box);
-      mountRunner(box, { example: code, key: 'inline', prefill: true, autorun: true });
-      btn.textContent = 'Hide';
+      mountRunner(box, { example: code, key: 'inline', prefill: true, autorun: true, onClose: close, onState: s => (s === 'running' ? busy() : idle()) });
     };
   });
 }

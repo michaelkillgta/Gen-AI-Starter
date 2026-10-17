@@ -507,8 +507,26 @@
 .pyc .run-err{color:var(--bad)}
 .pyc .run-dim{color:var(--ink-3)}
 @media (max-width:560px){.pyc .run-keys{display:none}.pyc .run-state{margin-left:0;flex-basis:100%}}
-.pyc .code .chead .run-btn{all:unset;cursor:pointer;margin-left:auto;margin-right:12px;color:var(--code-kw);font-size:11px;font-weight:700;letter-spacing:.06em}
-.pyc .code .chead .run-btn:hover{color:var(--code-fg)}
-.pyc .code .chead .run-btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:3px}
 .pyc .run-inline .run{margin:6px 0 16px}
 .pyc .run-inline .run-ed{min-height:0}
+
+/* code block header: Run pill, then an icon-only Copy button */
+.pyc .code .chead{gap:8px}
+.pyc .code .chead .run-btn{all:unset;box-sizing:border-box;cursor:pointer;margin-left:auto;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 11px 0 9px;border-radius:999px;background:var(--amber);color:var(--on-accent);font:700 12px/1 var(--f-body);letter-spacing:0;text-transform:none;transition:filter .15s,transform .1s}
+.pyc .code .chead .run-btn:hover{filter:brightness(1.08)}
+.pyc .code .chead .run-btn:active{transform:scale(.96)}
+.pyc .code .chead .run-btn.busy{cursor:progress;opacity:.85}
+.pyc .code .chead .run-btn:focus-visible,.pyc .code .chead .copy-btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.pyc .code .chead .copy-btn{all:unset;box-sizing:border-box;cursor:pointer;display:grid;place-items:center;width:28px;height:26px;border-radius:7px;color:var(--code-dim);transition:background .15s,color .15s}
+.pyc .code .chead .copy-btn:hover{background:var(--code-line);color:var(--code-fg)}
+.pyc .code .chead .copy-btn .i-ok{display:none}
+.pyc .code .chead .copy-btn.copied{color:var(--code-str)}
+.pyc .code .chead .copy-btn.copied .i-copy{display:none}
+.pyc .code .chead .copy-btn.copied .i-ok{display:block}
+.pyc .run-spin{animation:run-spin .8s linear infinite}
+@keyframes run-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.pyc .run-spin{animation:none}}
+.pyc .run-hr{display:inline-flex;align-items:center;gap:10px}
+.pyc .run-x{all:unset;cursor:pointer;width:26px;height:26px;display:grid;place-items:center;border-radius:7px;font-size:18px;line-height:1;color:var(--ink-3)}
+.pyc .run-x:hover{background:var(--sunk);color:var(--ink)}
+.pyc .run-x:focus-visible{outline:2px solid var(--amber);outline-offset:2px}

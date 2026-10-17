@@ -178,7 +178,7 @@ export function mountCourse(root, { toggleTheme }) {
     // wire
     $$('[data-copy]', stage).forEach(b => b.onclick = () => {
       const txt = document.getElementById(b.dataset.copy).textContent;
-      const done = () => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1300); };
+      const done = () => { b.classList.add('copied'); setTimeout(() => b.classList.remove('copied'), 1300); };
       try { navigator.clipboard.writeText(txt).then(done, () => selectText(b.dataset.copy)); } catch(e){ selectText(b.dataset.copy); }
     });
     if (st.k === 'lab'){ const lessonN = cur; const tried = () => { if (!S.labs[lessonN]) { S.labs[lessonN] = true; P.logToday(); save(); } }; $('#wmount').addEventListener('click', tried, {once:true}); $('#wmount').addEventListener('input', tried, {once:true}); try { const r = W[st.w]($('#wmount')); if (typeof r === 'function') cleanup = r; } catch(e){ $('#wmount').innerHTML = `<div class="note">This lab could not start: ${esc(e.message)}</div>`; console.error(e); } }
@@ -286,7 +286,7 @@ export function mountCourse(root, { toggleTheme }) {
     $$('.code[data-hl="1"] pre', stage).forEach(pre => { pre.innerHTML = hlPy(pre.textContent); });
     $$('.code [data-copy]', stage).forEach(b => b.onclick = () => {
       const pre = b.closest('.code').querySelector('pre');
-      const ok = () => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1300); };
+      const ok = () => { b.classList.add('copied'); setTimeout(() => b.classList.remove('copied'), 1300); };
       const sel = () => { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
       try { navigator.clipboard.writeText(pre.textContent).then(ok, sel); } catch(e){ sel(); }
     });
