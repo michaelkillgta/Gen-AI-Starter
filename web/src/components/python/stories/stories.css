@@ -8,7 +8,15 @@
 .pyc .t-float { --tc: var(--good); }
 .pyc .t-bool { --tc: var(--bad); }
 .pyc .t-nonetype { --tc: var(--ink-3); }
-.pyc .t-\? { --tc: var(--line-2); }
+.pyc .t-- { --tc: var(--line-2); }
+.pyc [class*=" t-"] { --tc: var(--ink-2); }
+.pyc .t-str, .pyc .t-bytes { --tc: var(--amber); }
+.pyc .t-int, .pyc .t-class, .pyc .t-type, .pyc .t-enum { --tc: var(--blue); }
+.pyc .t-float, .pyc .t-function, .pyc .t-method, .pyc .t-generator, .pyc .t-lambda { --tc: var(--good); }
+.pyc .t-bool, .pyc .t-error, .pyc .t-exception, .pyc .t-valueerror, .pyc .t-typeerror, .pyc .t-keyerror { --tc: var(--bad); }
+.pyc .t-list, .pyc .t-tuple, .pyc .t-dict, .pyc .t-set, .pyc .t-path { --tc: var(--amber-ink); }
+.pyc .t-nonetype { --tc: var(--ink-3); }
+.pyc .t-- { --tc: var(--line-2); }
 
 /* ---------- layout ---------- */
 .pyc .st-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; align-items: stretch; }
@@ -53,21 +61,27 @@
 .pyc .st-cube .n { transform-origin: 50% 0; transform: rotateX(90deg); background: color-mix(in srgb, var(--tc) 10%, var(--sheet)); }
 .pyc .st-cube .e { transform-origin: 100% 50%; transform: rotateY(90deg); background: color-mix(in srgb, var(--tc) 20%, var(--sheet)); }
 .pyc .st-cube .w { transform-origin: 0 50%; transform: rotateY(-90deg); background: color-mix(in srgb, var(--tc) 20%, var(--sheet)); }
-.pyc .st-cube.in:not(.held):not(.gone) .f { border-style: dashed; }
+.pyc .st-cube.loose .f { border-style: dashed; }
+.pyc .st-cube.glow .f { box-shadow: 0 0 16px color-mix(in srgb, var(--amber) 65%, transparent); }
+.pyc .st-cube.changed .top { animation: st-flash .8s ease; }
+@keyframes st-flash { 40% { background: var(--amber); } }
+.pyc .st-slot.off .st-cube { opacity: 0; transform: translateZ(170px); }
 .pyc .st-puff { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) translateZ(calc(var(--cube) + 30px)) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))); font: 700 11px var(--f-mono); color: var(--bad); opacity: 0; pointer-events: none; }
 .pyc .st-cube.gone .st-puff { animation: st-puff 1.6s ease-out; }
 @keyframes st-puff { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 0; } }
 
 /* name tags: they always face the camera */
 .pyc .st-tag { position: absolute; transform-style: preserve-3d; opacity: 0; transform: translate3d(var(--x, 0), var(--y, 0), calc(var(--cube) + 120px)) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))); transition: transform .8s cubic-bezier(.4, 1.3, .5, 1), opacity .3s; }
-.pyc .st-tag.on { opacity: 1; transform: translate3d(var(--x), var(--y), calc(var(--cube) + 34px + var(--lift))) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))); }
+.pyc .st-tag.on { opacity: 1; transform: translate3d(var(--x), var(--y), calc(var(--base, var(--cube)) + 34px + var(--lift))) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))); }
 .pyc .st-tag span { position: absolute; left: 0; bottom: 0; transform: translate(-50%, 0); display: block; padding: 4px 10px; border-radius: 999px; background: var(--fill); color: var(--on-fill); font: 700 13px var(--f-mono); white-space: nowrap; box-shadow: 0 6px 14px -6px rgba(0, 0, 0, .45); }
 .pyc .st-tag span::after { content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: 30px; margin-left: -1px; background: var(--fill); opacity: .7; }
+.pyc .st-tag.alt span, .pyc .st-tag.alt span::after { background: var(--blue); color: var(--sheet); }
 .pyc .st-tag.moved span { animation: st-pop .6s ease .55s; }
 @keyframes st-pop { 50% { transform: translate(-50%, 0) scale(1.18); } }
 
 /* type() scanner beam and readout */
 .pyc .st-scan, .pyc .st-read { position: absolute; transform-style: preserve-3d; }
+.pyc .st-scan:not(.on), .pyc .st-note:not(.on), .pyc .st-shelf:not(.on), .pyc .st-link:not(.on) { display: none; }
 .pyc .st-scan { width: 92px; height: 92px; margin: -46px 0 0 -46px; transform: translate3d(var(--x), var(--y), 0); border-radius: 12px; border: 2px solid var(--amber); background: color-mix(in srgb, var(--amber) 22%, transparent); box-shadow: 0 0 24px color-mix(in srgb, var(--amber) 60%, transparent); animation: st-scan 1.4s ease-in-out infinite; pointer-events: none; }
 @keyframes st-scan { 0%, 100% { transform: translate3d(var(--x), var(--y), 2px); } 50% { transform: translate3d(var(--x), var(--y), calc(var(--cube) + 8px)); } }
 .pyc .st-read { transform: translate3d(calc(var(--x) + 70px), calc(var(--y) + 40px), calc(var(--cube) + 40px)) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))); }
@@ -113,3 +127,29 @@
 
 /* reduced motion: same scenes, no movement */
 .pyc .st.still *, .pyc .st.still *::before, .pyc .st.still *::after { transition: none !important; animation: none !important; }
+
+/* ---------- engine actors: shelves, links, notes ---------- */
+.pyc .st-shelf { position: absolute; left: calc(var(--x) - var(--w) / 2); top: calc(var(--y) - var(--h) / 2); width: var(--w); height: var(--h); transform-style: preserve-3d; transform: translateZ(1px); border-radius: 12px; border: 2px solid color-mix(in srgb, var(--amber) 55%, var(--line-2)); background: color-mix(in srgb, var(--amber) 9%, var(--sheet)); }
+.pyc .st-shelf.alt { border-color: color-mix(in srgb, var(--blue) 55%, var(--line-2)); background: color-mix(in srgb, var(--blue) 8%, var(--sheet)); }
+.pyc .st-cells { position: absolute; inset: 0; display: flex; }
+.pyc .st-cells i { flex: 1; border-right: 1px dashed var(--line-2); font: 700 11px var(--f-mono); font-style: normal; color: var(--ink-3); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 3px; }
+.pyc .st-cells i:last-child { border-right: 0; }
+.pyc .st-shelf > b { position: absolute; left: 50%; top: 0; white-space: nowrap; font: 700 12px var(--f-mono); color: var(--ink-2); background: var(--sheet); border: 1px solid var(--line-2); border-radius: 6px; padding: 2px 8px; transform-origin: 50% 100%; transform: translate(-50%, -100%) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))) translateY(-4px); }
+.pyc .st-shelf > b:empty { display: none; }
+.pyc .st-link { position: absolute; left: var(--x); top: var(--y); width: var(--len); height: 4px; margin-top: -2px; transform-origin: 0 50%; transform: translateZ(3px) rotate(var(--ang)); background: var(--amber); border-radius: 2px; transform-style: preserve-3d; transition: width .6s ease; }
+.pyc .st-link.dash { background: repeating-linear-gradient(90deg, var(--amber) 0 8px, transparent 8px 14px); }
+.pyc .st-link::after { content: ""; position: absolute; right: -10px; top: -6px; border: 8px solid transparent; border-left: 12px solid var(--amber); border-right: 0; }
+.pyc .st-link > b { position: absolute; left: 50%; top: 0; white-space: nowrap; font: 700 11px var(--f-mono); color: var(--amber-ink); background: var(--sheet); border-radius: 5px; padding: 1px 6px; transform: translate(-50%, -120%); }
+.pyc .st-link > b:empty { display: none; }
+.pyc .st-note { position: absolute; transform: translate3d(var(--x), var(--y), var(--z)) rotateZ(calc(-1 * var(--rz))) rotateX(calc(-1 * var(--tilt))); translate: -50% -100%; max-width: 220px; width: max-content; padding: 6px 10px; border-radius: 10px; background: var(--code-bg); color: var(--code-str); font: 700 12.5px var(--f-mono); line-height: 1.35; border: 1px solid var(--amber); white-space: pre-wrap; text-align: center; transition: transform .7s ease; }
+.pyc .st-note.bad { color: var(--code-err); border-color: var(--bad); }
+
+/* game cards: a code ticket that stands on the belt */
+.pyc .sg-card { position: absolute; left: -128px; bottom: -36px; width: 320px; min-height: 64px; transform-origin: 50% 100%; transform: translateY(-10px) rotateZ(14deg) rotateX(-60deg); display: grid; place-items: center; border-radius: 10px; background: var(--code-bg); border: 2px solid var(--line-2); box-shadow: 0 14px 24px -14px rgba(0,0,0,.6); }
+.pyc .sg-card pre { margin: 0; padding: 8px 12px; font: 600 14px/1.45 var(--f-mono); color: var(--code-fg); white-space: pre; overflow: hidden; max-width: 100%; }
+.pyc .sg-card.rev { border-color: var(--amber); }
+.pyc .sg-item.ok .sg-card { border-color: var(--good); box-shadow: 0 0 22px color-mix(in srgb, var(--good) 60%, transparent); }
+.pyc .sg-q { margin: 10px 0 0; font-weight: 600; color: var(--ink); }
+.pyc .sg-q:empty { display: none; }
+
+.pyc .sg-world:has(.sg-card) .sg-arch i { opacity: .35; }

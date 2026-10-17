@@ -39,14 +39,25 @@ const W = {};
 const frame = (title, inner) => `<div class="wg"><div class="wg-h"><span class="eyebrow">Interactive · ${title}</span></div>${inner}</div>`;
 
 /* ---- lesson stories and games: loaded only when a lesson reaches them ---- */
-const lazyWidget = (load, name) => el => {
+const lazyWidget = (load, name, n) => el => {
   let dispose = null, dead = false;
   el.innerHTML = '<div class="wg"><p class="mini">Loading...</p></div>';
-  load().then(m => { if (!dead) dispose = m[name](el); }, () => { if (!dead) el.innerHTML = '<div class="note">This part could not load. Check your connection and open the step again.</div>'; });
+  load().then(m => { if (!dead) dispose = m[name](n, el); }, () => { if (!dead) el.innerHTML = '<div class="note">This part could not load. Check your connection and open the step again.</div>'; });
   return () => { dead = true; if (typeof dispose === 'function') dispose(); };
 };
-W.story_variables = lazyWidget(() => import('./stories/variables.js'), 'story');
-W.scanner_types = lazyWidget(() => import('./stories/variables.js'), 'typeScanner');
+// Each part's stories and games live in one file under stories/.
+const STORY_PARTS = [
+  [10, () => import('./stories/part1.js')],
+  [19, () => import('./stories/part2.js')],
+  [27, () => import('./stories/part3.js')],
+  [31, () => import('./stories/part4.js')],
+  [38, () => import('./stories/part5.js')],
+];
+const partFile = n => STORY_PARTS.find(([last]) => n <= last)[1];
+for (let n = 1; n <= 38; n++){
+  W['story_' + n] = lazyWidget(partFile(n), 'mountStory', n);
+  W['game_' + n] = lazyWidget(partFile(n), 'mountGame', n);
+}
 
 /* ---- ch1: names and objects ---- */
 W.refs = el => {

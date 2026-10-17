@@ -26,7 +26,7 @@ const L = {};
 L[1] = {t:'Variables, objects and type()', d:'A variable is a name that points to an object.', mins:12, core:true,
  goals:['Create variables and know what = really does','Understand that the type belongs to the object, not the name','Use type() to debug agent inputs and API responses'],
  steps:[
-  lab('Story: Asha and the object warehouse', `<p>Follow Asha as she writes her first agent code. Watch what each line really does inside Python: boxes appear, name tags move, and one box disappears. Press <b>Next</b> to play each scene. Drag the room to look around.</p>`, 'story_variables', {note:'In Python, = does not mean "equals" like in maths. It means "make this name point to this object".'}),
+  lab('Story: The object warehouse', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_1'),
   rd('Dynamic typing: the type lives on the object', `<p>A name can point to objects of different types at different times. This is <b>dynamic typing</b>.</p><p>Python still has types. Every object has one. The name just does not keep a permanent type.</p>`, R`x = 10        # x -> int object
 x = "Hello"   # x -> str object
 x = 3.14      # x -> float object
@@ -36,9 +36,9 @@ x = "AI"
 print(x)`, 'What does this print?', ['5','AI','An error'], 1, 'The second line makes x point to a new string object. The old object 5 is no longer used by x.'),
   rd('Why this matters in GenAI code', `<p>Different types support different operations. A string has <code>.upper()</code>. An integer does not. When an agent gets a value from a tool or an API, check the type first.</p>`, R`user_query = 123
 print(user_query.upper())`, R`AttributeError: 'int' object has no attribute 'upper'`, {ai:'Engineering rule: when code fails unexpectedly, run print(type(value)) first. It finds most bugs in agent inputs, tool outputs and API responses.'}),
-  lab('Game: the type() scanner', `<p>Eight boxes arrive from an agent: settings, tool outputs and form data. Say the type of each one before the scanner reads it. Watch out for values in quotes.</p>`, 'scanner_types'),
   pr(R`score = 98.5
 print(type(score))`, 'What does type(score) return?', ["<class 'int'>","<class 'str'>","<class 'float'>"], 2, 'A number with a decimal point is a float object.'),
+  lab('Game: The type() scanner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_1'),
   task('Type this, run it, and name each type before you look at the output.', R`model = "qwen"
 tokens = 150
 temperature = 0.7
@@ -54,6 +54,7 @@ print(type(is_running))`)
 L[2] = {t:'Data types: int, float, str, bool, None', d:'The five primitives inside every LLM payload.', mins:12, core:true,
  goals:['Know the five basic types and when each appears','Read an LLM config and name every type','Understand None as "no value yet"'],
  steps:[
+  lab('Story: Unpacking an LLM reply', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_2'),
   rd('Five types you will see every day', `<p>Almost every value in an LLM request is one of five basic types.</p>`, null, null, {table:[['Type','Example','In an agent'],['int','max_tokens = 500','token limits, retries, top_k'],['float','temperature = 0.2','temperature, scores, cost'],['str','model = "gpt-4o-mini"','prompts, model names, roles'],['bool','stream = True','feature flags, is_done'],['None','tool_choice = None','"no value yet", missing result']]}),
   lab('Sort the values', `<p>Each value has exactly one type. Pick it. Watch for the traps: quotes make a string, and <code>True</code> has a capital T.</p>`, 'types'),
   rd('str and the quote trap', `<p>Anything inside quotes is a string, even if it looks like a number. <code>"42"</code> is text with two characters. You cannot add it to the number <code>42</code>.</p>`, R`print("42" + "42")
@@ -67,6 +68,7 @@ if result is None:
   pr(R`config = {"model": "gpt-4o-mini", "temperature": 0.2, "stream": False}
 print(type(config["stream"]))`, 'What does this print?', ["<class 'str'>","<class 'bool'>","<class 'NoneType'>"], 1, 'False without quotes is a bool. "False" with quotes would be a str.'),
   pr(R`print(type(7 / 7))`, 'What does this print?', ["<class 'int'>","<class 'float'>","<class 'bool'>"], 1, 'The / operator always gives a float in Python 3, even when the result is a whole number. 7 / 7 is 1.0.'),
+  lab('Game: Payload sorter', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_2'),
   task('Write an LLM request config with one value of each type. Print the type of each value.', R`request = {
     "model": "llama-3.1-8b",   # str
     "max_tokens": 300,         # int
@@ -82,6 +84,7 @@ for key, value in request.items():
 L[3] = {t:'Operators: / vs //, %, **', d:'The maths behind chunk sizes, pages and thresholds.', mins:10,
  goals:['Know the difference between / and //','Use % for remainders and ** for powers','Combine comparison and logical operators'],
  steps:[
+  lab('Story: Chunking a document', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_3'),
   rd('Two kinds of division', `<p><code>/</code> is true division. It always gives a float. <code>//</code> is floor division. It drops the decimal part and rounds down.</p><p><code>%</code> gives the remainder. <code>**</code> is power.</p>`, R`print(17 / 5)    # true division
 print(17 // 5)   # floor division
 print(17 % 5)    # remainder
@@ -104,6 +107,7 @@ True`, {ai:'Agents use these for guards: "if step < max_steps and not done:".'})
 chunk_size = 512
 print(total_tokens // chunk_size, total_tokens % chunk_size)`, 'How many full chunks, and how many tokens are left?', ['2.54 0','2 276','3 0'], 1, '512 fits into 1300 two times (1024). 1300 - 1024 = 276 tokens are left for a final, smaller chunk.'),
   pr(R`print(10 > 5 and 3 > 8 or 2 == 2)`, 'What does this print?', ['True','False','An error'], 0, 'and runs before or. (10 > 5 and 3 > 8) is False. False or (2 == 2) is True.'),
+  lab('Game: Operator scanner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_3'),
   task('Calculate pages for a list of 47 retrieved documents with 10 per page.', R`docs = 47
 per_page = 10
 full_pages = docs // per_page
@@ -116,6 +120,7 @@ print(full_pages, left_over, pages)   # 4 7 5`)
 L[4] = {t:'Type conversion: int(), float(), str(), bool()', d:'Turn env vars and LLM text into safe values.', mins:10,
  goals:['Convert between str, int, float and bool','Know which conversions fail with ValueError','Handle a failed conversion safely'],
  steps:[
+  lab('Story: The conversion machines', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_4'),
   rd('Why convert?', `<p>Many values arrive as text. <code>input()</code> returns a string. Environment variables are strings. LLM output is a string. Before you do maths, you convert.</p>`, R`retries = "3"           # from an env var
 print(retries + 1)`, R`TypeError: can only concatenate str (not "int") to str`),
   lab('Conversion lab', `<p>Type any text. See what each conversion gives you. Try <code>3.5</code>, <code>abc</code>, an empty box and <code>False</code>.</p>`, 'convert'),
@@ -133,6 +138,7 @@ except ValueError:
 print(max_retries)`, R`3`),
   pr(R`print(int("3.5"))`, 'What happens?', ['3','4','ValueError'], 2, 'int() only accepts text that looks like a whole number. First use float("3.5"), then int() if you need it.'),
   pr(R`print(int(3.99))`, 'What does this print?', ['3','4','3.99'], 0, 'int() on a float cuts off the decimal part. It does not round.'),
+  lab('Game: Conversion scanner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_4'),
   task('Read a temperature from text the user typed, safely.', R`text = input("Temperature: ")
 try:
     temperature = float(text)
@@ -146,6 +152,7 @@ print(type(temperature), temperature)`)
 L[5] = {t:'Truthy, falsy, and is vs ==', d:'How if decides, and how to check None.', mins:10, core:true,
  goals:['Know which values Python treats as False','Write short checks like if reply.get("tool_call"):','Know when to use is and when to use =='],
  steps:[
+  lab('Story: The if gate', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_5'),
   rd('Every value is truthy or falsy', `<p>An <code>if</code> does not need a bool. Python asks each value: are you truthy or falsy?</p><p>Falsy values: <code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>[]</code>, <code>{}</code>, <code>set()</code>. Everything else is truthy.</p>`, R`messages = []
 if not messages:
     print("No history yet")`, R`No history yet`),
@@ -168,6 +175,7 @@ else:
     print("final answer")`, 'What does this print?', ['call tool','final answer','KeyError'], 1, 'tool_call is None, and None is falsy. So the else block runs.'),
   pr(R`x = [0]
 print(bool(x))`, 'What does this print?', ['True','False','0'], 0, 'The list is not empty. It has one item. An item that is 0 does not make the list falsy.'),
+  lab('Game: Truthy or falsy?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_5'),
   task('Write a check that prints a different message for None, an empty list, and a list with items.', R`def describe(results):
     if results is None:
         return "search did not run"
@@ -184,6 +192,7 @@ print(describe(["doc1", "doc2"]))`)
 L[6] = {t:'Strings, slicing and f-strings', d:'Prompts are strings. Learn to cut, join and fill them.', mins:15, core:true,
  goals:['Slice strings with start, stop and step','Use split, join, strip and replace','Build prompts with f-strings and multi-line strings'],
  steps:[
+  lab('Story: Cutting a prompt', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_6'),
   rd('A string is a sequence of characters', `<p>Each character has a position called an index. Indexes start at <code>0</code>. Negative indexes count from the end: <code>-1</code> is the last character.</p>`, R`s = "Python"
 print(s[0], s[-1], len(s))`, R`P n 6`),
   lab('Slicing playground', `<p>A slice is <code>s[start:stop:step]</code>. The start is included. The stop is not. Change the numbers, or click a preset.</p>`, 'slice'),
@@ -210,6 +219,7 @@ print(prompt)`, null, {ai:'Every agent framework builds its system prompt like t
 print(s[::-1])`, 'What does this print?', ['agent','tnega','a'], 1, 'A step of -1 walks backwards through the whole string.'),
   pr(R`words = "a,b,,c".split(",")
 print(len(words))`, 'How many items does split give?', ['3','4','5'], 1, 'The empty text between the two commas becomes an empty string item: ["a", "b", "", "c"].'),
+  lab('Game: String slicer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_6'),
   task('Build a prompt from a list of retrieved chunks.', R`chunks = ["  RAG retrieves documents. ", "Then the LLM answers.  "]
 clean = [c.strip() for c in chunks]
 context = "\n".join(clean)
@@ -224,6 +234,7 @@ print(prompt)`)
 L[7] = {t:'Control flow: if, for, while, break, continue', d:'An agent is a bounded loop that checks for tool calls.', mins:15, core:true,
  goals:['Make decisions with if / elif / else','Loop with for and while, and control them with break and continue','Understand the rare for ... else'],
  steps:[
+  lab('Story: The agent loop', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_7'),
   rd('if, elif, else', `<p>Python runs the first block whose condition is true. Indentation (4 spaces) shows which lines belong to the block.</p>`, R`score = 0.72
 if score > 0.8:
     print("high relevance")
@@ -262,6 +273,7 @@ else:
         break
 else:
     print("not found")`, 'What does this print?', ['Nothing','not found','z'], 1, 'The loop finished without break, so the else block runs. Read for ... else as "for ... if no break".'),
+  lab('Game: Loop tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_7'),
   task('Write a search loop that uses for ... else.', R`docs = ["intro.md", "rag.md", "agents.md"]
 target = "rag.md"
 for doc in docs:
@@ -276,6 +288,7 @@ else:
 L[8] = {t:'Collections: list, tuple, dict, set', d:'Which container to use, and how fast each one is.', mins:18, core:true,
  goals:['Choose between list, tuple, dict and set','Use the common methods of each','Understand O(1) vs O(n) lookups'],
  steps:[
+  lab('Story: Four kinds of shelves', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_8'),
   rd('Four containers', `<p>Each collection answers a different need.</p>`, null, null, {table:[['Type','Looks like','Ordered','Changeable','Use it for'],['list','[1, 2, 3]','yes','yes','chat history, results'],['tuple','(1, 2)','yes','no','fixed pairs, dict keys'],['dict','{"role": "user"}','yes (3.7+)','yes','JSON payloads, configs'],['set','{"a", "b"}','no','yes','unique IDs, fast "in"']]}),
   rd('list and dict in agent code', `<p>A list keeps items in order. A dict maps keys to values. Chat history is a list of dicts.</p>`, R`messages = []
 messages.append({"role": "user", "content": "Hi"})
@@ -295,6 +308,7 @@ seen.add("d1")
 print(len(seen))`, 'What does this print?', ['2','3','An error'], 0, 'A set keeps only unique items. Adding d1 again does nothing.'),
   pr(R`key = ["gpt-4o", "hi"]
 cache = {key: "hello"}`, 'What happens?', ['It works','TypeError: unhashable type','KeyError'], 1, 'A list can change, so it cannot be hashed. Use a tuple: ("gpt-4o", "hi").'),
+  lab('Game: Container picker', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_8'),
   task('Remove duplicate chunk IDs but keep their first order.', R`ids = ["c3", "c1", "c3", "c2", "c1"]
 seen = set()
 ordered = []
@@ -309,6 +323,7 @@ print(ordered)             # ['c3', 'c1', 'c2']`)
 L[9] = {t:'Nested structures: chat history and LLM responses', d:'Lists of dicts in, nested dicts out.', mins:12, core:true,
  goals:['Read deep values with chained [ ] access','Add messages to chat history','Avoid KeyError and IndexError on real responses'],
  steps:[
+  lab('Story: Walking a nested reply', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_9'),
   rd('Chat history is a list of dicts', `<p>Each message is a dict with a <code>role</code> and <code>content</code>. The history is a list of these dicts, in order.</p>`, R`history = [
     {"role": "system", "content": "You are a tutor."},
     {"role": "user", "content": "What is RAG?"},
@@ -326,6 +341,7 @@ print(good)`, R`['RAG adds context']`),
 print(resp["choices"]["message"])`, 'What happens?', ['Hi','TypeError','{"content": "Hi"}'], 1, 'resp["choices"] is a list. You must pick an index first: resp["choices"][0]["message"].'),
   pr(R`msg = {"role": "user"}
 print(msg.get("content", ""))`, 'What does this print?', ['None','An empty line','KeyError'], 1, '.get returns the default "" when the key is missing. print("") prints an empty line.'),
+  lab('Game: Path finder', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_9'),
   task('Print only the user messages from a chat history.', R`history = [
     {"role": "system", "content": "Be brief."},
     {"role": "user", "content": "Hi"},
@@ -341,6 +357,7 @@ for m in history:
 L[10] = {t:'Mutable vs immutable, references and copies', d:'Why one change can appear in two places.', mins:15, core:true,
  goals:['Know which types can change in place','Understand that = copies the reference, not the object','Choose between a shallow and a deep copy'],
  steps:[
+  lab('Story: Shared boxes', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_10'),
   rd('Mutable and immutable', `<p>A <b>mutable</b> object can change in place: list, dict, set. An <b>immutable</b> object cannot: int, float, str, bool, None, tuple.</p><p>When you "change" a string, Python makes a new string.</p>`, R`s = "hi"
 t = s.upper()     # new object
 print(s, t)
@@ -368,6 +385,7 @@ print(a)`, 'What does this print?', ['[1, 2]','[1, 2, 3]','An error'], 0, 'a[:] 
   pr(R`x = (1, [2])
 x[1].append(3)
 print(x)`, 'What happens?', ['TypeError: tuple is immutable','(1, [2, 3])','(1, [2])'], 1, 'The tuple cannot change which objects it holds. But the list inside it is mutable and can change.'),
+  lab('Game: Reference tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_10'),
   task('Prove the shallow copy trap to yourself with id().', R`import copy
 a = [{"k": 1}]
 b = a.copy()
