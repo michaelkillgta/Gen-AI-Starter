@@ -212,7 +212,7 @@ export function game(el, spec){
   const codeOf = it => (it.prose || spec.prose) ? '# ' + it.show.split('\n').join(' ') : it.code;
   const term = (code, out) => code.split('\n').map(l => `<span class="p">&gt;&gt;&gt;</span> ${hlPy(l)}`).join('\n') + '\n' + (out == null ? '<span class="p"># your call...</span>' : esc(out));
   const visual = (it, revealed) => (it.card || spec.show === 'card')
-    ? `<div class="sg-card ${revealed ? 'rev' : ''}"><pre>${hlPy(it.show)}</pre></div>`
+    ? `<div class="sg-card ${revealed ? 'rev' : ''}"><pre>${(it.prose || spec.prose) ? esc(it.show) : hlPy(it.show)}</pre></div>`
     : `<div class="st-cube in ${tcls(revealed ? (it.t || it.a) : '?')}">${cubeHTML(it.show, revealed ? (it.t || it.a) : '?')}</div>`;
 
   function scoreLine(){ $('.st-score').textContent = `Score ${score}/${N}${streak > 1 ? ` · streak ${streak}` : ''}`; }

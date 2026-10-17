@@ -45,7 +45,7 @@
 .pyc .st-floor { position: absolute; left: -260px; top: -170px; width: 520px; height: 340px; border-radius: 18px; background-color: var(--sheet); background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 40px 40px; box-shadow: 0 0 0 1px var(--line); }
 @media (max-width: 560px) {
   .pyc .st-scene { height: 300px; }
-  .pyc .st-world { top: 58%; scale: .72; }
+  .pyc .st-world { top: 58%; scale: .62; }
 }
 
 /* object boxes */

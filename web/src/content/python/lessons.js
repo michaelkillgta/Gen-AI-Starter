@@ -1083,6 +1083,7 @@ print(answer(OpenAIModel(), "hi"), answer(OllamaModel(), "hi"))`)
 L[28] = {t:'Type hints', d:'Frameworks read your hints to build tool schemas.', mins:12, core:true,
  goals:['Read and write the common hints','Know that hints do not stop wrong values at run time'],
  steps:[
+  lab('Story: Labels on the slots', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_28'),
   rd('Hints describe what a value should be', `<p>A type hint tells readers, editors and frameworks what a value should be. Python itself does not check it when the code runs.</p>`, R`from typing import Any, Callable, Literal
 
 def call_llm(
@@ -1099,6 +1100,7 @@ def call_llm(
 
 print(double("ab"))`, R`abab`, {ai:'The OpenAI Agents SDK, LangChain and FastAPI all read your hints to create the JSON schema that the LLM or the client sees.'}),
   pr(null, 'Which hint means "a list of chat messages, where each message is a dict with string keys"?', ['list[str]','dict[str, list]','list[dict[str, Any]]'], 2, 'The outer type is a list. Each item is a dict with str keys and any values.'),
+  lab('Game: Hint reader', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_28'),
   task('Add full type hints to a retrieval function.', R`def top_k(results: list[dict[str, float | str]], k: int = 3) -> list[str]:
     ranked = sorted(results, key=lambda r: r["score"], reverse=True)
     return [str(r["text"]) for r in ranked[:k]]`)
@@ -1108,6 +1110,7 @@ print(double("ab"))`, R`abab`, {ai:'The OpenAI Agents SDK, LangChain and FastAPI
 L[29] = {t:'Dataclasses and field(default_factory=...)', d:'Clean state classes without the mutable-default bug.', mins:10, core:true,
  goals:['Write a @dataclass','Use field(default_factory=list) for mutable defaults'],
  steps:[
+  lab('Story: The message factory', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_29'),
   rd('@dataclass writes __init__ for you', `<p>List the fields with type hints. The decorator creates <code>__init__</code>, <code>__repr__</code> and <code>__eq__</code>.</p>`, R`from dataclasses import dataclass
 
 @dataclass
@@ -1132,6 +1135,7 @@ print(len(a.history), len(b.history))`, R`1 0`),
 @dataclass
 class A:
     tags: list = []`, 'What happens?', ['It works','ValueError: mutable default','Every object shares tags'], 1, 'Dataclasses protect you: ValueError: mutable default <class \'list\'> for field tags is not allowed: use default_factory.'),
+  lab('Game: Dataclass check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_29'),
   task('Write the AgentState dataclass from the agent loop.', R`from dataclasses import dataclass, field
 
 @dataclass
@@ -1146,6 +1150,7 @@ class AgentState:
 L[30] = {t:'Enums for agent states and roles', d:'No more typo bugs in "runing".', mins:7,
  goals:['Define an Enum','Use str enums that compare with plain strings'],
  steps:[
+  lab('Story: Named states', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_30'),
   rd('An Enum is a fixed set of named values', `<p>Strings allow typos. An Enum gives you a fixed list. A typo becomes an error you see at once.</p>`, R`from enum import Enum
 
 class Status(str, Enum):
@@ -1168,6 +1173,7 @@ msg = {"role": Role.USER.value, "content": "Hi"}`),
 class S(Enum):
     A = "a"
 print(S("b"))`, 'What happens?', ['S.B','None','ValueError'], 2, '"b" is not a valid value of S, so Python raises ValueError. This catches bad data early.'),
+  lab('Game: Enum check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_30'),
   task('Use an Enum to drive an agent state machine.', R`from enum import Enum
 
 class Step(str, Enum):
@@ -1185,6 +1191,7 @@ print(state.value)`)
 L[31] = {t:'Pydantic', d:'Validate LLM output and tool arguments.', mins:15, core:true,
  goals:['Define a BaseModel and validate data with it','Add rules with Field','Convert with model_dump() and get a JSON schema'],
  steps:[
+  lab('Story: The validation gate', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_31'),
   rd('BaseModel describes and checks data', `<p>A Pydantic model looks like a dataclass. The difference: it <b>checks</b> the data at run time and converts it where it safely can.</p>`, R`from pydantic import BaseModel
 
 class WeatherArgs(BaseModel):
@@ -1201,6 +1208,7 @@ print(WeatherArgs.model_json_schema()["required"])`, R`{'city': 'Pune', 'days': 
 class A(BaseModel):
     n: int
 A(n="ten")`, 'What happens?', ['n is "ten"','n is 10','ValidationError'], 2, '"ten" cannot be converted to an int, so Pydantic raises a ValidationError that names the field and the problem.'),
+  lab('Game: Validation gate', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_31'),
   task('Validate structured output from an LLM and handle failure.', R`from pydantic import BaseModel, Field, ValidationError
 
 class Answer(BaseModel):
