@@ -486,29 +486,53 @@
 @media (max-width:860px){.pyc .stack{height:330px}.pyc .stack-inner{transform:translateY(20px) rotateX(56deg) rotateZ(-36deg)}}
 @media (max-width:640px){.pyc .hero .rule{display:block}.pyc .hero .rule .tag{display:inline-block;margin:0 8px 4px 0}.pyc .hero .rule p{display:inline}}
 
-/* ---------- "Your turn" code runner (Pyodide in the browser) ---------- */
-.pyc .run{margin-top:16px;background:var(--sheet);border:1px solid var(--line);border-radius:var(--r-l);padding:14px;box-shadow:var(--edge)}
+/* ---------- Code runner (Pyodide in the browser): code left, output right ---------- */
+.pyc .run{container:run / inline-size}
+.pyc .run-split{display:grid;grid-template-columns:minmax(0,1fr)}
+@container run (min-width: 600px){
+  .pyc .run-split{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+}
+.pyc .run-left,.pyc .run-right{min-width:0;display:flex;flex-direction:column}
+.pyc .run-ed,.pyc .run-in{display:block;width:100%;box-sizing:border-box;resize:none;white-space:pre;overflow:auto;font:14px/1.6 var(--f-mono);tab-size:4;caret-color:var(--amber);color:var(--code-fg)}
+.pyc .run-ed::placeholder,.pyc .run-in::placeholder{color:var(--code-dim)}
+.pyc .run-oh{display:flex;justify-content:space-between;gap:8px;font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase}
+.pyc .run-state{text-transform:none;letter-spacing:0;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pyc .run-out{margin:0;flex:1;min-height:72px;max-height:420px;overflow:auto;font:13.5px/1.55 var(--f-mono);white-space:pre-wrap;overflow-wrap:anywhere}
+.pyc .run-note{margin:10px 0 0;font-size:13.5px;color:var(--ink-2);background:var(--amber-soft);border-radius:var(--r-m);padding:8px 12px}
+
+/* inside a code block: same dark surface, a divider between the panes */
+.pyc .run-in-block .run-ed{background:transparent;border:0;padding:12px 14px}
+.pyc .run-in-block .run-ed:focus{outline:none;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--amber) 55%,transparent)}
+.pyc .run-in-block .run-in{background:rgba(0,0,0,.18);border:0;border-top:1px solid var(--code-line);padding:8px 14px}
+.pyc .run-in-block .run-right{background:rgba(0,0,0,.2);border-top:1px solid var(--code-line)}
+@container run (min-width: 600px){ .pyc .run-in-block .run-right{border-top:0;border-left:1px solid var(--code-line)} }
+.pyc .run-in-block .run-oh{padding:8px 14px 0;color:var(--code-dim)}
+.pyc .run-in-block .run-out{padding:6px 14px 12px;color:var(--code-fg)}
+.pyc .run-in-block .run-err{color:var(--code-err)}
+.pyc .run-in-block .run-dim{color:var(--code-dim)}
+.pyc .run-in-block .run-note{margin:0;border-radius:0;border-top:1px solid var(--code-line)}
+.pyc .code.running-open .chead{border-bottom-color:var(--code-line)}
+
+/* Your turn: a card with a dark editor and a light output pane */
+.pyc .run:not(.run-in-block){margin-top:16px;background:var(--sheet);border:1px solid var(--line);border-radius:var(--r-l);padding:14px;box-shadow:var(--edge)}
+.pyc .run:not(.run-in-block) .run-split{gap:12px}
 .pyc .run-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .pyc .run-h .eyebrow{color:var(--amber-ink)}
-.pyc .run-ed,.pyc .run-in{display:block;width:100%;box-sizing:border-box;resize:vertical;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--code-line);border-radius:var(--r-m);padding:12px 14px;font:14px/1.6 var(--f-mono);tab-size:4;caret-color:var(--amber)}
-.pyc .run-ed{min-height:190px}
-.pyc .run-in{margin-top:8px;min-height:0}
-.pyc .run-ed::placeholder,.pyc .run-in::placeholder{color:var(--code-dim)}
-.pyc .run-ed:focus,.pyc .run-in:focus{outline:2px solid var(--amber);outline-offset:1px}
+.pyc .run:not(.run-in-block) .run-ed,.pyc .run:not(.run-in-block) .run-in{background:var(--code-bg);border:1px solid var(--code-line);border-radius:var(--r-m);padding:12px 14px}
+.pyc .run:not(.run-in-block) .run-in{margin-top:8px}
+.pyc .run:not(.run-in-block) .run-ed:focus,.pyc .run:not(.run-in-block) .run-in:focus{outline:2px solid var(--amber);outline-offset:1px}
+.pyc .run:not(.run-in-block) .run-right{background:var(--sunk);border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden}
+.pyc .run:not(.run-in-block) .run-oh{padding:8px 12px 0;color:var(--ink-3)}
+.pyc .run:not(.run-in-block) .run-out{padding:6px 12px 12px;color:var(--ink)}
+.pyc .run-err{color:var(--bad)}
+.pyc .run-dim{color:var(--ink-3)}
 .pyc .run-bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin-top:10px}
 .pyc .run-bar .btn{padding:9px 16px;font-size:14px}
 .pyc .run-bar .btn:disabled{opacity:.7;cursor:progress}
 .pyc .run-peek{all:unset;cursor:pointer;font-size:13.5px;color:var(--ink-3);text-decoration:underline;text-underline-offset:3px}
 .pyc .run-peek:hover{color:var(--ink)}
 .pyc .run-peek:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:4px}
-.pyc .run-state{margin-left:auto;color:var(--ink-3)}
-.pyc .run-note{margin:10px 0 0;font-size:13.5px;color:var(--ink-2);background:var(--amber-soft);border-radius:var(--r-m);padding:8px 12px}
-.pyc .run-out{margin:10px 0 0;min-height:64px;max-height:300px;overflow:auto;background:var(--sunk);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-m);padding:10px 14px;font:13.5px/1.55 var(--f-mono);white-space:pre-wrap;word-break:break-word}
-.pyc .run-err{color:var(--bad)}
-.pyc .run-dim{color:var(--ink-3)}
-@media (max-width:560px){.pyc .run-keys{display:none}.pyc .run-state{margin-left:0;flex-basis:100%}}
-.pyc .run-inline .run{margin:6px 0 16px}
-.pyc .run-inline .run-ed{min-height:0}
+@media (max-width:560px){.pyc .run-keys{display:none}}
 
 /* code block header: Run pill, then an icon-only Copy button */
 .pyc .code .chead{gap:8px}
@@ -526,7 +550,4 @@
 .pyc .run-spin{animation:run-spin .8s linear infinite}
 @keyframes run-spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.pyc .run-spin{animation:none}}
-.pyc .run-hr{display:inline-flex;align-items:center;gap:10px}
-.pyc .run-x{all:unset;cursor:pointer;width:26px;height:26px;display:grid;place-items:center;border-radius:7px;font-size:18px;line-height:1;color:var(--ink-3)}
-.pyc .run-x:hover{background:var(--sunk);color:var(--ink)}
-.pyc .run-x:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.pyc .code .run-out{white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden}
