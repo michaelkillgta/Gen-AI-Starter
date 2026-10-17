@@ -38,6 +38,16 @@ const reduced = () => window.matchMedia && matchMedia('(prefers-reduced-motion: 
 const W = {};
 const frame = (title, inner) => `<div class="wg"><div class="wg-h"><span class="eyebrow">Interactive · ${title}</span></div>${inner}</div>`;
 
+/* ---- lesson stories and games: loaded only when a lesson reaches them ---- */
+const lazyWidget = (load, name) => el => {
+  let dispose = null, dead = false;
+  el.innerHTML = '<div class="wg"><p class="mini">Loading...</p></div>';
+  load().then(m => { if (!dead) dispose = m[name](el); }, () => { if (!dead) el.innerHTML = '<div class="note">This part could not load. Check your connection and open the step again.</div>'; });
+  return () => { dead = true; if (typeof dispose === 'function') dispose(); };
+};
+W.story_variables = lazyWidget(() => import('./stories/variables.js'), 'story');
+W.scanner_types = lazyWidget(() => import('./stories/variables.js'), 'typeScanner');
+
 /* ---- ch1: names and objects ---- */
 W.refs = el => {
   const STEPS = [

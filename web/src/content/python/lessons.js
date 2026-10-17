@@ -26,8 +26,7 @@ const L = {};
 L[1] = {t:'Variables, objects and type()', d:'A variable is a name that points to an object.', mins:12, core:true,
  goals:['Create variables and know what = really does','Understand that the type belongs to the object, not the name','Use type() to debug agent inputs and API responses'],
  steps:[
-  rd('A variable is a name that refers to an object', `<p>Think of Python as a room full of objects. Each object has a value and a type. A variable gives you a <b>name</b> that you can use to reach one of those objects.</p><p>In the code below, <code>name</code> is the variable. <code>"Python"</code> is a string object. The <code>=</code> sign makes the name refer to the object.</p>`, R`name = "Python"`, null, {note:'In Python, = does not mean "equals" like in maths. It means "make this name point to this object".'}),
-  lab('See names and objects move', `<p>Click the statements in order. Watch which object each name points to. When no name points to an object, Python can delete it.</p>`, 'refs'),
+  lab('Story: Asha and the object warehouse', `<p>Follow Asha as she writes her first agent code. Watch what each line really does inside Python: boxes appear, name tags move, and one box disappears. Press <b>Next</b> to play each scene. Drag the room to look around.</p>`, 'story_variables', {note:'In Python, = does not mean "equals" like in maths. It means "make this name point to this object".'}),
   rd('Dynamic typing: the type lives on the object', `<p>A name can point to objects of different types at different times. This is <b>dynamic typing</b>.</p><p>Python still has types. Every object has one. The name just does not keep a permanent type.</p>`, R`x = 10        # x -> int object
 x = "Hello"   # x -> str object
 x = 3.14      # x -> float object
@@ -37,6 +36,7 @@ x = "AI"
 print(x)`, 'What does this print?', ['5','AI','An error'], 1, 'The second line makes x point to a new string object. The old object 5 is no longer used by x.'),
   rd('Why this matters in GenAI code', `<p>Different types support different operations. A string has <code>.upper()</code>. An integer does not. When an agent gets a value from a tool or an API, check the type first.</p>`, R`user_query = 123
 print(user_query.upper())`, R`AttributeError: 'int' object has no attribute 'upper'`, {ai:'Engineering rule: when code fails unexpectedly, run print(type(value)) first. It finds most bugs in agent inputs, tool outputs and API responses.'}),
+  lab('Game: the type() scanner', `<p>Eight boxes arrive from an agent: settings, tool outputs and form data. Say the type of each one before the scanner reads it. Watch out for values in quotes.</p>`, 'scanner_types'),
   pr(R`score = 98.5
 print(type(score))`, 'What does type(score) return?', ["<class 'int'>","<class 'str'>","<class 'float'>"], 2, 'A number with a decimal point is a float object.'),
   task('Type this, run it, and name each type before you look at the output.', R`model = "qwen"
