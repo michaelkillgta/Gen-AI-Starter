@@ -20,7 +20,7 @@
 .wait    { background: var(--verdict-wait-bg); color: var(--verdict-wait-fg); }
 .skip    { background: var(--verdict-skip-bg); color: var(--verdict-skip-fg); }
 .neutral { background: var(--color-panel);     color: var(--color-ink-soft); }
-.dark    { background: var(--color-dark);      color: var(--color-accent); }
+.dark    { background: var(--color-dark);      color: var(--color-accent-on-dark); }
 .accent  { background: var(--color-accent);    color: var(--color-on-accent); }
 
 .dot {

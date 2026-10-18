@@ -50,7 +50,7 @@
   background: var(--color-dark);
   color: var(--color-on-dark);
 }
-.dark .eyebrow { color: var(--color-accent); }
+.dark .eyebrow { color: var(--color-accent-on-dark); }
 .dark .text { color: var(--color-on-dark-muted); }
 
 .accent,

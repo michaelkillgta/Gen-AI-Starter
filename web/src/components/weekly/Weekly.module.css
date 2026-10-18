@@ -159,7 +159,7 @@
 .principleTitle {
   font-weight: 600;
   font-size: 17px;
-  color: var(--color-accent);
+  color: var(--color-accent-on-dark);
 }
 
 .principleText {

@@ -16,15 +16,15 @@
 }
 
 .keyword {
-  color: #e7a55a;
+  color: var(--code-keyword);
 }
 
 .string {
-  color: #b9d7a8;
+  color: var(--code-string);
 }
 
 .comment {
-  color: #a89a8b;
+  color: var(--code-comment);
 }
 
 @media (min-width: 640px) {

@@ -1,89 +1,90 @@
 /*
  * Design tokens, taken from the Field Tested design canvas (design-canvas/*.dc.html).
  * Every colour, font and radius used by components comes from here.
+ * Light theme: plain white with a calm blue accent, matching the Python pages (Uma, 19 Oct).
  */
 :root {
   color-scheme: light;
 
   /* Surfaces */
-  --color-bg: #fbf8f3;
-  --color-surface: #fffefc;
-  --color-panel: #f3ece1;          /* tan panels, segmented controls */
-  --color-dark: #211913;           /* dark feature panels, code blocks */
-  --color-dark-raised: #2e241c;
-  --color-dark-border: #45372b;
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-panel: #f3f6fa;          /* soft panels, segmented controls */
+  --color-dark: #0f172a;           /* dark feature panels, code blocks */
+  --color-dark-raised: #1e293b;
+  --color-dark-border: #334155;
 
   /* Text */
-  --color-ink: #1c1713;
-  --color-ink-soft: #383029;
-  --color-body: #29221d;           /* long-form article text */
-  --color-muted: #554b43;
-  --color-muted-2: #63574d;
-  --color-faint: #6a5f54;          /* design had #8A7D70; darkened to pass 4.5:1 contrast */
-  --color-number: #948676;         /* large list numbers (design #B5A898, darkened for 3:1 contrast) */
-  --color-on-dark: #fbf8f3;
-  --color-on-dark-muted: #c9bbaa;
-  --color-code-text: #efe6da;
-  --color-fill: #1c1713;            /* selected chips, tabs, dark buttons */
-  --color-on-ink: #fbf8f3;          /* text on ink-filled buttons, chips and tabs */
-  --color-on-ink-muted: #c9bbaa;
-  --color-on-accent: #1c1713;       /* text on marigold, the same in both themes */
-  --color-on-accent-muted: #3a2e24;
-  --color-on-success: #fffefc;      /* tick on a green circle */
-  --color-on-dark-caption: #d3c4b2;
-  --color-on-dark-tint: rgba(255, 254, 252, 0.14);
-  --color-dark-bubble: #3a2e24;
-  --color-dashed-on-dark: #5a4636;
+  --color-ink: #0f172a;
+  --color-ink-soft: #1e293b;
+  --color-body: #1e293b;           /* long-form article text */
+  --color-muted: #475569;
+  --color-muted-2: #526077;
+  --color-faint: #5b6678;          /* 5.8:1 on white */
+  --color-number: #7b8798;         /* large list numbers, 3:1 on white */
+  --color-on-dark: #f8fafc;
+  --color-on-dark-muted: #cbd5e1;
+  --color-code-text: #e2e8f0;
+  --color-fill: #0f172a;            /* selected chips, tabs, dark buttons */
+  --color-on-ink: #ffffff;          /* text on ink-filled buttons, chips and tabs */
+  --color-on-ink-muted: #cbd5e1;
+  --color-on-accent: #ffffff;       /* text on an accent fill */
+  --color-on-accent-muted: #eef2ff;
+  --color-on-success: #ffffff;      /* tick on a green circle */
+  --color-on-dark-caption: #cbd5e1;
+  --color-on-dark-tint: rgba(255, 255, 255, 0.12);
+  --color-dark-bubble: #1e293b;
+  --color-dashed-on-dark: #475569;
 
   /* Brand */
-  --color-accent: #f2a93b;         /* marigold */
-  --color-accent-ink: #8a5a10;     /* amber text on light */
-  --color-hover: #c4471a;
-  --color-accent-hover: #e89c28;
-  --color-accent-on-ink: #f2a93b;   /* marigold text on an ink fill */
-  --color-danger: #a83b14;
-  --color-link-strong: #a83b14;     /* "Read the post", "When to use it" */
-  --color-success: #2f5d3a;
+  --color-accent: #2563eb;         /* blue */
+  --color-accent-ink: #1d4ed8;     /* blue text on light */
+  --color-hover: #1e40af;
+  --color-accent-hover: #1d4ed8;
+  --color-accent-on-ink: #93c5fd;   /* accent text on an ink fill */
+  --color-danger: #b91c1c;
+  --color-link-strong: #1d4ed8;     /* "Read the post", "When to use it" */
+  --color-success: #15803d;
 
   /* Lines */
-  --color-line: #eae2d7;
-  --color-line-card: #e6ddd0;
-  --color-line-input: #e2d8ca;
-  --color-line-soft: #f0e9df;
-  --color-line-dashed: #d9cdbd;
-  --color-avatar: #e6dbcb;
-  --color-line-strong: #d6cbbc;
-  --color-line-hover: #cdbfae;
-  --color-hover-wash: rgba(255, 254, 252, 0.6);
-  --tint-green-line: #b9cfb3;
-  --tint-amber-line: #e6c98a;
-  --tint-clay-line: #e0bba8;
+  --color-line: #e3e8ef;
+  --color-line-card: #e2e8f0;
+  --color-line-input: #d6dde8;
+  --color-line-soft: #eef2f7;
+  --color-line-dashed: #cbd5e1;
+  --color-avatar: #e2e8f0;
+  --color-line-strong: #cbd5e1;
+  --color-line-hover: #94a3b8;
+  --color-hover-wash: rgba(241, 245, 249, 0.7);
+  --tint-green-line: #bbe5c8;
+  --tint-amber-line: #f5d78e;
+  --tint-clay-line: #f5c2b0;
   --tint-rose-line: #e2bfd2;
 
   /* Tool types (chip background / text) */
-  --type-tool-bg: #fbebc8;    --type-tool-fg: #6e4a0b;
-  --type-library-bg: #e3eddf; --type-library-fg: #2a5233;
-  --type-package-bg: #ede3d6; --type-package-fg: #5a4636;
-  --type-mcp-bg: #f2e3ec;     --type-mcp-fg: #6b2f50;
+  --type-tool-bg: #e0f2fe;    --type-tool-fg: #075985;
+  --type-library-bg: #e6f4ea; --type-library-fg: #166534;
+  --type-package-bg: #f1f5f9; --type-package-fg: #334155;
+  --type-mcp-bg: #f1eafe;     --type-mcp-fg: #6d28d9;
 
   /* Tool status dots */
-  --status-using: #2f5d3a;
-  --status-notes: #c98a1b;
-  --status-tested: #1c1713;
+  --status-using: #15803d;
+  --status-notes: #d97706;
+  --status-tested: #0f172a;
 
   /* Weekly verdicts */
-  --verdict-use-bg: #e6efe3;  --verdict-use-fg: #2f5d3a;
-  --verdict-wait-bg: #f7ebcf; --verdict-wait-fg: #7a5410;
-  --verdict-skip-bg: #fbe6dc; --verdict-skip-fg: #a83b14;
+  --verdict-use-bg: #e6f4ea;  --verdict-use-fg: #166534;
+  --verdict-wait-bg: #fef3c7; --verdict-wait-fg: #92400e;
+  --verdict-skip-bg: #fdeceb; --verdict-skip-fg: #b91c1c;
 
   /* Use it / skip it boxes */
-  --use-bg: #f2f6ef;  --use-fg: #2b3727;
-  --skip-bg: #fbefe8; --skip-fg: #4f3328;
-  --highlight-bg: #fbebc8;          /* deep dive links, TL;DR box */
-  --dive-bg: #fbebc8; --dive-fg: #6e4a0b;   /* "Deep dive" tags and labels */
+  --use-bg: #f0fdf4;  --use-fg: #14532d;
+  --skip-bg: #fef2f2; --skip-fg: #7f1d1d;
+  --highlight-bg: #eff6ff;          /* deep dive links, TL;DR box */
+  --dive-bg: #eff6ff; --dive-fg: #1d4ed8;   /* "Deep dive" tags and labels */
   --blog-bg: #fbf1f6; --blog-line: #e8c9da; --blog-fg: #6b2f50; --blog-icon-bg: #f2e3ec;  /* "From Uma's blog" card */
-  --bad-bg: #fdf6f2;  --bad-line: #f1d9cc;
-  --good-bg: #f4f8f2; --good-line: #d6e4d2;
+  --bad-bg: #fef2f2;  --bad-line: #fecaca;
+  --good-bg: #f0fdf4; --good-line: #bbf7d0;
 
   /* Fonts (set by next/font in app/layout.tsx) */
   --font-display: var(--font-bricolage), "Bricolage Grotesque", system-ui, sans-serif;
@@ -99,12 +100,18 @@
   --radius-pill: 999px;
 
   /* Shadows */
-  --shadow-float: 0 24px 50px -30px rgba(60, 40, 20, 0.45);
-  --shadow-panel: 0 30px 60px -40px rgba(60, 40, 20, 0.35);
-  --shadow-seg: 0 1px 3px rgba(60, 40, 20, 0.18);
+  --shadow-float: 0 24px 50px -30px rgba(15, 23, 42, 0.35);
+  --shadow-panel: 0 30px 60px -40px rgba(15, 23, 42, 0.3);
+  --shadow-seg: 0 1px 3px rgba(15, 23, 42, 0.14);
   --card-edge: 0 0 #0000;           /* lit top edge on cards, dark mode only */
   --accent-glow: 0 0 #0000;         /* glow under accent buttons, dark mode only */
-  --focus-ring: rgba(242, 169, 59, 0.35);
+  --focus-ring: rgba(37, 99, 235, 0.3);
+  --color-accent-on-dark: #93c5fd;  /* accent text on dark feature panels */
+  --code-keyword: #60a5fa; --code-string: #86efac; --code-comment: #94a3b8;
+  --overlay: rgba(15, 23, 42, 0.45);        /* behind sheets and dialogs */
+  --overlay-strong: rgba(15, 23, 42, 0.92); /* behind a zoomed image */
+  --shadow-sheet: 0 -20px 60px -20px rgba(15, 23, 42, 0.3);
+  --shadow-cover: 0 40px 80px -45px rgba(15, 23, 42, 0.35);
   --color-brand: #f2a93b;           /* logo square: marigold in both themes */
   --color-on-brand: #1c1713;
 
@@ -219,4 +226,10 @@
   --card-edge: inset 0 1px 0 rgba(170, 200, 255, 0.06);
   --accent-glow: 0 6px 22px -10px rgba(45, 212, 191, 0.55);
   --focus-ring: rgba(45, 212, 191, 0.35);
+  --color-accent-on-dark: #2dd4bf;
+  --code-keyword: #e7a55a; --code-string: #b9d7a8; --code-comment: #a89a8b;
+  --overlay: rgba(33, 25, 19, 0.45);
+  --overlay-strong: rgba(28, 23, 19, 0.94);
+  --shadow-sheet: 0 -20px 60px -20px rgba(60, 40, 20, 0.4);
+  --shadow-cover: 0 40px 80px -45px rgba(60, 40, 20, 0.4);
 }

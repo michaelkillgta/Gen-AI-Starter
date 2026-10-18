@@ -70,12 +70,12 @@
   margin: 0;
   padding: 56px 16px 16px;
   border: 0;
-  background: rgba(28, 23, 19, 0.94);
+  background: var(--overlay-strong);
   overflow: auto;
 }
 
 .dialog::backdrop {
-  background: rgba(28, 23, 19, 0.6);
+  background: var(--overlay);
 }
 
 .full {

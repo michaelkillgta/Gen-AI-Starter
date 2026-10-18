@@ -488,7 +488,7 @@
   font-weight: 600;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-on-dark);
 }
 
 .projectTitle {
@@ -784,7 +784,7 @@
   font-weight: 600;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-on-dark);
 }
 
 @media (min-width: 640px) {

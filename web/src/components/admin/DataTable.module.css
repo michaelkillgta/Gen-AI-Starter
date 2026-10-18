@@ -283,7 +283,7 @@
 }
 
 .dialog::backdrop {
-  background: rgba(28, 23, 19, 0.45);
+  background: var(--overlay);
 }
 
 .detail {

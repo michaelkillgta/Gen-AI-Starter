@@ -73,7 +73,7 @@
 .whereHead {
   font-weight: 600;
   font-size: 17px;
-  color: var(--color-accent);
+  color: var(--color-accent-on-dark);
 }
 
 .whereText {
@@ -174,7 +174,7 @@
 }
 
 .cardDark .cardWho {
-  color: var(--color-accent);
+  color: var(--color-accent-on-dark);
 }
 
 .cardName {
@@ -232,6 +232,7 @@
 
 .cardDark .cardStageNum {
   background: var(--color-accent);
+  color: var(--color-on-accent);
   box-shadow: var(--accent-glow);
 }
 
@@ -257,7 +258,7 @@
 }
 
 .cardDark .cardCta {
-  color: var(--color-accent);
+  color: var(--color-accent-on-dark);
 }
 
 @media (min-width: 1024px) {

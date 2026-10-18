@@ -132,7 +132,7 @@
 
 .navOn .navCount {
   background: var(--color-dark-raised);
-  color: var(--color-accent);
+  color: var(--color-accent-on-dark);
 }
 
 .main {
