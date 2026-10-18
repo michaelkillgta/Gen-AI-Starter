@@ -242,15 +242,15 @@ export function story(el, spec){
       </div>
       <div class="st-side">
         <div class="eyebrow st-count"></div>
-        <h3 class="st-title"></h3>
-        <p class="st-body"></p>
-        <div class="code st-code"><div class="chead"><span>${esc(spec.file || 'agent.py')}</span><span class="st-alive"></span></div><pre></pre></div>
-        <p class="sr-only st-live" aria-live="polite"></p>
-        <div class="st-nav">
+        <div class="st-nav" aria-label="Scene controls">
           <button class="btn btn-ghost st-prev">← Back</button>
           <div class="st-dots">${spec.scenes.map((_, k) => `<button data-k="${k}" aria-label="Scene ${k + 1}"></button>`).join('')}</div>
           <button class="btn btn-ink st-next">Next →</button>
         </div>
+        <h3 class="st-title"></h3>
+        <p class="st-body"></p>
+        <div class="code st-code"><div class="chead"><span>${esc(spec.file || 'agent.py')}</span><span class="st-alive"></span></div><pre></pre></div>
+        <p class="sr-only st-live" aria-live="polite"></p>
       </div>
     </div>
   </div>`;
