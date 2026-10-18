@@ -148,3 +148,12 @@
 .pyc .pl-list { font: 600 13px var(--f-mono); padding: 6px 10px; border-radius: 8px; border: 1.5px solid var(--line-2); background: var(--sheet); display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .pyc .pl-d { padding: 2px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); }
 .pyc .pl-shared { border-color: var(--amber) !important; background: var(--amber-soft) !important; }
+
+/* Light mode: no black chips or tags in the activities. */
+:root:not([data-theme="dark"]) .pyc .chipb.on, :root:not([data-theme="dark"]) .pyc .pl-step, :root:not([data-theme="dark"]) .pyc .pl-tag,
+:root:not([data-theme="dark"]) .pl-ghost.pl-tag, :root:not([data-theme="dark"]) .pyc .pl-on i, :root:not([data-theme="dark"]) .pyc .pl-name { background: var(--amber); color: #fff; border-color: var(--amber); }
+:root:not([data-theme="dark"]) .pyc .pl-code, :root:not([data-theme="dark"]) .pyc .pl-chip, :root:not([data-theme="dark"]) .pl-ghost.pl-chip,
+:root:not([data-theme="dark"]) .pyc .pl-val, :root:not([data-theme="dark"]) .pyc .pl-pair, :root:not([data-theme="dark"]) .pyc .pl-pipe .pl-in {
+  --code-fg: var(--ink); --code-kw: #1d4ed8; --code-str: #15803d; --code-num: #7c3aed; --code-fn: #b45309; --code-com: #64748b;
+  background: var(--amber-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--amber) 40%, transparent);
+}

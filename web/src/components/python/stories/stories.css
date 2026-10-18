@@ -208,3 +208,18 @@
 .pyc .st-key-items { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; }
 .pyc .st-k { display: inline-flex; align-items: flex-start; gap: 7px; font-size: 13px; line-height: 1.4; color: var(--ink-2); flex: 1 1 260px; }
 .pyc .st-k b { color: var(--ink); font-weight: 600; }
+
+/* ---------- Light mode: no black in the scenes (Uma, 18 Oct). Blue accent, soft blue glass. ---------- */
+:root:not([data-theme="dark"]) .pyc .st-tag span, :root:not([data-theme="dark"]) .pyc .lb-tag,
+:root:not([data-theme="dark"]) .pyc .ch-tag i, :root:not([data-theme="dark"]) .pyc .k-tag i { background: var(--amber); color: #fff; }
+:root:not([data-theme="dark"]) .pyc .st-tag span::after, :root:not([data-theme="dark"]) .pyc .lb-tag::after { background: var(--amber); }
+:root:not([data-theme="dark"]) .pyc .st-read, :root:not([data-theme="dark"]) .pyc .lb-note, :root:not([data-theme="dark"]) .pyc .st-note,
+:root:not([data-theme="dark"]) .pyc .sg-card, :root:not([data-theme="dark"]) .pyc .ch-note i, :root:not([data-theme="dark"]) .pyc .k-note i {
+  --code-fg: var(--ink); --code-kw: #1d4ed8; --code-str: #15803d; --code-num: #7c3aed; --code-fn: #b45309; --code-com: #64748b; --code-dec: #7c3aed; --code-err: var(--bad);
+  background: var(--amber-soft); color: var(--amber-ink); border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent);
+}
+:root:not([data-theme="dark"]) .pyc .sg-card { background: #fff; color: var(--ink); border: 1.5px solid color-mix(in srgb, var(--amber) 35%, var(--line-2)); box-shadow: 0 12px 24px -16px rgba(37, 99, 235, .45); }
+:root:not([data-theme="dark"]) .pyc .sg-card pre { color: var(--ink); }
+:root:not([data-theme="dark"]) .pyc .st-note.bad, :root:not([data-theme="dark"]) .pyc .lb-note.bad, :root:not([data-theme="dark"]) .pyc .ch-bad i { background: var(--bad-soft); color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, transparent); }
+:root:not([data-theme="dark"]) .pyc .sg-arch::before, :root:not([data-theme="dark"]) .pyc .sg-arch::after { background: color-mix(in srgb, var(--amber) 65%, #fff); }
+:root:not([data-theme="dark"]) .pyc .sg-arch i { border-color: color-mix(in srgb, var(--amber) 70%, #fff); background: color-mix(in srgb, var(--amber) 10%, transparent); }
