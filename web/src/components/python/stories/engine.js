@@ -138,6 +138,68 @@ function labels(scene, world){
   return { follow, stop(){ cancelAnimationFrame(raf); clearTimeout(last); if (ro) ro.disconnect(); } };
 }
 
+/* ================= Plain-language help for the room ================= */
+const short = (v, n = 22) => { v = String(v ?? ''); return v.length > n ? v.slice(0, n - 1) + '…' : v; };
+const actorName = (st, id) => {
+  const a = st[id];
+  if (!a) return id;
+  const k = a.kind || 'box';
+  if (k === 'box') return `the ${short(a.v)} box`;
+  if (k === 'tag') return `the name ${a.text || id}`;
+  if (k === 'shelf') return a.label ? `the ${short(a.label, 28)} tray` : 'the tray';
+  return id;
+};
+
+/** One short sentence per thing that appeared, moved, changed or left in this scene. */
+function describeChanges(prev, st, i){
+  const out = [];
+  const typeWord = t => (t && t !== '?' ? ` (type ${t})` : '');
+  for (const [id, a] of Object.entries(st)){
+    const k = a.kind || 'box', p = prev[id];
+    if (k === 'box'){
+      if (!p || (p.kind || 'box') !== 'box') out.push(['box', `New box: ${short(a.v)}${typeWord(a.t)}. A box is a value Python keeps in memory.`]);
+      else if (a.gone && !p.gone) out.push(['gone', `No name points to the ${short(a.v)} box any more, so Python frees it.`]);
+      else if (p.v !== a.v || p.t !== a.t) out.push(['box', `The box changes: it now holds ${short(a.v)}${typeWord(a.t)}.`]);
+    } else if (k === 'tag'){
+      const name = a.text || id, target = a.on ? actorName(st, a.on) : 'this spot';
+      if (!p) out.push(['tag', `Name tag ${name} points to ${target}.`]);
+      else if (p.on !== a.on || p.x !== a.x || p.y !== a.y) out.push(['tag', `Name tag ${name} moves to ${target}.`]);
+      else if ((p.text || id) !== name) out.push(['tag', `The tag now reads ${name}.`]);
+    } else if (k === 'shelf'){
+      if (!p) out.push(['shelf', `Tray: ${a.label || 'an area'}. Trays group boxes, like a list, a dict or a scope.`]);
+      else if (p.label !== a.label && a.label) out.push(['shelf', `The tray is now ${a.label}.`]);
+    } else if (k === 'link'){
+      if (!p || p.from !== a.from || p.to !== a.to) out.push(['link', `Arrow from ${actorName(st, a.from)} to ${actorName(st, a.to)}${a.label ? ` (${a.label})` : ''}: it points to or flows into it.`]);
+    } else if (k === 'note'){
+      if (!p || p.text !== a.text) out.push([a.bad ? 'bad' : 'note', `${a.bad ? 'Problem shown' : 'Result shown'}: ${short(a.text, 40)}`]);
+    } else if (k === 'scan'){
+      if (!p || p.on !== a.on) out.push(['scan', `The glow shows Python reading ${actorName(st, a.on)}, like type() does.`]);
+    }
+  }
+  const removed = Object.keys(prev).filter(id => !st[id]);
+  if (removed.length >= 3) out.push(['clear', 'The room is cleared for the next example.']);
+  else for (const id of removed) if ((prev[id].kind || 'box') === 'tag') out.push(['tag', `Name tag ${prev[id].text || id} is removed.`]);
+  const rank = {shelf: 0, box: 1, gone: 2, tag: 3, link: 4, scan: 5, note: 6, bad: 6, clear: 7};
+  out.sort((x, y) => (rank[x[0]] ?? 8) - (rank[y[0]] ?? 8));
+  if (!out.length) out.push(['note', i === 0 ? 'An empty room. Press Next and watch the code build it.' : 'Nothing new in the room. Read the code on the right.']);
+  return out.length > 5 ? [...out.slice(0, 4), ['note', `…and ${out.length - 4} more changes`]] : out;
+}
+
+/** The key lists only the shapes this story uses. */
+function keyHTML(spec, kinds){
+  const used = new Set(Object.values(kinds));
+  const items = [
+    ['box', 'box', '<b>Box</b> = a value (an object). The word on top is its type: str, int, list...'],
+    ['tag', 'tag', '<b>Dark name tag</b> = a variable. It only points at a box; it is not the box.'],
+    ['shelf', 'shelf', '<b>Tray</b> = a group: a list, a dict, a scope or a step.'],
+    ['link', 'link', '<b>Arrow</b> = points to, or flows into.'],
+    ['note', 'note', '<b>Bubble</b> = a result or an error.'],
+    ['scan', 'scan', '<b>Glow</b> = Python reading a box, like type().'],
+  ].filter(([k]) => used.has(k));
+  if (spec.orphans) items.push(['gone', 'gone', '<b>Dashed box</b> = no name points to it. Python will free it.']);
+  return items.map(([, c, t]) => `<span class="st-k k-${c}"><i aria-hidden="true"></i><span>${t}</span></span>`).join('');
+}
+
 /* ================= Story ================= */
 export function story(el, spec){
   // Full actor state for every scene.
@@ -171,8 +233,12 @@ export function story(el, spec){
   el.innerHTML = `<div class="wg st">
     <div class="wg-h"><span class="eyebrow">Story · ${esc(spec.title)}</span><span class="mini st-hint">Drag the room to turn it</span></div>
     <div class="st-grid">
-      <div class="st-scene" aria-hidden="true">
-        <div class="st-world"><div class="st-floor"></div>${ids.map(id => nodeHTML(id, kinds[id])).join('')}</div>
+      <div class="st-stage">
+        <div class="st-scene" aria-hidden="true">
+          <div class="st-world"><div class="st-floor"></div>${ids.map(id => nodeHTML(id, kinds[id])).join('')}</div>
+        </div>
+        <div class="st-changes"><span class="st-ch-h">In the picture</span><ul></ul></div>
+        <details class="st-key" ${window.innerWidth > 760 ? "open" : ""}><summary>What the shapes mean</summary><div class="st-key-items">${keyHTML(spec, kinds)}</div></details>
       </div>
       <div class="st-side">
         <div class="eyebrow st-count"></div>
@@ -215,7 +281,9 @@ export function story(el, spec){
     const boxes = Object.entries(st).filter(([, a]) => (a.kind || 'box') === 'box');
     const live = boxes.filter(([, a]) => !a.gone).length, gone = boxes.length - live;
     $('.st-alive').textContent = spec.count === false || !boxes.length ? '' : `${live} object${live === 1 ? '' : 's'}${gone ? ` · ${gone} freed` : ''}`;
-    $('.st-live').textContent = `${sc.title}. ${sc.code || ''}`;
+    const changes = describeChanges(prev, st, i);
+    $('.st-changes ul').innerHTML = changes.map(([k, t]) => `<li class="ch-${k}"><i aria-hidden="true"></i><span>${esc(t)}</span></li>`).join('');
+    $('.st-live').textContent = `${sc.title}. ${sc.code || ''}. ${changes.map(c => c[1]).join('. ')}`;
 
     const held = new Set(Object.values(st).filter(a => a.kind === 'tag' && a.on).map(a => a.on));
     const lift = {};

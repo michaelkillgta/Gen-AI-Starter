@@ -186,3 +186,25 @@
   .pyc .lb-note { max-width: 180px; padding: 4px 8px; font-size: 11px; }
   .pyc .lb-cell, .pyc .lb-link { font-size: 9.5px; }
 }
+
+/* ---------- plain-language help under the room ---------- */
+.pyc .st-stage { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.pyc .st-changes { background: var(--sheet); border: 1px solid var(--line); border-radius: var(--r-m); padding: 10px 12px; }
+.pyc .st-ch-h, .pyc .st-key summary { font: 700 11px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pyc .st-changes ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.pyc .st-changes li { display: flex; gap: 9px; align-items: flex-start; font-size: 14px; line-height: 1.45; color: var(--ink); }
+.pyc .st-changes li i, .pyc .st-k i { flex: none; width: 14px; height: 14px; margin-top: 3px; border-radius: 3px; background: var(--line-2); }
+.pyc .ch-box i, .pyc .k-box i { background: color-mix(in srgb, var(--amber) 35%, var(--sheet)); border: 1.5px solid var(--amber); }
+.pyc .ch-tag i, .pyc .k-tag i { background: var(--fill); border-radius: 999px; width: 18px; height: 10px; margin-top: 5px; }
+.pyc .ch-shelf i, .pyc .k-shelf i { background: color-mix(in srgb, var(--amber) 12%, var(--sheet)); border: 1.5px solid color-mix(in srgb, var(--amber) 55%, var(--line-2)); width: 18px; height: 10px; margin-top: 5px; }
+.pyc .ch-link i, .pyc .k-link i { background: none; height: 3px; width: 16px; margin-top: 9px; border-radius: 2px; background-color: var(--amber); }
+.pyc .ch-note i, .pyc .k-note i { background: var(--code-bg); border: 1px solid var(--amber); border-radius: 6px; }
+.pyc .ch-bad i { background: var(--code-bg); border: 1px solid var(--bad); border-radius: 6px; }
+.pyc .ch-scan i, .pyc .k-scan i { background: color-mix(in srgb, var(--amber) 30%, transparent); box-shadow: 0 0 8px var(--amber); border-radius: 4px; }
+.pyc .ch-gone i, .pyc .k-gone i { background: transparent; border: 1.5px dashed var(--ink-3); }
+.pyc .ch-clear i { background: transparent; border: 1.5px solid var(--line-2); }
+.pyc .st-key { border-top: 1px dashed var(--line); padding-top: 8px; }
+.pyc .st-key summary { cursor: pointer; }
+.pyc .st-key-items { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; }
+.pyc .st-k { display: inline-flex; align-items: flex-start; gap: 7px; font-size: 13px; line-height: 1.4; color: var(--ink-2); flex: 1 1 260px; }
+.pyc .st-k b { color: var(--ink); font-weight: 600; }
