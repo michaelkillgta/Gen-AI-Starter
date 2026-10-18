@@ -5,22 +5,21 @@
 
 /* Layout: the Field Tested site shell (header + nav) around a study notebook. Home = map of 5 parts → lessons; a lesson opens a player with two modes: Interactive and Full notes. */
 .pyc{
-  /* Light palette: plain white with a calm blue accent (Uma, 18 Oct). Dark mode below is unchanged. */
-  --paper:#ffffff; --sheet:#ffffff; --sunk:#f3f6fa; --grid:transparent;
-  --ink:#0f172a; --ink-2:#475569; --ink-3:#5b6678; --line:#e3e8ef; --line-2:#cbd5e1;
-  --amber:#2563eb; --amber-ink:#1d4ed8; --amber-soft:#e8f0fe; --hover:#1e40af;
-  --blue:#7c3aed; --blue-soft:#f1eafe;
-  --good:#15803d; --good-soft:#e6f4ea; --bad:#b91c1c; --bad-soft:#fdeceb;
-  --fill:#0f172a; --on-fill:#ffffff; --on-accent:#ffffff; --on-good:#ffffff;
+  --paper:#fbf8f3; --sheet:#fffefc; --sunk:#f3ece1; --grid:transparent;
+  --ink:#1c1713; --ink-2:#554b43; --ink-3:#6a5f54; --line:#eae2d7; --line-2:#d6cbbc;
+  --amber:#f2a93b; --amber-ink:#8a5a10; --amber-soft:#fbebc8; --hover:#c4471a;
+  --blue:#6b2f50; --blue-soft:#f2e3ec;
+  --good:#2f5d3a; --good-soft:#e3eddf; --bad:#a83b14; --bad-soft:#fbefe8;
+  --fill:#1c1713; --on-fill:#fbf8f3; --on-accent:#1c1713; --on-good:#fffefc;
   --logo:#f2a93b; --logo-ink:#1c1713;
-  --code-bg:#0f172a; --code-fg:#e2e8f0; --code-dim:#94a3b8; --code-kw:#60a5fa; --code-str:#86efac; --code-num:#fca5a5; --code-fn:#fcd34d; --code-com:#7c8aa0; --code-hl:rgba(96,165,250,.16); --code-dec:#c4b5fd; --code-err:#fca5a5; --code-line:rgba(255,255,255,.08);
+  --code-bg:#211913; --code-fg:#f3ece1; --code-dim:#a39383; --code-kw:#f2a93b; --code-str:#b5d69a; --code-num:#9cc8f5; --code-fn:#f4cf8e; --code-com:#8f8070; --code-hl:rgba(242,169,59,.16); --code-dec:#e8a9cb; --code-err:#ff9f8a; --code-line:rgba(255,255,255,.08);
   --glow:none;
   --edge:0 0 0 0 transparent;
   --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --f-body:"Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
   --f-mono:"Geist Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
   --r-s:6px; --r-m:12px; --r-l:16px; --r-xl:20px;
-  --shadow:0 1px 2px rgba(15,23,42,.05), 0 10px 26px -14px rgba(15,23,42,.18);
+  --shadow:0 1px 2px rgba(28,23,19,.05), 0 10px 26px -14px rgba(28,23,19,.20);
 }
 :root[data-theme="dark"] .pyc{
   --paper:#0b1120; --sheet:#131c2e; --sunk:#1a2438; --grid:rgba(148,170,220,.06);
@@ -554,6 +553,3 @@
 .pyc .code .run-out{white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden}
 .pyc .pill.story{border-color:transparent;background:var(--good-soft);color:var(--good)}
 .pyc .pill.game{border-color:color-mix(in srgb,var(--amber) 60%,var(--line));background:transparent;color:var(--amber-ink)}
-
-/* The Python pages sit on their own white (light) or midnight (dark) surface. */
-.pyc{background:var(--paper)}
