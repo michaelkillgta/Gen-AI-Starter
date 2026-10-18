@@ -190,7 +190,7 @@ function keyHTML(spec, kinds){
   const used = new Set(Object.values(kinds));
   const items = [
     ['box', 'box', '<b>Box</b> = a value (an object). The word on top is its type: str, int, list...'],
-    ['tag', 'tag', '<b>Dark name tag</b> = a variable. It only points at a box; it is not the box.'],
+    ['tag', 'tag', '<b>Name tag (the pill)</b> = a variable. It only points at a box; it is not the box.'],
     ['shelf', 'shelf', '<b>Tray</b> = a group: a list, a dict, a scope or a step.'],
     ['link', 'link', '<b>Arrow</b> = points to, or flows into.'],
     ['note', 'note', '<b>Bubble</b> = a result or an error.'],
