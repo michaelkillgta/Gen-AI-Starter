@@ -560,3 +560,9 @@
 .pyc .pill.play{border-color:transparent;background:var(--amber);color:var(--on-accent)}
 .pyc .pill.story{color:color-mix(in srgb,var(--good) 78%,#000)}
 :root[data-theme="dark"] .pyc .pill.story{color:var(--good)}
+
+/* Lesson tags: one quiet style (Uma: minimal, professional). Only "Agent core" keeps a faint accent. */
+.pyc .pill,.pyc .pill.lab,.pyc .pill.core,.pyc .pill.story,.pyc .pill.game,.pyc .pill.play,.pyc .pill.notes{font-family:var(--f-body);font-size:11px;font-weight:500;letter-spacing:0;text-transform:none;padding:0 6px;border-radius:5px;line-height:18px;border:1px solid var(--line);background:transparent;color:var(--ink-2)}
+.pyc .pill.core{border-color:color-mix(in srgb,var(--amber) 40%,var(--line));color:var(--amber-ink)}
+:root[data-theme="dark"] .pyc .pill.story{color:var(--ink-2)}
+.pyc .ch .badges{gap:4px}
