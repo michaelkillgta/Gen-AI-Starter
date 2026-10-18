@@ -551,3 +551,5 @@
 @keyframes run-spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.pyc .run-spin{animation:none}}
 .pyc .code .run-out{white-space:pre-wrap;overflow-wrap:anywhere;overflow-x:hidden}
+.pyc .pill.story{border-color:transparent;background:var(--good-soft);color:var(--good)}
+.pyc .pill.game{border-color:color-mix(in srgb,var(--amber) 60%,var(--line));background:transparent;color:var(--amber-ink)}
