@@ -90,25 +90,6 @@
 
 /* ---------- the type() scanner game ---------- */
 .pyc .st-lead { margin: 0 0 10px; color: var(--ink-2); }
-.pyc .sg-scene { position: relative; height: 230px; perspective: 900px; perspective-origin: 50% 20%; overflow: hidden; border-radius: var(--r-m); background: radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--blue) 8%, var(--sunk)), var(--sunk)); }
-.pyc .sg-world { --rz: 0deg; position: absolute; left: 50%; top: 64%; transform-style: preserve-3d; transform: rotateX(60deg) rotateZ(-14deg); }
-.pyc .sg-belt { position: absolute; left: -330px; top: -48px; width: 660px; height: 96px; border-radius: 10px; background-color: var(--sheet); background-image: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 34px); box-shadow: 0 0 0 1px var(--line-2); }
-.pyc .sg-belt.run { animation: sg-belt .7s linear; }
-@keyframes sg-belt { from { background-position: -238px 0; } to { background-position: 0 0; } }
-.pyc .sg-arch { position: absolute; left: -60px; top: -56px; width: 120px; height: 112px; transform-style: preserve-3d; }
-.pyc .sg-arch::before, .pyc .sg-arch::after { content: ""; position: absolute; top: 0; width: 8px; height: 112px; background: var(--fill); transform-origin: 50% 50%; transform: translateZ(56px) rotateY(90deg); border-radius: 4px; }
-.pyc .sg-arch::before { left: -4px; } .pyc .sg-arch::after { right: -4px; }
-.pyc .sg-arch i { position: absolute; left: 0; top: 0; width: 120px; height: 112px; transform: translateZ(112px); border-radius: 8px; border: 4px solid var(--fill); background: color-mix(in srgb, var(--fill) 18%, transparent); }
-.pyc .sg-arch.scan i { border-color: var(--amber); background: color-mix(in srgb, var(--amber) 35%, transparent); box-shadow: 0 0 30px var(--amber); }
-.pyc .sg-arch.scan::before, .pyc .sg-arch.scan::after { background: var(--amber); }
-.pyc .sg-item { position: absolute; left: -32px; top: -32px; transform-style: preserve-3d; }
-.pyc .sg-item .st-cube { opacity: 1; transform: none; transition: none; --cube: 64px; }
-.pyc .sg-item .st-cube .f span { font-size: 12px; }
-.pyc .sg-item.enter { animation: sg-in .7s cubic-bezier(.2, .8, .3, 1); }
-.pyc .sg-item.leave { transform: translateX(360px); opacity: 0; transition: transform .45s ease-in, opacity .45s; }
-.pyc .sg-item.ok .st-cube .f { box-shadow: 0 0 18px color-mix(in srgb, var(--good) 70%, transparent); }
-.pyc .sg-item.no { animation: sg-shake .45s; }
-@keyframes sg-in { from { transform: translateX(-380px); } to { transform: none; } }
 @keyframes sg-shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
 .pyc .sg-out { margin-top: 10px; }
 .pyc .sg-pick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
@@ -120,8 +101,6 @@
 .pyc .sg-fb b.nope { color: var(--bad); }
 .pyc .sg-fb .btn { margin-left: 8px; padding: 8px 14px; font-size: 14px; vertical-align: middle; }
 @media (max-width: 560px) {
-  .pyc .sg-scene { height: 200px; }
-  .pyc .sg-world { scale: .8; }
   .pyc .sg-fb .btn { display: flex; margin: 10px 0 0; }
 }
 
@@ -145,14 +124,9 @@
 .pyc .st-note.bad { color: var(--code-err); border-color: var(--bad); }
 
 /* game cards: a code ticket that stands on the belt */
-.pyc .sg-card { position: absolute; left: -128px; bottom: -36px; width: 320px; min-height: 64px; transform-origin: 50% 100%; transform: translateY(-10px) rotateZ(14deg) rotateX(-60deg); display: grid; place-items: center; border-radius: 10px; background: var(--code-bg); border: 2px solid var(--line-2); box-shadow: 0 14px 24px -14px rgba(0,0,0,.6); }
-.pyc .sg-card pre { margin: 0; padding: 8px 12px; font: 600 14px/1.45 var(--f-mono); color: var(--code-fg); white-space: pre; overflow: hidden; max-width: 100%; }
-.pyc .sg-card.rev { border-color: var(--amber); }
-.pyc .sg-item.ok .sg-card { border-color: var(--good); box-shadow: 0 0 22px color-mix(in srgb, var(--good) 60%, transparent); }
 .pyc .sg-q { margin: 10px 0 0; font-weight: 600; color: var(--ink); }
 .pyc .sg-q:empty { display: none; }
 
-.pyc .sg-world:has(.sg-card) .sg-arch i { opacity: .35; }
 
 /* ---------- sharp labels (see labels() in engine.js) ---------- */
 /* Text in the 3D room stays hidden: it only marks where each flat label goes. */
@@ -218,11 +192,7 @@
   --code-fg: var(--ink); --code-kw: #1d4ed8; --code-str: #15803d; --code-num: #7c3aed; --code-fn: #b45309; --code-com: #64748b; --code-dec: #7c3aed; --code-err: var(--bad);
   background: var(--amber-soft); color: var(--amber-ink); border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent);
 }
-:root:not([data-theme="dark"]) .pyc .sg-card { background: #fff; color: var(--ink); border: 1.5px solid color-mix(in srgb, var(--amber) 35%, var(--line-2)); box-shadow: 0 12px 24px -16px rgba(37, 99, 235, .45); }
-:root:not([data-theme="dark"]) .pyc .sg-card pre { color: var(--ink); }
 :root:not([data-theme="dark"]) .pyc .st-note.bad, :root:not([data-theme="dark"]) .pyc .lb-note.bad, :root:not([data-theme="dark"]) .pyc .ch-bad i { background: var(--bad-soft); color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, transparent); }
-:root:not([data-theme="dark"]) .pyc .sg-arch::before, :root:not([data-theme="dark"]) .pyc .sg-arch::after { background: color-mix(in srgb, var(--amber) 65%, #fff); }
-:root:not([data-theme="dark"]) .pyc .sg-arch i { border-color: color-mix(in srgb, var(--amber) 70%, #fff); background: color-mix(in srgb, var(--amber) 10%, transparent); }
 
 /* Scene controls sit at the top of the side panel, styled apart from the lesson Back/Next. */
 .pyc .st-nav { margin: 0 0 6px; padding: 8px; border: 1px solid color-mix(in srgb, var(--amber) 30%, var(--line)); border-radius: var(--r-m); background: color-mix(in srgb, var(--amber) 6%, var(--sheet)); }
@@ -242,3 +212,41 @@
   .pyc .st-changes { order: 3; }
   .pyc .st-key { order: 4; }
 }
+
+/* ---------- Game scanner: a clean flat stage (belt, scanner window, item) ---------- */
+.pyc .sg-scene { position: relative; height: 210px; overflow: hidden; border-radius: var(--r-m); background: linear-gradient(180deg, color-mix(in srgb, var(--amber) 7%, var(--sunk)), var(--sunk)); }
+.pyc .sg-world { position: absolute; inset: 0; display: grid; place-items: center; }
+.pyc .sg-belt { position: absolute; left: 0; right: 0; bottom: 26px; height: 18px; background-color: color-mix(in srgb, var(--amber) 10%, var(--sheet)); background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--amber) 30%, var(--line-2)) 0 2px, transparent 2px 28px); border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+.pyc .sg-belt.run { animation: sg-belt .7s linear; }
+@keyframes sg-belt { from { background-position: -168px 0; } to { background-position: 0 0; } }
+.pyc .sg-arch { position: absolute; left: 50%; top: 16px; bottom: 18px; width: min(380px, 88%); transform: translateX(-50%); border: 2px solid color-mix(in srgb, var(--amber) 45%, var(--line-2)); border-radius: 18px; background: color-mix(in srgb, var(--amber) 4%, transparent); pointer-events: none; }
+.pyc .sg-arch::before { content: "scanner"; position: absolute; left: 14px; top: -10px; padding: 0 8px; font: 700 10.5px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--amber-ink); background: var(--sunk); }
+.pyc .sg-arch i { position: absolute; left: 10px; right: 10px; top: 12%; height: 3px; border-radius: 2px; background: var(--amber); box-shadow: 0 0 14px var(--amber); opacity: 0; }
+.pyc .sg-arch.scan { border-color: var(--amber); }
+.pyc .sg-arch.scan i { animation: sg-beam .65s ease-in-out; }
+@keyframes sg-beam { 0% { top: 10%; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 86%; opacity: 0; } }
+.pyc .sg-item { position: relative; z-index: 1; margin-bottom: 18px; max-width: calc(100% - 40px); }
+.pyc .sg-item.enter { animation: sg-in .6s cubic-bezier(.2, .8, .3, 1); }
+.pyc .sg-item.leave { transform: translateX(140%); opacity: 0; transition: transform .45s ease-in, opacity .45s; }
+.pyc .sg-item.no { animation: sg-shake .45s; }
+@keyframes sg-in { from { transform: translateX(-140%); opacity: 0; } to { transform: none; opacity: 1; } }
+/* value items: a flat tile, type on top */
+.pyc .sg-item .st-cube { position: relative; width: auto; height: auto; min-width: 150px; opacity: 1; transform: none; transition: none; display: flex; flex-direction: column-reverse; border: 2px solid var(--tc); border-radius: 12px; overflow: hidden; background: var(--sheet); box-shadow: 0 10px 22px -16px color-mix(in srgb, var(--ink) 45%, transparent); }
+.pyc .sg-item .st-cube .f { display: none; position: static; transform: none; border: 0; }
+.pyc .sg-item .st-cube .top, .pyc .sg-item .st-cube .s { display: grid; place-items: center; }
+.pyc .sg-item .st-cube .top { padding: 3px 10px; background: color-mix(in srgb, var(--tc) 18%, var(--sheet)); }
+.pyc .sg-item .st-cube .top span { font: 700 11px var(--f-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+.pyc .sg-item .st-cube .s { padding: 14px 22px; background: none; }
+.pyc .sg-item .st-cube .s span { font: 700 22px var(--f-mono); color: var(--ink); max-width: none; white-space: nowrap; }
+.pyc .sg-item.ok .st-cube { border-color: var(--good); box-shadow: 0 0 0 4px color-mix(in srgb, var(--good) 18%, transparent); }
+/* code items: a flat ticket */
+.pyc .sg-card { position: static; transform: none; min-width: 200px; max-width: 100%; border-radius: 12px; border: 2px solid color-mix(in srgb, var(--amber) 35%, var(--line-2)); background: var(--sheet); box-shadow: 0 10px 22px -16px color-mix(in srgb, var(--ink) 45%, transparent);
+  --code-fg: var(--ink); --code-kw: #1d4ed8; --code-str: #15803d; --code-num: #7c3aed; --code-fn: #b45309; --code-com: #64748b; --code-dec: #7c3aed; }
+.pyc .sg-card pre { margin: 0; padding: 12px 16px; font: 600 14.5px/1.5 var(--f-mono); color: var(--ink); white-space: pre; overflow-x: auto; max-width: 100%; }
+.pyc .sg-card.rev { border-color: var(--amber); }
+.pyc .sg-item.ok .sg-card { border-color: var(--good); box-shadow: 0 0 0 4px color-mix(in srgb, var(--good) 18%, transparent); }
+:root[data-theme="dark"] .pyc .sg-card { --code-fg: var(--ink); --code-kw: #5eead4; --code-str: #86efac; --code-num: #93c5fd; --code-fn: #fcd34d; --code-com: #8d9ab0; }
+/* answer buttons: full borders, nothing clipped */
+.pyc .sg-pick button { min-height: 42px; padding: 8px 12px; border: 1px solid var(--line-2); border-bottom: 3px solid var(--tc, var(--line-2)); border-radius: 10px; line-height: 1.2; }
+@media (max-width: 560px) { .pyc .sg-scene { height: 190px; } .pyc .sg-card pre { font-size: 13px; padding: 10px 12px; } }
+@media (prefers-reduced-motion: reduce) { .pyc .sg-arch.scan i, .pyc .sg-item.enter { animation: none; } }
