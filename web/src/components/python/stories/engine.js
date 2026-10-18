@@ -30,9 +30,9 @@ const cubeHTML = (v, t) => `<div class="f top"><span>${esc(t)}</span></div>
   <div class="st-puff">freed</div>`;
 
 /** Lets the learner drag the room to turn it. Returns a cleanup function. */
-function orbit(scene, world, start){
+function orbit(scene, world, start, moved = () => {}){
   let rz = start, down = null;
-  const set = () => world.style.setProperty('--rz', rz + 'deg');
+  const set = () => { world.style.setProperty('--rz', rz + 'deg'); moved(); };
   set();
   const move = e => { if (down === null) return; rz = Math.max(-75, Math.min(15, rz + (e.clientX - down) * 0.35)); down = e.clientX; set(); };
   const up = () => { down = null; scene.classList.remove('grab'); };
@@ -42,6 +42,100 @@ function orbit(scene, world, start){
   scene.addEventListener('pointerup', up);
   scene.addEventListener('pointercancel', up);
   return () => { scene.removeEventListener('pointerdown', press); scene.removeEventListener('pointermove', move); scene.removeEventListener('pointerup', up); scene.removeEventListener('pointercancel', up); };
+}
+
+/*
+ * Sharp labels. Text inside a CSS 3D scene is drawn as a picture and then
+ * stretched, so it blurs (and long values get cut off on small cube faces).
+ * The 3D actors keep their text hidden and act only as anchors; each label is
+ * drawn flat on top of the room at the anchor's screen position, so it stays
+ * crisp at any angle. Tags and notes that would overlap are lifted apart.
+ */
+const LABELS = [
+  ['.st-cube .st-pin', 'cube'], ['.st-shelf > b', 'shelf'], ['.st-tag > span', 'tag'],
+  ['.st-note', 'note'], ['.st-cells i > span', 'cell'], ['.st-link > b', 'link'],
+];
+function labels(scene, world){
+  const layer = document.createElement('div');
+  layer.className = 'st-labels';
+  scene.appendChild(layer);
+  const pairs = new Map();
+  const host = (src, kind) => kind === 'cube' ? src.closest('.st-slot') : kind === 'cell' ? src.closest('.st-shelf') : kind === 'note' ? src : src.parentElement;
+  const shown = (src, kind) => {
+    const h = host(src, kind);
+    if (kind === 'cube') return !h.classList.contains('off');
+    return h.classList.contains('on') && !h.classList.contains('off') && src.textContent !== '';
+  };
+  function sync(){
+    const box = scene.getBoundingClientRect(), seen = new Set(), placed = [];
+    for (const [sel, kind] of LABELS) for (const src of world.querySelectorAll(sel)){
+      seen.add(src);
+      let p = pairs.get(src);
+      if (!p){ p = document.createElement('div'); layer.appendChild(p); pairs.set(src, p); }
+      const r = src.getBoundingClientRect(), vis = shown(src, kind) && r.width + r.height > 0;
+      let cls = 'lb lb-' + kind;
+      if (kind === 'cube'){
+        const c = src.parentElement, gone = c.classList.contains('gone');
+        const html = gone ? '<b>freed</b>' : src.innerHTML;
+        if (p.innerHTML !== html) p.innerHTML = html;
+        cls += ' ' + [...c.classList].filter(k => k.startsWith('t-') || k === 'glow' || k === 'loose').join(' ') + (gone ? ' lb-gone' : '');
+      } else {
+        if (p.textContent !== src.textContent) p.textContent = src.textContent;
+        const h = host(src, kind);
+        if (h.classList.contains('alt')) cls += ' lb-alt';
+        if (h.classList.contains('bad')) cls += ' lb-bad';
+      }
+      if (!vis) cls += ' lb-hide';
+      if (p.className !== cls) p.className = cls;
+      if (!vis) continue;
+      // Tags and notes hang above their anchor; everything else is centred on it.
+      const hang = kind === 'tag' || kind === 'note';
+      const w = p.offsetWidth, ht = p.offsetHeight;
+      const ax = r.left + r.width / 2 - box.left, ay = (hang ? r.bottom : r.top + r.height / 2) - box.top;
+      const inside = (l, t) => [Math.min(Math.max(l, 4), box.width - w - 4), Math.min(Math.max(t, 4), box.height - ht - 4)];
+      let [left, top] = inside(ax - w / 2, hang ? ay - ht : ay - ht / 2);
+      if (kind !== 'cell' && kind !== 'link'){
+        // Try nearby spots (up first, then to the sides) until the label is clear of
+        // the ones already placed. Cubes only dodge other cubes.
+        const others = kind === 'cube' ? placed.filter(q => q.cube) : placed;
+        const clash = (l, t) => others.reduce((s, q) => s + Math.max(0, Math.min(l + w, q.r) - Math.max(l, q.l) + 3) * Math.max(0, Math.min(t + ht, q.b) - Math.max(t, q.t) + 3), 0);
+        const sx = w / 2 + 8, sy = ht + 4, spots = [];
+        for (const dy of kind === 'cube' ? [0, sy * .6, sy * 1.2] : [0, sy, sy * 2, sy * 3])
+          for (const dx of kind === 'cube' ? [0, -sx * .6, sx * .6] : [0, -sx, sx, -sx * 2, sx * 2])
+            spots.push([Math.abs(dx) + dy * 1.3, dx, dy]);
+        spots.sort((a, b) => a[0] - b[0]);
+        let best = null;
+        for (const [, dx, dy] of spots){
+          const [l, t] = inside(left + dx, top - dy), c = clash(l, t);
+          if (!best || c < best[2]) best = [l, t, c];
+          if (!c) break;
+        }
+        [left, top] = best;
+        placed.push({l: left, r: left + w, t: top, b: top + ht, cube: kind === 'cube'});
+      }
+      p.style.left = Math.round(left) + 'px'; p.style.top = Math.round(top) + 'px';
+      if (kind === 'tag'){
+        // The stem runs from the bottom of the tag back down to what it names.
+        const vx = ax - (left + w / 2), vy = ay + 26 - (top + ht);
+        p.style.setProperty('--sl', Math.max(0, Math.hypot(vx, vy)) + 'px');
+        p.style.setProperty('--sa', Math.atan2(-vx, vy) + 'rad');
+      }
+    }
+    for (const [src, p] of pairs) if (!seen.has(src)){ p.remove(); pairs.delete(src); }
+  }
+  // Follow the 3D transitions for a moment after each change.
+  // A last timed pass catches the end state even when frames are paused (hidden tab).
+  let until = 0, raf = 0, last = 0;
+  const tick = () => { sync(); raf = performance.now() < until ? requestAnimationFrame(tick) : 0; };
+  const follow = ms => {
+    until = Math.max(until, performance.now() + ms);
+    sync();
+    if (!raf) raf = requestAnimationFrame(tick);
+    clearTimeout(last); last = setTimeout(sync, ms + 50);
+  };
+  const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(() => follow(50)) : null;
+  if (ro) ro.observe(scene);
+  return { follow, stop(){ cancelAnimationFrame(raf); clearTimeout(last); if (ro) ro.disconnect(); } };
 }
 
 /* ================= Story ================= */
@@ -97,7 +191,8 @@ export function story(el, spec){
   const $ = s => el.querySelector(s), $$ = s => [...el.querySelectorAll(s)];
   const scene = $('.st-scene'), world = $('.st-world');
   if (spec.view && spec.view.tilt) world.style.setProperty('--tilt', spec.view.tilt + 'deg');
-  const stopOrbit = orbit(scene, world, spec.view && spec.view.rz != null ? spec.view.rz : -32);
+  const lb = labels(scene, world);
+  const stopOrbit = orbit(scene, world, spec.view && spec.view.rz != null ? spec.view.rz : -32, () => lb.follow(60));
   const node = id => world.querySelector(`[data-id="${id}"]`);
   const pos = (st, a) => {
     if (a.on && st[a.on]) return {x: st[a.on].x || 0, y: st[a.on].y || 0, base: st[a.on].kind === 'shelf' ? 6 : (st[a.on].size || 64)};
@@ -132,7 +227,7 @@ export function story(el, spec){
         const c = n.firstChild, size = a.size || 64;
         n.style.setProperty('--x', (a.x || 0) + 'px'); n.style.setProperty('--y', (a.y || 0) + 'px'); n.style.setProperty('--cube', size + 'px');
         const sig = `${a.v}|${a.t}`;
-        if (lastBox[id] !== sig){ c.innerHTML = cubeHTML(a.v, a.t); c.className = 'st-cube ' + tcls(a.t); if (lastBox[id]) c.classList.add('changed'); lastBox[id] = sig; }
+        if (lastBox[id] !== sig){ c.innerHTML = cubeHTML(a.v, a.t) + `<span class="st-pin"><b>${esc(a.v)}</b><i>${esc(a.t)}</i></span>`;c.className = 'st-cube ' + tcls(a.t); if (lastBox[id]) c.classList.add('changed'); lastBox[id] = sig; }
         c.classList.add('in');
         c.classList.toggle('gone', !!a.gone);
         c.classList.toggle('glow', !!a.glow);
@@ -149,7 +244,7 @@ export function story(el, spec){
       } else if (kind === 'shelf'){
         const w = a.w || 200, h = a.h || 80;
         n.style.cssText = `--x:${a.x || 0}px;--y:${a.y || 0}px;--w:${w}px;--h:${h}px`;
-        n.querySelector('.st-cells').innerHTML = a.slots ? Array.from({length: a.slots}, (_, k) => `<i>${a.labels ? esc(a.labels[k] ?? '') : k}</i>`).join('') : '';
+        n.querySelector('.st-cells').innerHTML = a.slots ? Array.from({length: a.slots}, (_, k) => `<i><span>${a.labels ? esc(a.labels[k] ?? '') : k}</span></i>`).join('') : '';
         n.querySelector('b').textContent = a.label || '';
         n.classList.toggle('alt', !!a.alt);
         n.classList.add('on');
@@ -177,13 +272,14 @@ export function story(el, spec){
     $$('.st-dots button').forEach((d, k) => { d.classList.toggle('on', k === i); d.classList.toggle('seen', k < i); });
     $('.st-prev').disabled = i === 0;
     $('.st-next').textContent = i === spec.scenes.length - 1 ? 'Replay ↺' : 'Next →';
+    lb.follow(reduced() ? 60 : 1700);
   }
   $('.st-next').onclick = () => { i = i === spec.scenes.length - 1 ? 0 : i + 1; draw(); };
   $('.st-prev').onclick = () => { if (i > 0){ i--; draw(); } };
   $$('.st-dots button').forEach(d => d.onclick = () => { i = +d.dataset.k; draw(); });
   if (reduced()) el.querySelector('.st').classList.add('still');
   draw();
-  return stopOrbit;
+  return () => { stopOrbit(); lb.stop(); };
 }
 
 /* ================= Game ================= */

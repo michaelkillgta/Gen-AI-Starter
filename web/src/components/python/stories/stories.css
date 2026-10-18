@@ -153,3 +153,36 @@
 .pyc .sg-q:empty { display: none; }
 
 .pyc .sg-world:has(.sg-card) .sg-arch i { opacity: .35; }
+
+/* ---------- sharp labels (see labels() in engine.js) ---------- */
+/* Text in the 3D room stays hidden: it only marks where each flat label goes. */
+.pyc .st-world .st-cube .f span, .pyc .st-world .st-puff, .pyc .st-world .st-tag > span,
+.pyc .st-world .st-note, .pyc .st-world .st-shelf > b, .pyc .st-world .st-cells i > span, .pyc .st-world .st-link > b { visibility: hidden; }
+.pyc .st-pin { position: absolute; left: 50%; top: 50%; width: 2px; height: 2px; margin: -1px; overflow: hidden; visibility: hidden; transform: translateZ(var(--cube)); }
+.pyc .st-labels { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.pyc .lb { position: absolute; left: 0; top: 0; white-space: nowrap; font: 700 12px/1.25 var(--f-mono); color: var(--ink); transition: opacity .25s; -webkit-font-smoothing: antialiased; }
+.pyc .lb-hide { opacity: 0; }
+.pyc .lb-cube { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 3px 7px 4px; border-radius: 7px; background: color-mix(in srgb, var(--sheet) 86%, transparent); border: 1px solid color-mix(in srgb, var(--tc, var(--line-2)) 70%, transparent); max-width: 140px; }
+.pyc .lb-cube b { font-size: 13px; overflow: hidden; text-overflow: ellipsis; max-width: 124px; }
+.pyc .lb-cube i { font-style: normal; font-size: 10.5px; font-weight: 700; color: var(--tc, var(--ink-3)); filter: brightness(.8); }
+.pyc .lb-cube.loose { border-style: dashed; }
+.pyc .lb-cube.glow { box-shadow: 0 0 14px color-mix(in srgb, var(--amber) 55%, transparent); }
+.pyc .lb-cube.lb-gone { background: none; border-color: transparent; color: var(--bad); animation: st-puff 1.6s ease-out forwards; }
+.pyc .lb-tag { padding: 4px 11px; border-radius: 999px; background: var(--fill); color: var(--on-fill); font-size: 13px; box-shadow: 0 6px 14px -6px rgba(0, 0, 0, .45); }
+.pyc .lb-tag::after { content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: var(--sl, 26px); margin-left: -1px; transform-origin: 50% 0; transform: rotate(var(--sa, 0rad)); background: var(--fill); opacity: .7; z-index: -1; }
+.pyc .lb-tag.lb-alt, .pyc .lb-tag.lb-alt::after { background: var(--blue); color: var(--sheet); }
+.pyc .lb-note { max-width: 240px; white-space: pre-wrap; text-align: center; padding: 6px 10px; border-radius: 10px; background: var(--code-bg); color: var(--code-str); border: 1px solid var(--amber); font-size: 12.5px; line-height: 1.35; }
+.pyc .lb-note.lb-bad { color: var(--code-err); border-color: var(--bad); }
+.pyc .lb-shelf { padding: 2px 8px; border-radius: 6px; background: var(--sheet); border: 1px solid var(--line-2); color: var(--ink-2); }
+.pyc .lb-cell { font-size: 11px; color: var(--ink-3); }
+.pyc .lb-link { padding: 1px 6px; border-radius: 5px; background: var(--sheet); color: var(--amber-ink); font-size: 11px; }
+.pyc .st.still .lb { transition: none !important; animation: none !important; }
+@media (max-width: 560px) {
+  .pyc .lb { font-size: 10.5px; }
+  .pyc .lb-cube { padding: 2px 5px 3px; gap: 1px; }
+  .pyc .lb-cube b { font-size: 11px; max-width: 96px; }
+  .pyc .lb-cube i { font-size: 9px; }
+  .pyc .lb-tag { padding: 3px 8px; font-size: 11px; }
+  .pyc .lb-note { max-width: 180px; padding: 4px 8px; font-size: 11px; }
+  .pyc .lb-cell, .pyc .lb-link { font-size: 9.5px; }
+}
