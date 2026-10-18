@@ -21,6 +21,17 @@ export function mountCourse(root, { toggleTheme }) {
   let S = P.S;
   const save = () => P.save();
   const TOTAL = Object.keys(L).length;
+  // Lesson tags: a small line icon plus a muted tint per kind.
+  const TAG_ICONS = {
+    play: '<path d="M6 7V3.8a1.2 1.2 0 0 1 2.4 0V7m0-1.2V3.2a1.2 1.2 0 0 1 2.4 0V7m0-2.4a1.2 1.2 0 0 1 2.4 0V9a5 5 0 0 1-5 5H8a4 4 0 0 1-3.3-1.8L2.6 9a1.2 1.2 0 0 1 2-1.3L6 9V4.4"/>',
+    story: '<path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5z"/><path d="M2.5 5 8 8.2 13.5 5M8 8.2v6"/>',
+    game: '<rect x="1.8" y="4.5" width="12.4" height="7.5" rx="3.2"/><path d="M5 7v2.5M3.8 8.2h2.5"/><circle cx="10.6" cy="7.4" r=".5" fill="currentColor"/><circle cx="11.9" cy="8.9" r=".5" fill="currentColor"/>',
+    lab: '<path d="M6 2h4M6.6 2v4.2L3 12.6A1 1 0 0 0 3.9 14h8.2a1 1 0 0 0 .9-1.4L9.4 6.2V2"/><path d="M4.6 10h6.8"/>',
+    core: '<path d="M9 1.5 3.5 9H8l-1 5.5L12.5 7H8z"/>',
+    tried: '<path d="m3 8.5 3.2 3L13 4.5"/>',
+    notes: '<path d="M4 2h6l2.5 2.5V14H4z"/><path d="M6 7h4.5M6 9.5h4.5"/>',
+  };
+  const tag = (kind, label) => `<span class="pill tg-${kind}"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TAG_ICONS[kind] || ''}</svg>${label}</span>`;
   const isExtra = s => s.k === 'lab' && /^(story|game|play)_/.test(s.w);
   const hasPlay = n => L[n].steps.some(s => s.k === 'lab' && /^play_/.test(s.w));
   const hasLab = n => L[n].steps.some(s => s.k === 'lab' && !isExtra(s));
@@ -78,7 +89,7 @@ export function mountCourse(root, { toggleTheme }) {
       return `<div class="part" id="part-${p.id}"><div class="part-side"><div class="roman">${p.roman}</div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="meta">${d}/${p.ch.length} learned · ${p.ch.reduce((a,n)=>a+L[n].mins,0)} min</div></div>
         <div class="chapters">${list.map(n => {
           const c = L[n], st = S.done[n] ? 'done' : (S.seen[n] ? 'partial' : '');
-          return `<button class="ch ${st}" data-ch="${n}"><span class="n"><span>Lesson ${n} · ${c.mins} min</span><span class="check" aria-hidden="true">✓</span></span><span class="t">${esc(c.t)}</span><span class="d">${esc(c.d)}</span><span class="badges">${hasPlay(n)?'<span class="pill play">Hands-on</span>':''}${hasStory(n)?'<span class="pill story">3D story</span>':''}${hasGame(n)?'<span class="pill game">Game</span>':''}${hasLab(n)?(S.labs[n]?'<span class="pill lab">Lab tried ✓</span>':'<span class="pill lab">Lab</span>'):''}${c.core?'<span class="pill core">Agent core</span>':''}${S.seen[n] && !S.done[n] ? `<span class="pill">step ${S.seen[n]+1}</span>` : ''}</span></button>`;
+          return `<button class="ch ${st}" data-ch="${n}"><span class="n"><span>Lesson ${n} · ${c.mins} min</span><span class="check" aria-hidden="true">✓</span></span><span class="t">${esc(c.t)}</span><span class="d">${esc(c.d)}</span><span class="badges">${hasPlay(n)?tag('play', 'Hands-on'):''}${hasStory(n)?tag('story', '3D story'):''}${hasGame(n)?tag('game', 'Game'):''}${hasLab(n)?(S.labs[n]?tag('tried', 'Lab tried'):tag('lab', 'Lab')):''}${c.core?tag('core', 'Agent core'):''}${S.seen[n] && !S.done[n] ? `<span class="pill">step ${S.seen[n]+1}</span>` : ''}</span></button>`;
         }).join('') || '<p class="mini">Nothing here for this filter.</p>'}</div></div>`;
     }).join('') + NEXT_PARTS.map(p => `<div class="part locked"><div class="part-side"><div class="roman" style="color:var(--ink-3)">${p.roman}</div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="meta">coming next</div></div>
         <div class="chapters">${p.items.map(it => `<div class="ch"><span class="n"><span>Planned</span></span><span class="t">${esc(it[0])}</span><span class="d">${esc(it[1])}</span></div>`).join('')}</div></div>`).join('');
@@ -157,7 +168,7 @@ export function mountCourse(root, { toggleTheme }) {
     let html = '';
     if (st.k === 'intro'){
       html = `<div class="kind read">Lesson ${cur} · ${c.mins} min · ${steps.length - 2} steps</div><h2>${esc(c.t)}</h2><div class="body"><p>${esc(c.d)}</p><p><b>After this lesson you can:</b></p></div><ul class="intro-goals">${c.goals.map(g => `<li>${esc(g)}</li>`).join('')}</ul>
-        <div class="row mini" style="gap:16px">${hasPlay(cur)?'<span class="pill play">Hands-on</span>':''}${hasStory(cur)?'<span class="pill story">3D story</span>':''}${hasGame(cur)?'<span class="pill game">Game</span>':''}${hasLab(cur)?'<span class="pill lab">Lab</span>':''}<span>${c.steps.filter(s=>s.k==='predict').length} predict questions</span><span>1 coding task</span></div>
+        <div class="row mini" style="gap:16px">${hasPlay(cur)?tag('play', 'Hands-on'):''}${hasStory(cur)?tag('story', '3D story'):''}${hasGame(cur)?tag('game', 'Game'):''}${hasLab(cur)?tag('lab', 'Lab'):''}<span>${c.steps.filter(s=>s.k==='predict').length} predict questions</span><span>1 coding task</span></div>
         <div class="master" style="margin-top:16px"><p>Want every detail first? The full notes for this lesson have all the examples, tables and practice questions.</p><button class="btn btn-ghost" id="toNotes">Read the full notes →</button></div>`;
     } else if (st.k === 'read'){
       html = `<div class="kind read">Read</div><h2>${esc(st.h)}</h2><div class="body">${st.b || ''}</div>${tableBlock(st.table)}${codeBlock(st.code, st.out)}${st.note ? `<div class="note">${esc(st.note)}</div>` : ''}${st.ai ? `<div class="note ai">${esc(st.ai)}</div>` : ''}`;
