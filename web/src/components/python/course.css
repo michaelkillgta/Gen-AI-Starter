@@ -557,3 +557,6 @@
 
 /* The Python pages sit on their own white (light) or midnight (dark) surface. */
 .pyc{background:var(--paper)}
+.pyc .pill.play{border-color:transparent;background:var(--amber);color:var(--on-accent)}
+.pyc .pill.story{color:color-mix(in srgb,var(--good) 78%,#000)}
+:root[data-theme="dark"] .pyc .pill.story{color:var(--good)}

@@ -1,0 +1,150 @@
+/* Hands-on lesson activities (play*.js). Loaded with the lesson that uses them. */
+.pyc .pl-intro { margin: 0 0 12px; color: var(--ink-2); font-size: 15px; line-height: 1.55; }
+.pyc .pl-k { font: 700 11px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-right: 8px; }
+.pyc .pl-fb { margin: 12px 0 0; min-height: 1.5em; color: var(--ink-2); line-height: 1.55; }
+.pyc .pl-fb .btn { margin-left: 8px; padding: 7px 13px; font-size: 13.5px; vertical-align: middle; }
+.pyc .pl-yes { color: var(--good); }
+.pyc .pl-no { color: var(--bad); }
+.pyc .pl-link { all: unset; cursor: pointer; font-size: 13.5px; color: var(--ink-3); text-decoration: underline; text-underline-offset: 3px; }
+.pyc .pl-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.pyc .pl-bar2 { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; }
+.pyc .pl-bar2 .btn { padding: 9px 15px; font-size: 14px; }
+.pyc .pl-cols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 760px) { .pyc .pl-cols { grid-template-columns: minmax(0, 1fr); } }
+.pyc .chipb.on { background: var(--fill); color: var(--on-fill); border-color: var(--fill); }
+.pyc .pl-shake { animation: pl-shake .4s; }
+@keyframes pl-shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@media (prefers-reduced-motion: reduce) { .pyc .pl-shake { animation: none; } }
+
+/* drag and drop */
+.pyc .pl-item { cursor: grab; touch-action: none; user-select: none; }
+.pyc .pl-item.pl-lift { opacity: .35; }
+.pyc .pl-item.pl-picked { outline: 2px solid var(--amber); outline-offset: 2px; }
+.pl-ghost { position: fixed; z-index: 9999; pointer-events: none; transform: rotate(-3deg) scale(1.05); box-shadow: 0 14px 30px -10px rgba(0,0,0,.45); opacity: .95; }
+.pyc .pl-drop.pl-hover { outline: 2px dashed var(--amber); outline-offset: 3px; }
+
+/* 1 · tag the box */
+.pyc .pl-line, .pyc .pl-tray { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.pyc .pl-code { font: 600 15px var(--f-mono); background: var(--code-bg); color: var(--code-fg); padding: 6px 12px; border-radius: 8px; }
+.pyc .pl-tag, .pl-ghost.pl-tag { all: unset; box-sizing: border-box; cursor: grab; padding: 6px 14px; border-radius: 999px; background: var(--fill); color: var(--on-fill); font: 700 14px var(--f-mono); }
+.pyc .pl-boxes { display: flex; flex-wrap: wrap; gap: 12px; min-height: 110px; padding: 12px; border-radius: var(--r-m); background: var(--sunk); }
+.pyc .pl-box { --tc: var(--line-2); width: 120px; min-height: 96px; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; border-radius: 10px; border: 2px solid var(--tc); background: color-mix(in srgb, var(--tc) 12%, var(--sheet)); transition: opacity .3s, transform .3s; }
+.pyc .pl-box.t-str { --tc: var(--amber); } .pyc .pl-box.t-int { --tc: var(--blue); } .pyc .pl-box.t-nonetype { --tc: var(--ink-3); } .pyc .pl-box.t-float { --tc: var(--good); }
+.pyc .pl-box.pl-new { box-shadow: 0 0 0 3px color-mix(in srgb, var(--amber) 35%, transparent); }
+.pyc .pl-box.pl-freed { opacity: .45; border-style: dashed; transform: scale(.94); }
+.pyc .pl-btype { font: 700 11px var(--f-mono); color: var(--ink-3); text-transform: uppercase; }
+.pyc .pl-bval { font: 700 15px var(--f-mono); color: var(--ink); word-break: break-all; text-align: center; }
+.pyc .pl-on { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+.pyc .pl-on i { font: 700 11px var(--f-mono); font-style: normal; padding: 2px 8px; border-radius: 999px; background: var(--fill); color: var(--on-fill); }
+.pyc .pl-on em { font-size: 11px; color: var(--ink-3); }
+.pyc .pl-types { margin-top: 8px; font-size: 13.5px; color: var(--ink-2); }
+
+/* 2 · type bins */
+.pyc .pl-vals { min-height: 50px; }
+.pyc .pl-chip, .pl-ghost.pl-chip { all: unset; box-sizing: border-box; cursor: grab; padding: 9px 16px; border-radius: 10px; background: var(--code-bg); color: var(--code-fg); font: 700 15px var(--f-mono); }
+.pyc .pl-bins { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 640px) { .pyc .pl-bins { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.pyc .pl-bin { --tc: var(--ink-2); min-height: 110px; border: 2px solid var(--tc); border-radius: var(--r-m); padding: 8px; background: color-mix(in srgb, var(--tc) 8%, var(--sheet)); }
+.pyc .pl-bin.t-str { --tc: var(--amber); } .pyc .pl-bin.t-int { --tc: var(--blue); } .pyc .pl-bin.t-float { --tc: var(--good); } .pyc .pl-bin.t-bool { --tc: var(--bad); } .pyc .pl-bin.t-nonetype { --tc: var(--ink-3); }
+.pyc .pl-bin > b { font: 700 13px var(--f-mono); color: var(--ink); }
+.pyc .pl-in { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.pyc .pl-in span { font: 600 12px var(--f-mono); padding: 2px 6px; border-radius: 6px; background: var(--sheet); border: 1px solid var(--line); }
+
+/* 3 · chunk lab */
+.pyc .pl-slider { display: block; margin-bottom: 10px; font-size: 14px; color: var(--ink-2); }
+.pyc .pl-slider input { display: block; width: 100%; margin-top: 4px; accent-color: var(--amber); }
+.pyc .pl-bar { display: flex; gap: 3px; height: 38px; margin: 6px 0 12px; }
+.pyc .pl-bar i { display: grid; place-items: center; min-width: 4px; border-radius: 6px; background: color-mix(in srgb, var(--amber) 70%, var(--sheet)); color: var(--on-accent); font: 700 11px var(--f-mono); font-style: normal; overflow: hidden; }
+.pyc .pl-bar .pl-rest { background: repeating-linear-gradient(45deg, var(--amber-soft) 0 6px, var(--sheet) 6px 12px); color: var(--amber-ink); border: 1.5px dashed var(--amber); }
+.pyc .pl-goals { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.pyc .pl-goals li { display: flex; gap: 10px; padding: 10px 12px; border-radius: var(--r-m); border: 1px solid var(--line); background: var(--sheet); font-size: 14px; color: var(--ink-2); }
+.pyc .pl-goals li span { font-weight: 700; color: var(--ink-3); }
+.pyc .pl-goals li.pl-met { border-color: var(--good); background: var(--good-soft); color: var(--ink); }
+.pyc .pl-goals li.pl-met span { color: var(--good); }
+
+/* 4 · pipeline */
+.pyc .pl-task, .pyc .pl-goal, .pyc .pl-level { padding: 10px 12px; border-radius: var(--r-m); background: var(--amber-soft); color: var(--ink); font-size: 14.5px; margin-bottom: 10px; }
+.pyc .pl-palette { display: flex; flex-wrap: wrap; gap: 6px; }
+.pyc .pl-pipe { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; padding: 10px; min-height: 52px; border: 1.5px dashed var(--line-2); border-radius: var(--r-m); }
+.pyc .pl-pipe .pl-in { font: 700 13px var(--f-mono); padding: 5px 10px; border-radius: 8px; background: var(--code-bg); color: var(--code-str); }
+.pyc .pl-arrow { color: var(--ink-3); }
+.pyc .pl-step { all: unset; cursor: pointer; font: 700 13px var(--f-mono); padding: 5px 10px; border-radius: 8px; background: var(--fill); color: var(--on-fill); }
+.pyc .pl-trace .term-out { margin-top: 10px; }
+.pyc .pl-trace i { color: var(--code-dim); font-style: normal; margin-left: 6px; }
+
+/* 5 · if gate */
+.pyc .pl-gate { position: relative; display: flex; align-items: center; justify-content: center; min-height: 130px; border-radius: var(--r-m); background: var(--sunk); overflow: hidden; }
+.pyc .pl-gatebar { position: absolute; left: 50%; top: 14px; bottom: 14px; width: 6px; margin-left: 70px; border-radius: 3px; background: var(--ink-3); }
+.pyc .pl-walker { display: flex; flex-direction: column; align-items: center; gap: 6px; transition: transform .8s ease, opacity .8s; }
+.pyc .pl-walker.pl-pass { transform: translateX(160px); opacity: .2; }
+.pyc .pl-walker.pl-block { transform: translateX(40px); animation: pl-shake .4s .5s; }
+.pyc .pl-val { font: 700 22px var(--f-mono); padding: 8px 16px; border-radius: 10px; background: var(--code-bg); color: var(--code-fg); }
+.pyc .pl-pair { margin: 0; padding: 8px 14px; border-radius: 10px; background: var(--code-bg); color: var(--code-fg); font: 600 14px var(--f-mono); }
+.pyc .pl-choice { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
+.pyc .pl-choice .btn { padding: 10px 16px; font-size: 14.5px; }
+
+/* 6 · slice ruler */
+.pyc .pl-ruler { position: relative; margin: 30px 0 10px; padding-bottom: 6px; }
+.pyc .pl-cells { display: flex; }
+.pyc .pl-cells span { flex: 1; display: flex; flex-direction: column; align-items: center; border: 1px solid var(--line); margin-left: -1px; padding: 6px 0 4px; background: var(--sheet); }
+.pyc .pl-cells span.pl-sel { background: var(--amber-soft); border-color: var(--amber); position: relative; z-index: 1; }
+.pyc .pl-cells b { font: 700 20px var(--f-mono); color: var(--ink); }
+.pyc .pl-cells i { font: 600 10.5px var(--f-mono); font-style: normal; color: var(--ink-3); }
+.pyc .pl-h { position: absolute; top: -26px; bottom: 0; width: 0; border-left: 3px solid var(--amber); cursor: ew-resize; touch-action: none; z-index: 2; }
+.pyc .pl-h::before { content: attr(data-h); position: absolute; top: 0; left: -1px; transform: translateX(-50%); font: 700 11px var(--f-mono); padding: 2px 6px; border-radius: 6px; background: var(--amber); color: var(--on-accent); white-space: nowrap; }
+.pyc .pl-hb { border-left-color: var(--blue); }
+.pyc .pl-hb::before { background: var(--blue); color: var(--sheet); top: auto; bottom: -24px; }
+.pyc .pl-ha::before { content: 'start'; } .pyc .pl-hb::before { content: 'stop'; }
+.pyc .pl-h { font-size: 0; }
+.pyc .pl-ctrl { display: flex; flex-wrap: wrap; gap: 14px; margin: 26px 0 10px; font-size: 13.5px; color: var(--ink-2); align-items: center; }
+.pyc .pl-ctrl span { display: inline-flex; gap: 4px; align-items: center; }
+
+/* 7 · robot loop */
+.pyc .pl-track { display: flex; gap: 4px; margin-bottom: 12px; }
+.pyc .pl-track span { flex: 1; aspect-ratio: 1; max-height: 64px; display: grid; place-items: center; position: relative; border-radius: 8px; background: var(--sunk); border: 1px solid var(--line); font-size: clamp(16px, 4vw, 26px); }
+.pyc .pl-track span i { position: absolute; bottom: 2px; right: 4px; font: 600 10px var(--f-mono); font-style: normal; color: var(--ink-3); }
+.pyc .pl-track .pl-doc { border-color: var(--amber); background: var(--amber-soft); }
+.pyc .pl-track .pl-wall { flex: .5; background: repeating-linear-gradient(45deg, var(--ink-3) 0 4px, transparent 4px 9px); font: 700 10px var(--f-mono); color: var(--sheet); writing-mode: vertical-rl; }
+.pyc .pl-prog { display: flex; flex-direction: column; }
+.pyc .pl-prog .pl-n { min-width: 24px; text-align: center; font: 700 16px var(--f-mono); }
+.pyc .pl-prog label { font-size: 14px; color: var(--ink-2); cursor: pointer; }
+.pyc .pl-src { margin: 0; }
+
+/* 8 · container sandbox */
+.pyc .pl-ops { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 10px; }
+.pyc .pl-cont { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 760px) { .pyc .pl-cont { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.pyc .pl-ct { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 6px; padding: 10px; border-radius: var(--r-m); border: 1.5px solid var(--line-2); background: var(--sheet); min-width: 0; }
+.pyc .pl-ct:hover { border-color: var(--amber); }
+.pyc .pl-ct:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.pyc .pl-ct b { font: 700 13px var(--f-mono); color: var(--ink); }
+.pyc .pl-ct code { font-size: 12.5px; word-break: break-word; white-space: normal; background: none; border: 0; padding: 0; }
+.pyc .pl-log { margin-top: 10px; min-height: 52px; }
+.pyc .pl-log .pl-no { color: var(--code-err); }
+.pyc .pl-race { margin-top: 12px; }
+.pyc .pl-lanes { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.pyc .pl-lanes div { display: grid; grid-template-columns: 40px 1fr 110px; gap: 8px; align-items: center; font: 600 12.5px var(--f-mono); color: var(--ink-2); }
+.pyc .pl-lanes i { display: block; height: 10px; width: 0; border-radius: 5px; background: var(--amber); }
+.pyc .pl-lanes .pl-lane-s { background: var(--good); }
+
+/* 9 · path finder */
+.pyc .pl-tree { font: 13.5px var(--f-mono); max-height: 380px; overflow: auto; padding: 8px; border: 1px solid var(--line); border-radius: var(--r-m); background: var(--sheet); }
+.pyc .pl-tree ul { list-style: none; margin: 0; padding-left: 18px; border-left: 1px dashed var(--line-2); }
+.pyc .pl-node { all: unset; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline; padding: 3px 6px; border-radius: 6px; flex-wrap: wrap; }
+.pyc .pl-node:hover { background: var(--sunk); }
+.pyc .pl-node.on { background: var(--amber-soft); outline: 1.5px solid var(--amber); }
+.pyc .pl-node:focus-visible { outline: 2px solid var(--amber); }
+.pyc .pl-key { font-weight: 700; color: var(--ink); }
+.pyc .pl-tv { --tc: var(--ink-3); font-size: 10.5px; font-weight: 700; color: var(--tc); text-transform: uppercase; }
+.pyc .pl-tv.t-str { --tc: var(--amber-ink); } .pyc .pl-tv.t-int { --tc: var(--blue); } .pyc .pl-tv.t-list, .pyc .pl-tv.t-dict { --tc: var(--good); }
+.pyc .pl-lv { color: var(--ink-3); }
+.pyc .pl-path { min-height: 70px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* 10 · copy lab */
+.pyc .pl-wires { margin-top: 10px; padding: 12px; border-radius: var(--r-m); background: var(--sunk); display: flex; flex-direction: column; gap: 8px; }
+.pyc .pl-wrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.pyc .pl-name { font: 700 14px var(--f-mono); padding: 4px 12px; border-radius: 999px; background: var(--fill); color: var(--on-fill); }
+.pyc .pl-w { color: var(--ink-3); font-weight: 700; }
+.pyc .pl-list { font: 600 13px var(--f-mono); padding: 6px 10px; border-radius: 8px; border: 1.5px solid var(--line-2); background: var(--sheet); display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pyc .pl-d { padding: 2px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); }
+.pyc .pl-shared { border-color: var(--amber) !important; background: var(--amber-soft) !important; }

@@ -27,6 +27,7 @@ L[1] = {t:'Variables, objects and type()', d:'A variable is a name that points t
  goals:['Create variables and know what = really does','Understand that the type belongs to the object, not the name','Use type() to debug agent inputs and API responses'],
  steps:[
   lab('Story: The object warehouse', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_1'),
+  lab('Hands-on: Tag the box', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_1'),
   rd('Dynamic typing: the type lives on the object', `<p>A name can point to objects of different types at different times. This is <b>dynamic typing</b>.</p><p>Python still has types. Every object has one. The name just does not keep a permanent type.</p>`, R`x = 10        # x -> int object
 x = "Hello"   # x -> str object
 x = 3.14      # x -> float object
@@ -55,6 +56,7 @@ L[2] = {t:'Data types: int, float, str, bool, None', d:'The five primitives insi
  goals:['Know the five basic types and when each appears','Read an LLM config and name every type','Understand None as "no value yet"'],
  steps:[
   lab('Story: Unpacking an LLM reply', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_2'),
+  lab('Hands-on: Sort the reply', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_2'),
   rd('Five types you will see every day', `<p>Almost every value in an LLM request is one of five basic types.</p>`, null, null, {table:[['Type','Example','In an agent'],['int','max_tokens = 500','token limits, retries, top_k'],['float','temperature = 0.2','temperature, scores, cost'],['str','model = "gpt-4o-mini"','prompts, model names, roles'],['bool','stream = True','feature flags, is_done'],['None','tool_choice = None','"no value yet", missing result']]}),
   lab('Sort the values', `<p>Each value has exactly one type. Pick it. Watch for the traps: quotes make a string, and <code>True</code> has a capital T.</p>`, 'types'),
   rd('str and the quote trap', `<p>Anything inside quotes is a string, even if it looks like a number. <code>"42"</code> is text with two characters. You cannot add it to the number <code>42</code>.</p>`, R`print("42" + "42")
@@ -85,6 +87,7 @@ L[3] = {t:'Operators: / vs //, %, **', d:'The maths behind chunk sizes, pages an
  goals:['Know the difference between / and //','Use % for remainders and ** for powers','Combine comparison and logical operators'],
  steps:[
   lab('Story: Chunking a document', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_3'),
+  lab('Hands-on: Chunk lab', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_3'),
   rd('Two kinds of division', `<p><code>/</code> is true division. It always gives a float. <code>//</code> is floor division. It drops the decimal part and rounds down.</p><p><code>%</code> gives the remainder. <code>**</code> is power.</p>`, R`print(17 / 5)    # true division
 print(17 // 5)   # floor division
 print(17 % 5)    # remainder
@@ -121,6 +124,7 @@ L[4] = {t:'Type conversion: int(), float(), str(), bool()', d:'Turn env vars and
  goals:['Convert between str, int, float and bool','Know which conversions fail with ValueError','Handle a failed conversion safely'],
  steps:[
   lab('Story: The conversion machines', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_4'),
+  lab('Hands-on: Conversion pipeline', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_4'),
   rd('Why convert?', `<p>Many values arrive as text. <code>input()</code> returns a string. Environment variables are strings. LLM output is a string. Before you do maths, you convert.</p>`, R`retries = "3"           # from an env var
 print(retries + 1)`, R`TypeError: can only concatenate str (not "int") to str`),
   lab('Conversion lab', `<p>Type any text. See what each conversion gives you. Try <code>3.5</code>, <code>abc</code>, an empty box and <code>False</code>.</p>`, 'convert'),
@@ -153,6 +157,7 @@ L[5] = {t:'Truthy, falsy, and is vs ==', d:'How if decides, and how to check Non
  goals:['Know which values Python treats as False','Write short checks like if reply.get("tool_call"):','Know when to use is and when to use =='],
  steps:[
   lab('Story: The if gate', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_5'),
+  lab('Hands-on: The if gate', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_5'),
   rd('Every value is truthy or falsy', `<p>An <code>if</code> does not need a bool. Python asks each value: are you truthy or falsy?</p><p>Falsy values: <code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>[]</code>, <code>{}</code>, <code>set()</code>. Everything else is truthy.</p>`, R`messages = []
 if not messages:
     print("No history yet")`, R`No history yet`),
@@ -193,6 +198,7 @@ L[6] = {t:'Strings, slicing and f-strings', d:'Prompts are strings. Learn to cut
  goals:['Slice strings with start, stop and step','Use split, join, strip and replace','Build prompts with f-strings and multi-line strings'],
  steps:[
   lab('Story: Cutting a prompt', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_6'),
+  lab('Hands-on: Slice ruler', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_6'),
   rd('A string is a sequence of characters', `<p>Each character has a position called an index. Indexes start at <code>0</code>. Negative indexes count from the end: <code>-1</code> is the last character.</p>`, R`s = "Python"
 print(s[0], s[-1], len(s))`, R`P n 6`),
   lab('Slicing playground', `<p>A slice is <code>s[start:stop:step]</code>. The start is included. The stop is not. Change the numbers, or click a preset.</p>`, 'slice'),
@@ -235,6 +241,7 @@ L[7] = {t:'Control flow: if, for, while, break, continue', d:'An agent is a boun
  goals:['Make decisions with if / elif / else','Loop with for and while, and control them with break and continue','Understand the rare for ... else'],
  steps:[
   lab('Story: The agent loop', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_7'),
+  lab('Hands-on: Robot loop', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_7'),
   rd('if, elif, else', `<p>Python runs the first block whose condition is true. Indentation (4 spaces) shows which lines belong to the block.</p>`, R`score = 0.72
 if score > 0.8:
     print("high relevance")
@@ -289,6 +296,7 @@ L[8] = {t:'Collections: list, tuple, dict, set', d:'Which container to use, and 
  goals:['Choose between list, tuple, dict and set','Use the common methods of each','Understand O(1) vs O(n) lookups'],
  steps:[
   lab('Story: Four kinds of shelves', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_8'),
+  lab('Hands-on: Container sandbox', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_8'),
   rd('Four containers', `<p>Each collection answers a different need.</p>`, null, null, {table:[['Type','Looks like','Ordered','Changeable','Use it for'],['list','[1, 2, 3]','yes','yes','chat history, results'],['tuple','(1, 2)','yes','no','fixed pairs, dict keys'],['dict','{"role": "user"}','yes (3.7+)','yes','JSON payloads, configs'],['set','{"a", "b"}','no','yes','unique IDs, fast "in"']]}),
   rd('list and dict in agent code', `<p>A list keeps items in order. A dict maps keys to values. Chat history is a list of dicts.</p>`, R`messages = []
 messages.append({"role": "user", "content": "Hi"})
@@ -324,6 +332,7 @@ L[9] = {t:'Nested structures: chat history and LLM responses', d:'Lists of dicts
  goals:['Read deep values with chained [ ] access','Add messages to chat history','Avoid KeyError and IndexError on real responses'],
  steps:[
   lab('Story: Walking a nested reply', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_9'),
+  lab('Hands-on: Path finder', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_9'),
   rd('Chat history is a list of dicts', `<p>Each message is a dict with a <code>role</code> and <code>content</code>. The history is a list of these dicts, in order.</p>`, R`history = [
     {"role": "system", "content": "You are a tutor."},
     {"role": "user", "content": "What is RAG?"},
@@ -358,6 +367,7 @@ L[10] = {t:'Mutable vs immutable, references and copies', d:'Why one change can 
  goals:['Know which types can change in place','Understand that = copies the reference, not the object','Choose between a shallow and a deep copy'],
  steps:[
   lab('Story: Shared boxes', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_10'),
+  lab('Hands-on: Copy lab', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_10'),
   rd('Mutable and immutable', `<p>A <b>mutable</b> object can change in place: list, dict, set. An <b>immutable</b> object cannot: int, float, str, bool, None, tuple.</p><p>When you "change" a string, Python makes a new string.</p>`, R`s = "hi"
 t = s.upper()     # new object
 print(s, t)

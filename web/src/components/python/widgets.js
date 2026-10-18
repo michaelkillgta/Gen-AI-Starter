@@ -54,6 +54,8 @@ const STORY_PARTS = [
   [38, () => import('./stories/part5.js')],
 ];
 const partFile = n => STORY_PARTS.find(([last]) => n <= last)[1];
+// Hands-on activities: a different mechanic per lesson.
+for (let n = 1; n <= 10; n++) W['play_' + n] = lazyWidget(() => import('./stories/play1.js'), 'mountPlay', n);
 for (let n = 1; n <= 38; n++){
   W['story_' + n] = lazyWidget(partFile(n), 'mountStory', n);
   W['game_' + n] = lazyWidget(partFile(n), 'mountGame', n);

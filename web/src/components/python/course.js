@@ -21,7 +21,8 @@ export function mountCourse(root, { toggleTheme }) {
   let S = P.S;
   const save = () => P.save();
   const TOTAL = Object.keys(L).length;
-  const isExtra = s => s.k === 'lab' && /^(story|game)_/.test(s.w);
+  const isExtra = s => s.k === 'lab' && /^(story|game|play)_/.test(s.w);
+  const hasPlay = n => L[n].steps.some(s => s.k === 'lab' && /^play_/.test(s.w));
   const hasLab = n => L[n].steps.some(s => s.k === 'lab' && !isExtra(s));
   const hasStory = n => L[n].steps.some(s => s.k === 'lab' && /^story_/.test(s.w));
   const hasGame = n => L[n].steps.some(s => s.k === 'lab' && /^game_/.test(s.w));
@@ -77,7 +78,7 @@ export function mountCourse(root, { toggleTheme }) {
       return `<div class="part" id="part-${p.id}"><div class="part-side"><div class="roman">${p.roman}</div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="meta">${d}/${p.ch.length} learned · ${p.ch.reduce((a,n)=>a+L[n].mins,0)} min</div></div>
         <div class="chapters">${list.map(n => {
           const c = L[n], st = S.done[n] ? 'done' : (S.seen[n] ? 'partial' : '');
-          return `<button class="ch ${st}" data-ch="${n}"><span class="n"><span>Lesson ${n} · ${c.mins} min</span><span class="check" aria-hidden="true">✓</span></span><span class="t">${esc(c.t)}</span><span class="d">${esc(c.d)}</span><span class="badges">${hasStory(n)?'<span class="pill story">3D STORY</span>':''}${hasGame(n)?'<span class="pill game">GAME</span>':''}${hasLab(n)?(S.labs[n]?'<span class="pill lab">LAB TRIED ✓</span>':'<span class="pill lab">INTERACTIVE LAB</span>'):''}${c.core?'<span class="pill core">AGENT CORE</span>':''}${S.seen[n] && !S.done[n] ? `<span class="pill">step ${S.seen[n]+1}</span>` : ''}</span></button>`;
+          return `<button class="ch ${st}" data-ch="${n}"><span class="n"><span>Lesson ${n} · ${c.mins} min</span><span class="check" aria-hidden="true">✓</span></span><span class="t">${esc(c.t)}</span><span class="d">${esc(c.d)}</span><span class="badges">${hasPlay(n)?'<span class="pill play">HANDS-ON</span>':''}${hasStory(n)?'<span class="pill story">3D STORY</span>':''}${hasGame(n)?'<span class="pill game">GAME</span>':''}${hasLab(n)?(S.labs[n]?'<span class="pill lab">LAB TRIED ✓</span>':'<span class="pill lab">INTERACTIVE LAB</span>'):''}${c.core?'<span class="pill core">AGENT CORE</span>':''}${S.seen[n] && !S.done[n] ? `<span class="pill">step ${S.seen[n]+1}</span>` : ''}</span></button>`;
         }).join('') || '<p class="mini">Nothing here for this filter.</p>'}</div></div>`;
     }).join('') + NEXT_PARTS.map(p => `<div class="part locked"><div class="part-side"><div class="roman" style="color:var(--ink-3)">${p.roman}</div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="meta">coming next</div></div>
         <div class="chapters">${p.items.map(it => `<div class="ch"><span class="n"><span>Planned</span></span><span class="t">${esc(it[0])}</span><span class="d">${esc(it[1])}</span></div>`).join('')}</div></div>`).join('');
@@ -156,12 +157,12 @@ export function mountCourse(root, { toggleTheme }) {
     let html = '';
     if (st.k === 'intro'){
       html = `<div class="kind read">Lesson ${cur} · ${c.mins} min · ${steps.length - 2} steps</div><h2>${esc(c.t)}</h2><div class="body"><p>${esc(c.d)}</p><p><b>After this lesson you can:</b></p></div><ul class="intro-goals">${c.goals.map(g => `<li>${esc(g)}</li>`).join('')}</ul>
-        <div class="row mini" style="gap:16px">${hasStory(cur)?'<span class="pill story">3D STORY</span>':''}${hasGame(cur)?'<span class="pill game">GAME</span>':''}${hasLab(cur)?'<span class="pill lab">INTERACTIVE LAB</span>':''}<span>${c.steps.filter(s=>s.k==='predict').length} predict questions</span><span>1 coding task</span></div>
+        <div class="row mini" style="gap:16px">${hasPlay(cur)?'<span class="pill play">HANDS-ON</span>':''}${hasStory(cur)?'<span class="pill story">3D STORY</span>':''}${hasGame(cur)?'<span class="pill game">GAME</span>':''}${hasLab(cur)?'<span class="pill lab">INTERACTIVE LAB</span>':''}<span>${c.steps.filter(s=>s.k==='predict').length} predict questions</span><span>1 coding task</span></div>
         <div class="master" style="margin-top:16px"><p>Want every detail first? The full notes for this lesson have all the examples, tables and practice questions.</p><button class="btn btn-ghost" id="toNotes">Read the full notes →</button></div>`;
     } else if (st.k === 'read'){
       html = `<div class="kind read">Read</div><h2>${esc(st.h)}</h2><div class="body">${st.b || ''}</div>${tableBlock(st.table)}${codeBlock(st.code, st.out)}${st.note ? `<div class="note">${esc(st.note)}</div>` : ''}${st.ai ? `<div class="note ai">${esc(st.ai)}</div>` : ''}`;
     } else if (st.k === 'lab'){
-      html = `<div class="kind lab">${/^story_/.test(st.w) ? '3D story' : /^game_/.test(st.w) ? 'Game' : 'Interactive lab'}</div><h2>${esc(st.h)}</h2><div class="body">${st.b || ''}</div><div id="wmount"></div>${st.note ? `<div class="note">${esc(st.note)}</div>` : ''}`;
+      html = `<div class="kind lab">${/^story_/.test(st.w) ? '3D story' : /^game_/.test(st.w) ? 'Game' : /^play_/.test(st.w) ? 'Hands-on' : 'Interactive lab'}</div><h2>${esc(st.h)}</h2><div class="body">${st.b || ''}</div><div id="wmount"></div>${st.note ? `<div class="note">${esc(st.note)}</div>` : ''}`;
     } else if (st.k === 'predict'){
       const a = answered[idx];
       html = `<div class="kind predict">Predict first</div><h2>${esc(st.q)}</h2>${st.code ? `<div class="code"><div class="chead"><span>Python</span><span>run it in your head</span></div><pre>${hlPy(st.code)}</pre></div>` : ''}
