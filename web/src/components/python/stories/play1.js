@@ -70,14 +70,14 @@ function dragDrop(root, itemSel, targetSel, onDrop){
 /* ======================= 1 · Tag the box ======================= */
 function lesson1(el){
   const STEPS = [
-    {code: 'model = "gpt-4o"', tag: 'model', make: {v: '"gpt-4o"', t: 'str'}, why: 'Python builds the str box first, then ties the name to it.'},
-    {code: 'tokens = 512', tag: 'tokens', make: {v: '512', t: 'int'}, why: 'A new int box, and the tag tokens goes on it.'},
-    {code: 'limit = tokens', tag: 'limit', same: 'tokens', why: 'No new box. = copies the arrow, so limit points to the same box as tokens.'},
-    {code: 'tokens = "512"', tag: 'tokens', make: {v: '"512"', t: 'str'}, why: 'A new str box. Only the tokens tag moves; limit stays on the int.'},
-    {code: 'limit = None', tag: 'limit', make: {v: 'None', t: 'NoneType'}, why: 'limit moves to None. Nobody holds the int 512 now, so Python frees it.'},
+    {code: 'team = "CSK"', tag: 'team', make: {v: '"CSK"', t: 'str'}, why: 'Python builds the str box first, then ties the name to it.'},
+    {code: 'jersey = 7', tag: 'jersey', make: {v: '7', t: 'int'}, why: 'A new int box, and the tag jersey goes on it.'},
+    {code: 'lucky = jersey', tag: 'lucky', same: 'jersey', why: 'No new box. = copies the arrow, so lucky points to the same box as jersey.'},
+    {code: 'jersey = "7"', tag: 'jersey', make: {v: '"7"', t: 'str'}, why: 'The sign-up form sent text, so this is a new str box. Only the jersey tag moves; lucky stays on the int.'},
+    {code: 'lucky = None', tag: 'lucky', make: {v: 'None', t: 'NoneType'}, why: 'lucky moves to None. Nobody holds the int 7 now, so Python frees it.'},
   ];
   let i = 0, boxes = [], tags = {}, tries = 0, wrong = 0;
-  const root = shell(el, 'Tag the box', 'Each line of code arrives below. Drag its name tag onto the box it should point to. Watch for lines that make a <b>new</b> box and lines that do not.',
+  const root = shell(el, 'Tag the box', 'Divya is coding her cricket club app. Each line of code arrives below. Drag its name tag onto the box it should point to. Watch for lines that make a <b>new</b> box and lines that do not.',
     `<div class="pl-line"><span class="pl-k">Line</span><code class="pl-code"></code></div>
      <div class="pl-tray"><span class="pl-k">Name tag</span><div class="pl-tags"></div></div>
      <div class="pl-boxes"></div>
@@ -123,14 +123,14 @@ function lesson1(el){
 /* ======================= 2 · Type bins ======================= */
 function lesson2(el){
   const ITEMS = [
-    ['"Paris"', 'str', 'Quotes make a str.'], ['42', 'int', 'Whole number, no quotes.'], ['0.7', 'float', 'Decimal point.'],
-    ['True', 'bool', 'Capital T, no quotes.'], ['None', 'None', 'No value at all.'], ['"42"', 'str', 'Quotes win: text that looks like a number.'],
-    ['3.0', 'float', 'Still a float: it has a point.'], ['"False"', 'str', 'In quotes, so text.'], ['-1', 'int', 'Negative whole numbers are int.'],
-    ['1e3', 'float', 'Scientific notation is always float.'], ['""', 'str', 'An empty string is still a str.'], ['False', 'bool', 'A real bool.'],
+    ['"Masala Dosa"', 'str', 'Quotes make a str.'], ['2', 'int', 'A whole number with no quotes: the quantity.'], ['89.5', 'float', 'A decimal point: the price.'],
+    ['True', 'bool', 'Capital T, no quotes: paid.'], ['None', 'None', 'No value at all: no coupon.'], ['"249"', 'str', 'Quotes win: a price typed as text.'],
+    ['110.0', 'float', 'Still a float: it has a point.'], ['"False"', 'str', 'In quotes, so text.'], ['-50', 'int', 'A refund of ₹50 stored as a negative whole number.'],
+    ['1e3', 'float', 'Scientific notation is always float.'], ['""', 'str', 'An empty note to the restaurant is still a str.'], ['False', 'bool', 'A real bool: not delivered yet.'],
   ];
   const BINS = ['str', 'int', 'float', 'bool', 'None'];
   let queue = [], placed = {}, ok = 0, bad = 0;
-  const root = shell(el, 'Sort the reply', 'These values came back in an LLM reply. Drag each one into the bin for its type. Three at a time arrive on the tray.',
+  const root = shell(el, 'Sort the order', 'These values came from a food delivery order in Hyderabad. Drag each one into the bin for its type. Three at a time arrive on the tray.',
     `<div class="pl-tray pl-vals"></div><div class="pl-bins">${BINS.map(b => `<div class="pl-bin pl-drop t-${b === 'None' ? 'nonetype' : b}" data-bin="${b}"><b>${b === 'None' ? 'NoneType' : b}</b><div class="pl-in"></div></div>`).join('')}</div><p class="pl-fb" aria-live="polite"></p>`);
   const reset = () => { queue = ITEMS.map((x, k) => ({k, v: x[0], t: x[1], why: x[2]})).sort(() => Math.random() - .5); placed = {}; ok = bad = 0; draw(); q('.pl-fb', root).textContent = ''; };
   const draw = () => {
@@ -150,29 +150,29 @@ function lesson2(el){
   return stop;
 }
 
-/* ======================= 3 · Chunk lab ======================= */
+/* ======================= 3 · Bill splitter ======================= */
 function lesson3(el){
   const GOALS = [
-    ['Exactly 4 full chunks and no leftover', (t, s) => Math.floor(t / s) === 4 && t % s === 0],
-    ['A leftover of exactly 100 tokens', (t, s) => t % s === 100],
-    ['3 calls when rounded up, but only 2 full chunks', (t, s) => Math.floor(t / s) === 2 && t % s > 0],
-    ['total / size gives exactly 2.5', (t, s) => t / s === 2.5],
+    ['Everyone pays the same and nothing is left over', (b, f) => f >= 3 && b % f === 0],
+    ['Exactly ₹2 is left over', (b, f) => b % f === 2],
+    ['Each pays exactly ₹250', (b, f) => b / f === 250],
+    ['bill / friends gives 312.5', (b, f) => b / f === 312.5],
   ];
-  const root = shell(el, 'Chunk lab', 'Slide the document length and the chunk size. The bar splits into chunks live. Then hit each goal on the right.',
+  const root = shell(el, 'Bill splitter', 'Friends from a hostel in Bengaluru eat out. Slide the bill and the number of friends. The bar splits into shares live. Then hit each goal on the right.',
     `<div class="pl-cols"><div>
-      <label class="pl-slider">Document: <b class="pl-t"></b> tokens<input type="range" min="100" max="3000" step="10" value="1250" class="pl-rt" aria-label="Document length in tokens"></label>
-      <label class="pl-slider">Chunk size: <b class="pl-s"></b> tokens<input type="range" min="128" max="1024" step="32" value="512" class="pl-rs" aria-label="Chunk size in tokens"></label>
+      <label class="pl-slider">Bill: ₹<b class="pl-t"></b><input type="range" min="100" max="5000" step="10" value="1250" class="pl-rt" aria-label="Bill in rupees"></label>
+      <label class="pl-slider">Friends: <b class="pl-s"></b><input type="range" min="2" max="12" step="1" value="4" class="pl-rs" aria-label="Number of friends"></label>
       <div class="pl-bar" aria-hidden="true"></div>
       <div class="term-out pl-calc"></div></div>
       <ul class="pl-goals"></ul></div>`);
   const t$ = q('.pl-rt', root), s$ = q('.pl-rs', root);
   const draw = () => {
-    const t = +t$.value, s = +s$.value, full = Math.floor(t / s), rest = t % s, calls = Math.ceil(t / s);
-    q('.pl-t', root).textContent = t; q('.pl-s', root).textContent = s;
-    q('.pl-bar', root).innerHTML = Array.from({length: full}, () => `<i style="flex:${s}">${s}</i>`).join('') + (rest ? `<i class="pl-rest" style="flex:${rest}">${rest}</i>` : '');
-    q('.pl-calc', root).innerHTML = `<span class="p">&gt;&gt;&gt;</span> ${t} / ${s}\n${floatRepr(t / s)}\n<span class="p">&gt;&gt;&gt;</span> ${t} // ${s}   <span class="c"># full chunks</span>\n${full}\n<span class="p">&gt;&gt;&gt;</span> ${t} % ${s}    <span class="c"># leftover tokens</span>\n${rest}\n<span class="p">&gt;&gt;&gt;</span> (${t} + ${s} - 1) // ${s}   <span class="c"># API calls</span>\n${calls}`;
+    const b = +t$.value, f = +s$.value, each = Math.floor(b / f), rest = b % f, up = Math.ceil(b / f);
+    q('.pl-t', root).textContent = b.toLocaleString('en-IN'); q('.pl-s', root).textContent = f;
+    q('.pl-bar', root).innerHTML = Array.from({length: f}, () => `<i style="flex:${each}">₹${each}</i>`).join('') + (rest ? `<i class="pl-rest" style="flex:${Math.max(rest, each * .25)}">₹${rest}</i>` : '');
+    q('.pl-calc', root).innerHTML = `<span class="p">&gt;&gt;&gt;</span> ${b} / ${f}   <span class="c"># exact share</span>\n${floatRepr(b / f)}\n<span class="p">&gt;&gt;&gt;</span> ${b} // ${f}  <span class="c"># whole rupees each</span>\n${each}\n<span class="p">&gt;&gt;&gt;</span> ${b} % ${f}   <span class="c"># rupees left over</span>\n${rest}\n<span class="p">&gt;&gt;&gt;</span> (${b} + ${f} - 1) // ${f}   <span class="c"># round up so nobody is short</span>\n${up}`;
     let done = 0;
-    q('.pl-goals', root).innerHTML = GOALS.map(([txt, f]) => { const ok = f(t, s); done += ok; return `<li class="${ok ? 'pl-met' : ''}"><span>${ok ? '✓' : '○'}</span>${txt}</li>`; }).join('');
+    q('.pl-goals', root).innerHTML = GOALS.map(([txt, fn]) => { const ok = fn(b, f); done += ok; return `<li class="${ok ? 'pl-met' : ''}"><span>${ok ? '✓' : '○'}</span>${txt}</li>`; }).join('');
     q('.pl-score', root).textContent = `${done}/${GOALS.length} goals met right now`;
   };
   t$.oninput = s$.oninput = draw; draw();
@@ -514,5 +514,5 @@ function lesson10(el){
 }
 
 const ALL = {1: lesson1, 2: lesson2, 3: lesson3, 4: lesson4, 5: lesson5, 6: lesson6, 7: lesson7, 8: lesson8, 9: lesson9, 10: lesson10};
-export const TITLES = {1: 'Tag the box', 2: 'Sort the reply', 3: 'Chunk lab', 4: 'Conversion pipeline', 5: 'The if gate', 6: 'Slice ruler', 7: 'Robot loop', 8: 'Container sandbox', 9: 'Path finder', 10: 'Copy lab'};
+export const TITLES = {1: 'Tag the box', 2: 'Sort the order', 3: 'Bill splitter', 4: 'Conversion pipeline', 5: 'The if gate', 6: 'Slice ruler', 7: 'Robot loop', 8: 'Container sandbox', 9: 'Path finder', 10: 'Copy lab'};
 export const mountPlay = (n, el) => ALL[n](el);

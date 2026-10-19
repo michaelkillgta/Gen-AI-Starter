@@ -140,8 +140,8 @@ W.types = el => {
 /* ---- ch3: operators ---- */
 W.ops = el => {
   el.innerHTML = frame('operator calculator', `<div class="col">
-    <div class="row"><label class="lbl">a<input class="inp" id="op-a" type="number" value="17" step="1" style="width:110px"></label><label class="lbl">b<input class="inp" id="op-b" type="number" value="5" step="1" style="width:110px"></label>
-    <span class="row" style="margin-left:auto">${[[17,5],[-7,2],[1300,512],[2,10],[9,0]].map(p=>`<button class="chipb" data-p="${p}">${p[0]}, ${p[1]}</button>`).join('')}</span></div>
+    <div class="row"><label class="lbl">a<input class="inp" id="op-a" type="number" value="1250" step="1" style="width:110px"></label><label class="lbl">b<input class="inp" id="op-b" type="number" value="4" step="1" style="width:110px"></label>
+    <span class="row" style="margin-left:auto">${[[1250,4],[128,6],[-7,2],[2,10],[9,0]].map(p=>`<button class="chipb" data-p="${p}">${p[0]}, ${p[1]}</button>`).join('')}</span></div>
     <div class="tablewrap"><table class="cmp" id="op-t"></table></div></div>`);
   const fmt = v => typeof v === 'bigint' ? v.toString() : v;
   function calc(){

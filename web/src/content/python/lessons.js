@@ -23,102 +23,132 @@ const NEXT_PARTS = [
 const L = {};
 
 /* ================= PART I ================= */
-L[1] = {t:'Variables, objects and type()', d:'A variable is a name that points to an object.', mins:12, core:true,
- goals:['Create variables and know what = really does','Understand that the type belongs to the object, not the name','Use type() to debug agent inputs and API responses'],
+L[1] = {t:'Variables, objects and type()', d:'A variable is a name tag on a value.', mins:25, core:true,
+ goals:['Create variables and know what = really does','Understand that the type belongs to the value, not the name','Use type() to check what a value really is'],
  steps:[
-  lab('Story: The object warehouse', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_1'),
-  lab('Hands-on: Tag the box', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_1'),
-  rd('Dynamic typing: the type lives on the object', `<p>A name can point to objects of different types at different times. This is <b>dynamic typing</b>.</p><p>Python still has types. Every object has one. The name just does not keep a permanent type.</p>`, R`x = 10        # x -> int object
-x = "Hello"   # x -> str object
-x = 3.14      # x -> float object
-print(type(x))`, R`<class 'float'>`),
-  pr(R`x = 5
-x = "AI"
-print(x)`, 'What does this print?', ['5','AI','An error'], 1, 'The second line makes x point to a new string object. The old object 5 is no longer used by x.'),
-  rd('Why this matters in GenAI code', `<p>Different types support different operations. A string has <code>.upper()</code>. An integer does not. When an agent gets a value from a tool or an API, check the type first.</p>`, R`user_query = 123
-print(user_query.upper())`, R`AttributeError: 'int' object has no attribute 'upper'`, {ai:'Engineering rule: when code fails unexpectedly, run print(type(value)) first. It finds most bugs in agent inputs, tool outputs and API responses.'}),
-  pr(R`score = 98.5
-print(type(score))`, 'What does type(score) return?', ["<class 'int'>","<class 'str'>","<class 'float'>"], 2, 'A number with a decimal point is a float object.'),
+  lab('Story: Divya\'s cricket club app', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_1'),
+  lab('Hands-on: Tag the box', ``, 'play_1'),
+  rd('A variable is a name tag on a value', `<p>Karthik supports CSK. In Python he writes <code>team = "CSK"</code>. Python makes the value <code>"CSK"</code> first, then ties the name <code>team</code> to it, like a name tag.</p><p><code>type()</code> tells you what kind of value the tag points to.</p>`, R`team = "CSK"
+print(team)
+print(type(team))`, R`CSK
+<class 'str'>`, {note:'In Python, = does not mean "equals" like in maths. It means "tie this name to this value".'}),
+  rd('Dynamic typing: the tag can move', `<p>The same name can point to different kinds of values over time. This is <b>dynamic typing</b>. The type belongs to the value, not to the name.</p>`, R`jersey = 7         # an int
+jersey = "Seven"   # now a str
+jersey = 7.0       # now a float
+print(type(jersey))`, R`<class 'float'>`),
+  pr(R`team = "CSK"
+team = "RCB"
+print(team)`, 'What does this print?', ['CSK','RCB','An error'], 1, 'The second line moves the tag team to the new value "RCB". "CSK" is no longer used by team.'),
+  rd('Why the type matters', `<p>Different types can do different things. Text has <code>.upper()</code>. A number does not. This one fails on purpose: a marks value stored as a number cannot be shouted in capitals.</p>`, R`marks = 87
+print(type(marks))
+print(marks.upper())   # fails on purpose`, R`<class 'int'>
+AttributeError: 'int' object has no attribute 'upper'`, {note:'When code fails in a confusing way, print type(value) first. It finds most beginner bugs.'}),
+  pr(R`price = 89.5
+print(type(price))`, 'A masala dosa costs ₹89.5. What does type(price) return?', ["<class 'int'>","<class 'str'>","<class 'float'>"], 2, 'A number with a decimal point is a float.'),
+  rd('Now in an AI agent', `<p>An AI agent works with the same kinds of values. The model name is text, the token limit is a whole number, and the temperature is a decimal. When an agent breaks, checking <code>type()</code> is still the first step.</p>`, R`model = "gpt-4o-mini"
+max_tokens = 512
+temperature = 0.2
+print(type(model), type(max_tokens), type(temperature))`, R`<class 'str'> <class 'int'> <class 'float'>`),
   lab('Game: The type() scanner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_1'),
-  task('Type this, run it, and name each type before you look at the output.', R`model = "qwen"
-tokens = 150
-temperature = 0.7
-is_running = True
+  task('Type this, run it, and name each type before you look at the output.', R`name = "Divya"
+city = "Kochi"
+cgpa = 8.7
+semester = 5
+in_hostel = True
 
-print(type(model))
-print(type(tokens))
-print(type(temperature))
-print(type(is_running))`)
+print(type(name))
+print(type(city))
+print(type(cgpa))
+print(type(semester))
+print(type(in_hostel))`)
  ],
- sum:[['variable','A name that refers to an object'],['object','A value that Python stores, with a type'],['=','Makes a name refer to an object'],['dynamic typing','A name can refer to objects of different types over time'],['type(x)','Tells you the type of the object x points to']]};
+ sum:[['variable','A name tag on a value'],['value (object)','What Python stores, with a type'],['=','Ties a name to a value'],['dynamic typing','A name can point to different types over time'],['type(x)','Tells you the type of the value x points to']]};
 
-L[2] = {t:'Data types: int, float, str, bool, None', d:'The five primitives inside every LLM payload.', mins:12, core:true,
- goals:['Know the five basic types and when each appears','Read an LLM config and name every type','Understand None as "no value yet"'],
+L[2] = {t:'Data types: int, float, str, bool, None', d:'The five basic types inside every app, from food orders to AI replies.', mins:25, core:true,
+ goals:['Know the five basic types and when each appears','Read a food order and name every type','Understand None as "no value yet"'],
  steps:[
-  lab('Story: Unpacking an LLM reply', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_2'),
-  lab('Hands-on: Sort the reply', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_2'),
-  rd('Five types you will see every day', `<p>Almost every value in an LLM request is one of five basic types.</p>`, null, null, {table:[['Type','Example','In an agent'],['int','max_tokens = 500','token limits, retries, top_k'],['float','temperature = 0.2','temperature, scores, cost'],['str','model = "gpt-4o-mini"','prompts, model names, roles'],['bool','stream = True','feature flags, is_done'],['None','tool_choice = None','"no value yet", missing result']]}),
-  lab('Sort the values', `<p>Each value has exactly one type. Pick it. Watch for the traps: quotes make a string, and <code>True</code> has a capital T.</p>`, 'types'),
-  rd('str and the quote trap', `<p>Anything inside quotes is a string, even if it looks like a number. <code>"42"</code> is text with two characters. You cannot add it to the number <code>42</code>.</p>`, R`print("42" + "42")
-print(42 + 42)
-print("42" + 42)`, R`4242
-84
+  lab('Story: Unpacking a food order', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_2'),
+  lab('Hands-on: Sort the order', ``, 'play_2'),
+  rd('Five types you will see every day', `<p>Almost every value in an app is one of five basic types. Here they are in a food order, and the same types in an AI agent.</p>`, null, null, {table:[['Type','In a food order','In an AI agent'],['int','qty = 2','max_tokens = 500'],['float','price = 89.5','temperature = 0.2'],['str','dish = "Masala Dosa"','model = "gpt-4o-mini"'],['bool','paid = True','stream = True'],['None','coupon = None','tool_choice = None']]}),
+  rd('str and the quote trap', `<p>Anything inside quotes is text, even if it looks like a number. An order form often sends the quantity as <code>"2"</code>. The last line fails on purpose: Python will not add text to a number.</p>`, R`print("2" + "2")   # text is joined
+print(2 + 2)       # numbers are added
+print("2" + 2)     # fails on purpose`, R`22
+4
 TypeError: can only concatenate str (not "int") to str`),
-  rd('None means "no value"', `<p><code>None</code> is a special object. It means "nothing is here yet". A function that has no <code>return</code> gives back <code>None</code>. A tool with no result can return <code>None</code>.</p><p>Check for it with <code>is None</code>. You will learn why in lesson 5.</p>`, R`result = None
-if result is None:
-    print("Tool has not run yet")`, R`Tool has not run yet`),
-  pr(R`config = {"model": "gpt-4o-mini", "temperature": 0.2, "stream": False}
-print(type(config["stream"]))`, 'What does this print?', ["<class 'str'>","<class 'bool'>","<class 'NoneType'>"], 1, 'False without quotes is a bool. "False" with quotes would be a str.'),
-  pr(R`print(type(7 / 7))`, 'What does this print?', ["<class 'int'>","<class 'float'>","<class 'bool'>"], 1, 'The / operator always gives a float in Python 3, even when the result is a whole number. 7 / 7 is 1.0.'),
-  lab('Game: Payload sorter', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_2'),
-  task('Write an LLM request config with one value of each type. Print the type of each value.', R`request = {
-    "model": "llama-3.1-8b",   # str
-    "max_tokens": 300,         # int
-    "temperature": 0.3,        # float
-    "stream": True,            # bool
-    "stop": None,              # None
-}
+  rd('None means "no value"', `<p><code>None</code> means "nothing here yet". No coupon on the order? The coupon is <code>None</code>. Check for it with <code>is None</code>. You will learn why in lesson 5.</p>`, R`coupon = None
+if coupon is None:
+    print("No coupon applied")`, R`No coupon applied`),
+  pr(R`order = {"dish": "Ghee Roast Dosa", "price": 110.0, "paid": False}
+print(type(order["paid"]))`, 'What does this print?', ["<class 'str'>","<class 'bool'>","<class 'NoneType'>"], 1, 'False without quotes is a bool. "False" with quotes would be a str.'),
+  pr(R`print(type(250 / 5))`, 'Five friends split a ₹250 bill. What type does 250 / 5 give?', ["<class 'int'>","<class 'float'>","<class 'bool'>"], 1, 'The / operator always gives a float, even when the answer is whole. 250 / 5 is 50.0.'),
+  rd('Now in an AI agent', `<p>A request to an AI model uses the same five types. Spot each one.</p>`, R`request = {"model": "gpt-4o-mini", "max_tokens": 300, "temperature": 0.2, "stream": True, "tool_choice": None}
 for key, value in request.items():
+    print(key, type(value).__name__)`, R`model str
+max_tokens int
+temperature float
+stream bool
+tool_choice NoneType`),
+  lab('Game: Order sorter', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_2'),
+  task('Write a food order with one value of each type. Print the type of each value.', R`order = {
+    "dish": "Chicken Biryani",   # str
+    "qty": 2,                    # int
+    "price": 249.0,              # float
+    "paid": True,                # bool
+    "coupon": None,              # None
+}
+for key, value in order.items():
     print(key, type(value))`)
  ],
- sum:[['int','Whole number: 3, -7, 500'],['float','Decimal number: 0.2, 1.0'],['str','Text in quotes: "user"'],['bool','True or False (capital letters)'],['None','No value yet; check with is None']]};
+ sum:[['int','Whole number: qty = 2, -50'],['float','Decimal number: price = 89.5'],['str','Text in quotes: "Masala Dosa"'],['bool','True or False (capital letters)'],['None','No value yet: coupon = None; check with is None']]};
 
-L[3] = {t:'Operators: / vs //, %, **', d:'The maths behind chunk sizes, pages and thresholds.', mins:10,
+L[3] = {t:'Operators: / vs //, %, **', d:'Split bills, count overs and work out chunk sizes.', mins:20,
  goals:['Know the difference between / and //','Use % for remainders and ** for powers','Combine comparison and logical operators'],
  steps:[
-  lab('Story: Chunking a document', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_3'),
-  lab('Hands-on: Chunk lab', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_3'),
-  rd('Two kinds of division', `<p><code>/</code> is true division. It always gives a float. <code>//</code> is floor division. It drops the decimal part and rounds down.</p><p><code>%</code> gives the remainder. <code>**</code> is power.</p>`, R`print(17 / 5)    # true division
-print(17 // 5)   # floor division
-print(17 % 5)    # remainder
-print(2 ** 10)   # power`, R`3.4
-3
+  lab('Story: Splitting the hostel bill', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_3'),
+  lab('Hands-on: Bill splitter', ``, 'play_3'),
+  rd('Two kinds of division', `<p>Four friends share a ₹1,250 hostel dinner. <code>/</code> gives the exact share as a float. <code>//</code> gives whole rupees and drops the rest. <code>%</code> gives what is left over. <code>**</code> is power.</p>`, R`bill = 1250
+friends = 4
+print(bill / friends)    # exact share
+print(bill // friends)   # whole rupees each
+print(bill % friends)    # rupees left over
+print(2 ** 10)           # power`, R`312.5
+312
 2
 1024`),
   lab('Operator calculator', `<p>Change <code>a</code> and <code>b</code>. Try negative numbers with <code>//</code> and <code>%</code>. Floor division rounds down, so <code>-7 // 2</code> is <code>-4</code>, not <code>-3</code>.</p>`, 'ops'),
-  rd('= assigns, == compares', `<p>One equals sign assigns. Two equals signs ask a question and give a bool.</p>`, R`tokens = 600          # assign
-print(tokens == 600)  # compare -> True
-print(tokens > 512)   # compare -> True`, R`True
-True`),
-  rd('and, or, not', `<p>Logical operators combine conditions. <code>and</code> needs both sides true. <code>or</code> needs one side true. <code>not</code> flips a bool.</p>`, R`is_logged_in = True
-has_credits = False
-can_call_llm = is_logged_in and has_credits
-print(can_call_llm)
-print(not has_credits)`, R`False
-True`, {ai:'Agents use these for guards: "if step < max_steps and not done:".'}),
-  pr(R`total_tokens = 1300
-chunk_size = 512
-print(total_tokens // chunk_size, total_tokens % chunk_size)`, 'How many full chunks, and how many tokens are left?', ['2.54 0','2 276','3 0'], 1, '512 fits into 1300 two times (1024). 1300 - 1024 = 276 tokens are left for a final, smaller chunk.'),
+  rd('Overs from balls', `<p>A scoreboard shows overs, not balls. One over has 6 balls. <code>//</code> counts full overs and <code>%</code> counts the balls in the current over.</p>`, R`balls = 128
+overs = balls // 6
+extra = balls % 6
+print(f"{overs}.{extra} overs")`, R`21.2 overs`),
+  rd('= assigns, == compares', `<p>One equals sign stores a value. Two equals signs ask a question and give True or False.</p>`, R`runs = 180           # store
+print(runs == 180)   # compare
+print(runs > 200)    # compare`, R`True
+False`),
+  rd('and, or, not', `<p><code>and</code> needs both sides true. <code>or</code> needs one side true. <code>not</code> flips True and False.</p>`, R`has_ticket = True
+is_late = False
+can_enter = has_ticket and not is_late
+print(can_enter)
+print(not has_ticket)`, R`True
+False`),
+  pr(R`seats = 130
+per_row = 12
+print(seats // per_row, seats % per_row)`, 'A theatre has 130 seats, 12 in each row. How many full rows, and how many seats are left?', ['10.8 0','10 10','11 0'], 1, '12 fits into 130 ten times (120 seats). 130 - 120 = 10 seats are left for a shorter last row.'),
   pr(R`print(10 > 5 and 3 > 8 or 2 == 2)`, 'What does this print?', ['True','False','An error'], 0, 'and runs before or. (10 > 5 and 3 > 8) is False. False or (2 == 2) is True.'),
+  rd('Now in an AI agent', `<p>An AI model reads a long document in chunks. The same maths decides how many chunks you need: <code>//</code> for full chunks, <code>%</code> for the leftover, and a round-up for the number of calls.</p>`, R`total_tokens = 1300
+chunk_size = 512
+full = total_tokens // chunk_size
+left = total_tokens % chunk_size
+calls = (total_tokens + chunk_size - 1) // chunk_size
+print(full, left, calls)`, R`2 276 3`),
   lab('Game: Operator scanner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_3'),
-  task('Calculate pages for a list of 47 retrieved documents with 10 per page.', R`docs = 47
-per_page = 10
-full_pages = docs // per_page
-left_over = docs % per_page
-pages = full_pages + (1 if left_over > 0 else 0)
-print(full_pages, left_over, pages)   # 4 7 5`)
+  task('Split an Ooty trip cost among 6 friends in whole rupees, and find what is left over.', R`trip_cost = 7850   # in rupees
+friends = 6
+each = trip_cost // friends
+left_over = trip_cost % friends
+print("Each pays", each)        # 1308
+print("Left over", left_over)   # 2`)
  ],
- sum:[['/','True division, always a float'],['//','Floor division, rounds down'],['%','Remainder after division'],['**','Power'],['== vs =','Compare vs assign'],['and / or / not','Combine or flip conditions']]};
+ sum:[['/','True division, always a float'],['//','Floor division, whole part only'],['%','Remainder after division'],['**','Power'],['== vs =','Compare vs store'],['and / or / not','Combine or flip conditions']]};
 
 L[4] = {t:'Type conversion: int(), float(), str(), bool()', d:'Turn env vars and LLM text into safe values.', mins:10,
  goals:['Convert between str, int, float and bool','Know which conversions fail with ValueError','Handle a failed conversion safely'],
