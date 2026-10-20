@@ -493,148 +493,182 @@ print(a is c, a[0] is c[0])   # False False`)
  ],
  sum:[['mutable','list, dict, set: change in place'],['immutable','int, str, tuple, ...: never change'],['b = a','Same value, two names'],['.copy() / [:]','Shallow: new outer, shared inner'],['copy.deepcopy','New values all the way down']]};
 /* ================= PART II ================= */
-L[11] = {t:'Functions, return values and defaults', d:'Every agent tool is a function.', mins:14, core:true,
+L[11] = {t:'Functions, return values and defaults', d:'Write a block once, use it everywhere. Every agent tool is a function.', mins:25, core:true,
  goals:['Define functions with parameters and return values','Know the difference between return and print','Avoid the mutable default argument trap'],
  steps:[
-  lab('Story: The tool machine', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_11'),
-  rd('A function is a named, reusable block', `<p><code>def</code> creates a function. Parameters are the names in the brackets. Arguments are the values you pass when you call it.</p>`, R`def search_docs(query, top_k=3):
-    return [f"doc about {query}"] * top_k
+  lab('Story: The bill split machine', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_11'),
+  rd('A function is a named, reusable block', `<p>Vignesh splits bills with his friends every weekend in Chennai. Instead of doing the maths each time, he writes a function. <code>def</code> creates it. Parameters are the names in the brackets; arguments are the values you pass in.</p>`, R`def split_bill(total, people, tip=0):
+    return round((total + tip) / people, 2)
 
-print(search_docs("RAG", 2))`, R`['doc about RAG', 'doc about RAG']`),
-  rd('return gives a value back; print only shows it', `<p><code>print</code> writes to the screen and gives back nothing. <code>return</code> hands a value back to the caller, so other code can use it. A function without <code>return</code> returns <code>None</code>.</p>`, R`def show(x):
-    print(x)
+print(split_bill(1250, 4))
+print(split_bill(1780, 5, tip=70))`, R`312.5
+370.0`),
+  rd('return gives a value back; print only shows it', `<p><code>print</code> writes to the screen and gives back nothing. <code>return</code> hands a value back, so other code can use it. A function without <code>return</code> returns <code>None</code>.</p>`, R`def show_share(total, people):
+    print(total / people)
 
-def give(x):
-    return x
+def get_share(total, people):
+    return total / people
 
-a = show(5)   # prints 5
-b = give(5)
-print(a, b)`, R`5
-None 5`, {ai:'An agent tool must return its result. If a tool only prints, the LLM gets None.'}),
-  rd('Default arguments', `<p>A default value is used when the caller does not pass that argument. Put parameters with defaults after the ones without.</p>`, R`def call_llm(prompt, model="gpt-4o-mini", temperature=0.0):
-    return f"{model} @ {temperature}: {prompt}"
+a = show_share(600, 3)   # prints 200.0
+b = get_share(600, 3)
+print(a, b)`, R`200.0
+None 200.0`),
+  rd('Default arguments', `<p>A default value is used when the caller does not pass that argument. Put parameters with defaults after the ones without.</p>`, R`def auto_fare(km, night=False):
+    fare = 30 + 15 * km
+    return fare * 1.5 if night else fare
 
-print(call_llm("Hi"))
-print(call_llm("Hi", temperature=0.7))`, R`gpt-4o-mini @ 0.0: Hi
-gpt-4o-mini @ 0.7: Hi`),
+print(auto_fare(4))
+print(auto_fare(4, night=True))`, R`90
+135.0`),
   lab('The mutable default trap', `<p>Python creates a default value <b>once</b>, when it defines the function. A default list is then shared by every call. Call both versions a few times.</p>`, 'default'),
-  pr(R`def add(msg, history=[]):
-    history.append(msg)
-    return history
+  pr(R`def add_item(item, cart=[]):
+    cart.append(item)
+    return cart
 
-add("a")
-print(add("b"))`, 'What does this print?', ["['b']","['a', 'b']","An error"], 1, 'The same default list is reused. The first call left "a" in it.'),
-  pr(R`def f():
-    x = 1
-print(f())`, 'What does this print?', ['1','None','An error'], 1, 'The function has no return statement, so it returns None.'),
+add_item("Idli")
+print(add_item("Vada"))`, 'What does this print?', ["['Vada']","['Idli', 'Vada']","An error"], 1, 'The same default list is reused. The first call left "Idli" in it, so the next customer sees it.'),
+  pr(R`def greet(name):
+    message = f"Hi {name}"
+print(greet("Meera"))`, 'What does this print?', ['Hi Meera','None','An error'], 1, 'The function has no return statement, so it returns None.'),
+  rd('Now in an AI agent', `<p>An AI agent's tools are plain functions. The model asks for a tool, the agent calls the function, and the <b>returned</b> value goes back to the model. A tool that only prints sends the model nothing.</p>`, R`def get_weather(city, units="C"):
+    return f"31 {units} and humid in {city}"
+
+result = get_weather("Chennai")
+print(result)`, R`31 C and humid in Chennai`),
   lab('Game: Call tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_11'),
-  task('Write the safe version of add_msg, and test it twice.', R`def add_msg(msg, history=None):
-    if history is None:
-        history = []          # a new list for every call
-    history.append(msg)
-    return history
+  task('Write the safe version of add_item, so each customer gets their own cart.', R`def add_item(item, cart=None):
+    if cart is None:
+        cart = []          # a new cart for every call
+    cart.append(item)
+    return cart
 
-print(add_msg("hi"))     # ['hi']
-print(add_msg("bye"))    # ['bye']`)
+print(add_item("Idli"))   # ['Idli']
+print(add_item("Vada"))   # ['Vada']`)
  ],
- sum:[['def','Create a function'],['parameter / argument','The name / the value passed in'],['return','Give a value back (default None)'],['default','Value used when the caller does not pass one'],['history=None','The safe pattern for mutable defaults']]};
+ sum:[['def','Create a function'],['parameter / argument','The name / the value passed in'],['return','Give a value back (default None)'],['default','Value used when the caller does not pass one'],['cart=None','The safe pattern for mutable defaults']]};
 
-L[12] = {t:'*args, **kwargs and unpacking', d:'How an agent calls tool(**args).', mins:14, core:true,
+L[12] = {t:'*args, **kwargs and unpacking', d:'Take any number of items, and pass a dict straight into a function.', mins:25, core:true,
  goals:['Accept any number of arguments with *args and **kwargs','Unpack lists with * and dicts with **','Understand the line result = TOOLS[name](**args)'],
  steps:[
-  lab('Story: Packing and unpacking arguments', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_12'),
-  rd('*args collects extra positional arguments', `<p>A star before a parameter collects all extra positional arguments into a <b>tuple</b>.</p>`, R`def total(*args):
-    print(args)
-    return sum(args)
+  lab('Story: The canteen order', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_12'),
+  rd('*args collects extra positional arguments', `<p>Lakshmi orders at the college canteen. She might order one item or five. A star before a parameter collects all of them into a <b>tuple</b>.</p>`, R`def order(*items):
+    print(items)
+    return len(items)
 
-print(total(1, 2, 3))`, R`(1, 2, 3)
-6`),
-  rd('**kwargs collects extra keyword arguments', `<p>Two stars collect extra keyword arguments into a <b>dict</b>.</p>`, R`def call_llm(prompt, **kwargs):
-    print(kwargs)
+print(order("Dosa", "Vada", "Tea"))`, R`('Dosa', 'Vada', 'Tea')
+3`),
+  rd('**kwargs collects extra keyword arguments', `<p>Two stars collect extra named arguments into a <b>dict</b>, like the details on a train ticket form.</p>`, R`def book_ticket(name, **details):
+    print(name, details)
 
-call_llm("Hi", temperature=0.2, max_tokens=100)`, R`{'temperature': 0.2, 'max_tokens': 100}`),
-  rd('The same stars also unpack', `<p>In a function <b>call</b>, <code>*</code> spreads a list into positional arguments. <code>**</code> spreads a dict into keyword arguments.</p>`, R`def search(query, top_k):
-    return f"{top_k} results for {query}"
+book_ticket("Venkat", train="Shatabdi", berth="Window", age=21)`, R`Venkat {'train': 'Shatabdi', 'berth': 'Window', 'age': 21}`),
+  rd('The same stars also unpack', `<p>In a function <b>call</b>, <code>*</code> spreads a list into positions and <code>**</code> spreads a dict into named arguments.</p>`, R`def fare(source, dest, seats):
+    return f"{seats} seats from {source} to {dest}"
 
-args_list = ["RAG", 3]
-args_dict = {"query": "RAG", "top_k": 3}
-print(search(*args_list))
-print(search(**args_dict))`, R`3 results for RAG
-3 results for RAG`),
-  lab('From LLM JSON to a function call', `<p>The LLM sends tool arguments as a JSON string. Step through how one line of agent code turns it into a real function call. Then add an extra key the function does not accept.</p>`, 'unpack'),
-  pr(R`def f(a, b, c):
+trip_list = ["Chennai", "Bengaluru", 2]
+trip_dict = {"source": "Kochi", "dest": "Mysuru", "seats": 3}
+print(fare(*trip_list))
+print(fare(**trip_dict))`, R`2 seats from Chennai to Bengaluru
+3 seats from Kochi to Mysuru`),
+  lab('From LLM JSON to a function call', `<p>An AI model sends tool arguments as JSON text. Step through how one line of agent code turns it into a real function call. Then add an extra key the function does not accept.</p>`, 'unpack'),
+  pr(R`def total(a, b, c):
     return a + b + c
-nums = [1, 2, 3]
-print(f(*nums))`, 'What does this print?', ['[1, 2, 3]','6','TypeError'], 1, '*nums unpacks into f(1, 2, 3).'),
+bills = [120, 80, 50]
+print(total(*bills))`, 'What does this print?', ['[120, 80, 50]','250','TypeError'], 1, '*bills unpacks into total(120, 80, 50).'),
   pr(R`def f(**kw):
     return type(kw).__name__
-print(f(x=1))`, 'What does this print?', ['tuple','dict','kwargs'], 1, '**kw always collects keyword arguments into a dict.'),
+print(f(city="Madurai"))`, 'What does this print?', ['tuple','dict','kwargs'], 1, '**kw always collects named arguments into a dict.'),
+  rd('Now in an AI agent', `<p>The model sends a tool name and a dict of arguments. One line with <code>**</code> runs any tool.</p>`, R`def get_weather(city, days=1):
+    return f"{days}-day forecast for {city}: rain likely"
+
+call = {"name": "get_weather", "args": {"city": "Kochi", "days": 3}}
+print(get_weather(**call["args"]))`, R`3-day forecast for Kochi: rain likely`),
   lab('Game: Unpacking scanner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_12'),
-  task('Write a wrapper that passes every argument through to another function.', R`def call_llm(prompt, model="gpt-4o-mini", temperature=0.0):
-    return f"{model}/{temperature}: {prompt}"
+  task('Write a wrapper that logs every order and passes it on.', R`def place_order(dish, qty=1, spicy=False):
+    return f"{qty} x {dish}{' (spicy)' if spicy else ''}"
 
-def logged_call(*args, **kwargs):
+def logged(*args, **kwargs):
     print("args:", args, "kwargs:", kwargs)
-    return call_llm(*args, **kwargs)
+    return place_order(*args, **kwargs)
 
-print(logged_call("Hi", temperature=0.5))`)
+print(logged("Chicken 65", qty=2, spicy=True))`)
  ],
- sum:[['*args','Collect extra positional arguments (tuple)'],['**kwargs','Collect extra keyword arguments (dict)'],['f(*lst)','Unpack a list into positions'],['f(**d)','Unpack a dict into keywords'],['tool(**args)','How agents call tools from LLM JSON']]};
+ sum:[['*args','Collect extra positional arguments (tuple)'],['**kwargs','Collect extra named arguments (dict)'],['f(*lst)','Unpack a list into positions'],['f(**d)','Unpack a dict into named arguments'],['tool(**args)','How agents call tools from model JSON']]};
 
-L[13] = {t:'Positional-only and keyword-only parameters', d:'Force clear calls with / and *.', mins:9,
+L[13] = {t:'Positional-only and keyword-only parameters', d:'Force clear calls with / and *, so nobody mixes up the amount and the UPI ID.', mins:15,
  goals:['Read / and * in a function signature','Know which calls are valid','See why SDKs use keyword-only options'],
  steps:[
-  lab('Story: Three kinds of slots', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_13'),
-  rd('Two ways to pass an argument', `<p>By <b>position</b>: <code>f(1, 2)</code>. By <b>keyword</b>: <code>f(a=1, b=2)</code>. Normally, both work. Two symbols in the signature can restrict this.</p>`),
-  rd('/ and * in a signature', `<p>Everything <b>before</b> <code>/</code> is positional-only. Everything <b>after</b> <code>*</code> is keyword-only. Parameters between them accept both.</p>`, R`def call_llm(prompt, /, model="gpt-4o-mini", *, temperature=0.0):
-    ...`, null, {table:[['Parameter','Position','Keyword'],['prompt','yes','no'],['model','yes','yes'],['temperature','no','yes']]}),
+  lab('Story: The UPI pay function', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_13'),
+  rd('Two ways to pass an argument', `<p>By <b>position</b>: <code>pay(250, "arjun@upi")</code>. By <b>keyword</b>: <code>pay(amount=250, upi_id="arjun@upi")</code>. Normally both work. Two symbols in the signature can restrict this.</p>`),
+  rd('/ and * in a signature', `<p>Everything <b>before</b> <code>/</code> is positional-only. Everything <b>after</b> <code>*</code> is keyword-only. Parameters between them accept both.</p>`, R`def pay(amount, /, note="", *, upi_id):
+    return f"Paid Rs {amount} to {upi_id} {note}".strip()
+
+print(pay(250, "dinner", upi_id="arjun@upi"))`, R`Paid Rs 250 to arjun@upi dinner`, {table:[['Parameter','Position','Keyword'],['amount','yes','no'],['note','yes','yes'],['upi_id','no','yes']]}),
   lab('Valid call or TypeError?', `<p>Click each call. Decide first, then check.</p>`, 'sig'),
-  rd('Why SDKs use keyword-only options', `<p>Compare <code>client.create("Hi", "gpt", 0.2, 500, True)</code> with <code>client.create("Hi", model="gpt", temperature=0.2)</code>. The second call is easy to read and safe to change. The OpenAI and Anthropic SDKs make most options keyword-only for this reason.</p>`),
-  pr(R`def f(a, *, b):
-    return a + b
-print(f(1, 2))`, 'What happens?', ['3','TypeError','None'], 1, 'b is keyword-only. You must write f(1, b=2).'),
+  rd('Why keyword-only helps', `<p>Compare <code>pay(250, "arjun@upi", True)</code> with <code>pay(250, upi_id="arjun@upi", save=True)</code>. The second is easy to read and hard to get wrong. Payment apps and AI SDKs make options keyword-only for this reason.</p>`),
+  pr(R`def pay(amount, *, upi_id):
+    return amount
+print(pay(250, "arjun@upi"))`, 'What happens?', ['250','TypeError','None'], 1, 'upi_id is keyword-only. You must write pay(250, upi_id="arjun@upi").'),
+  rd('Now in an AI agent', `<p>AI SDKs use the same rule: the prompt goes first, and options like <code>temperature</code> must be named.</p>`, R`def ask_model(prompt, /, *, model="gpt-4o-mini", temperature=0.0):
+    return f"{model} at {temperature}: {prompt}"
+
+print(ask_model("Best time to visit Ooty?", temperature=0.3))`, R`gpt-4o-mini at 0.3: Best time to visit Ooty?`),
   lab('Game: Signature judge', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_13'),
-  task('Write a function with one positional-only and two keyword-only parameters. Try a call that breaks each rule.', R`def embed(text, /, *, model="text-embedding-3-small", normalize=True):
-    return f"{model} normalize={normalize}: {text[:20]}"
+  task('Write a recharge function with one positional-only and two keyword-only parameters.', R`def recharge(number, /, *, plan=299, data_gb=2):
+    return f"Recharged {number[-4:]} with Rs {plan} plan, {data_gb} GB/day"
 
-print(embed("hello world", normalize=False))
-# embed(text="hello")        -> TypeError
-# embed("hello", "model-x")  -> TypeError`)
+print(recharge("9876543210", plan=349))
+# recharge(number="98...")      -> TypeError
+# recharge("98...", 349)        -> TypeError`)
  ],
- sum:[['/','Parameters before it: position only'],['*','Parameters after it: keyword only'],['TypeError','Raised when a call breaks the rules'],['keyword-only options','Clear, safe API calls']]};
+ sum:[['/','Parameters before it: position only'],['*','Parameters after it: keyword only'],['TypeError','Raised when a call breaks the rules'],['keyword-only options','Clear, safe calls']]};
 
-L[14] = {t:'Functions as objects and tool registries', d:'Store functions in a dict and call them by name.', mins:12, core:true,
+L[14] = {t:'Functions as objects and tool registries', d:'Store functions in a dict and call them by name.', mins:25, core:true,
  goals:['Store a function in a variable and in a dict','Pass a function into another function','Build the tool registry that every agent uses'],
  steps:[
-  lab('Story: The tool registry', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_14'),
-  rd('A function is an object', `<p>Without brackets, <code>get_weather</code> is the function object itself. With brackets, <code>get_weather("Pune")</code> calls it. You can give a function another name.</p>`, R`def get_weather(city):
-    return f"Sunny in {city}"
+  lab('Story: The payment counter', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_14'),
+  rd('A function is a value', `<p>Without brackets, <code>pay_upi</code> is the function itself. With brackets, <code>pay_upi(250)</code> calls it. You can give a function another name.</p>`, R`def pay_upi(amount):
+    return f"Paid Rs {amount} by UPI"
 
-f = get_weather          # no () -> no call
-print(f("Pune"))
-print(f.__name__)`, R`Sunny in Pune
-get_weather`),
-  rd('Store functions in a dict', `<p>A dict can map a tool name (a string from the LLM) to the function that runs it. This is a <b>tool registry</b>.</p>`, R`def calculator(expr):
-    return str(eval(expr))   # demo only
+f = pay_upi            # no () -> no call
+print(f(250))
+print(f.__name__)`, R`Paid Rs 250 by UPI
+pay_upi`),
+  rd('Store functions in a dict', `<p>A food app supports many payment methods. A dict maps each method name to the function that handles it.</p>`, R`def pay_upi(amount):
+    return f"Paid Rs {amount} by UPI"
 
-TOOLS = {
-    "get_weather": get_weather,
-    "calculator": calculator,
-}
-print(TOOLS["calculator"]("2 + 3"))`, R`5`, {note:'eval is unsafe with untrusted input. It is here only to keep the demo short.'}),
-  lab('Dispatch a tool call', `<p>Pick what the LLM asked for. The agent looks the name up in <code>TOOLS</code> and calls it. Try the tool that does not exist.</p>`, 'registry'),
-  rd('Pass a function to another function', `<p>Because functions are objects, you can pass them as arguments. <code>sorted(key=...)</code> and retry helpers work like this.</p>`, R`def run_twice(fn, value):
+def pay_card(amount):
+    return f"Paid Rs {amount} by card"
+
+def pay_cash(amount):
+    return f"Pay Rs {amount} cash on delivery"
+
+PAYMENTS = {"upi": pay_upi, "card": pay_card, "cash": pay_cash}
+choice = "card"
+print(PAYMENTS[choice](349))`, R`Paid Rs 349 by card`),
+  lab('Dispatch a tool call', `<p>Pick what the AI model asked for. The agent looks the name up in <code>TOOLS</code> and calls it. Try the tool that does not exist.</p>`, 'registry'),
+  rd('Pass a function to another function', `<p>Because functions are values, you can pass them in. <code>sorted(key=...)</code> works like this.</p>`, R`def apply_twice(fn, value):
     return fn(fn(value))
 
-print(run_twice(str.upper, "ok"))`, R`OK`),
+print(apply_twice(str.upper, "csk"))
+print(sorted(["Kochi", "Ooty", "Goa"], key=len))`, R`CSK
+['Goa', 'Ooty', 'Kochi']`),
   pr(R`def hi():
     return "hi"
 x = hi
 print(type(x).__name__)`, 'What does this print?', ['str','function','NoneType'], 1, 'x = hi stores the function. It does not call it.'),
-  pr(R`TOOLS = {"a": len}
-print(TOOLS.get("b", lambda *_: "unknown")("x"))`, 'What does this print?', ['1','unknown','KeyError'], 1, '"b" is missing, so .get returns the fallback function, and that function is then called.'),
+  pr(R`PAYMENTS = {"upi": len}
+print(PAYMENTS.get("crypto", lambda *_: "not supported")(100))`, 'What does this print?', ['3','not supported','KeyError'], 1, '"crypto" is missing, so .get returns the fallback function, and that function is then called.'),
+  rd('Now in an AI agent', `<p>An AI agent's <b>tool registry</b> is exactly this dict. The model sends a tool name as text; the agent looks it up and calls it.</p>`, R`def get_weather(city):
+    return f"31 C in {city}"
+
+def get_train(source, dest):
+    return f"Shatabdi from {source} to {dest} at 6:00"
+
+TOOLS = {"get_weather": get_weather, "get_train": get_train}
+call = {"name": "get_train", "args": {"source": "Chennai", "dest": "Mysuru"}}
+print(TOOLS[call["name"]](**call["args"]))`, R`Shatabdi from Chennai to Mysuru at 6:00`),
   lab('Game: Registry runner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_14'),
-  task('Build a safe dispatcher that returns an error string for an unknown tool.', R`def get_weather(city):
+  task('Build a safe dispatcher that returns an error for an unknown tool.', R`def get_weather(city):
     return f"Sunny in {city}"
 
 TOOLS = {"get_weather": get_weather}
@@ -646,133 +680,162 @@ def run_tool(name, args):
     return fn(**args)
 
 print(run_tool("get_weather", {"city": "Chennai"}))
-print(run_tool("send_email", {}))`)
+print(run_tool("book_flight", {}))`)
  ],
- sum:[['fn vs fn()','The object vs a call'],['TOOLS dict','Tool name to function'],['TOOLS.get(name)','Safe lookup for unknown tools'],['higher-order function','Takes or returns a function']]};
+ sum:[['fn vs fn()','The function vs a call'],['dict of functions','Name to function'],['.get(name)','Safe lookup for unknown names'],['higher-order function','Takes or returns a function']]};
 
-L[15] = {t:'lambda, map() and filter()', d:'Small inline functions for sorting and filtering.', mins:12,
+L[15] = {t:'lambda, map() and filter()', d:'Small inline functions for sorting and filtering.', mins:22,
  goals:['Write a lambda','Transform with map and keep items with filter','Know when a comprehension is clearer'],
  steps:[
-  lab('Story: Sorting search results', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_15'),
-  rd('lambda is a one-line function', `<p><code>lambda x: x * 2</code> is the same as a <code>def</code> with one <code>return</code>. It has no name. Use it for short key functions.</p>`, R`double = lambda x: x * 2
-print(double(4))
-
-docs = [{"id": 1, "score": 0.4}, {"id": 2, "score": 0.9}]
-best = sorted(docs, key=lambda d: d["score"], reverse=True)
-print(best[0]["id"])`, R`8
-2`),
-  rd('map transforms, filter keeps', `<p><code>map(f, items)</code> applies <code>f</code> to every item. <code>filter(f, items)</code> keeps items where <code>f</code> returns truthy. Both return lazy iterators, so wrap them in <code>list()</code> to see the result.</p>`),
-  lab('Build a pipeline', `<p>Choose a filter and a map. See each score flow through. Compare the two ways to write the same thing.</p>`, 'pipeline'),
-  rd('Prefer comprehensions for readability', `<p>Most Python teams prefer a list comprehension. It reads left to right and does both jobs in one line.</p>`, R`scores = [0.91, 0.42, 0.77]
-a = list(map(lambda s: round(s, 1), filter(lambda s: s > 0.5, scores)))
-b = [round(s, 1) for s in scores if s > 0.5]
-print(a == b, b)`, R`True [0.9, 0.8]`),
-  pr(R`print(list(filter(None, [0, 1, "", "a", None])))`, 'What does this print?', ["[0, 1, '', 'a', None]","[1, 'a']","[]"], 1, 'filter(None, ...) keeps only truthy items.'),
-  pr(R`m = map(str.upper, ["a", "b"])
-print(list(m), list(m))`, 'What does this print?', ["['A', 'B'] ['A', 'B']","['A', 'B'] []","An error"], 1, 'map is an iterator. After you use it once, it is empty.'),
-  lab('Game: Lambda lab', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_15'),
-  task('Sort tool results by score, keep the top 2, and get only their text.', R`results = [
-    {"text": "A", "score": 0.3},
-    {"text": "B", "score": 0.95},
-    {"text": "C", "score": 0.7},
+  lab('Story: Ranking the IPL batters', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_15'),
+  rd('lambda is a one-line function', `<p><code>lambda x: x * 2</code> is the same as a small <code>def</code>. It has no name. Use it for short key functions, like sorting batters by strike rate.</p>`, R`batters = [
+    {"name": "Gill", "sr": 138.5},
+    {"name": "Klaasen", "sr": 171.1},
+    {"name": "Gaikwad", "sr": 141.2},
 ]
+best = sorted(batters, key=lambda b: b["sr"], reverse=True)
+print([b["name"] for b in best])`, R`['Klaasen', 'Gaikwad', 'Gill']`),
+  rd('map transforms, filter keeps', `<p><code>map(f, items)</code> applies <code>f</code> to every item. <code>filter(f, items)</code> keeps items where <code>f</code> is truthy. Wrap them in <code>list()</code> to see the result.</p>`, R`prices = [89, 249, 60, 349, 99]
+cheap = list(filter(lambda p: p < 100, prices))
+with_gst = list(map(lambda p: round(p * 1.05), cheap))
+print(cheap, with_gst)`, R`[89, 60, 99] [93, 63, 104]`),
+  lab('Build a pipeline', `<p>Choose a filter and a map. See each value flow through. Compare the two ways to write the same thing.</p>`, 'pipeline'),
+  rd('Prefer comprehensions for readability', `<p>Most Python teams prefer a list comprehension. It reads left to right and does both jobs in one line.</p>`, R`prices = [89, 249, 60, 349, 99]
+a = list(map(lambda p: round(p * 1.05), filter(lambda p: p < 100, prices)))
+b = [round(p * 1.05) for p in prices if p < 100]
+print(a == b, b)`, R`True [93, 63, 104]`),
+  pr(R`print(list(filter(None, [0, 120, "", "Dosa", None])))`, 'What does this print?', ["[0, 120, '', 'Dosa', None]","[120, 'Dosa']","[]"], 1, 'filter(None, ...) keeps only truthy items.'),
+  pr(R`m = map(str.upper, ["csk", "rcb"])
+print(list(m), list(m))`, 'What does this print?', ["['CSK', 'RCB'] ['CSK', 'RCB']","['CSK', 'RCB'] []","An error"], 1, 'map is used up after one pass. The second list is empty.'),
+  rd('Now in an AI agent', `<p>An AI agent ranks search results by score and keeps the best ones, with exactly these tools.</p>`, R`results = [{"text": "Ooty in Nov", "score": 0.42}, {"text": "Munnar in Dec", "score": 0.91}, {"text": "Kodai in Jan", "score": 0.77}]
 top = sorted(results, key=lambda r: r["score"], reverse=True)[:2]
-print([r["text"] for r in top])   # ['B', 'C']`)
+print([r["text"] for r in top])`, R`['Munnar in Dec', 'Kodai in Jan']`),
+  lab('Game: Lambda lab', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_15'),
+  task('Keep dishes under Rs 150, sorted from cheapest, and print only their names.', R`menu = [
+    {"dish": "Mutton Biryani", "price": 320},
+    {"dish": "Masala Dosa", "price": 90},
+    {"dish": "Parotta", "price": 40},
+    {"dish": "Fish Curry", "price": 180},
+]
+cheap = sorted([m for m in menu if m["price"] < 150], key=lambda m: m["price"])
+print([m["dish"] for m in cheap])`)
  ],
  sum:[['lambda','Small unnamed function'],['map','Apply a function to every item'],['filter','Keep items that pass a test'],['sorted(key=)','Sort by a computed value'],['comprehension','Usually the clearer choice']]};
 
-L[16] = {t:'Scope (LEGB) and closures', d:'Where Python looks for a name.', mins:16, core:true,
+L[16] = {t:'Scope (LEGB) and closures', d:'Where Python looks for a name, and functions that remember.', mins:28, core:true,
  goals:['Use the LEGB rule to find which value a name has','Understand UnboundLocalError','Write a closure and use nonlocal'],
  steps:[
-  lab('Story: Where Python looks for a name', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_16'),
-  rd('Scope is where a name is visible', `<p>When Python sees a name, it searches four places in a fixed order. It stops at the first match.</p><ul><li><b>L</b>ocal: inside the current function</li><li><b>E</b>nclosing: inside an outer function</li><li><b>G</b>lobal: at the top of the file</li><li><b>B</b>uilt-in: names like <code>len</code> and <code>print</code></li></ul>`),
-  lab('Watch Python search the layers', `<p>Each layer is a scope. Remove definitions of <code>model</code> and press <b>Look up</b>. Python searches from the top layer down.</p>`, 'legb'),
-  rd('UnboundLocalError', `<p>If a function <b>assigns</b> to a name anywhere, Python treats that name as local in the whole function. Reading it before the assignment fails.</p>`, R`count = 0
-def bump():
-    count = count + 1   # count is local here
-bump()`, R`UnboundLocalError: cannot access local variable 'count'`),
-  rd('A closure remembers its enclosing variables', `<p>An inner function can use variables from the outer function, even after the outer function has returned. This is a <b>closure</b>. Use <code>nonlocal</code> to change such a variable.</p>`, R`def make_counter():
-    calls = 0
-    def counter():
-        nonlocal calls
-        calls += 1
-        return calls
-    return counter
-
-tick = make_counter()
-tick(); tick()
-print(tick())`, R`3`, {ai:'Decorators (next lesson) are built from closures. So is a function that "remembers" an API key or a model name.'}),
-  pr(R`x = "global"
+  lab('Story: The canteen token counter', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_16'),
+  rd('Scope is where a name is visible', `<p>When Python sees a name, it searches four places in order and stops at the first match.</p><ul><li><b>L</b>ocal: inside the current function</li><li><b>E</b>nclosing: inside an outer function</li><li><b>G</b>lobal: at the top of the file</li><li><b>B</b>uilt-in: names like <code>len</code> and <code>print</code></li></ul>`, R`college = "Anna University"      # global
 def outer():
-    x = "enclosing"
+    dept = "CSE"                   # enclosing
     def inner():
-        return x
+        roll = 21                  # local
+        print(roll, dept, college, len(college))
+    inner()
+outer()`, R`21 CSE Anna University 15`),
+  lab('Watch Python search the layers', `<p>Each layer is a scope. Remove definitions of <code>model</code> and press <b>Look up</b>. Python searches from the top layer down.</p>`, 'legb'),
+  rd('UnboundLocalError', `<p>If a function <b>assigns</b> to a name anywhere, Python treats that name as local in the whole function. Reading it first fails. This one fails on purpose.</p>`, R`token = 0
+def next_token():
+    token = token + 1   # fails on purpose: token is local here
+next_token()`, R`UnboundLocalError: cannot access local variable 'token' where it is not associated with a value`),
+  rd('A closure remembers', `<p>The college canteen hands out token numbers. An inner function can keep using a variable from the outer function, even after the outer function has finished. This is a <b>closure</b>. <code>nonlocal</code> lets it change that variable.</p>`, R`def make_token_counter():
+    token = 0
+    def next_token():
+        nonlocal token
+        token += 1
+        return token
+    return next_token
+
+counter = make_token_counter()
+counter(); counter()
+print("Your token:", counter())`, R`Your token: 3`),
+  pr(R`city = "Chennai"
+def outer():
+    city = "Madurai"
+    def inner():
+        return city
     return inner()
-print(outer())`, 'What does this print?', ['global','enclosing','NameError'], 1, 'inner has no local x, so Python looks in the enclosing function and finds "enclosing".'),
+print(outer())`, 'What does this print?', ['Chennai','Madurai','NameError'], 1, 'inner has no local city, so Python looks in the enclosing function and finds "Madurai".'),
   pr(R`fns = [lambda: i for i in range(3)]
-print([f() for f in fns])`, 'What does this print?', ['[0, 1, 2]','[2, 2, 2]','[0, 0, 0]'], 1, 'All three lambdas read i when they are called. By then the loop has finished and i is 2. Fix it with lambda i=i: i.'),
+print([f() for f in fns])`, 'What does this print?', ['[0, 1, 2]','[2, 2, 2]','[0, 0, 0]'], 1, 'All three lambdas read i when called, after the loop ended at 2. Fix it with lambda i=i: i.'),
+  rd('Now in an AI agent', `<p>A closure can remember a setting, like the system prompt for a chatbot, so every message gets it automatically.</p>`, R`def make_prompter(role):
+    def build(question):
+        return f"You are a {role}. Question: {question}"
+    return build
+
+travel = make_prompter("Kerala travel guide")
+print(travel("Best houseboat in Alleppey?"))`, R`You are a Kerala travel guide. Question: Best houseboat in Alleppey?`),
   lab('Game: Scope detective', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_16'),
-  task('Write a closure that builds a prompt prefixer.', R`def make_prefixer(prefix):
-    def add(text):
-        return f"{prefix}: {text}"
+  task('Write a closure that adds GST to any price.', R`def make_gst(rate):
+    def add(price):
+        return round(price * (1 + rate), 2)
     return add
 
-as_system = make_prefixer("SYSTEM")
-print(as_system("Be concise."))   # SYSTEM: Be concise.`)
+food_gst = make_gst(0.05)
+print(food_gst(200))   # 210.0`)
  ],
  sum:[['LEGB','Local, Enclosing, Global, Built-in'],['UnboundLocalError','Read before local assignment'],['closure','Inner function that keeps outer variables'],['nonlocal','Change an enclosing variable'],['global','Change a module variable (use rarely)']]};
 
-L[17] = {t:'Decorators', d:'How @tool registers your function.', mins:14, core:true,
+L[17] = {t:'Decorators', d:'Wrap a function to add logging, checks or retries.', mins:25, core:true,
  goals:['Understand that @deco means fn = deco(fn)','Write your own decorator with *args, **kwargs','Use functools.wraps and decorators with arguments'],
  steps:[
-  lab('Story: Wrapping a tool', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_17'),
-  rd('@ is a shortcut', `<p>A decorator is a function that takes a function and returns a function. The <code>@</code> line is only a short way to write a reassignment.</p>`, R`@log_calls
-def get_weather(city): ...
+  lab('Story: Logging every payment', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_17'),
+  rd('@ is a shortcut', `<p>A decorator is a function that takes a function and returns a new one. The <code>@</code> line is only a short way to write <code>pay = log_payment(pay)</code>.</p>`, R`def log_payment(fn):
+    def wrapper(amount):
+        print("Payment started:", amount)
+        return fn(amount)
+    return wrapper
 
-# is exactly the same as
-def get_weather(city): ...
-get_weather = log_calls(get_weather)`),
-  rd('Write one', `<p>The inner <code>wrapper</code> is a closure. It runs extra code before and after it calls the original function.</p>`, R`from functools import wraps
+@log_payment
+def pay(amount):
+    return f"Paid Rs {amount}"
+
+print(pay(499))`, R`Payment started: 499
+Paid Rs 499`),
+  rd('Write a proper one', `<p>Use <code>*args, **kwargs</code> so the wrapper accepts any call, and <code>functools.wraps</code> to keep the original name.</p>`, R`from functools import wraps
 
 def log_calls(fn):
-    @wraps(fn)                  # keep fn's name and docstring
+    @wraps(fn)
     def wrapper(*args, **kwargs):
-        print("calling", fn.__name__, args)
+        print("calling", fn.__name__, args, kwargs)
         result = fn(*args, **kwargs)
         print("done")
         return result
     return wrapper
 
 @log_calls
-def get_weather(city):
-    return f"Sunny in {city}"
+def book_seat(movie, seat="H12"):
+    return f"{movie}: {seat} booked"
 
-print(get_weather("Pune"))`, R`calling get_weather ('Pune',)
+print(book_seat("Leo", seat="F7"))`, R`calling book_seat ('Leo',) {'seat': 'F7'}
 done
-Sunny in Pune`),
+Leo: F7 booked`),
   lab('Stack decorators', `<p>Turn decorators on and off, then call the function. The top decorator is the outer layer, so it runs first and finishes last.</p>`, 'decorator'),
-  rd('The @tool decorator in agent code', `<p>A registration decorator does not even need a wrapper. It saves the function in a dict and returns it unchanged.</p>`, R`TOOLS = {}
-
-def tool(fn):
-    TOOLS[fn.__name__] = fn
-    return fn
-
-@tool
-def search_docs(query: str) -> list[str]:
-    return []
-
-print(list(TOOLS))`, R`['search_docs']`, {ai:'LangChain, the OpenAI Agents SDK and FastAPI routes all use decorators like this.'}),
   pr(R`def shout(fn):
     def w(*a):
         return fn(*a).upper()
     return w
 
 @shout
-def hi(name):
-    return f"hi {name}"
-print(hi.__name__)`, 'What does this print?', ['hi','w','shout'], 1, 'Without functools.wraps, the decorated name is the wrapper\'s name. That is why wraps is important.'),
+def team():
+    return "csk"
+print(team.__name__)`, 'What does this print?', ['team','w','shout'], 1, 'Without functools.wraps, the decorated name is the wrapper\'s name. That is why wraps matters.'),
+  rd('Now in an AI agent', `<p>The <code>@tool</code> decorator in AI frameworks does not even need a wrapper. It saves the function in a registry and returns it unchanged.</p>`, R`TOOLS = {}
+
+def tool(fn):
+    TOOLS[fn.__name__] = fn
+    return fn
+
+@tool
+def get_pnr_status(pnr: str) -> str:
+    return f"PNR {pnr}: Confirmed, coach S4"
+
+print(list(TOOLS))
+print(TOOLS["get_pnr_status"]("4521876390"))`, R`['get_pnr_status']
+PNR 4521876390: Confirmed, coach S4`, {ai:'LangChain, the OpenAI Agents SDK and FastAPI routes all use decorators like this.'}),
   lab('Game: Decorator tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_17'),
-  task('Write a decorator with an argument: @retry(times=3).', R`from functools import wraps
+  task('Write a decorator with an argument: @retry(times=3), and test it on a payment that fails twice.', R`from functools import wraps
 
 def retry(times):
     def deco(fn):
@@ -785,83 +848,119 @@ def retry(times):
                     print("attempt", attempt, "failed:", e)
             raise RuntimeError("all retries failed")
         return wrapper
-    return deco`)
+    return deco
+
+tries = {"n": 0}
+
+@retry(times=3)
+def pay(amount):
+    tries["n"] += 1
+    if tries["n"] < 3:
+        raise ConnectionError("bank server busy")
+    return f"Paid Rs {amount}"
+
+print(pay(250))`)
  ],
  sum:[['@deco','fn = deco(fn)'],['wrapper(*args, **kwargs)','Accepts any call'],['functools.wraps','Keeps name and docstring'],['deco(arg)','A function that returns a decorator'],['stacking','Top decorator is the outermost layer']]};
 
-L[18] = {t:'Docstrings', d:'The LLM reads your docstring to choose a tool.', mins:8,
- goals:['Write a docstring and read it with help() and __doc__','Write tool docstrings that an LLM can use well'],
+L[18] = {t:'Docstrings', d:'Explain your function in words. AI models read them to pick tools.', mins:15,
+ goals:['Write a docstring and read it with help() and __doc__','Write tool docstrings that an AI model can use well'],
  steps:[
-  lab('Story: What the model reads', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_18'),
-  rd('A docstring is the first string in a function', `<p>Put a string in triple quotes as the first line of a function. Python stores it in <code>fn.__doc__</code>.</p>`, R`def get_weather(city: str) -> str:
-    """Get the current weather for a city.
+  lab('Story: The voice assistant reads the label', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_18'),
+  rd('A docstring is the first string in a function', `<p>Put a string in triple quotes as the first line of a function. Python stores it in <code>fn.__doc__</code>.</p>`, R`def book_auto(pickup: str, drop: str) -> str:
+    """Book an auto rickshaw between two places.
 
     Args:
-        city: City name, for example "Hyderabad".
+        pickup: Where to start, for example "T Nagar".
+        drop: Where to go, for example "Chennai Central".
     """
-    return "Sunny"
+    return f"Auto booked: {pickup} to {drop}"
 
-print(get_weather.__doc__.splitlines()[0])`, R`Get the current weather for a city.`),
-  lab('Docstring to tool schema', `<p>Agent frameworks read your function name, type hints and docstring. They turn them into a JSON schema for the LLM. Edit the docstring and see the schema change.</p>`, 'schema'),
-  rd('Write tool docstrings for the LLM', `<p>The LLM chooses tools only from their names and descriptions. A good tool docstring says <b>when</b> to use the tool, what each argument means, and what comes back.</p>`, null, null, {table:[['Weak','Strong'],['"Weather tool."','"Get current weather for one city. Use when the user asks about weather now. Returns a short text summary."'],['"q: query"','"query: a short search phrase, 2 to 6 words"']]}),
+print(book_auto.__doc__.splitlines()[0])`, R`Book an auto rickshaw between two places.`),
+  lab('Docstring to tool schema', `<p>AI agent frameworks read your function name, type hints and docstring, and turn them into a description the model reads. Edit the docstring and see it change.</p>`, 'schema'),
+  rd('Write docstrings a model can use', `<p>A model picks tools only from their names and descriptions. Say <b>when</b> to use the tool, what each argument means, and what comes back.</p>`, null, null, {table:[['Weak','Strong'],['"Auto tool."','"Book an auto rickshaw for a short city ride. Use when the user wants a ride now. Returns a booking line."'],['"p: place"','"pickup: the start point, for example a bus stop or metro station"']]}),
   pr(R`def f():
     x = 1
     """Not a docstring"""
 print(f.__doc__)`, 'What does this print?', ['Not a docstring','None','An error'], 1, 'A docstring must be the first statement in the function body.'),
-  lab('Game: Docstring check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_18'),
-  task('Write a tool with a docstring a model can act on. Then print it with help().', R`def search_docs(query: str, top_k: int = 3) -> list[str]:
-    """Search the company handbook.
+  rd('Now in an AI agent', `<p>When a user types "get me an auto to Central", the model reads each tool's docstring and picks the one that fits.</p>`, R`def book_auto(pickup, drop):
+    """Book an auto rickshaw for a short city ride."""
 
-    Use this when the user asks about HR, leave or policies.
+def check_pnr(pnr):
+    """Check the status of a train ticket by PNR number."""
+
+for fn in (book_auto, check_pnr):
+    print(fn.__name__, "->", fn.__doc__)`, R`book_auto -> Book an auto rickshaw for a short city ride.
+check_pnr -> Check the status of a train ticket by PNR number.`),
+  lab('Game: Docstring check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_18'),
+  task('Write a tool with a docstring a model can act on. Then print it with help().', R`def find_restaurants(area: str, veg_only: bool = False) -> list[str]:
+    """Find restaurants in an area of Bengaluru.
+
+    Use this when the user asks where to eat nearby.
 
     Args:
-        query: A short search phrase, 2 to 6 words.
-        top_k: How many passages to return (1 to 10).
+        area: Neighbourhood name, for example "Indiranagar".
+        veg_only: True to show only vegetarian places.
     """
-    return []
+    return ["MTR", "Vidyarthi Bhavan"]
 
-help(search_docs)`)
+help(find_restaurants)`)
  ],
  sum:[['docstring','First string in a function, class or module'],['__doc__ / help()','Read a docstring'],['tool description','Built from your docstring by frameworks'],['good docstring','When to use, args, return value']]};
 
-L[19] = {t:'Iterators, generators and yield', d:'How token streaming works.', mins:12, core:true,
+L[19] = {t:'Iterators, generators and yield', d:'One item at a time, like live cricket commentary.', mins:25, core:true,
  goals:['Understand iter() and next()','Write a generator with yield','Know why generators save memory'],
  steps:[
-  lab('Story: Streaming tokens', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_19'),
-  rd('An iterator gives one item at a time', `<p>A <code>for</code> loop calls <code>iter()</code> on the list, then <code>next()</code> again and again. When the items run out, Python raises <code>StopIteration</code> and the loop ends.</p>`, R`it = iter(["a", "b"])
-print(next(it))
-print(next(it))
-print(next(it))`, R`a
-b
+  lab('Story: Live commentary, ball by ball', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_19'),
+  rd('An iterator gives one item at a time', `<p>A <code>for</code> loop calls <code>iter()</code> on the list, then <code>next()</code> again and again. When items run out, Python raises <code>StopIteration</code> and the loop ends. The last line fails on purpose.</p>`, R`balls = iter(["FOUR", "dot"])
+print(next(balls))
+print(next(balls))
+print(next(balls))   # fails on purpose: no balls left`, R`FOUR
+dot
 StopIteration`),
-  rd('A generator is a function with yield', `<p><code>yield</code> gives one value and <b>pauses</b> the function. The next <code>next()</code> call continues from that exact point.</p>`, R`def stream_tokens(text):
-    for word in text.split():
-        yield word + " "
+  rd('A generator is a function with yield', `<p><code>yield</code> gives one value and <b>pauses</b> the function. The next call continues from that exact point, just like live commentary arriving ball by ball.</p>`, R`def commentary(over):
+    for ball, result in enumerate(over, start=1):
+        yield f"Ball {ball}: {result}"
 
-for tok in stream_tokens("RAG grounds answers"):
-    print(tok, end="")`, R`RAG grounds answers `),
-  lab('Stream tokens with next()', `<p>Press <b>next(gen)</b>. The arrow shows where the generator is paused. This is how a chat UI shows words one by one.</p>`, 'gen'),
-  rd('Generator expressions', `<p>Use round brackets instead of square brackets to get a generator. It makes items only when you ask for them, so a million items do not fill your memory.</p>`, R`import sys
+for line in commentary(["1 run", "FOUR", "dot", "SIX"]):
+    print(line)`, R`Ball 1: 1 run
+Ball 2: FOUR
+Ball 3: dot
+Ball 4: SIX`),
+  lab('Stream tokens with next()', `<p>Press <b>next(gen)</b>. The arrow shows where the generator is paused. This is how a chat app shows words one by one.</p>`, 'gen'),
+  rd('Generator expressions save memory', `<p>Round brackets make a generator. It makes items only when asked, so a million items do not fill your phone's memory.</p>`, R`import sys
 big_list = [n * n for n in range(1_000_000)]
 big_gen = (n * n for n in range(1_000_000))
-print(sys.getsizeof(big_list), sys.getsizeof(big_gen))`, R`8448728 200`, {note:'The exact byte counts change between Python versions. The list is millions of bytes. The generator is about 200 bytes.'}),
+print(sys.getsizeof(big_list) > 1_000_000)   # millions of bytes
+print(sys.getsizeof(big_gen) < 1_000)        # a few hundred bytes`, R`True
+True`),
   pr(R`def g():
-    yield 1
-    yield 2
+    yield "FOUR"
+    yield "SIX"
 x = g()
-print(type(x).__name__)`, 'What does this print?', ['int','generator','function'], 1, 'Calling a generator function does not run its body. It returns a generator object.'),
-  pr(R`gen = (c for c in "ab")
-print(list(gen), list(gen))`, 'What does this print?', ["['a', 'b'] ['a', 'b']","['a', 'b'] []","An error"], 1, 'A generator can be used only once.'),
+print(type(x).__name__)`, 'What does this print?', ['str','generator','function'], 1, 'Calling a generator function does not run its body. It returns a generator.'),
+  pr(R`gen = (b for b in "46")
+print(list(gen), list(gen))`, 'What does this print?', ["['4', '6'] ['4', '6']","['4', '6'] []","An error"], 1, 'A generator can be used only once.'),
+  rd('Now in an AI agent', `<p>Chat apps stream an AI model's reply word by word with a generator, so you see the answer as it is written.</p>`, R`def stream_reply(text):
+    for word in text.split():
+        yield word
+
+for word in stream_reply("Munnar is best from September to March"):
+    print(word, end=" ")
+print()`, R`Munnar is best from September to March`),
   lab('Game: Generator lab', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_19'),
-  task('Write a generator that reads a big file line by line and yields only non-empty lines.', R`def read_chunks(path):
+  task('Write a generator that reads a file line by line and yields only lines that are not empty.', R`from pathlib import Path
+
+Path("menu.txt").write_text("Idli\n\nDosa\n  \nVada\n", encoding="utf-8")
+
+def read_items(path):
     with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line:
                 yield line
 
-# for chunk in read_chunks("handbook.txt"):
-#     embed(chunk)`)
+print(list(read_items("menu.txt")))`)
  ],
  sum:[['iterator','Gives items with next()'],['StopIteration','No more items'],['yield','Give a value and pause'],['generator','Lazy, one-pass sequence'],['( ... for ...)','Generator expression']]};
 /* ================= PART III ================= */
