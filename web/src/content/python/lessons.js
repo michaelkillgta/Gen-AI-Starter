@@ -1690,28 +1690,44 @@ except ValidationError as e:
  ],
  sum:[['BaseModel','Typed, validated data class'],['Field(ge=, le=)','Extra rules'],['ValidationError','Data does not match'],['model_dump()','Object to dict'],['model_json_schema()','Schema for the AI model']]};
 /* ================= PART V ================= */
-L[32] = {t:'Exceptions: try, except, else, finally', d:'When a tool fails, tell the LLM and keep going.', mins:14, core:true,
+L[32] = {t:'Exceptions: try, except, else, finally', d:'When something fails, show a clear message and keep going.', mins:25, core:true,
  goals:['Catch errors with try / except','Know when else and finally run','raise errors and write custom exception classes'],
  steps:[
-  lab('Story: When a tool breaks', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_32'),
-  rd('An exception stops the program, unless you catch it', `<p>Code inside <code>try</code> runs normally. If an error happens, Python jumps to the matching <code>except</code> block. The program does not crash.</p>`, R`try:
-    n = int("abc")
-except ValueError as e:
-    print("Bad number:", e)`, R`Bad number: invalid literal for int() with base 10: 'abc'`),
-  lab('Follow the path', `<p>Choose what the tool does. Press <b>Run</b>. See which blocks run, and in which order.</p>`, 'exc'),
-  rd('raise and custom exceptions', `<p>Use <code>raise</code> to signal a problem yourself. A custom exception class makes the error easy to catch by name.</p>`, R`class ToolError(Exception):
-    """A tool failed in a way the LLM should know about."""
+  lab('Story: The UPI payment that failed', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_32'),
+  rd('An exception stops the program, unless you catch it', `<p>Meera types her recharge amount as "two hundred". Code inside <code>try</code> runs normally. If an error happens, Python jumps to the matching <code>except</code> block, and the app does not crash.</p>`, R`amount_text = "two hundred"
+try:
+    amount = int(amount_text)
+except ValueError:
+    print("Please enter the amount in numbers, like 200")`, R`Please enter the amount in numbers, like 200`),
+  lab('Follow the path', `<p>Choose what happens. Press <b>Run</b>. See which blocks run, and in which order.</p>`, 'exc'),
+  rd('raise and custom exceptions', `<p>Use <code>raise</code> to signal a problem yourself. A custom exception class makes the error easy to catch by name.</p>`, R`class PaymentError(Exception):
+    """A payment could not be completed."""
 
-def get_weather(city):
-    if not city:
-        raise ToolError("city is required")
-    return f"Sunny in {city}"
+def pay(amount, balance):
+    if amount > balance:
+        raise PaymentError(f"Balance Rs {balance} is less than Rs {amount}")
+    return f"Paid Rs {amount}"
 
 try:
-    get_weather("")
-except ToolError as e:
-    result = f"Tool error: {e}"    # send this back to the LLM
-print(result)`, R`Tool error: city is required`, {ai:'In the agent loop, a failed tool does not crash the agent. The error text goes back to the LLM, and the LLM can try again with better arguments.'}),
+    print(pay(500, 320))
+except PaymentError as e:
+    print("Payment failed:", e)`, R`Payment failed: Balance Rs 320 is less than Rs 500`),
+  rd('else and finally', `<p><code>else</code> runs only when nothing failed. <code>finally</code> always runs, so it is the place for cleanup like closing the payment screen.</p>`, R`def checkout(amount):
+    try:
+        if amount <= 0:
+            raise ValueError("amount must be positive")
+    except ValueError as e:
+        print("Error:", e)
+    else:
+        print("Paid Rs", amount)
+    finally:
+        print("Closing payment screen")
+
+checkout(250)
+checkout(0)`, R`Paid Rs 250
+Closing payment screen
+Error: amount must be positive
+Closing payment screen`),
   pr(R`try:
     x = 1
 except Exception:
@@ -1721,154 +1737,241 @@ else:
 finally:
     print("C")`, 'What does this print?', ['A C','B C','C'], 1, 'No error, so except is skipped, else runs, and finally always runs.'),
   pr(R`try:
-    {}["k"]
+    {}["coupon"]
 except ValueError:
     print("value")
 finally:
     print("cleanup")`, 'What happens?', ['value, then cleanup','cleanup, then KeyError crashes the program','Nothing'], 1, 'KeyError is not a ValueError, so it is not caught. finally still runs before the error goes up.'),
+  rd('Now in an AI agent', `<p>When a tool fails inside an AI agent, the agent does not crash. It turns the error into text and sends it back to the model, which can try again with better arguments.</p>`, R`def get_weather(city):
+    if not city:
+        raise ValueError("city is required")
+    return f"Rain likely in {city}"
+
+def safe_call(fn, **args):
+    try:
+        return fn(**args)
+    except Exception as e:
+        return f"Tool error: {e}"     # goes back to the model
+
+print(safe_call(get_weather, city=""))
+print(safe_call(get_weather, city="Kochi"))`, R`Tool error: city is required
+Rain likely in Kochi`),
   lab('Game: Exception tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_32'),
-  task('Wrap a tool call the way an agent does.', R`def get_weather(city):
-    return f"Sunny in {city}"
+  task('Wrap a ticket booking so wrong arguments give a clear message.', R`def book(source, dest):
+    return f"Booked {source} to {dest}"
 
 def safe_call(fn, **args):
     try:
         return fn(**args)
     except TypeError as e:
-        return f"Tool error: bad arguments ({e})"
+        return f"Error: bad details ({e})"
     except Exception as e:
-        return f"Tool error: {e}"
+        return f"Error: {e}"
 
-print(safe_call(get_weather, city="Pune"))
-print(safe_call(get_weather, town="Pune"))`)
+print(safe_call(book, source="Chennai", dest="Madurai"))
+print(safe_call(book, source="Chennai", to="Madurai"))`)
  ],
  sum:[['try / except','Catch an error'],['else','Runs only if no error'],['finally','Always runs (cleanup)'],['raise','Signal an error'],['custom exception','class MyError(Exception)']]};
 
-L[33] = {t:'Retry with backoff and tenacity', d:'Survive 429 and 503 errors.', mins:10, core:true,
+L[33] = {t:'Retry with backoff and tenacity', d:'Tatkal at 10 AM: wait a little longer after each failure.', mins:22, core:true,
  goals:['Write retry with exponential backoff by hand','Use tenacity for the same thing in one decorator'],
  steps:[
-  lab('Story: Surviving a busy API', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_33'),
-  rd('Why retry?', `<p>LLM APIs fail often for short times: <code>429 Too Many Requests</code>, <code>503 Overloaded</code>, timeouts. The fix is to wait and try again. Each wait is longer than the last: 1s, 2s, 4s. This is <b>exponential backoff</b>.</p>`),
-  lab('Watch backoff happen', `<p>Set how often the API fails. Press <b>Run request</b>. The page runs the attempts at 10x speed.</p>`, 'retry'),
-  rd('Write it once by hand', `<p>Writing it yourself once makes the library easy to understand.</p>`, R`import random, time
+  lab('Story: The tatkal rush', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_33'),
+  rd('Why retry?', `<p>At 10 AM sharp, everyone in India opens the train booking site for tatkal tickets, and it says "busy". Busy servers usually recover in a few seconds. The fix is to wait and try again, waiting longer each time: 1s, 2s, 4s. This is <b>exponential backoff</b>. AI model APIs fail in the same way, with errors like 429 and 503.</p>`, R`base = 1
+for attempt in range(4):
+    print(f"try {attempt + 1}: wait {base * 2 ** attempt}s if busy")`, R`try 1: wait 1s if busy
+try 2: wait 2s if busy
+try 3: wait 4s if busy
+try 4: wait 8s if busy`),
+  lab('Watch backoff happen', `<p>Set how often the server fails. Press <b>Run request</b>. The page runs the attempts at 10x speed.</p>`, 'retry'),
+  rd('Write it once by hand', `<p>This booking function fails twice with "busy", then works. The retry loop waits a little longer each time (shortened here so it runs fast).</p>`, R`import time
 
-def call_with_retry(fn, max_attempts=4, base=1.0):
+tries = {"n": 0}
+def book_tatkal():
+    tries["n"] += 1
+    if tries["n"] < 3:
+        raise ConnectionError("server busy")
+    return "Ticket booked: Chennai to Madurai"
+
+def call_with_retry(fn, max_attempts=4, base=0.1):
     for attempt in range(max_attempts):
         try:
             return fn()
-        except ConnectionError:
+        except ConnectionError as e:
             if attempt == max_attempts - 1:
                 raise
-            wait = base * 2 ** attempt + random.uniform(0, 0.5)   # jitter
-            print(f"retry in {wait:.1f}s")
-            time.sleep(wait)`),
-  rd('Then use tenacity', `<p>The same idea in one decorator.</p>`, R`from tenacity import retry, stop_after_attempt, wait_exponential
+            wait = base * 2 ** attempt
+            print(f"{e}, retrying in {wait:.1f}s")
+            time.sleep(wait)
 
-@retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=1, max=10))
-def call_llm(prompt):
-    ...`, null, {note:'Retry only errors that can pass: 429, 5xx, timeouts. Do not retry 400 or 401. The same bad request fails every time.'}),
-  pr(R`base = 1
-print([base * 2 ** a for a in range(4)])`, 'What does this print?', ['[1, 2, 3, 4]','[1, 2, 4, 8]','[2, 4, 6, 8]'], 1, '2 ** 0 is 1, then 2, 4, 8.'),
+print(call_with_retry(book_tatkal))`, R`server busy, retrying in 0.1s
+server busy, retrying in 0.2s
+Ticket booked: Chennai to Madurai`),
+  rd('Then use tenacity', `<p>The tenacity library does the same thing in one decorator. The first Run downloads it, so it takes a moment.</p>`, R`from tenacity import retry, stop_after_attempt, wait_exponential
+
+tries = {"n": 0}
+
+@retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.1, max=1))
+def book_tatkal():
+    tries["n"] += 1
+    if tries["n"] < 3:
+        raise ConnectionError("server busy")
+    return f"Booked on try {tries['n']}"
+
+print(book_tatkal())`, R`Booked on try 3`, {note:'Retry only errors that can pass: busy, timeouts, 429 and 5xx. Do not retry a wrong password or a bad request. It fails every time.'}),
+  pr(R`base = 2
+print([base * 2 ** a for a in range(3)])`, 'What does this print?', ['[2, 4, 6]','[2, 4, 8]','[1, 2, 4]'], 1, '2 × 1, 2 × 2, 2 × 4.'),
+  rd('Now in an AI agent', `<p>Calls to an AI model use the same pattern: retry 429 (too many requests) and 503 (overloaded) with backoff, but stop at once on 401 (bad API key).</p>`, R`def should_retry(status):
+    return status == 429 or status >= 500
+
+for status in (429, 503, 401, 400):
+    print(status, "retry" if should_retry(status) else "stop")`, R`429 retry
+503 retry
+401 stop
+400 stop`),
   lab('Game: Retry or not?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_33'),
-  task('Add jitter and a maximum wait to your hand-written retry.', R`import random
+  task('Add jitter and a maximum wait to the backoff.', R`import random
 
 base = 1
 for attempt in range(5):
     wait = min(10, base * 2 ** attempt) + random.uniform(0, 0.5)
-    print(f"attempt {attempt}: wait {wait:.2f}s")`)
+    print(f"attempt {attempt + 1}: wait {wait:.2f}s")`)
  ],
  sum:[['backoff','Wait longer after each failure'],['jitter','A small random extra wait'],['429 / 503','Retry these'],['400 / 401','Do not retry these'],['tenacity','@retry(stop=..., wait=...)']]};
 
-L[34] = {t:'JSON and malformed LLM output', d:'Parse tool arguments safely.', mins:10, core:true,
- goals:['Use json.loads and json.dumps','Clean up common LLM JSON mistakes','Fall back safely when JSON is broken'],
+L[34] = {t:'JSON and messy JSON', d:'Read a PNR status, and fix broken JSON from an AI model.', mins:22, core:true,
+ goals:['Use json.loads and json.dumps','Clean up common JSON mistakes','Fall back safely when JSON is broken'],
  steps:[
-  lab('Story: Reading JSON from the model', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_34'),
-  rd('loads and dumps', `<p><code>json.loads</code> turns a JSON <b>s</b>tring into Python objects. <code>json.dumps</code> turns Python objects into a JSON string. Remember: the <b>s</b> means string.</p>`, R`import json
-raw = '{"city": "Pune", "days": 2}'
-args = json.loads(raw)
-print(args["city"])
-print(json.dumps({"ok": True, "items": None}))`, R`Pune
-{"ok": true, "items": null}`),
-  rd('Tool arguments arrive as a string', `<p>The LLM sends tool arguments as JSON text. Your agent must parse it before it can call <code>tool(**args)</code>.</p>`, R`args = json.loads(reply["tool_call"]["arguments"])`),
-  lab('Repair LLM output', `<p>Pick a real kind of broken output. Press <b>Parse</b> and watch each repair step.</p>`, 'jsonfix'),
-  pr(R`import json
-print(json.loads("{'a': 1}"))`, 'What happens?', ["{'a': 1}","JSONDecodeError","{'a': '1'}"], 1, 'JSON requires double quotes. Single quotes are Python syntax, not JSON.'),
-  lab('Game: JSON parser', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_34'),
-  task('Write a parse_llm_json function with a fence fallback.', R`import json, re
+  lab('Story: Reading a PNR status', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_34'),
+  rd('loads and dumps', `<p>A train app gets a PNR status as JSON text. <code>json.loads</code> turns a JSON <b>s</b>tring into Python objects. <code>json.dumps</code> turns Python objects back into JSON text. The <b>s</b> means string.</p>`, R`import json
 
-def parse_llm_json(text):
+raw = '{"pnr": "4521876390", "status": "CNF", "coach": "S4", "berth": 32}'
+ticket = json.loads(raw)
+print(ticket["status"], ticket["coach"], ticket["berth"])
+print(json.dumps({"confirmed": True, "waitlist": None}))`, R`CNF S4 32
+{"confirmed": true, "waitlist": null}`),
+  rd('JSON is strict', `<p>JSON needs double quotes. Single quotes are Python, not JSON. This one fails on purpose.</p>`, R`import json
+json.loads("{'status': 'CNF'}")   # fails on purpose`, R`json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)`),
+  lab('Repair LLM output', `<p>Pick a real kind of broken output from an AI model. Press <b>Parse</b> and watch each repair step.</p>`, 'jsonfix'),
+  pr(R`import json
+print(json.loads('{"berth": 32}')["berth"] + 1)`, 'What does this print?', ['33','"321"','TypeError'], 0, 'JSON numbers become Python ints, so you can add to them.'),
+  rd('Now in an AI agent', `<p>An AI model sends tool arguments as JSON text, sometimes wrapped in extra words. Pull out the part between the first <code>{</code> and the last <code>}</code>, then parse it.</p>`, R`import json, re
+
+reply = 'Sure! Here are the details: {"pnr": "4521876390"} Let me check.'
+try:
+    args = json.loads(reply)
+except json.JSONDecodeError:
+    match = re.search(r"\{.*\}", reply, re.S)
+    args = json.loads(match.group(0))
+print(args["pnr"])`, R`4521876390`),
+  lab('Game: JSON parser', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_34'),
+  task('Write a parse_json function that falls back to the braces inside the text.', R`import json, re
+
+def parse_json(text):
     try:
         return json.loads(text)
     except json.JSONDecodeError:
         m = re.search(r"\{.*\}", text, re.S)     # first { to last }
         if m:
             return json.loads(m.group(0))
-        raise`)
+        raise
+
+print(parse_json('{"city": "Vizag"}'))
+print(parse_json('Answer: {"city": "Mysuru"} done'))`)
  ],
  sum:[['json.loads','JSON string to Python'],['json.dumps','Python to JSON string'],['JSONDecodeError','Invalid JSON'],['true / null','JSON spelling of True / None']]};
 
-L[35] = {t:'Files with pathlib: text, CSV, JSON', d:'Load prompts and knowledge bases.', mins:9,
+L[35] = {t:'Files with pathlib: text, CSV, JSON', d:'Read the class attendance sheet and save settings.', mins:20,
  goals:['Build paths with pathlib','Read and write text, JSON and CSV'],
  steps:[
-  lab('Story: Loading the knowledge base', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_35'),
+  lab('Story: The attendance sheet', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_35'),
   rd('Path objects', `<p><code>Path</code> joins folders with <code>/</code> and works the same on Windows, macOS and Linux.</p>`, R`from pathlib import Path
 
-root = Path("data")
-prompt_file = root / "prompts" / "system.txt"
-print(prompt_file.name, prompt_file.suffix, prompt_file.exists())`, R`system.txt .txt False`),
-  rd('Text and JSON', ``, R`import json
+folder = Path("college")
+sheet = folder / "cse" / "attendance.csv"
+print(sheet.name, sheet.suffix, sheet.parent)`, R`attendance.csv .csv college/cse`),
+  rd('Text and JSON', `<p>Write a file, then read it back. JSON is good for settings.</p>`, R`import json
 from pathlib import Path
 
-p = Path("notes.txt")
-p.write_text("RAG notes", encoding="utf-8")
-print(p.read_text(encoding="utf-8"))
+notes = Path("notes.txt")
+notes.write_text("Sem exams start 2 Dec", encoding="utf-8")
+print(notes.read_text(encoding="utf-8"))
 
-cfg = Path("config.json")
-cfg.write_text(json.dumps({"model": "gpt-4o-mini"}, indent=2))
-print(json.loads(cfg.read_text())["model"])`, R`RAG notes
-gpt-4o-mini`),
-  rd('CSV with DictReader', `<p>Each row becomes a dict. Values are always strings, so convert numbers yourself.</p>`, R`import csv
-with open("evals.csv", newline="", encoding="utf-8") as f:
+cfg = Path("settings.json")
+cfg.write_text(json.dumps({"college": "PSG Tech", "min_attendance": 75}))
+print(json.loads(cfg.read_text())["min_attendance"])`, R`Sem exams start 2 Dec
+75`),
+  rd('CSV with DictReader', `<p>A class attendance sheet is a CSV. Each row becomes a dict. Values are always text, so convert numbers yourself.</p>`, R`import csv
+from pathlib import Path
+
+Path("attendance.csv").write_text(
+    "name,attended,held\nDivya,62,70\nKarthik,48,70\n", encoding="utf-8")
+
+with open("attendance.csv", newline="", encoding="utf-8") as f:
     for row in csv.DictReader(f):
-        print(row["question"], float(row["score"]))`),
+        pct = 100 * int(row["attended"]) / int(row["held"])
+        print(row["name"], f"{pct:.0f}%")`, R`Divya 89%
+Karthik 69%`),
   pr(R`from pathlib import Path
-print(Path("docs") / "a.md")`, 'What does this print on Linux?', ['docs/a.md','docsa.md','TypeError'], 0, 'The / operator joins path parts with the correct separator.'),
-  lab('Game: Path lab', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_35'),
-  task('Load every .md file in a folder into a list of documents.', R`from pathlib import Path
+print(Path("photos") / "ooty.jpg")`, 'What does this print on Linux?', ['photos/ooty.jpg','photosooty.jpg','TypeError'], 0, 'The / operator joins path parts with the correct separator.'),
+  rd('Now in an AI agent', `<p>An AI agent loads its knowledge base by reading every file in a folder.</p>`, R`from pathlib import Path
 
-docs = []
-for path in Path("knowledge").glob("*.md"):
-    docs.append({"source": path.name, "text": path.read_text(encoding="utf-8")})
-print(len(docs))`)
+kb = Path("knowledge")
+kb.mkdir(exist_ok=True)
+(kb / "hostel.md").write_text("Hostel gates close at 9 PM.", encoding="utf-8")
+(kb / "library.md").write_text("Library opens at 8 AM.", encoding="utf-8")
+
+docs = [{"source": p.name, "text": p.read_text(encoding="utf-8")} for p in sorted(kb.glob("*.md"))]
+print(len(docs), docs[0]["source"])`, R`2 hostel.md`),
+  lab('Game: Path lab', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_35'),
+  task('Find students below 75% attendance from a CSV.', R`import csv
+from pathlib import Path
+
+Path("sheet.csv").write_text(
+    "name,attended,held\nHarini,66,72\nSai,50,72\nAnjali,70,72\n", encoding="utf-8")
+
+with open("sheet.csv", newline="", encoding="utf-8") as f:
+    short = [r["name"] for r in csv.DictReader(f)
+             if 100 * int(r["attended"]) / int(r["held"]) < 75]
+print("Short of attendance:", short)`)
  ],
  sum:[['Path / "x"','Join paths'],['read_text / write_text','Text files'],['json.loads(p.read_text())','JSON files'],['csv.DictReader','Rows as dicts'],['glob("*.md")','Find files']]};
 
-L[36] = {t:'Environment variables and python-dotenv', d:'Never hardcode an API key.', mins:7,
+L[36] = {t:'Environment variables and python-dotenv', d:'Keep passwords and API keys out of your code.', mins:18,
  goals:['Read settings from os.environ','Load a .env file with python-dotenv','Keep keys out of Git'],
  steps:[
-  lab('Story: Keeping the key secret', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_36'),
-  rd('Read from the environment', `<p><code>os.environ["KEY"]</code> fails if the key is missing. <code>os.getenv("KEY", default)</code> returns a default.</p>`, R`import os
-key = os.getenv("OPENAI_API_KEY")
-if key is None:
-    raise RuntimeError("Set OPENAI_API_KEY first")`),
-  rd('.env files', `<p>Put local secrets in a file called <code>.env</code>. Load it once at start-up. Add <code>.env</code> to <code>.gitignore</code> so it never goes to GitHub.</p>`, R`# .env
-OPENAI_API_KEY=sk-...
-MODEL=gpt-4o-mini
+  lab('Story: Keeping the SMS key secret', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_36'),
+  rd('Read from the environment', `<p>Arjun's college app sends SMS alerts. The SMS key must never be written in the code. <code>os.getenv("KEY", default)</code> reads a setting, or gives a default when it is missing.</p>`, R`import os
 
-# app.py
+os.environ["SMS_SENDER"] = "COLLGE"      # set here only for the demo
+sender = os.getenv("SMS_SENDER")
+region = os.getenv("SMS_REGION", "IN")   # missing, so the default
+print(sender, region)`, R`COLLGE IN`),
+  rd('.env files', `<p>Put local secrets in a file called <code>.env</code>, and add <code>.env</code> to <code>.gitignore</code> so it never goes to GitHub. <code>load_dotenv()</code> reads it at start-up. The first Run downloads python-dotenv.</p>`, R`from pathlib import Path
 from dotenv import load_dotenv
 import os
+
+Path(".env").write_text("SMS_API_KEY=test-1234\nMAX_RETRIES=3\n")   # demo file
 load_dotenv()
-print(os.getenv("MODEL"))`, R`gpt-4o-mini`, {note:'Every environment variable is a string. Convert numbers and flags yourself (lesson 4).'}),
+print(os.getenv("SMS_API_KEY")[:4] + "****")
+print(int(os.getenv("MAX_RETRIES")) + 1)`, R`test****
+4`, {note:'Every environment variable is text. Convert numbers and flags yourself (lesson 4).'}),
   pr(R`import os
 os.environ["RETRIES"] = "3"
-print(os.environ["RETRIES"] + 1)`, 'What happens?', ['4','31','TypeError'], 2, 'The value is the string "3". Use int(os.environ["RETRIES"]) + 1.'),
-  lab('Game: Secret keeper', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_36'),
-  task('Make a small settings loader with safe defaults.', R`import os
-from dotenv import load_dotenv
+print(os.environ["RETRIES"] + 1)`, 'What happens?', ['4','31','TypeError'], 2, 'The value is the text "3". Use int(os.environ["RETRIES"]) + 1.'),
+  rd('Now in an AI agent', `<p>AI API keys work the same way. Your laptop, a test server and Vercel each set their own keys; the code never changes.</p>`, R`import os
 
-load_dotenv()
+os.environ["OPENAI_API_KEY"] = "sk-test-demo"      # demo only
+key = os.getenv("OPENAI_API_KEY")
+if not key:
+    print("Set OPENAI_API_KEY first")
+else:
+    print("Key loaded:", key[:7] + "...")`, R`Key loaded: sk-test...`),
+  lab('Game: Secret keeper', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_36'),
+  task('Make a settings loader with safe defaults.', R`import os
+
 SETTINGS = {
-    "model": os.getenv("MODEL", "gpt-4o-mini"),
+    "college": os.getenv("COLLEGE", "Anna University"),
     "max_retries": int(os.getenv("MAX_RETRIES", "3")),
     "debug": os.getenv("DEBUG", "false").lower() == "true",
 }
@@ -1876,22 +1979,48 @@ print(SETTINGS)`)
  ],
  sum:[['os.getenv(k, d)','Read with a default'],['os.environ[k]','Read or KeyError'],['load_dotenv()','Load .env into the environment'],['.gitignore','Keep .env out of Git']]};
 
-L[37] = {t:'HTTP with requests and httpx', d:'Call real APIs inside your tools.', mins:12,
+L[37] = {t:'HTTP with requests and httpx', d:'Ask a weather service for Chennai rain, and handle what comes back.', mins:22,
  goals:['Make GET and POST requests','Read status codes and decide what to do','Send headers and bearer tokens; know when to use httpx'],
  steps:[
-  lab('Story: Calling a real API', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_37'),
-  rd('A request and a response', `<p>Your code sends a <b>method</b> (GET, POST), a <b>URL</b>, <b>headers</b> and sometimes a JSON <b>body</b>. The server returns a <b>status code</b>, headers and a body.</p>`, R`import requests
+  lab('Story: Will it rain in Chennai?', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_37'),
+  rd('A request and a response', `<p>Your code sends a <b>method</b> (GET, POST), a <b>URL</b>, <b>headers</b> and sometimes a JSON <b>body</b>. The server returns a <b>status code</b>, headers and a body. This is the real code; run it on your laptop, because the browser runner blocks internet calls.</p>`, R`import requests
 
 res = requests.get(
     "https://api.example.com/weather",
-    params={"city": "Pune"},
-    headers={"Authorization": f"Bearer {key}"},
+    params={"city": "Chennai"},
     timeout=10,
 )
 res.raise_for_status()      # error for 4xx and 5xx
-data = res.json()`, null, {note:'Always set a timeout. Without one, a slow server can freeze your agent forever.'}),
-  lab('What should your agent do?', `<p>Click a status code. See what it means and whether your agent should retry.</p>`, 'status'),
-  rd('httpx: the same API, plus async', `<p><code>httpx</code> works almost like <code>requests</code>, but it also has an async client. LLM SDKs use it inside.</p>`, R`import httpx, asyncio
+data = res.json()`, null, {note:'Always set a timeout. Without one, a slow server can freeze your app forever.'}),
+  rd('Try it with a pretend response', `<p>This version uses a pretend weather service so you can run it here. It returns the same shape a real one would.</p>`, R`import json
+
+def fake_get(city):
+    body = {"city": city, "temp_c": 31, "rain_chance": 80}
+    return 200, json.dumps(body)
+
+status, text = fake_get("Chennai")
+if status == 200:
+    data = json.loads(text)
+    print(f"{data['city']}: {data['temp_c']} C, {data['rain_chance']}% rain")`, R`Chennai: 31 C, 80% rain`),
+  lab('What should your code do?', `<p>Click a status code. See what it means and whether to retry.</p>`, 'status'),
+  rd('Decide by status code', `<p>2xx means success. 4xx means your request was wrong. 5xx means the server failed, so retrying later can help.</p>`, R`def explain(status):
+    if 200 <= status < 300:
+        return "OK"
+    if status in (401, 403):
+        return "check your key"
+    if status == 404:
+        return "wrong address"
+    if status == 429 or status >= 500:
+        return "wait and retry"
+    return "fix the request"
+
+for s in (200, 401, 404, 429, 503):
+    print(s, explain(s))`, R`200 OK
+401 check your key
+404 wrong address
+429 wait and retry
+503 wait and retry`),
+  rd('httpx: the same idea, plus async', `<p><code>httpx</code> works almost like <code>requests</code>, and it also has an async client so an app can ask for Chennai, Kochi and Vizag weather at the same time. Run this on your laptop.</p>`, R`import httpx, asyncio
 
 async def fetch(city):
     async with httpx.AsyncClient(timeout=10) as client:
@@ -1899,10 +2028,20 @@ async def fetch(city):
         r.raise_for_status()
         return r.json()
 
-# asyncio.run(fetch("Pune"))`),
-  pr(null, 'Your tool gets 401 Unauthorized. What should the agent do?', ['Retry with backoff','Stop and report a bad or missing API key','Parse the body as JSON'], 1, 'A retry sends the same wrong key again. Fix the credentials instead.'),
+# asyncio.run(fetch("Chennai"))`),
+  pr(null, 'Your weather call gets 401 Unauthorized. What should the code do?', ['Retry with backoff','Stop and report a bad or missing API key','Parse the body as JSON'], 1, 'A retry sends the same wrong key again. Fix the key instead.'),
+  rd('Now in an AI agent', `<p>An AI agent's weather tool wraps the HTTP call and returns text the model can read, including clear errors.</p>`, R`def weather_tool(city, status=200):
+    if status == 200:
+        return f"{city}: 31 C, rain likely in the evening"
+    if status == 404:
+        return f"Tool error: no weather data for {city}"
+    return f"Tool error: HTTP {status}, try again later"
+
+print(weather_tool("Chennai"))
+print(weather_tool("Atlantis", status=404))`, R`Chennai: 31 C, rain likely in the evening
+Tool error: no weather data for Atlantis`),
   lab('Game: HTTP status check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_37'),
-  task('Write a weather tool with a timeout and clear error messages.', R`import requests
+  task('Write a weather tool with a timeout and clear error messages (run on your laptop).', R`import requests
 
 def get_weather(city: str) -> str:
     try:
@@ -1910,61 +2049,88 @@ def get_weather(city: str) -> str:
         r.raise_for_status()
         return r.text.strip()
     except requests.Timeout:
-        return "Tool error: weather service timed out"
-    except requests.HTTPError as e:
-        return f"Tool error: HTTP {e.response.status_code}"`)
+        return "Error: weather service timed out"
+    except requests.RequestException as e:
+        return f"Error: {e.__class__.__name__}"
+
+print(get_weather("Chennai"))`)
  ],
  sum:[['GET / POST','Read / send data'],['timeout=','Always set one'],['raise_for_status()','Error on 4xx/5xx'],['.json()','Parse the body'],['httpx.AsyncClient','Async HTTP']]};
 
-L[38] = {t:'Regex and the standard library', d:'re, collections, itertools, functools, datetime, uuid.', mins:15,
- goals:['Extract text from LLM output with re','Use defaultdict, Counter and deque','Know what itertools, functools, datetime and uuid give you'],
+L[38] = {t:'Regex and the standard library', d:'Find PNRs, pincodes and phone numbers; count the most ordered dish.', mins:25,
+ goals:['Find patterns in text with re','Use defaultdict, Counter and deque','Know what itertools, functools, datetime and uuid give you'],
  steps:[
-  lab('Story: The standard toolbox', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_38'),
-  rd('re: find patterns in text', `<p>A regular expression describes a text pattern. <code>re.search</code> finds the first match. <code>re.findall</code> finds all. <code>re.sub</code> replaces.</p>`, R`import re
-text = "<think>plan...</think>The answer is 42."
-clean = re.sub(r"<think>.*?</think>", "", text, flags=re.S)
-print(clean)
-print(re.findall(r"\d+", "top 3 of 10 docs"))`, R`The answer is 42.
-['3', '10']`),
+  lab('Story: Cleaning a messy SMS', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_38'),
+  rd('re: find patterns in text', `<p>A regular expression describes a text pattern. <code>\\d{10}</code> means "exactly 10 digits". <code>re.search</code> finds the first match, <code>re.findall</code> finds all.</p>`, R`import re
+
+sms = "PNR 4521876390 CNF. Coach S4. Help: +91 9876543210. Delivery to 600028."
+print(re.search(r"PNR (\d{10})", sms).group(1))
+print(re.findall(r"\+91 \d{10}", sms))
+print(re.findall(r"\b\d{6}\b", sms))`, R`4521876390
+['+91 9876543210']
+['600028']`),
   lab('Regex tester', `<p>Pick a preset or write your own pattern. Matches are marked in the text.</p>`, 'regex', {note:'This tester runs in your browser, which uses JavaScript regex. For these patterns it matches Python\'s re module.'}),
-  rd('collections', `<p>Three containers save a lot of code in agents.</p>`, R`from collections import defaultdict, Counter, deque
+  rd('re.sub cleans text', `<p><code>re.sub</code> replaces every match. Hide phone numbers before sharing a screenshot.</p>`, R`import re
+msg = "Call Arjun on 9876543210 or Meera on 9123456780"
+print(re.sub(r"\d{6}(\d{4})", r"XXXXXX\1", msg))`, R`Call Arjun on XXXXXX3210 or Meera on XXXXXX6780`),
+  rd('collections', `<p>Three containers save a lot of code. Count the most ordered dish, group orders by area, and keep only the last 3 orders.</p>`, R`from collections import Counter, defaultdict, deque
 
-by_source = defaultdict(list)          # no KeyError
-by_source["handbook"].append("chunk 1")
+orders = ["Biryani", "Dosa", "Biryani", "Parotta", "Biryani", "Dosa"]
+print(Counter(orders).most_common(2))
 
-words = Counter("rag rag agent".split())
-print(words.most_common(1))
+by_area = defaultdict(list)          # no KeyError
+by_area["Adyar"].append("Dosa")
+by_area["Adyar"].append("Vada")
+print(dict(by_area))
 
-memory = deque(maxlen=3)               # sliding window
-for m in ["m1", "m2", "m3", "m4"]:
-    memory.append(m)
-print(list(memory))`, R`[('rag', 2)]
-['m2', 'm3', 'm4']`),
-  rd('itertools, functools, datetime, uuid', ``, R`from itertools import islice, chain
+recent = deque(maxlen=3)             # only the last 3
+for o in orders:
+    recent.append(o)
+print(list(recent))`, R`[('Biryani', 3), ('Dosa', 2)]
+{'Adyar': ['Dosa', 'Vada']}
+['Parotta', 'Biryani', 'Dosa']`),
+  rd('itertools, functools, datetime, uuid', `<p>More tools that are already installed with Python.</p>`, R`from itertools import islice, chain
 from functools import lru_cache
-from datetime import datetime, timezone
+from datetime import date
 import uuid
 
-print(list(islice(range(100), 3)))          # [0, 1, 2]
-print(list(chain([1], [2, 3])))             # [1, 2, 3]
+print(list(islice(["Rohit", "Gill", "Kohli", "Iyer"], 2)))
+print(list(chain(["Idli"], ["Dosa", "Vada"])))
 
-@lru_cache(maxsize=256)
-def embed(text): ...                         # cache repeated calls
+@lru_cache(maxsize=128)
+def fare(km):
+    return 30 + 15 * km
+print(fare(4), fare(4))           # second call comes from the cache
 
-print(datetime.now(timezone.utc).isoformat()[:10])
-print(str(uuid.uuid4())[:8])                # trace id`),
+print((date(2026, 1, 14) - date(2026, 1, 1)).days, "days to Pongal")
+print(len(str(uuid.uuid4())))      # a unique id is 36 characters`, R`['Rohit', 'Gill']
+['Idli', 'Dosa', 'Vada']
+90 90
+13 days to Pongal
+36`),
   pr(R`from collections import deque
-d = deque([1, 2, 3], maxlen=3)
-d.append(4)
-print(list(d))`, 'What does this print?', ['[1, 2, 3, 4]','[2, 3, 4]','[1, 2, 3]'], 1, 'A deque with maxlen drops the oldest item when you add a new one.'),
+d = deque(["o1", "o2", "o3"], maxlen=3)
+d.append("o4")
+print(list(d))`, 'What does this print?', ["['o1', 'o2', 'o3', 'o4']","['o2', 'o3', 'o4']","['o1', 'o2', 'o3']"], 1, 'A deque with maxlen drops the oldest item when a new one arrives.'),
+  rd('Now in an AI agent', `<p>AI models sometimes wrap their answer in extra tags or text. <code>re.sub</code> removes the parts you do not want before you show the answer.</p>`, R`import re
+reply = "<think>user wants a hill station</think>Try Ooty or Munnar in December."
+clean = re.sub(r"<think>.*?</think>", "", reply, flags=re.S)
+print(clean)`, R`Try Ooty or Munnar in December.`),
   lab('Game: Toolbox quiz', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_38'),
-  task('Extract a fenced JSON block from model text.', R`import re, json
-text = 'Sure!\n` + '```json\\n{"city": "Pune"}\\n```' + R`'
-m = re.search(r"` + '```json\\s*(.*?)\\s*```' + R`", text, re.S)
-args = json.loads(m.group(1))
-print(args["city"])`)
+  task('Pull every 10-digit PNR out of a list of messages and count the dishes ordered.', R`import re
+from collections import Counter
+
+messages = [
+    "Your PNR 4521876390 is confirmed.",
+    "PNR 8812345670 is on waitlist WL 4.",
+    "Order: Dosa, Vada, Dosa",
+]
+pnrs = [m for msg in messages for m in re.findall(r"\b\d{10}\b", msg)]
+print(pnrs)
+dishes = messages[2].replace("Order: ", "").split(", ")
+print(Counter(dishes).most_common(1))`)
  ],
- sum:[['re.search / findall / sub','Find, find all, replace'],['re.S','. also matches newlines'],['defaultdict','Dict with automatic defaults'],['Counter','Count items'],['deque(maxlen=n)','Sliding window memory'],['lru_cache','Cache function results'],['uuid4()','Unique id']]};
+ sum:[['re.search / findall / sub','Find, find all, replace'],['re.S','. also matches newlines'],['defaultdict','Dict with automatic defaults'],['Counter','Count items'],['deque(maxlen=n)','Keep only the last n'],['lru_cache','Cache function results'],['uuid4()','Unique id']]};
 
 /* ============ Agent x-ray ============ */
 const AGENT = [
