@@ -964,191 +964,267 @@ print(list(read_items("menu.txt")))`)
  ],
  sum:[['iterator','Gives items with next()'],['StopIteration','No more items'],['yield','Give a value and pause'],['generator','Lazy, one-pass sequence'],['( ... for ...)','Generator expression']]};
 /* ================= PART III ================= */
-L[20] = {t:'Classes, objects, __init__ and self', d:'Agents, memory stores and clients are classes.', mins:14, core:true,
+L[20] = {t:'Classes, objects, __init__ and self', d:'A blueprint for students, tickets and AI agents.', mins:25, core:true,
  goals:['Define a class and create objects from it','Understand what __init__ and self do','Give objects their own methods'],
  steps:[
-  lab('Story: The agent factory', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_20'),
-  rd('A class is a blueprint; an object is a thing built from it', `<p>The class <code>Agent</code> describes what every agent has and does. Each call to <code>Agent(...)</code> builds a new object with its own data.</p>`, R`class Agent:
-    def __init__(self, name, model):
+  lab('Story: The student ID card printer', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_20'),
+  rd('A class is a blueprint; an object is one thing built from it', `<p>Joseph builds the student portal for his college in Kochi. The class <code>Student</code> describes what every student has and does. Each call to <code>Student(...)</code> builds a new object with its own data.</p>`, R`class Student:
+    def __init__(self, name, roll, cgpa):
         self.name = name
-        self.model = model
+        self.roll = roll
+        self.cgpa = cgpa
 
-    def run(self, question):
-        return f"{self.name} ({self.model}) answers: {question}"
+    def id_card(self):
+        return f"{self.roll} | {self.name} | CGPA {self.cgpa}"
 
-a = Agent("Tutor", "gpt-4o-mini")
-print(a.run("What is RAG?"))`, R`Tutor (gpt-4o-mini) answers: What is RAG?`),
-  rd('__init__ and self', `<p><code>__init__</code> runs automatically when you create an object. It sets the starting data.</p><p><code>self</code> is the object itself. Python passes it for you: <code>a.run("hi")</code> becomes <code>Agent.run(a, "hi")</code>.</p>`),
-  lab('Build objects from the blueprint', `<p>Create a few agents. Then call <code>run()</code> on one. See which object <code>self</code> refers to.</p>`, 'klass'),
-  pr(R`class C:
-    def __init__(self, x):
-        self.x = x
-a = C(1)
-b = C(2)
-a.x = 10
-print(b.x)`, 'What does this print?', ['1','2','10'], 1, 'Each object has its own x. Changing a.x does not touch b.'),
+s = Student("Fathima", 21, 8.9)
+print(s.id_card())`, R`21 | Fathima | CGPA 8.9`),
+  rd('__init__ and self', `<p><code>__init__</code> runs automatically when you create an object. It sets the starting data.</p><p><code>self</code> is the object itself. Python passes it for you: <code>s.id_card()</code> becomes <code>Student.id_card(s)</code>.</p>`, R`class Ticket:
+    def __init__(self, movie, seat):
+        self.movie = movie
+        self.seat = seat
+
+a = Ticket("Leo", "H12")
+b = Ticket("Jailer", "F7")
+print(a.movie, a.seat)
+print(b.movie, b.seat)`, R`Leo H12
+Jailer F7`),
+  lab('Build objects from the blueprint', `<p>Create a few objects. Then call a method on one. See which object <code>self</code> refers to.</p>`, 'klass'),
+  pr(R`class Student:
+    def __init__(self, cgpa):
+        self.cgpa = cgpa
+a = Student(8.1)
+b = Student(9.2)
+a.cgpa = 10
+print(b.cgpa)`, 'What does this print?', ['8.1','9.2','10'], 1, 'Each object has its own cgpa. Changing a.cgpa does not touch b.'),
   pr(R`class Bot:
     def hi():
-        return "hi"
-print(Bot().hi())`, 'What happens?', ['hi','TypeError','None'], 1, 'Python passes the object as the first argument, but hi has no self parameter. TypeError: takes 0 positional arguments but 1 was given.'),
-  lab('Game: Object builder', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_20'),
-  task('Write a ChatSession class that stores its own history.', R`class ChatSession:
+        return "Vanakkam"
+print(Bot().hi())`, 'What happens?', ['Vanakkam','TypeError','None'], 1, 'Python passes the object as the first argument, but hi has no self parameter: TypeError.'),
+  rd('Now in an AI agent', `<p>AI agents, chat sessions and API clients are classes too. Each chat session object keeps its own history.</p>`, R`class ChatSession:
     def __init__(self, system_prompt):
         self.history = [{"role": "system", "content": system_prompt}]
 
     def add_user(self, text):
         self.history.append({"role": "user", "content": text})
 
-s = ChatSession("Be brief.")
-s.add_user("Hi")
-print(len(s.history))   # 2`)
+divya = ChatSession("You are a college helpdesk.")
+divya.add_user("When do sem exams start?")
+print(len(divya.history))`, R`2`),
+  lab('Game: Object builder', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_20'),
+  task('Write a MovieTicket class with a method that prints the ticket.', R`class MovieTicket:
+    def __init__(self, movie, seat, price):
+        self.movie = movie
+        self.seat = seat
+        self.price = price
+
+    def print_ticket(self):
+        return f"{self.movie} | Seat {self.seat} | Rs {self.price}"
+
+t = MovieTicket("Manjummel Boys", "G9", 180)
+print(t.print_ticket())`)
  ],
  sum:[['class','Blueprint'],['object / instance','One thing built from a class'],['__init__','Sets starting data'],['self','The current object'],['method','A function defined in a class']]};
 
-L[21] = {t:'Instance vs class attributes', d:'Data per object vs data shared by all.', mins:10, core:true,
+L[21] = {t:'Instance vs class attributes', d:'Data for each student vs data shared by the whole college.', mins:20, core:true,
  goals:['Tell instance attributes from class attributes','Avoid the shared mutable class attribute bug'],
  steps:[
-  lab('Story: Shared or personal?', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_21'),
-  rd('Two places to store data', `<p>An <b>instance attribute</b> is set on <code>self</code>, usually in <code>__init__</code>. Each object has its own. A <b>class attribute</b> is written in the class body. All objects share it.</p>`, R`class Agent:
-    provider = "openai"            # class attribute: shared
+  lab('Story: One college, many students', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_21'),
+  rd('Two places to store data', `<p>An <b>instance attribute</b> is set on <code>self</code>, usually in <code>__init__</code>. Each object has its own. A <b>class attribute</b> is written in the class body, and all objects share it.</p>`, R`class Student:
+    college = "Anna University"     # shared by every student
 
     def __init__(self, name):
-        self.name = name           # instance attribute: own
+        self.name = name            # each student's own
 
-a, b = Agent("A"), Agent("B")
-print(a.provider, b.provider, a.name, b.name)`, R`openai openai A B`),
+a, b = Student("Karthik"), Student("Harini")
+print(a.college, b.college)
+print(a.name, b.name)`, R`Anna University Anna University
+Karthik Harini`),
   lab('The shared list bug', `<p>Toggle between a class-level list and a per-object list. Add a tool to <code>a1</code> only. Look at <code>a2</code>.</p>`, 'classattr'),
-  rd('Assigning creates an instance attribute', `<p><code>a.provider = "anthropic"</code> does not change the class. It creates a new attribute on <code>a</code> only, which hides the class value for <code>a</code>.</p><p>But <code>a.tools.append(...)</code> changes the shared list in place. No new attribute is created.</p>`),
-  pr(R`class A:
-    n = 0
-x, y = A(), A()
-x.n = 5
-print(A.n, y.n)`, 'What does this print?', ['5 5','0 0','0 5'], 1, 'x.n = 5 creates an instance attribute on x only. A.n and y.n are still 0.'),
-  lab('Game: Attribute lookup', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_21'),
-  task('Use a class attribute for a shared constant and instance attributes for state.', R`class Agent:
-    MAX_STEPS = 5                  # same for all agents
+  rd('The shared list bug in a hostel', `<p>A mutable class attribute is one list for every object. Here every student ends up with Karthik's complaint. This is the bug.</p>`, R`class HostelRoom:
+    complaints = []                 # shared by ALL rooms: bug
 
-    def __init__(self, model):
-        self.model = model
-        self.history = []          # each agent has its own list`)
+r1, r2 = HostelRoom(), HostelRoom()
+r1.complaints.append("fan not working")
+print(r2.complaints)`, R`['fan not working']`, {note:'Put per-object lists in __init__: self.complaints = []. Keep class attributes for constants.'}),
+  pr(R`class Student:
+    fee = 50000
+x, y = Student(), Student()
+x.fee = 25000      # scholarship
+print(Student.fee, y.fee)`, 'What does this print?', ['25000 25000','50000 50000','50000 25000'], 1, 'x.fee = 25000 creates an attribute on x only. Student.fee and y.fee are still 50000.'),
+  rd('Now in an AI agent', `<p>Agents use a class attribute for a shared limit and instance attributes for each agent's own memory.</p>`, R`class Agent:
+    MAX_STEPS = 5                   # same for all agents
+
+    def __init__(self, user):
+        self.user = user
+        self.history = []           # each agent has its own
+
+a, b = Agent("Sai"), Agent("Meera")
+a.history.append("Book a cab")
+print(Agent.MAX_STEPS, len(a.history), len(b.history))`, R`5 1 0`),
+  lab('Game: Attribute lookup', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_21'),
+  task('Fix the hostel room so each room has its own complaints list.', R`class HostelRoom:
+    BLOCK = "B Block"               # shared constant
+
+    def __init__(self, number):
+        self.number = number
+        self.complaints = []        # each room's own list
+
+r1, r2 = HostelRoom(101), HostelRoom(102)
+r1.complaints.append("fan not working")
+print(r1.complaints, r2.complaints)`)
  ],
  sum:[['instance attribute','self.x: one per object'],['class attribute','In the class body: shared'],['shared list bug','Mutable class attribute changed in place'],['rule','Mutable state goes in __init__']]};
 
-L[22] = {t:'Instance, class and static methods', d:'Alternative constructors like Agent.from_env().', mins:10,
+L[22] = {t:'Instance, class and static methods', d:'Build objects from a form, and keep helpers with the class.', mins:20,
  goals:['Know what each method type receives','Write an alternative constructor with @classmethod','Use @staticmethod for helpers'],
  steps:[
   lab('Story: Three kinds of methods', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_22'),
-  rd('Three kinds of method', `<p>The difference is what Python passes as the first argument.</p>`, null, null, {table:[['Kind','First parameter','Use it for'],['instance method','self (the object)','work with this object\'s data'],['@classmethod','cls (the class)','alternative constructors'],['@staticmethod','nothing','helpers that belong with the class']]}),
-  rd('@classmethod: build an object another way', `<p>A class method gets the class as <code>cls</code>. It can call <code>cls(...)</code> to build an object from a config file or from environment variables.</p>`, R`import os
+  rd('Three kinds of method', `<p>The difference is what Python passes as the first argument.</p>`, null, null, {table:[['Kind','First parameter','Use it for'],['instance method','self (the object)','work with this object\'s data'],['@classmethod','cls (the class)','other ways to build an object'],['@staticmethod','nothing','helpers that belong with the class']]}),
+  rd('Build a student from a form', `<p>An admission form sends a dict. A class method gets the class as <code>cls</code> and builds the object. A static method checks a roll number and needs no object at all.</p>`, R`class Student:
+    def __init__(self, name, roll):
+        self.name = name
+        self.roll = roll
 
-class Agent:
-    def __init__(self, model, api_key):
-        self.model = model
-        self.api_key = api_key
+    def greet(self):                       # instance method
+        return f"Welcome, {self.name}"
 
     @classmethod
-    def from_env(cls):
-        return cls(os.getenv("MODEL", "gpt-4o-mini"), os.getenv("API_KEY", ""))
+    def from_form(cls, form):              # class method
+        return cls(form["name"], int(form["roll"]))
 
     @staticmethod
-    def count_words(text):
-        return len(text.split())
+    def valid_roll(roll):                  # static method
+        return 1 <= roll <= 120
 
-agent = Agent.from_env()
-print(agent.model, Agent.count_words("hello there"))`, R`gpt-4o-mini 2`),
-  pr(R`class A:
+s = Student.from_form({"name": "Anjali", "roll": "42"})
+print(s.greet(), s.roll, Student.valid_roll(s.roll))`, R`Welcome, Anjali 42 True`),
+  pr(R`class Fare:
     @staticmethod
-    def f(x):
-        return x * 2
-print(A().f(3))`, 'What does this print?', ['6','TypeError','None'], 0, 'A static method gets no automatic first argument, so x is 3 when called from an object or the class.'),
-  pr(R`class A:
+    def auto(km):
+        return 30 + 15 * km
+print(Fare().auto(4))`, 'What does this print?', ['90','TypeError','None'], 0, 'A static method gets no automatic first argument, so km is 4 when called from an object or the class.'),
+  pr(R`class Ticket:
     @classmethod
-    def who(cls):
+    def kind(cls):
         return cls.__name__
-class B(A): pass
-print(B.who())`, 'What does this print?', ['A','B','cls'], 1, 'cls is the class you called the method on. Here that is B. This is why class methods work well with inheritance.'),
+class TatkalTicket(Ticket): pass
+print(TatkalTicket.kind())`, 'What does this print?', ['Ticket','TatkalTicket','cls'], 1, 'cls is the class you called the method on: TatkalTicket.'),
+  rd('Now in an AI agent', `<p>AI agents are often built with a class method like <code>from_env()</code>, which reads settings and returns a ready agent.</p>`, R`class Agent:
+    def __init__(self, model, temperature):
+        self.model = model
+        self.temperature = temperature
+
+    @classmethod
+    def from_settings(cls, settings):
+        return cls(settings.get("MODEL", "gpt-4o-mini"), float(settings.get("TEMPERATURE", "0.2")))
+
+agent = Agent.from_settings({"TEMPERATURE": "0.5"})
+print(agent.model, agent.temperature)`, R`gpt-4o-mini 0.5`),
   lab('Game: Method sorter', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_22'),
-  task('Add a from_dict class method to a Message class.', R`class Message:
-    def __init__(self, role, content):
-        self.role = role
-        self.content = content
+  task('Add a from_dict class method to an Order class.', R`class Order:
+    def __init__(self, dish, qty):
+        self.dish = dish
+        self.qty = qty
 
     @classmethod
     def from_dict(cls, d):
-        return cls(d["role"], d["content"])
+        return cls(d["dish"], d["qty"])
 
-m = Message.from_dict({"role": "user", "content": "Hi"})
-print(m.role, m.content)`)
+o = Order.from_dict({"dish": "Chicken 65", "qty": 2})
+print(o.dish, o.qty)`)
  ],
- sum:[['self','The object: instance methods'],['cls','The class: @classmethod'],['@staticmethod','No automatic argument'],['from_env / from_dict','Typical class-method constructors']]};
+ sum:[['self','The object: instance methods'],['cls','The class: @classmethod'],['@staticmethod','No automatic argument'],['from_form / from_dict','Typical class-method constructors']]};
 
-L[23] = {t:'Encapsulation: _private and __mangled', d:'Read SDK code and know what not to touch.', mins:6,
+L[23] = {t:'Encapsulation: _private and __mangled', d:'What a banking app keeps "inside", and why.', mins:15,
  goals:['Read the underscore conventions','Know what name mangling does'],
  steps:[
-  lab('Story: Inside an SDK client', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_23'),
-  rd('Three naming levels', `<p>Python has no real private attributes. It uses names to show intent.</p>`, null, null, {table:[['Name','Meaning'],['name','Public. Use it freely.'],['_name','Internal. Please do not use it from outside. Python does not stop you.'],['__name','Name mangling. Python renames it to _ClassName__name to avoid clashes in subclasses.']]}),
-  rd('In practice', `<p>SDKs keep internals like <code>self._client</code> with one underscore. When you read their source code, the underscore tells you: this can change in any release, so do not depend on it.</p>`, R`class LLMClient:
-    def __init__(self, key):
-        self._client = "http-session"   # internal
-        self.__key = key                # mangled
+  lab('Story: Inside a banking app', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_23'),
+  rd('Three naming levels', `<p>Python has no truly private attributes. It uses names to show intent.</p>`, null, null, {table:[['Name','Meaning'],['name','Public. Use it freely.'],['_name','Internal. Please do not use it from outside. Python does not stop you.'],['__name','Name mangling. Python renames it to _ClassName__name to avoid clashes in subclasses.']]}),
+  rd('In practice', `<p>A banking app keeps the balance public, a helper internal, and the PIN mangled. The last line shows mangling is not security: the value can still be reached.</p>`, R`class BankAccount:
+    def __init__(self, owner, pin):
+        self.owner = owner           # public
+        self._server = "sbi-node-7"  # internal
+        self.__pin = pin             # mangled
 
-c = LLMClient("sk-123")
-print(c._client)
-print(c._LLMClient__key)`, R`http-session
-sk-123`),
-  pr(R`class A:
+acc = BankAccount("Venkat", "4821")
+print(acc.owner, acc._server)
+print(acc._BankAccount__pin)   # still reachable: not real security`, R`Venkat sbi-node-7
+4821`, {note:'Never store real secrets in attributes and assume they are hidden. Keep them out of the code entirely (lesson 36).'}),
+  pr(R`class Account:
     def __init__(self):
-        self.__x = 1
-print(A().__x)`, 'What happens?', ['1','AttributeError','None'], 1, 'The attribute was renamed to _A__x, so __x is not found outside the class.'),
-  lab('Game: Underscore check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_23'),
-  task('Write a class with a public method and an internal helper.', R`class Retriever:
-    def search(self, query):
-        return self._rank(["d1", "d2"], query)
+        self.__pin = "1234"
+print(Account().__pin)`, 'What happens?', ['1234','AttributeError','None'], 1, 'The attribute was renamed to _Account__pin, so __pin is not found outside the class.'),
+  rd('Now in an AI agent', `<p>AI SDKs keep their HTTP connection in <code>self._client</code>. The single underscore says: this can change in any release, so do not depend on it.</p>`, R`class LLMClient:
+    def __init__(self, model):
+        self.model = model                 # public
+        self._client = "http-session"      # internal
 
-    def _rank(self, docs, query):      # internal helper
-        return sorted(docs)`)
+c = LLMClient("gpt-4o-mini")
+print(c.model)`, R`gpt-4o-mini`),
+  lab('Game: Underscore check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_23'),
+  task('Write a class with a public method and an internal helper.', R`class Wallet:
+    def __init__(self, balance):
+        self.balance = balance
+
+    def pay(self, amount):
+        if self._can_pay(amount):
+            self.balance -= amount
+            return f"Paid Rs {amount}, left Rs {self.balance}"
+        return "Not enough balance"
+
+    def _can_pay(self, amount):      # internal helper
+        return amount <= self.balance
+
+w = Wallet(500)
+print(w.pay(180))
+print(w.pay(400))`)
  ],
  sum:[['name','Public'],['_name','Internal by convention'],['__name','Mangled to _Class__name'],['rule','Do not depend on another library\'s _names']]};
 
-L[24] = {t:'The @property decorator', d:'Computed values and validation that look like attributes.', mins:8,
+L[24] = {t:'The @property decorator', d:'Attendance % that is always up to date, and values you can check.', mins:18,
  goals:['Use @property for a computed value','Add a setter that validates'],
  steps:[
-  lab('Story: Smart attributes', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_24'),
-  rd('A method that you read like an attribute', `<p><code>@property</code> lets you write <code>agent.message_count</code> without brackets. Python calls the method for you.</p>`, R`class Agent:
-    def __init__(self):
-        self.history = []
+  lab('Story: The attendance tracker', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_24'),
+  rd('A method you read like an attribute', `<p>Harini's attendance should always be classes attended divided by classes held. <code>@property</code> lets you write <code>s.attendance</code> with no brackets, and Python computes it fresh each time.</p>`, R`class Student:
+    def __init__(self, attended, held):
+        self.attended = attended
+        self.held = held
 
     @property
-    def message_count(self):
-        return len(self.history)
+    def attendance(self):
+        return round(100 * self.attended / self.held, 1)
 
-a = Agent()
-a.history.append({"role": "user", "content": "hi"})
-print(a.message_count)`, R`1`),
-  rd('Validate with a setter', `<p>Add a <code>@name.setter</code> to check a value every time someone assigns it.</p>`, R`class Config:
-    def __init__(self, temperature=0.2):
-        self.temperature = temperature      # goes through the setter
+s = Student(54, 70)
+print(s.attendance)
+s.attended += 3
+print(s.attendance)`, R`77.1
+81.4`),
+  rd('Validate with a setter', `<p>Add a <code>@name.setter</code> to check a value every time it is assigned. Marks must be between 0 and 100. The last line fails on purpose.</p>`, R`class Exam:
+    def __init__(self, marks):
+        self.marks = marks               # goes through the setter
 
     @property
-    def temperature(self):
-        return self._temperature
+    def marks(self):
+        return self._marks
 
-    @temperature.setter
-    def temperature(self, value):
-        if not 0 <= value <= 2:
-            raise ValueError("temperature must be between 0 and 2")
-        self._temperature = value
+    @marks.setter
+    def marks(self, value):
+        if not 0 <= value <= 100:
+            raise ValueError("marks must be between 0 and 100")
+        self._marks = value
 
-c = Config()
-c.temperature = 5`, R`ValueError: temperature must be between 0 and 2`, {ai:'Pydantic (lesson 31) does this kind of validation for you, with less code.'}),
-  pr(R`class A:
+e = Exam(88)
+print(e.marks)
+e.marks = 120   # fails on purpose`, R`88
+ValueError: marks must be between 0 and 100`),
+  pr(R`class Student:
     @property
-    def x(self):
-        return 42
-a = A()
-print(a.x())`, 'What happens?', ['42','TypeError','None'], 1, 'a.x already returns 42. Then 42() fails: TypeError: \'int\' object is not callable.'),
-  lab('Game: Property tester', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_24'),
-  task('Add a read-only property total_tokens to a usage class.', R`class Usage:
+    def cgpa(self):
+        return 8.5
+s = Student()
+print(s.cgpa())`, 'What happens?', ['8.5','TypeError','None'], 1, 's.cgpa already gives 8.5. Then 8.5() fails: TypeError: \'float\' object is not callable.'),
+  rd('Now in an AI agent', `<p>An AI usage tracker uses a property for the total token count, so it can never get out of sync.</p>`, R`class Usage:
     def __init__(self, prompt, completion):
         self.prompt = prompt
         self.completion = completion
@@ -1157,29 +1233,58 @@ print(a.x())`, 'What happens?', ['42','TypeError','None'], 1, 'a.x already retur
     def total_tokens(self):
         return self.prompt + self.completion
 
-print(Usage(42, 18).total_tokens)   # 60`)
+print(Usage(42, 18).total_tokens)`, R`60`, {ai:'Pydantic (lesson 31) does this kind of validation for you, with less code.'}),
+  lab('Game: Property tester', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_24'),
+  task('Add a read-only property that warns when attendance is below 75%.', R`class Student:
+    def __init__(self, name, attended, held):
+        self.name = name
+        self.attended = attended
+        self.held = held
+
+    @property
+    def status(self):
+        pct = 100 * self.attended / self.held
+        return "Safe" if pct >= 75 else f"Short: {pct:.0f}%"
+
+print(Student("Arjun", 60, 72).status)
+print(Student("Meera", 48, 72).status)`)
  ],
  sum:[['@property','Read a method like an attribute'],['@x.setter','Run code when x is assigned'],['_x','Where the real value is stored'],['read-only','A property with no setter']]};
 
-L[25] = {t:'Dunder methods', d:'Make your objects work with print, len, == and ().', mins:14,
+L[25] = {t:'Dunder methods', d:'Make your objects work with print, len, == and ().', mins:25,
  goals:['Know what __repr__, __str__, __eq__, __len__, __call__ and __iter__ do','See which Python syntax calls which method'],
  steps:[
-  lab('Story: Teaching objects Python', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_25'),
-  rd('Python syntax calls dunder methods', `<p>"Dunder" means double underscore. When you write <code>len(x)</code>, Python calls <code>x.__len__()</code>. When you write <code>x()</code>, it calls <code>x.__call__()</code>.</p>`),
-  lab('Which method runs?', `<p>Click a line of normal Python. See which dunder method Python calls on the agent object, and what it returns.</p>`, 'dunder'),
-  rd('__repr__ vs __str__', `<p><code>__repr__</code> is for developers. It should look like code and appears in logs and the REPL. <code>__str__</code> is for users and is used by <code>print()</code>. If you only write one, write <code>__repr__</code>.</p>`, R`class Agent:
-    def __init__(self, model):
-        self.model = model
-    def __repr__(self):
-        return f"Agent(model={self.model!r})"
+  lab('Story: The food cart object', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_25'),
+  rd('Python syntax calls dunder methods', `<p>"Dunder" means double underscore. When you write <code>len(cart)</code>, Python calls <code>cart.__len__()</code>. When you write <code>cart1 == cart2</code>, it calls <code>__eq__</code>.</p>`, R`class Cart:
+    def __init__(self, items):
+        self.items = items
+    def __len__(self):
+        return len(self.items)
+    def __eq__(self, other):
+        return sorted(self.items) == sorted(other.items)
 
-print([Agent("gpt-4o")])`, R`[Agent(model='gpt-4o')]`),
-  pr(R`class A:
+a = Cart(["Dosa", "Vada"])
+b = Cart(["Vada", "Dosa"])
+print(len(a), a == b)`, R`2 True`),
+  lab('Which method runs?', `<p>Click a line of normal Python. See which dunder method Python calls on the object, and what it returns.</p>`, 'dunder'),
+  rd('__repr__ vs __str__', `<p><code>__repr__</code> is for developers and shows in lists and logs. <code>__str__</code> is for users and is used by <code>print()</code>. If you only write one, write <code>__repr__</code>.</p>`, R`class Order:
+    def __init__(self, dish, qty):
+        self.dish = dish
+        self.qty = qty
+    def __repr__(self):
+        return f"Order({self.dish!r}, {self.qty})"
+    def __str__(self):
+        return f"{self.qty} x {self.dish}"
+
+o = Order("Masala Dosa", 2)
+print(o)
+print([o])`, R`2 x Masala Dosa
+[Order('Masala Dosa', 2)]`),
+  pr(R`class Cart:
     def __len__(self):
         return 0
-print(bool(A()))`, 'What does this print?', ['True','False','An error'], 1, 'With no __bool__, Python uses __len__. A length of 0 is falsy.'),
-  lab('Game: Dunder detective', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_25'),
-  task('Make a ToolRegistry that supports len(), "in" and calling by name.', R`class ToolRegistry:
+print(bool(Cart()))`, 'What does this print?', ['True','False','An error'], 1, 'With no __bool__, Python uses __len__. An empty cart (length 0) is falsy.'),
+  rd('Now in an AI agent', `<p>An AI tool registry can support <code>len()</code>, <code>in</code> and being called by name, just like built-in types.</p>`, R`class ToolRegistry:
     def __init__(self):
         self._tools = {}
     def add(self, fn):
@@ -1194,85 +1299,132 @@ print(bool(A()))`, 'What does this print?', ['True','False','An error'], 1, 'Wit
 
 reg = ToolRegistry()
 @reg.add
-def ping(): return "pong"
-print(len(reg), "ping" in reg, reg("ping"))`)
+def check_pnr(pnr): return f"PNR {pnr}: Confirmed"
+print(len(reg), "check_pnr" in reg, reg("check_pnr", pnr="4521876390"))`, R`1 True PNR 4521876390: Confirmed`),
+  lab('Game: Dunder detective', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_25'),
+  task('Make a Playlist that supports len(), "in", and a for loop.', R`class Playlist:
+    def __init__(self, songs):
+        self.songs = songs
+    def __len__(self):
+        return len(self.songs)
+    def __contains__(self, song):
+        return song in self.songs
+    def __iter__(self):
+        return iter(self.songs)
+
+p = Playlist(["Hukum", "Kaavaalaa", "Naatu Naatu"])
+print(len(p), "Hukum" in p)
+for song in p:
+    print(song)`)
  ],
  sum:[['__repr__','Developer text (logs)'],['__str__','User text (print)'],['__eq__','=='],['__len__','len()'],['__call__','obj()'],['__iter__','for x in obj']]};
 
-L[26] = {t:'Composition vs inheritance', d:'"Has a" usually beats "is a".', mins:10,
+L[26] = {t:'Composition vs inheritance', d:'A food app has a cart and a payment; it is not one.', mins:20,
  goals:['Tell is-a from has-a relationships','Choose composition for agents'],
  steps:[
-  lab('Story: Building an agent from parts', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_26'),
-  rd('Inheritance: is-a', `<p>A subclass gets all methods of its parent and can change some. Use it when B really <b>is a</b> kind of A.</p>`, R`class BaseTool:
-    def run(self, **args):
-        raise NotImplementedError
+  lab('Story: Building a food app from parts', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_26'),
+  rd('Inheritance: is-a', `<p>A subclass gets all methods of its parent and can change some. Use it when B really <b>is a</b> kind of A: a tatkal ticket is a kind of ticket.</p>`, R`class Ticket:
+    def __init__(self, fare):
+        self.fare = fare
+    def price(self):
+        return self.fare
 
-class WeatherTool(BaseTool):           # a WeatherTool IS a tool
-    def run(self, city):
-        return f"Sunny in {city}"`),
-  rd('Composition: has-a', `<p>An object holds other objects and uses them. A RAG agent <b>has an</b> LLM client and <b>has a</b> retriever. You can swap either part.</p>`, R`class RAGAgent:
-    def __init__(self, llm, retriever):
-        self.llm = llm                 # has an LLM
-        self.retriever = retriever     # has a retriever
+class TatkalTicket(Ticket):        # a TatkalTicket IS a Ticket
+    def price(self):
+        return self.fare + 400     # tatkal charge
 
-    def ask(self, q):
-        docs = self.retriever.search(q)
-        return self.llm.complete(q, docs)`, null, {ai:'Production agents mostly use composition. To test, pass in a fake LLM. To change provider, pass in a different client.'}),
-  pr(null, 'A ChatBot needs an OpenAI client, a vector store and a logger. Which design is best?', ['class ChatBot(OpenAI, VectorStore, Logger)','class ChatBot with self.llm, self.store, self.log','Copy the code of all three into ChatBot'], 1, 'A chatbot is not a vector store. It has one. Composition keeps the parts separate and swappable.'),
-  lab('Game: Is a or has a?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_26'),
-  task('Write a fake LLM and pass it into an agent for a test.', R`class RAGAgent:
-    def __init__(self, llm, retriever):
+print(Ticket(800).price(), TatkalTicket(800).price())`, R`800 1200`),
+  rd('Composition: has-a', `<p>A food app <b>has a</b> cart and <b>has a</b> payment method. It holds those objects and uses them. You can swap the payment method without touching the app.</p>`, R`class Cart:
+    def __init__(self):
+        self.items = []
+    def total(self):
+        return sum(price for _, price in self.items)
+
+class UPI:
+    def pay(self, amount):
+        return f"Paid Rs {amount} by UPI"
+
+class FoodApp:
+    def __init__(self, cart, payment):
+        self.cart = cart            # has a cart
+        self.payment = payment      # has a payment method
+    def checkout(self):
+        return self.payment.pay(self.cart.total())
+
+app = FoodApp(Cart(), UPI())
+app.cart.items += [("Biryani", 249), ("Lassi", 60)]
+print(app.checkout())`, R`Paid Rs 309 by UPI`),
+  pr(null, 'A chatbot needs an AI model client, a search index and a logger. Which design is best?', ['class ChatBot(ModelClient, SearchIndex, Logger)','class ChatBot with self.llm, self.index, self.log','Copy the code of all three into ChatBot'], 1, 'A chatbot is not a search index. It has one. Composition keeps the parts separate and swappable.'),
+  rd('Now in an AI agent', `<p>Production AI agents mostly use composition. To test, pass in a fake model. To change provider, pass in a different client.</p>`, R`class Agent:
+    def __init__(self, llm, memory):
         self.llm = llm
-        self.retriever = retriever
-
+        self.memory = memory
     def ask(self, q):
-        docs = self.retriever.search(q)
-        return self.llm.complete(q, docs)
+        self.memory.append(q)
+        return self.llm.complete(q)
 
 class FakeLLM:
-    def complete(self, q, docs):
-        return f"fake answer to {q} using {len(docs)} docs"
+    def complete(self, q):
+        return f"(test) answer to: {q}"
 
-class FakeRetriever:
-    def search(self, q):
-        return ["d1", "d2"]
+agent = Agent(FakeLLM(), [])
+print(agent.ask("Trains from Vizag to Hyderabad?"))`, R`(test) answer to: Trains from Vizag to Hyderabad?`),
+  lab('Game: Is a or has a?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_26'),
+  task('Swap the payment method in the food app without changing FoodApp.', R`class Card:
+    def pay(self, amount):
+        return f"Paid Rs {amount} by card"
 
-agent = RAGAgent(FakeLLM(), FakeRetriever())
-print(agent.ask("What is RAG?"))`)
+class Cash:
+    def pay(self, amount):
+        return f"Pay Rs {amount} on delivery"
+
+class FoodApp:
+    def __init__(self, payment):
+        self.payment = payment
+    def checkout(self, total):
+        return self.payment.pay(total)
+
+print(FoodApp(Card()).checkout(420))
+print(FoodApp(Cash()).checkout(420))`)
  ],
  sum:[['inheritance','is-a; class B(A)'],['super()','Call the parent version'],['composition','has-a; objects inside objects'],['rule','Prefer composition for agents']]};
 
-L[27] = {t:'Abstract base classes and Protocols', d:'Swap OpenAI, Anthropic or Ollama behind one interface.', mins:12,
+L[27] = {t:'Abstract base classes and Protocols', d:'One payment interface, many UPI apps behind it.', mins:22,
  goals:['Force subclasses to implement methods with abc','Describe a shape with a Protocol','Choose between the two'],
  steps:[
-  lab('Story: One interface, many models', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_27'),
-  rd('An ABC is a contract you must inherit', `<p>An abstract base class lists methods that every subclass must write. Python refuses to create an object of a class that is missing one.</p>`, R`from abc import ABC, abstractmethod
+  lab('Story: One interface, many apps', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_27'),
+  rd('An ABC is a contract you must inherit', `<p>An abstract base class lists methods every subclass must write. Python refuses to create an object of a class that is missing one. This fails on purpose.</p>`, R`from abc import ABC, abstractmethod
 
-class LLM(ABC):
+class PaymentApp(ABC):
     @abstractmethod
-    def complete(self, prompt: str) -> str: ...
+    def pay(self, amount: int) -> str: ...
 
-class Broken(LLM):
+class Broken(PaymentApp):
     pass
 
-Broken()`, R`TypeError: Can't instantiate abstract class Broken without an implementation for abstract method 'complete'`),
-  rd('A Protocol is a shape you only need to match', `<p>A <code>Protocol</code> does not need inheritance. Any class with the right methods matches. This is "duck typing" that type checkers can verify.</p>`, R`from typing import Protocol
+Broken()   # fails on purpose`, R`TypeError: Can't instantiate abstract class Broken without an implementation for abstract method 'pay'`),
+  rd('A Protocol is a shape you only need to match', `<p>A <code>Protocol</code> does not need inheritance. Any class with the right method matches, even one from a library you cannot edit.</p>`, R`from typing import Protocol
 
-class Embedder(Protocol):
-    def embed(self, text: str) -> list[float]: ...
+class Payer(Protocol):
+    def pay(self, amount: int) -> str: ...
 
-class LocalEmbedder:                    # no inheritance
-    def embed(self, text: str) -> list[float]:
-        return [0.1, 0.2]
+class QuickPay:                       # no inheritance
+    def pay(self, amount):
+        return f"QuickPay: Rs {amount}"
 
-def index(e: Embedder, docs):
-    return [e.embed(d) for d in docs]
+class BharatWallet:
+    def pay(self, amount):
+        return f"BharatWallet: Rs {amount}"
 
-print(index(LocalEmbedder(), ["a"]))`, R`[[0.1, 0.2]]`),
-  rd('Which one?', `<p>Use an <b>ABC</b> when you own the base class and want a hard error at creation time. Use a <b>Protocol</b> when you want to accept classes from other libraries without changing them.</p>`),
-  pr(null, 'You want your agent to accept any object with a .complete(prompt) method, including a third-party client you cannot edit. Which tool fits?', ['An ABC','A Protocol','A dataclass'], 1, 'A Protocol matches by shape, so the third-party class does not need to inherit from anything.'),
-  lab('Game: Interface check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_27'),
-  task('Write two LLM classes that both match one Protocol, and swap them.', R`from typing import Protocol
+def checkout(app: Payer, amount: int):
+    return app.pay(amount)
+
+print(checkout(QuickPay(), 250))
+print(checkout(BharatWallet(), 250))`, R`QuickPay: Rs 250
+BharatWallet: Rs 250`),
+  rd('Which one?', `<p>Use an <b>ABC</b> when you own the base class and want a hard error when an object is created. Use a <b>Protocol</b> when you want to accept classes from other libraries without changing them.</p>`),
+  pr(null, 'Your app must accept any object with a .pay(amount) method, including a payment SDK you cannot edit. Which tool fits?', ['An ABC','A Protocol','A dataclass'], 1, 'A Protocol matches by shape, so the SDK class does not need to inherit from anything.'),
+  rd('Now in an AI agent', `<p>An agent can talk to OpenAI, Anthropic or a local Ollama model through one interface, and you swap providers by passing a different object.</p>`, R`from typing import Protocol
 
 class ChatModel(Protocol):
     def complete(self, prompt: str) -> str: ...
@@ -1286,7 +1438,24 @@ class OllamaModel:
 def answer(model: ChatModel, q: str) -> str:
     return model.complete(q)
 
-print(answer(OpenAIModel(), "hi"), answer(OllamaModel(), "hi"))`)
+print(answer(OpenAIModel(), "hi"), "|", answer(OllamaModel(), "hi"))`, R`openai: hi | ollama: hi`),
+  lab('Game: Interface check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_27'),
+  task('Write a Notifier ABC with two working subclasses: SMS and WhatsApp.', R`from abc import ABC, abstractmethod
+
+class Notifier(ABC):
+    @abstractmethod
+    def send(self, to: str, text: str) -> str: ...
+
+class SMS(Notifier):
+    def send(self, to, text):
+        return f"SMS to {to}: {text}"
+
+class WhatsApp(Notifier):
+    def send(self, to, text):
+        return f"WhatsApp to {to}: {text}"
+
+for n in (SMS(), WhatsApp()):
+    print(n.send("+91 98XXXXXX10", "Your order is out for delivery"))`)
  ],
  sum:[['ABC','Base class with required methods'],['@abstractmethod','Must be implemented'],['Protocol','Structural interface; no inheritance'],['duck typing','If it has the method, it works']]};
 
