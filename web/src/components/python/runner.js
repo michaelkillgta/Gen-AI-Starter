@@ -94,7 +94,7 @@ export function mountRunner(el, { example, key, inline = false, autorun = false,
     ${inline ? '' : '<div class="run-h"><span class="eyebrow">Try it here · real Python in your browser</span><span class="mini run-keys">Ctrl + Enter to run</span></div>'}
     <div class="run-split">
       <div class="run-left">
-        <textarea class="run-ed" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code" ${inline ? '' : 'placeholder="Type the code here, without copying. Then press Run."'}></textarea>
+        <textarea class="run-ed" wrap="soft" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code" ${inline ? '' : 'placeholder="Type the code here, without copying. Then press Run."'}></textarea>
         ${wantsInput ? '<textarea class="run-in" rows="2" spellcheck="false" aria-label="Program input, one line per input() call" placeholder="Input for input(), one line each"></textarea>' : ''}
         ${inline ? '' : `<div class="run-bar">
           <button class="btn btn-ink run-go">▶ Run</button>
@@ -114,8 +114,13 @@ export function mountRunner(el, { example, key, inline = false, autorun = false,
   ed.value = draft;
   let running = false, timer = null, myId = 0;
 
-  // The editor grows with its content, so the whole example stays visible.
-  const fit = () => { const n = ed.value.split('\n').length; ed.rows = Math.min(28, Math.max(inline ? 2 : 8, n + (inline ? 0 : 1))); };
+  // The editor grows with its content (long lines wrap), so there is never a scrollbar inside it.
+  const fit = () => {
+    ed.style.height = 'auto';
+    const line = parseFloat(getComputedStyle(ed).lineHeight) || 22;
+    const min = (inline ? 2 : 8) * line + 26;
+    ed.style.height = Math.min(Math.max(min, ed.scrollHeight + 2), 28 * line + 26) + 'px';
+  };
   const save = () => { fit(); if (inline) return; try { localStorage.setItem(draftKey, ed.value); } catch (e) {} };
   ed.addEventListener('input', save);
   ed.addEventListener('keydown', e => {
@@ -172,10 +177,14 @@ export function mountRunner(el, { example, key, inline = false, autorun = false,
   const peek = el.querySelector('.run-peek');
   if (peek) peek.onclick = () => { ed.value = example; save(); ed.focus(); };
   fit();
+  // Re-fit when the width changes (wrapping changes the height).
+  let lastW = 0;
+  const ro = new ResizeObserver(() => { if (ed.clientWidth !== lastW){ lastW = ed.clientWidth; fit(); } });
+  ro.observe(ed);
   if (autorun) run();
 
   // Leaving the step stops a running program.
-  const cleanup = () => { if (running){ killWorker(); } handlers.delete(myId); clearTimeout(timer); };
+  const cleanup = () => { ro.disconnect(); if (running){ killWorker(); } handlers.delete(myId); clearTimeout(timer); };
   cleanup.run = run; cleanup.reset = reset;
   return cleanup;
 }
