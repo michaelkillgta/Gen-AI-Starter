@@ -68,7 +68,7 @@ export const stories = {
     {title: 'Check and convert', code: `b = Booking(**form)\nb.age`, out: '21', body: `Pydantic checks each field. The text <code>"21"</code> is converted to the number <code>21</code>. Your code gets clean, typed values.`,
      set: {o1: box('"Lakshmi"', 'str', 180, -50, {size: 50}), o2: box('21', 'int', 180, 60, {size: 50, glow: true}), l1: link('in2', 'o2', {dash: true})}},
     {title: 'Bad data is stopped', code: `Booking(age="twenty")`, out: "ValidationError: 2 validation errors\nname: Field required\nage: Input should be a valid integer", body: `Missing or wrong fields raise one ValidationError that lists every problem. Show it to the user, or send it back to an AI model so it can fix its answer.`,
-     set: {o2: {glow: false}, in1: null, in2: {v: '"twenty"'}, o1: null, l1: null, e: note('G', 'ValidationError', {bad: true, z: 60})}},
+     set: {o2: null, in1: null, in2: {v: '"twenty"'}, o1: null, l1: null, e: note('G', 'ValidationError', {bad: true, z: 60})}},
     {title: 'The schema comes for free', code: `Booking.model_json_schema()`, out: "{'properties': {'name': {...}, 'age': {...}}, 'required': ['name', 'age']}", body: `The same class produces a JSON schema. AI agents give this schema to the model as the tool definition: one source of truth for both sides.`,
      set: {e: null, in2: null, sch: box('schema', 'dict', 0, -170, {size: 54}), sc: scan('G')}},
     {title: 'Back to plain data', code: `b.model_dump()`, out: "{'name': 'Lakshmi', 'age': 21}", body: `<code>model_dump()</code> turns the object back into a dict, ready for JSON or saving. Pydantic is the gate at every border of your app.`,
