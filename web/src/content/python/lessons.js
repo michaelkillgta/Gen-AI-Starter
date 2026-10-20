@@ -1460,148 +1460,235 @@ for n in (SMS(), WhatsApp()):
  sum:[['ABC','Base class with required methods'],['@abstractmethod','Must be implemented'],['Protocol','Structural interface; no inheritance'],['duck typing','If it has the method, it works']]};
 
 /* ================= PART IV ================= */
-L[28] = {t:'Type hints', d:'Frameworks read your hints to build tool schemas.', mins:12, core:true,
+L[28] = {t:'Type hints', d:'Label what each value should be. AI frameworks read the labels.', mins:22, core:true,
  goals:['Read and write the common hints','Know that hints do not stop wrong values at run time'],
  steps:[
-  lab('Story: Labels on the slots', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_28'),
-  rd('Hints describe what a value should be', `<p>A type hint tells readers, editors and frameworks what a value should be. Python itself does not check it when the code runs.</p>`, R`from typing import Any, Callable, Literal
+  lab('Story: Labels on the auto fare function', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_28'),
+  rd('Hints describe what a value should be', `<p>Sai writes an auto fare calculator for Bengaluru. A type hint tells readers, editors and frameworks what each value should be. Python itself does not check it when the code runs.</p>`, R`def auto_fare(km: float, night: bool = False) -> int:
+    fare = 30 + 15 * km
+    return round(fare * 1.5 if night else fare)
 
-def call_llm(
-    messages: list[dict[str, Any]],
-    model: str = "gpt-4o-mini",
-    temperature: float = 0.0,
-    tool_choice: str | None = None,
-    role: Literal["user", "system"] = "user",
-) -> str:
-    ...`),
-  rd('The hints you will see most', ``, null, null, {table:[['Hint','Means'],['list[str]','a list of strings'],['dict[str, Any]','string keys, any values (JSON)'],['str | None','a string or None (same as Optional[str])'],['Literal["a", "b"]','only these exact values'],['Callable[[str], str]','a function that takes a str and returns a str'],['TypedDict','a dict with fixed keys and types']]}),
-  rd('Hints do not stop bad values', `<p>This runs with no error. A tool like mypy, pyright or your editor would warn you. Pydantic (lesson 31) is what checks values at run time.</p>`, R`def double(n: int) -> int:
+print(auto_fare(4.2))
+print(auto_fare(4.2, night=True))`, R`93
+140`),
+  rd('The hints you will see most', ``, null, null, {table:[['Hint','Means','Example'],['list[str]','a list of strings','songs: list[str]'],['dict[str, int]','string keys, int values','marks: dict[str, int]'],['str | None','a string or None','coupon: str | None'],['Literal["veg", "non-veg"]','only these exact values','food: Literal[...]'],['Callable[[int], str]','a function from int to str','formatter: Callable[...]']]}),
+  rd('Hints in action', `<p>Hints make it clear what a function expects and gives back. This one takes a dict of marks and returns the top scorer.</p>`, R`def topper(marks: dict[str, int]) -> str:
+    return max(marks, key=marks.get)
+
+print(topper({"Divya": 91, "Karthik": 87, "Lakshmi": 95}))`, R`Lakshmi`),
+  rd('Hints do not stop bad values', `<p>This runs with no error, even though the hint says <code>int</code>. Your editor or a tool like mypy would warn you. Pydantic (lesson 31) is what checks values at run time.</p>`, R`def double(n: int) -> int:
     return n * 2
 
-print(double("ab"))`, R`abab`, {ai:'The OpenAI Agents SDK, LangChain and FastAPI all read your hints to create the JSON schema that the LLM or the client sees.'}),
-  pr(null, 'Which hint means "a list of chat messages, where each message is a dict with string keys"?', ['list[str]','dict[str, list]','list[dict[str, Any]]'], 2, 'The outer type is a list. Each item is a dict with str keys and any values.'),
+print(double("Ha"))`, R`HaHa`),
+  pr(null, 'Which hint means "a list of orders, where each order is a dict with string keys"?', ['list[str]','dict[str, list]','list[dict[str, Any]]'], 2, 'The outer type is a list. Each item is a dict with str keys and any values.'),
+  rd('Now in an AI agent', `<p>AI frameworks like the OpenAI Agents SDK, LangChain and FastAPI read your hints and build the JSON description the model sees. Good hints mean the model sends the right kinds of values.</p>`, R`def get_weather(city: str, days: int = 1) -> str:
+    return f"{days}-day forecast for {city}"
+
+print(get_weather.__annotations__)`, R`{'city': <class 'str'>, 'days': <class 'int'>, 'return': <class 'str'>}`),
   lab('Game: Hint reader', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_28'),
-  task('Add full type hints to a retrieval function.', R`def top_k(results: list[dict[str, float | str]], k: int = 3) -> list[str]:
-    ranked = sorted(results, key=lambda r: r["score"], reverse=True)
-    return [str(r["text"]) for r in ranked[:k]]`)
+  task('Add full type hints to a function that finds dishes under a budget.', R`def under_budget(menu: dict[str, int], budget: int) -> list[str]:
+    return [dish for dish, price in menu.items() if price <= budget]
+
+menu = {"Idli": 40, "Biryani": 249, "Parotta": 50, "Fish Curry": 180}
+print(under_budget(menu, 100))`)
  ],
  sum:[['list[str]','List of strings'],['X | None','Optional value'],['Literal','Fixed allowed values'],['Callable','A function type'],['runtime','Hints are not checked']]};
 
-L[29] = {t:'Dataclasses and field(default_factory=...)', d:'Clean state classes without the mutable-default bug.', mins:10, core:true,
+L[29] = {t:'Dataclasses and field(default_factory=...)', d:'Clean classes for orders and records, without the shared-list bug.', mins:20, core:true,
  goals:['Write a @dataclass','Use field(default_factory=list) for mutable defaults'],
  steps:[
-  lab('Story: The message factory', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_29'),
-  rd('@dataclass writes __init__ for you', `<p>List the fields with type hints. The decorator creates <code>__init__</code>, <code>__repr__</code> and <code>__eq__</code>.</p>`, R`from dataclasses import dataclass
+  lab('Story: The order factory', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_29'),
+  rd('@dataclass writes __init__ for you', `<p>List the fields with type hints. The decorator creates <code>__init__</code>, a readable <code>__repr__</code> and <code>__eq__</code>.</p>`, R`from dataclasses import dataclass
 
 @dataclass
-class Message:
-    role: str
-    content: str
+class Order:
+    dish: str
+    qty: int
+    price: float
 
-m = Message("user", "Hi")
-print(m)`, R`Message(role='user', content='Hi')`),
-  rd('Mutable defaults need default_factory', `<p>A dataclass refuses <code>history: list = []</code>, because that one list would be shared. <code>field(default_factory=list)</code> means: call <code>list()</code> to make a <b>new</b> list for every object.</p>`, R`from dataclasses import dataclass, field
-from typing import Any
+o = Order("Ghee Roast", 2, 120.0)
+print(o)
+print(o == Order("Ghee Roast", 2, 120.0))`, R`Order(dish='Ghee Roast', qty=2, price=120.0)
+True`),
+  rd('Mutable defaults need default_factory', `<p>A dataclass refuses <code>items: list = []</code>, because that one list would be shared by every cart. <code>field(default_factory=list)</code> makes a <b>new</b> list for every object.</p>`, R`from dataclasses import dataclass, field
 
 @dataclass
-class Agent:
-    model: str
-    history: list[dict[str, Any]] = field(default_factory=list)
+class Cart:
+    customer: str
+    items: list[str] = field(default_factory=list)
 
-a, b = Agent("gpt"), Agent("gpt")
-a.history.append({"role": "user", "content": "hi"})
-print(len(a.history), len(b.history))`, R`1 0`),
+a, b = Cart("Arjun"), Cart("Meera")
+a.items.append("Biryani")
+print(a.items, b.items)`, R`['Biryani'] []`),
   pr(R`from dataclasses import dataclass
 @dataclass
-class A:
-    tags: list = []`, 'What happens?', ['It works','ValueError: mutable default','Every object shares tags'], 1, 'Dataclasses protect you: ValueError: mutable default <class \'list\'> for field tags is not allowed: use default_factory.'),
-  lab('Game: Dataclass check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_29'),
-  task('Write the AgentState dataclass from the agent loop.', R`from dataclasses import dataclass, field
+class Cart:
+    items: list = []`, 'What happens?', ['It works','ValueError: mutable default','Every cart shares items'], 1, 'Dataclasses protect you: ValueError: mutable default <class \'list\'> for field items is not allowed: use default_factory.'),
+  rd('frozen=True locks it', `<p>A frozen dataclass cannot change after creation. Use it for things that must stay fixed, like a train's details. The last line fails on purpose.</p>`, R`from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Train:
+    number: str
+    name: str
+
+t = Train("12007", "Shatabdi Express")
+print(t.name)
+t.name = "Other"   # fails on purpose`, R`Shatabdi Express
+dataclasses.FrozenInstanceError: cannot assign to field 'name'`),
+  rd('Now in an AI agent', `<p>AI agents keep their state in a dataclass: the model, a step counter and a history that is new for each agent.</p>`, R`from dataclasses import dataclass, field
 
 @dataclass
 class AgentState:
     model: str
     max_steps: int = 5
     steps: int = 0
-    history: list[dict] = field(default_factory=list)`)
+    history: list[dict] = field(default_factory=list)
+
+s = AgentState("gpt-4o-mini")
+s.history.append({"role": "user", "content": "Plan a Hampi trip"})
+print(s.model, s.steps, len(s.history))`, R`gpt-4o-mini 0 1`),
+  lab('Game: Dataclass check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_29'),
+  task('Write a Student dataclass with a list of subjects, and add one subject.', R`from dataclasses import dataclass, field
+
+@dataclass
+class Student:
+    name: str
+    roll: int
+    subjects: list[str] = field(default_factory=list)
+
+s = Student("Venkat", 14)
+s.subjects.append("Python")
+print(s)`)
  ],
  sum:[['@dataclass','Auto __init__, __repr__, __eq__'],['field(default_factory=list)','New list per object'],['frozen=True','Make objects immutable']]};
 
-L[30] = {t:'Enums for agent states and roles', d:'No more typo bugs in "runing".', mins:7,
+L[30] = {t:'Enums for states and roles', d:'Order status without typo bugs like "deliverd".', mins:18,
  goals:['Define an Enum','Use str enums that compare with plain strings'],
  steps:[
-  lab('Story: Named states', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_30'),
-  rd('An Enum is a fixed set of named values', `<p>Strings allow typos. An Enum gives you a fixed list. A typo becomes an error you see at once.</p>`, R`from enum import Enum
+  lab('Story: Tracking a food order', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_30'),
+  rd('Strings let typos in', `<p>A food order moves through steps: placed, cooking, out for delivery, delivered. With plain strings, one typo and the check is silently False.</p>`, R`status = "deliverd"           # typo
+if status == "delivered":
+    print("Rate your order")
+else:
+    print("Still waiting...")    # wrong, and no error`, R`Still waiting...`),
+  rd('An Enum is a fixed set of named values', `<p>An Enum gives you a fixed list. A typo becomes an error you see at once, and your editor can autocomplete the names.</p>`, R`from enum import Enum
 
-class Status(str, Enum):
-    PENDING = "pending"
-    RUNNING = "running"
-    DONE = "done"
+class OrderStatus(str, Enum):
+    PLACED = "placed"
+    COOKING = "cooking"
+    OUT_FOR_DELIVERY = "out_for_delivery"
+    DELIVERED = "delivered"
 
-s = Status.RUNNING
-print(s.value, s == "running")
-print(Status("done"))`, R`running True
-Status.DONE`),
-  rd('Roles in chat messages', `<p>Inheriting from <code>str</code> means the Enum value works anywhere a string is expected, such as in a JSON payload.</p>`, R`class Role(str, Enum):
+s = OrderStatus.COOKING
+print(s.value, s == "cooking")
+print(OrderStatus("delivered"))`, R`cooking True
+OrderStatus.DELIVERED`),
+  pr(R`from enum import Enum
+class Food(Enum):
+    VEG = "veg"
+print(Food("vegan"))`, 'What happens?', ['Food.VEGAN','None','ValueError'], 2, '"vegan" is not a valid value, so Python raises ValueError. Bad data is caught early.'),
+  rd('Loop over all members', `<p>You can loop over an Enum to show every option, for example in a dropdown.</p>`, R`from enum import Enum
+
+class Berth(str, Enum):
+    LOWER = "lower"
+    MIDDLE = "middle"
+    UPPER = "upper"
+    SIDE_LOWER = "side lower"
+
+print([b.value for b in Berth])`, R`['lower', 'middle', 'upper', 'side lower']`),
+  rd('Now in an AI agent', `<p>Chat messages have fixed roles. A <code>str</code> Enum works anywhere a string is expected, such as in the JSON sent to an AI model.</p>`, R`from enum import Enum
+
+class Role(str, Enum):
     SYSTEM = "system"
     USER = "user"
     ASSISTANT = "assistant"
-    TOOL = "tool"
 
-msg = {"role": Role.USER.value, "content": "Hi"}`),
-  pr(R`from enum import Enum
-class S(Enum):
-    A = "a"
-print(S("b"))`, 'What happens?', ['S.B','None','ValueError'], 2, '"b" is not a valid value of S, so Python raises ValueError. This catches bad data early.'),
+msg = {"role": Role.USER.value, "content": "Best filter coffee in Mysuru?"}
+print(msg["role"], Role.USER == "user")`, R`user True`),
   lab('Game: Enum check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_30'),
-  task('Use an Enum to drive an agent state machine.', R`from enum import Enum
+  task('Use an Enum to move an order to its next status.', R`from enum import Enum
 
-class Step(str, Enum):
-    THINK = "think"
-    ACT = "act"
-    ANSWER = "answer"
+class OrderStatus(str, Enum):
+    PLACED = "placed"
+    COOKING = "cooking"
+    OUT_FOR_DELIVERY = "out_for_delivery"
+    DELIVERED = "delivered"
 
-state = Step.THINK
-if state is Step.THINK:
-    state = Step.ACT
-print(state.value)`)
+steps = list(OrderStatus)
+status = OrderStatus.COOKING
+status = steps[steps.index(status) + 1]
+print(status.value)`)
  ],
- sum:[['Enum','Fixed named values'],['str, Enum','Values also work as strings'],['.value','The raw value'],['Status("done")','Look up by value']]};
+ sum:[['Enum','Fixed named values'],['str, Enum','Values also work as strings'],['.value','The raw value'],['OrderStatus("delivered")','Look up by value']]};
 
-L[31] = {t:'Pydantic', d:'Validate LLM output and tool arguments.', mins:15, core:true,
+L[31] = {t:'Pydantic', d:'Check form data and AI output before you trust it.', mins:25, core:true,
  goals:['Define a BaseModel and validate data with it','Add rules with Field','Convert with model_dump() and get a JSON schema'],
  steps:[
-  lab('Story: The validation gate', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_31'),
-  rd('BaseModel describes and checks data', `<p>A Pydantic model looks like a dataclass. The difference: it <b>checks</b> the data at run time and converts it where it safely can.</p>`, R`from pydantic import BaseModel
+  lab('Story: Checking a train booking form', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_31'),
+  rd('BaseModel describes and checks data', `<p>A booking form sends everything as text. A Pydantic model looks like a dataclass, but it <b>checks</b> the data when the code runs and converts it where it safely can. The age "21" becomes the number 21.</p>`, R`from pydantic import BaseModel
+
+class Booking(BaseModel):
+    name: str
+    age: int
+    train: str = "12007"
+
+b = Booking(name="Lakshmi", age="21")
+print(b.age, type(b.age))
+print(b.train)`, R`21 <class 'int'>
+12007`),
+  lab('Validate tool arguments', `<p>Edit the JSON that an AI model sent. Press <b>Validate</b>. See the clean object or the errors that Pydantic reports.</p>`, 'pydantic'),
+  rd('Rules with Field and Literal', `<p>Add rules: age must be 5 to 120, and the berth must be one of a fixed list. Bad data raises one error that lists every problem.</p>`, R`from typing import Literal
+from pydantic import BaseModel, Field, ValidationError
+
+class Booking(BaseModel):
+    name: str
+    age: int = Field(ge=5, le=120)
+    berth: Literal["lower", "middle", "upper"] = "lower"
+
+try:
+    Booking(name="Arjun", age=150, berth="window")
+except ValidationError as e:
+    for err in e.errors():
+        print(err["loc"][0], "->", err["type"])`, R`age -> less_than_equal
+berth -> literal_error`),
+  rd('model_dump and JSON schema', `<p><code>model_dump()</code> turns the object back into a dict. <code>model_json_schema()</code> describes the model as JSON Schema.</p>`, R`from pydantic import BaseModel
+
+class Booking(BaseModel):
+    name: str
+    age: int
+
+b = Booking(name="Sai", age=22)
+print(b.model_dump())
+print(Booking.model_json_schema()["required"])`, R`{'name': 'Sai', 'age': 22}
+['name', 'age']`),
+  pr(R`from pydantic import BaseModel
+class Booking(BaseModel):
+    age: int
+Booking(age="twenty")`, 'What happens?', ['age is "twenty"','age is 20','ValidationError'], 2, '"twenty" cannot be converted to an int, so Pydantic raises a ValidationError that names the field and the problem.'),
+  rd('Now in an AI agent', `<p>An AI model sends tool arguments as JSON. Pydantic checks them before your tool runs, and the same class gives the model its schema. FastAPI uses the same models too.</p>`, R`from pydantic import BaseModel
 
 class WeatherArgs(BaseModel):
     city: str
     days: int = 1
 
-args = WeatherArgs(city="Pune", days="3")
-print(args.days, type(args.days))`, R`3 <class 'int'>`),
-  lab('Validate tool arguments', `<p>Edit the JSON that an LLM sent. Press <b>Validate</b>. See the clean object or the errors that Pydantic reports.</p>`, 'pydantic'),
-  rd('model_dump and JSON schema', `<p><code>model_dump()</code> turns the object back into a dict. <code>model_json_schema()</code> describes the model as JSON Schema, which is exactly what tool calling and structured output need.</p>`, R`print(args.model_dump())
-print(WeatherArgs.model_json_schema()["required"])`, R`{'city': 'Pune', 'days': 3}
-['city']`, {ai:'FastAPI uses the same models for request and response bodies. Learn Pydantic once and you use it everywhere.'}),
-  pr(R`from pydantic import BaseModel
-class A(BaseModel):
-    n: int
-A(n="ten")`, 'What happens?', ['n is "ten"','n is 10','ValidationError'], 2, '"ten" cannot be converted to an int, so Pydantic raises a ValidationError that names the field and the problem.'),
+raw = '{"city": "Chennai", "days": "3"}'
+args = WeatherArgs.model_validate_json(raw)
+print(args.city, args.days + 1)`, R`Chennai 4`),
   lab('Game: Validation gate', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_31'),
-  task('Validate structured output from an LLM and handle failure.', R`from pydantic import BaseModel, Field, ValidationError
+  task('Validate AI output and print a clear message when it is wrong.', R`from pydantic import BaseModel, Field, ValidationError
 
-class Answer(BaseModel):
-    summary: str
-    confidence: float = Field(ge=0, le=1)
+class Review(BaseModel):
+    restaurant: str
+    rating: float = Field(ge=0, le=5)
 
-raw = '{"summary": "RAG adds context", "confidence": 1.4}'
+raw = '{"restaurant": "MTR, Bengaluru", "rating": 6.5}'
 try:
-    a = Answer.model_validate_json(raw)
+    r = Review.model_validate_json(raw)
+    print(r)
 except ValidationError as e:
-    print(e.errors()[0]["msg"])`)
+    print("Bad AI output:", e.errors()[0]["msg"])`)
  ],
- sum:[['BaseModel','Typed, validated data class'],['Field(ge=, le=)','Extra rules'],['ValidationError','Data does not match'],['model_dump()','Object to dict'],['model_json_schema()','Schema for the LLM']]};
+ sum:[['BaseModel','Typed, validated data class'],['Field(ge=, le=)','Extra rules'],['ValidationError','Data does not match'],['model_dump()','Object to dict'],['model_json_schema()','Schema for the AI model']]};
 /* ================= PART V ================= */
 L[32] = {t:'Exceptions: try, except, else, finally', d:'When a tool fails, tell the LLM and keep going.', mins:14, core:true,
  goals:['Catch errors with try / except','Know when else and finally run','raise errors and write custom exception classes'],
