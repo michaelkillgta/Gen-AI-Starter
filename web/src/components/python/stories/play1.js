@@ -182,11 +182,11 @@ function lesson3(el){
 function lesson4(el){
   const S = (v) => ({v, t: 'str'});
   const TASKS = [
-    {from: S('42'), want: {v: 42, t: 'int'}, hint: 'One step is enough.'},
-    {from: S('3.9'), want: {v: 3, t: 'int'}, hint: 'int() cannot read a decimal point. Go through float first.'},
-    {from: S('False'), want: {v: false, t: 'bool'}, hint: 'bool("False") is True. Compare the text instead.'},
-    {from: S(' Pune\n'), want: {v: 'pune', t: 'str'}, hint: 'Clean the spaces and the capital letter.'},
-    {from: S('1e3'), want: {v: 1000, t: 'int'}, hint: 'Scientific notation needs float() before int().'},
+    {from: S('4'), want: {v: 4, t: 'int'}, hint: 'Team size from the form. One step is enough.'},
+    {from: S('8.7'), want: {v: 8, t: 'int'}, hint: 'A CGPA typed as text. int() cannot read a decimal point, so go through float first.'},
+    {from: S('False'), want: {v: false, t: 'bool'}, hint: 'The "needs hostel" box. bool("False") is True, so compare the text instead.'},
+    {from: S(' Coimbatore\n'), want: {v: 'coimbatore', t: 'str'}, hint: 'A city typed with extra spaces and a capital letter. Clean both.'},
+    {from: S('1e3'), want: {v: 1000, t: 'int'}, hint: 'An amount written as 1e3. Scientific notation needs float() before int().'},
   ];
   const err = (name, msg) => ({err: `${name}: ${msg}`});
   const OPS = {
@@ -200,7 +200,7 @@ function lesson4(el){
   };
   const show = x => x.t === 'str' ? strRepr(x.v) : pyRepr(x);
   let k = 0, pipe = [], solved = 0;
-  const root = shell(el, 'Conversion pipeline', 'Messy text comes in on the left. Tap blocks to build a pipeline, then run it. Every step shows the value and its type.',
+  const root = shell(el, 'Conversion pipeline', 'Answers from Harini\'s college fest form arrive as messy text on the left. Tap blocks to build a pipeline, then run it. Every step shows the value and its type.',
     `<div class="pl-task"></div><div class="pl-palette">${Object.keys(OPS).map(o => `<button class="chipb pl-op" data-op='${o}'>${esc(o)}</button>`).join('')}</div>
      <div class="pl-pipe" aria-label="Your pipeline"></div>
      <div class="pl-bar2"><button class="btn btn-ink pl-run">▶ Run pipeline</button><button class="btn btn-ghost pl-clear">Clear</button><button class="pl-link pl-hint">Hint</button></div>
@@ -229,11 +229,11 @@ function lesson4(el){
 function lesson5(el){
   const VALS = [['0', false], ['"hi"', true], ['[]', false], ['" "', true], ['None', false], ['[0]', true], ['0.0', false], ['{}', false], ['-1', true], ['"False"', true], ['""', false], ['{"a": 1}', true]];
   const PAIRS = [
-    ['a = ["doc"]\nb = ["doc"]', '==', 'Same value, two separate lists.'],
-    ['a = ["doc"]\nb = a', 'both', 'Two names, one list: equal and identical.'],
+    ['a = ["Hukum"]\nb = ["Hukum"]', '==', 'Same songs, two separate playlists.'],
+    ['a = ["Hukum"]\nb = a', 'both', 'Two names, one playlist: equal and identical.'],
     ['x = None\ny = None', 'both', 'There is only one None object.'],
     ['a = 1\nb = True', '==', '1 == True, but they are different objects.'],
-    ['a = "hi"\nb = "HI"', 'neither', 'Different text, so not equal.'],
+    ['a = "csk"\nb = "CSK"', 'neither', 'Different capital letters, so not equal.'],
   ];
   let round = 1, i = 0, ok = 0, items = [];
   const root = shell(el, 'The if gate', 'Round 1: each value walks up to an <code>if</code> gate. Does it get through (truthy) or get blocked (falsy)? Round 2: which comparison is True?',
@@ -277,8 +277,8 @@ function lesson5(el){
 
 /* ======================= 6 · Slice ruler ======================= */
 function lesson6(el){
-  const S = 'agentic AI';
-  const GOALS = [['gent', 'the word "gent"'], ['AI', 'the last two characters'], ['agentic', 'the first word'], ['IA citnega', 'the whole string backwards'], ['aetcA', 'every second character, starting at the first']];
+  const S = 'Vande Bharat';
+  const GOALS = [['and', 'the word "and"'], ['at', 'the last two characters'], ['Vande', 'the first word'], ['tarahB ednaV', 'the whole name backwards'], ['VneBaa', 'every second character, starting at the first']];
   let a = 0, b = S.length, step = 1, g = 0, solved = new Set();
   const root = shell(el, 'Slice ruler', `Drag the two handles (or use the buttons) to choose <code>start</code> and <code>stop</code>. Change the step. Make the slice match the target.`,
     `<div class="pl-goal"></div><div class="pl-ruler" aria-hidden="true"><div class="pl-cells"></div><div class="pl-h pl-ha" data-h="a">start</div><div class="pl-h pl-hb" data-h="b">stop</div></div>
@@ -324,12 +324,12 @@ function lesson6(el){
 function lesson7(el){
   const LEVELS = [
     {doc: 3, hint: 'Use a for loop with exactly the right number of steps.', needBreak: false},
-    {doc: 5, hint: 'Pick a big range, then add "if found: break" so it stops at the document.', needBreak: true, maxN: 9},
-    {doc: null, hint: 'The document moves each run. Only a loop with break (and a guard) always works.', needBreak: true},
+    {doc: 5, hint: 'Pick a big range, then add "if found: break" so it stops at the counter.', needBreak: true, maxN: 9},
+    {doc: null, hint: 'The counter moves each run. Only a loop with break (and a guard) always works.', needBreak: true},
   ];
   const CELLS = 9;
   let lv = 0, loop = 'for', n = 3, brk = false, guard = true, running = false, timers = [], doc = 3;
-  const root = shell(el, 'Robot loop', 'Program the robot to reach the document 📄 and stop there. Build the loop, press Run and watch each step.',
+  const root = shell(el, 'Robot loop', 'Program the robot to walk to the ticket counter 🎫 and stop there. Build the loop, press Run and watch each step.',
     `<div class="pl-level"></div><div class="pl-track" aria-hidden="true"></div>
      <div class="pl-cols"><div class="pl-prog">
        <div class="pl-row"><span class="pl-k">Loop</span><button class="chipb pl-lp" data-l="for">for step in range(N)</button><button class="chipb pl-lp" data-l="while">while True</button></div>
@@ -345,7 +345,7 @@ function lesson7(el){
   const draw = (pos = 0, hl = -1) => {
     const L = LEVELS[lv];
     q('.pl-level', root).innerHTML = `<span class="pl-k">Level ${lv + 1} of ${LEVELS.length}</span> ${L.hint}`;
-    q('.pl-track', root).innerHTML = Array.from({length: CELLS}, (_, k) => `<span class="${k === doc ? 'pl-doc' : ''}">${k === pos ? '🤖' : k === doc ? '📄' : ''}<i>${k}</i></span>`).join('') + '<span class="pl-wall">wall</span>';
+    q('.pl-track', root).innerHTML = Array.from({length: CELLS}, (_, k) => `<span class="${k === doc ? 'pl-doc' : ''}">${k === pos ? '🤖' : k === doc ? '🎫' : ''}<i>${k}</i></span>`).join('') + '<span class="pl-wall">wall</span>';
     qa('.pl-lp', root).forEach(b => b.classList.toggle('on', b.dataset.l === loop));
     q('.pl-nrow', root).hidden = loop !== 'for'; q('.pl-grow', root).hidden = loop !== 'while';
     q('.pl-n', root).textContent = n; q('.pl-brk', root).checked = brk; q('.pl-guard', root).checked = guard;
@@ -367,11 +367,11 @@ function lesson7(el){
       if (steps > 40){ outcome = 'forever'; break; }
     }
     const MSG = {
-      ok: '<b class="pl-yes">The robot stopped on the document.</b>',
-      short: `<b class="pl-no">Stopped too early.</b> range(${n}) ran ${n} times, but the document is ${doc} steps away.`,
-      over: `<b class="pl-no">Walked past it.</b> The loop kept going after the document. ${brk ? '' : 'Add "if found: break".'}`,
-      wall: '<b class="pl-no">Crashed into the wall.</b> Nothing stopped the loop at the document.',
-      guard: '<b class="pl-no">The guard stopped it.</b> Good safety net, but without "if found: break" it never stops at the document.',
+      ok: '<b class="pl-yes">The robot stopped at the ticket counter.</b>',
+      short: `<b class="pl-no">Stopped too early.</b> range(${n}) ran ${n} times, but the counter is ${doc} steps away.`,
+      over: `<b class="pl-no">Walked past it.</b> The loop kept going past the counter. ${brk ? '' : 'Add "if found: break".'}`,
+      wall: '<b class="pl-no">Crashed into the wall.</b> Nothing stopped the loop at the counter.',
+      guard: '<b class="pl-no">The guard stopped it.</b> Good safety net, but without "if found: break" it never stops at the counter.',
       forever: '<b class="pl-no">This loop never ends.</b> while True needs a break or a guard. In an agent that means a huge bill.',
     };
     frames.forEach(([p, l], k) => timers.push(setTimeout(() => draw(p, l), reduced() ? 0 : 380 * (k + 1))));
@@ -394,13 +394,13 @@ function lesson7(el){
 
 /* ======================= 8 · Container sandbox ======================= */
 function lesson8(el){
-  const make = () => ({list: ['d1', 'd2'], tuple: ['d1', 'd2'], dict: [['d1', 0.9], ['d2', 0.7]], set: ['d1', 'd2']});
+  const make = () => ({list: ['Hukum', 'Kaavaalaa'], tuple: ['Hukum', 'Kaavaalaa'], dict: [['Hukum', 4.8], ['Kaavaalaa', 4.6]], set: ['Hukum', 'Kaavaalaa']});
   let C = make(), tried = new Set();
-  const OPS = [['add', 'Add "d3"'], ['dup', 'Add "d1" again'], ['change', 'Change the first item'], ['find', 'Is "d2" in it?']];
+  const OPS = [['add', 'Add "Naatu"'], ['dup', 'Add "Hukum" again'], ['change', 'Change the first item'], ['find', 'Is "Kaavaalaa" in it?']];
   const root = shell(el, 'Container sandbox', 'Same data, four containers. Try each action on each one and see what Python allows. Try all 16 to finish.',
     `<div class="pl-ops">${OPS.map(([k, t]) => `<button class="chipb pl-opb" data-op="${k}">${t}</button>`).join('')}</div>
      <div class="pl-cont"></div><div class="term-out pl-log"></div>
-     <div class="pl-race"><button class="btn btn-ghost pl-racego">Race: find "d9999" in 10,000 items</button><div class="pl-lanes"><div><span>list</span><i class="pl-lane-l"></i><b class="pl-cl">0</b></div><div><span>set</span><i class="pl-lane-s"></i><b class="pl-cs">0</b></div></div></div>`);
+     <div class="pl-race"><button class="btn btn-ghost pl-racego">Race: find one song in 10,000</button><div class="pl-lanes"><div><span>list</span><i class="pl-lane-l"></i><b class="pl-cl">0</b></div><div><span>set</span><i class="pl-lane-s"></i><b class="pl-cs">0</b></div></div></div>`);
   let op = 'add';
   const view = (k) => k === 'list' ? `[${C.list.map(x => `"${x}"`).join(', ')}]` : k === 'tuple' ? `(${C.tuple.map(x => `"${x}"`).join(', ')})` : k === 'dict' ? `{${C.dict.map(([a, b]) => `"${a}": ${b}`).join(', ')}}` : `{${C.set.map(x => `"${x}"`).join(', ')}}`;
   const draw = () => {
@@ -412,13 +412,13 @@ function lesson8(el){
   const act = (k, node) => {
     let code = '', res = '', bad = false;
     const r = {
-      list: {add: () => { C.list.push('d3'); return ['docs.append("d3")', 'added at the end']; }, dup: () => { C.list.push('d1'); return ['docs.append("d1")', 'lists keep duplicates']; }, change: () => { C.list[0] = 'NEW'; return ['docs[0] = "NEW"', 'lists can change in place']; }, find: () => ['"d2" in docs', `True · checked items one by one`]},
-      tuple: {add: () => { bad = true; return ['docs.append("d3")', "AttributeError: 'tuple' object has no attribute 'append'"]; }, dup: () => { bad = true; return ['docs.append("d1")', "AttributeError: tuples cannot grow"]; }, change: () => { bad = true; return ['docs[0] = "NEW"', "TypeError: 'tuple' object does not support item assignment"]; }, find: () => ['"d2" in docs', 'True · checked items one by one']},
-      dict: {add: () => { if (!C.dict.find(x => x[0] === 'd3')) C.dict.push(['d3', 0.5]); return ['scores["d3"] = 0.5', 'new key added']; }, dup: () => { C.dict[0][1] = 0.1; return ['scores["d1"] = 0.1', 'keys are unique: the old value is replaced']; }, change: () => { C.dict[0][1] = 1.0; return ['scores["d1"] = 1.0', 'change a value by its key']; }, find: () => ['"d2" in scores', 'True · instant, jumps straight to the key']},
-      set: {add: () => { if (!C.set.includes('d3')) C.set.push('d3'); return ['seen.add("d3")', 'added']; }, dup: () => ['seen.add("d1")', 'already there, nothing happens: sets keep one of each']},
+      list: {add: () => { C.list.push('Naatu'); return ['songs.append("Naatu")', 'added at the end']; }, dup: () => { C.list.push('Hukum'); return ['songs.append("Hukum")', 'lists keep duplicates']; }, change: () => { C.list[0] = 'NEW'; return ['songs[0] = "NEW"', 'lists can change in place']; }, find: () => ['"Kaavaalaa" in songs', `True · checked items one by one`]},
+      tuple: {add: () => { bad = true; return ['songs.append("Naatu")', "AttributeError: 'tuple' object has no attribute 'append'"]; }, dup: () => { bad = true; return ['songs.append("Hukum")', "AttributeError: tuples cannot grow"]; }, change: () => { bad = true; return ['songs[0] = "NEW"', "TypeError: 'tuple' object does not support item assignment"]; }, find: () => ['"Kaavaalaa" in songs', 'True · checked items one by one']},
+      dict: {add: () => { if (!C.dict.find(x => x[0] === 'Naatu')) C.dict.push(['Naatu', 0.5]); return ['ratings["Naatu"] = 0.5', 'new key added']; }, dup: () => { C.dict[0][1] = 0.1; return ['ratings["Hukum"] = 0.1', 'keys are unique: the old value is replaced']; }, change: () => { C.dict[0][1] = 1.0; return ['ratings["Hukum"] = 1.0', 'change a value by its key']; }, find: () => ['"Kaavaalaa" in ratings', 'True · instant, jumps straight to the key']},
+      set: {add: () => { if (!C.set.includes('Naatu')) C.set.push('Naatu'); return ['heard.add("Naatu")', 'added']; }, dup: () => ['heard.add("Hukum")', 'already there, nothing happens: sets keep one of each']},
     }[k];
-    r.change = r.change || (() => { bad = true; return ['seen[0] = "NEW"', "TypeError: 'set' object is not subscriptable (no order, no positions)"]; });
-    r.find = r.find || (() => ['"d2" in seen', 'True · instant, jumps straight to it']);
+    r.change = r.change || (() => { bad = true; return ['heard[0] = "NEW"', "TypeError: 'set' object is not subscriptable (no order, no positions)"]; });
+    r.find = r.find || (() => ['"Kaavaalaa" in heard', 'True · instant, jumps straight to it']);
     [code, res] = r[op](); tried.add(k + op);
     q('.pl-log', root).innerHTML = `<span class="p">&gt;&gt;&gt;</span> ${hlPy(code)}   <span class="c"># on the ${k}</span>\n${bad ? `<span class="pl-no">${esc(res)}</span>` : esc(res)}`;
     draw(); if (bad) shake(q(`.pl-${k}`, root));
@@ -439,15 +439,15 @@ function lesson8(el){
 
 /* ======================= 9 · Path finder tree ======================= */
 function lesson9(el){
-  const DATA = {id: 'chatcmpl-9x', choices: [{index: 0, message: {role: 'assistant', content: 'Paris is the capital.', tool_calls: [{function: {name: 'get_weather', arguments: '{"city": "Paris"}'}}]}, finish_reason: 'tool_calls'}], usage: {prompt_tokens: 42, completion_tokens: 18, total_tokens: 60}};
+  const DATA = {order_id: 'HYD-2048', restaurant: {name: 'Paradise', area: 'Secunderabad'}, items: [{dish: 'Chicken Biryani', qty: 2, price: 349}, {dish: 'Double Ka Meetha', qty: 1, price: 99}], delivery: {partner: 'Ravi', eta_min: 25, address: {city: 'Hyderabad', pincode: '500003'}}, paid: true};
   const GOALS = [
-    ['the reply text', '["choices"][0]["message"]["content"]'],
-    ['the total tokens', '["usage"]["total_tokens"]'],
-    ['the name of the tool the model wants', '["choices"][0]["message"]["tool_calls"][0]["function"]["name"]'],
-    ['why the model stopped', '["choices"][0]["finish_reason"]'],
+    ['the name of the second dish', '["items"][1]["dish"]'],
+    ['the restaurant area', '["restaurant"]["area"]'],
+    ['the delivery pincode', '["delivery"]["address"]["pincode"]'],
+    ['how many minutes until delivery', '["delivery"]["eta_min"]'],
   ];
   let g = 0, done = new Set();
-  const root = shell(el, 'Path finder', 'This is a real-shaped LLM reply. Click your way down the tree to the value you need. The Python path builds itself as you click.',
+  const root = shell(el, 'Path finder', 'This is a food delivery order from Hyderabad. Click your way down the tree to the value you need. The Python path builds itself as you click.',
     `<div class="pl-goal"></div><div class="pl-cols"><div class="pl-tree" role="tree"></div><div><div class="term-out pl-path"></div><p class="pl-fb" aria-live="polite"></p></div></div>`);
   const typeOf = v => v === null ? 'None' : Array.isArray(v) ? 'list' : typeof v === 'object' ? 'dict' : typeof v === 'string' ? 'str' : Number.isInteger(v) ? 'int' : 'float';
   const label = v => typeof v === 'string' ? strRepr(v.length > 30 ? v.slice(0, 29) + '…' : v) : typeof v === 'object' ? (Array.isArray(v) ? `[${v.length} item${v.length === 1 ? '' : 's'}]` : `{${Object.keys(v).length} keys}`) : String(v);
@@ -456,14 +456,14 @@ function lesson9(el){
     const entries = Array.isArray(v) ? v.map((x, k) => [k, x]) : Object.entries(v);
     return `<ul>${entries.map(([k, x]) => { const p = path + (Array.isArray(v) ? `[${k}]` : `["${k}"]`); return `<li><button class="pl-node" data-p='${p}'><span class="pl-key">${Array.isArray(v) ? `[${k}]` : `"${k}"`}</span> <span class="pl-tv t-${typeOf(x).toLowerCase()}">${typeOf(x)}</span> <span class="pl-lv">${esc(label(x))}</span></button>${tree(x, p)}</li>`; }).join('')}</ul>`;
   };
-  q('.pl-tree', root).innerHTML = `<button class="pl-node" data-p=""><span class="pl-key">resp</span> <span class="pl-tv t-dict">dict</span></button>` + tree(DATA, '');
+  q('.pl-tree', root).innerHTML = `<button class="pl-node" data-p=""><span class="pl-key">order</span> <span class="pl-tv t-dict">dict</span></button>` + tree(DATA, '');
   const get = p => { let v = DATA; const re = /\[(\d+|"[^"]*")\]/g; let m; while ((m = re.exec(p))){ const k = m[1][0] === '"' ? m[1].slice(1, -1) : +m[1]; v = v[k]; } return v; };
   const drawGoal = () => { q('.pl-goal', root).innerHTML = `<span class="pl-k">Goal ${g + 1} of ${GOALS.length}</span> Find ${GOALS[g][0]}`; q('.pl-score', root).textContent = `${done.size}/${GOALS.length} found`; };
   q('.pl-tree', root).addEventListener('click', e => {
     const n = e.target.closest('.pl-node'); if (!n) return;
     qa('.pl-node.on', root).forEach(x => x.classList.remove('on')); n.classList.add('on');
     const p = n.dataset.p, v = get(p), steps = (p.match(/\[/g) || []).length;
-    q('.pl-path', root).innerHTML = `<span class="p">&gt;&gt;&gt;</span> resp${esc(p)}\n${esc(typeof v === 'object' ? JSON.stringify(v).slice(0, 80) + (JSON.stringify(v).length > 80 ? '…' : '') : typeof v === 'string' ? strRepr(v) : String(v))}\n<span class="c"># ${steps} step${steps === 1 ? '' : 's'}, type ${typeOf(v)}</span>`;
+    q('.pl-path', root).innerHTML = `<span class="p">&gt;&gt;&gt;</span> order${esc(p)}\n${esc(typeof v === 'object' ? JSON.stringify(v).slice(0, 80) + (JSON.stringify(v).length > 80 ? '…' : '') : typeof v === 'string' ? strRepr(v) : String(v))}\n<span class="c"># ${steps} step${steps === 1 ? '' : 's'}, type ${typeOf(v)}</span>`;
     const fb = q('.pl-fb', root);
     if (p === GOALS[g][1]){
       done.add(g); fb.innerHTML = `<b class="pl-yes">Found it.</b> Each bracket opened one level: dict keys use "quotes", list positions use numbers. ${g < GOALS.length - 1 ? '<button class="btn btn-ink pl-next">Next goal →</button>' : '<b>All goals found.</b>'}`;
@@ -477,22 +477,22 @@ function lesson9(el){
 
 /* ======================= 10 · Copy lab ======================= */
 function lesson10(el){
-  const METHODS = [['=', 'other = history'], ['[:]', 'other = history[:]'], ['deep', 'other = copy.deepcopy(history)']];
-  const ACTIONS = [['append', 'other.append({"content": "bye"})'], ['inner', 'other[0]["content"] = "CHANGED"']];
+  const METHODS = [['=', 'meera = trip'], ['[:]', 'meera = trip[:]'], ['deep', 'meera = copy.deepcopy(trip)']];
+  const ACTIONS = [['append', 'meera.append({"item": "camera"})'], ['inner', 'meera[0]["item"] = "bus"']];
   const sees = (m, a) => m === '=' ? true : m === '[:]' ? a === 'inner' : false;
   let m = '=', a = 'append', done = new Set(), ok = 0, phase = 'predict';
-  const root = shell(el, 'Copy lab', 'Pick how <code>other</code> is made and what you change through it. Predict whether <code>history</code> changes too, then check the wires.',
-    `<div class="pl-row"><span class="pl-k">1 · Make other</span>${METHODS.map(([k, c]) => `<button class="chipb pl-m" data-m="${k}">${esc(c)}</button>`).join('')}</div>
+  const root = shell(el, 'Copy lab', 'Four friends share a Munnar trip list. Pick how <code>meera</code> is made and what you change through it. Predict whether <code>trip</code> changes too, then check the wires.',
+    `<div class="pl-row"><span class="pl-k">1 · Make meera</span>${METHODS.map(([k, c]) => `<button class="chipb pl-m" data-m="${k}">${esc(c)}</button>`).join('')}</div>
      <div class="pl-row"><span class="pl-k">2 · Change it</span>${ACTIONS.map(([k, c]) => `<button class="chipb pl-a" data-a="${k}">${esc(c)}</button>`).join('')}</div>
-     <div class="pl-row"><span class="pl-k">3 · Does history change?</span><button class="btn btn-ghost pl-p" data-p="1">Yes</button><button class="btn btn-ghost pl-p" data-p="0">No</button></div>
+     <div class="pl-row"><span class="pl-k">3 · Does trip change?</span><button class="btn btn-ghost pl-p" data-p="1">Yes</button><button class="btn btn-ghost pl-p" data-p="0">No</button></div>
      <div class="pl-wires" aria-live="polite"></div><p class="pl-fb" aria-live="polite"></p>`);
   const diagram = (show) => {
     const outerShared = m === '=', innerShared = m !== 'deep';
     const changedInner = show && a === 'inner', appended = show && a === 'append';
-    const histItems = [`<span class="pl-d ${innerShared ? 'pl-shared' : ''}">{"content": ${changedInner && innerShared ? '"CHANGED"' : '"hi"'}}</span>`, ...(appended && outerShared ? ['<span class="pl-d pl-shared">{"content": "bye"}</span>'] : [])];
-    const otherItems = [`<span class="pl-d ${innerShared ? 'pl-shared' : ''}">{"content": ${changedInner ? '"CHANGED"' : '"hi"'}}</span>`, ...(appended ? ['<span class="pl-d">{"content": "bye"}</span>'] : [])];
-    return `<div class="pl-wrow"><code class="pl-name">history</code><span class="pl-w">→</span><span class="pl-list ${outerShared ? 'pl-shared' : ''}">list #1 [ ${histItems.join(' ')} ]</span></div>
-      <div class="pl-wrow"><code class="pl-name">other</code><span class="pl-w">→</span><span class="pl-list ${outerShared ? 'pl-shared' : ''}">${outerShared ? 'list #1 (same list!)' : `list #2 [ ${otherItems.join(' ')} ]`}</span></div>
+    const histItems = [`<span class="pl-d ${innerShared ? 'pl-shared' : ''}">{"item": ${changedInner && innerShared ? '"bus"' : '"cab"'}}</span>`, ...(appended && outerShared ? ['<span class="pl-d pl-shared">{"item": "camera"}</span>'] : [])];
+    const otherItems = [`<span class="pl-d ${innerShared ? 'pl-shared' : ''}">{"item": ${changedInner ? '"bus"' : '"cab"'}}</span>`, ...(appended ? ['<span class="pl-d">{"item": "camera"}</span>'] : [])];
+    return `<div class="pl-wrow"><code class="pl-name">trip</code><span class="pl-w">→</span><span class="pl-list ${outerShared ? 'pl-shared' : ''}">list #1 [ ${histItems.join(' ')} ]</span></div>
+      <div class="pl-wrow"><code class="pl-name">meera</code><span class="pl-w">→</span><span class="pl-list ${outerShared ? 'pl-shared' : ''}">${outerShared ? 'list #1 (same list!)' : `list #2 [ ${otherItems.join(' ')} ]`}</span></div>
       <p class="mini">Highlighted = shared between both names.${m === '[:]' ? ' [:] makes a new outer list, but the dicts inside are still shared.' : ''}</p>`;
   };
   const draw = () => {
@@ -507,8 +507,8 @@ function lesson10(el){
     const truth = sees(m, a), good = (b.dataset.p === '1') === truth, key = m + a;
     if (!done.has(key)){ done.add(key); ok += good; }
     phase = 'shown'; draw();
-    q('.pl-fb', root).innerHTML = `${good ? '<b class="pl-yes">Right.</b>' : '<b class="pl-no">Not this time.</b>'} history ${truth ? '<b>does</b>' : 'does <b>not</b>'} change. ${
-      m === '=' ? '= copies the arrow, not the list: one list, two names.' : m === '[:]' ? (a === 'append' ? 'The outer list is new, so appending only touches other.' : 'The outer list is new, but both lists hold the same dict, so the change shows in both.') : 'deepcopy copied the dicts too: nothing is shared.'}${done.size === 6 ? ` <b>All 6 combos done.</b>` : ''}`;
+    q('.pl-fb', root).innerHTML = `${good ? '<b class="pl-yes">Right.</b>' : '<b class="pl-no">Not this time.</b>'} trip ${truth ? '<b>does</b>' : 'does <b>not</b>'} change. ${
+      m === '=' ? '= copies the arrow, not the list: one list, two names.' : m === '[:]' ? (a === 'append' ? 'The outer list is new, so appending only touches meera.' : 'The outer list is new, but both lists hold the same dict, so the change shows in both.') : 'deepcopy copied the dicts too: nothing is shared.'}${done.size === 6 ? ` <b>All 6 combos done.</b>` : ''}`;
   });
   draw();
 }

@@ -150,290 +150,348 @@ print("Left over", left_over)   # 2`)
  ],
  sum:[['/','True division, always a float'],['//','Floor division, whole part only'],['%','Remainder after division'],['**','Power'],['== vs =','Compare vs store'],['and / or / not','Combine or flip conditions']]};
 
-L[4] = {t:'Type conversion: int(), float(), str(), bool()', d:'Turn env vars and LLM text into safe values.', mins:10,
+L[4] = {t:'Type conversion: int(), float(), str(), bool()', d:'Turn text from forms and apps into numbers you can use.', mins:22,
  goals:['Convert between str, int, float and bool','Know which conversions fail with ValueError','Handle a failed conversion safely'],
  steps:[
-  lab('Story: The conversion machines', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_4'),
-  lab('Hands-on: Conversion pipeline', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_4'),
-  rd('Why convert?', `<p>Many values arrive as text. <code>input()</code> returns a string. Environment variables are strings. LLM output is a string. Before you do maths, you convert.</p>`, R`retries = "3"           # from an env var
-print(retries + 1)`, R`TypeError: can only concatenate str (not "int") to str`),
+  lab('Story: The college fest form', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_4'),
+  lab('Hands-on: Conversion pipeline', ``, 'play_4'),
+  rd('Why convert?', `<p>Harini is collecting registrations for her college fest in Coimbatore. Everything typed into a form arrives as <b>text</b>, even numbers. The last line fails on purpose: you cannot add a number to text.</p>`, R`team_size = "4"         # typed into the form
+print(type(team_size))
+print(team_size + 1)    # fails on purpose`, R`<class 'str'>
+TypeError: can only concatenate str (not "int") to str`),
+  rd('int(), float() and str()', `<p><code>int()</code> turns text into a whole number, <code>float()</code> into a decimal, and <code>str()</code> turns anything back into text.</p>`, R`team_size = int("4")
+fee = float("149.50")
+print(team_size + 1)
+print(fee * team_size)
+print("Team of " + str(team_size))`, R`5
+598.0
+Team of 4`),
   lab('Conversion lab', `<p>Type any text. See what each conversion gives you. Try <code>3.5</code>, <code>abc</code>, an empty box and <code>False</code>.</p>`, 'convert'),
-  rd('The bool() surprise', `<p><code>bool()</code> does not read the words. Any non-empty string is <code>True</code>. So <code>bool("False")</code> is <code>True</code>.</p><p>To read a flag from an env var, compare the text instead.</p>`, R`raw = "False"
-print(bool(raw))                    # True (non-empty)
-debug = raw.lower() in ("1", "true", "yes")
-print(debug)                        # False`, R`True
+  rd('The bool() surprise', `<p><code>bool()</code> does not read the words. Any text that is not empty is <code>True</code>, so a form answer of <code>"False"</code> becomes <code>True</code>. Compare the text instead.</p>`, R`needs_hostel = "False"
+print(bool(needs_hostel))                # True (text is not empty)
+print(needs_hostel.lower() == "true")    # False`, R`True
 False`),
-  rd('Handle conversion errors', `<p><code>int("abc")</code> raises <code>ValueError</code>. In real code, catch it and use a safe default.</p>`, R`import os
-
+  rd('Handle bad input safely', `<p>Someone types "four" instead of 4. <code>int("four")</code> raises <code>ValueError</code>. Catch it and use a sensible default.</p>`, R`raw = "four"
 try:
-    max_retries = int(os.getenv("MAX_RETRIES", "3"))
+    team_size = int(raw)
 except ValueError:
-    max_retries = 3
-print(max_retries)`, R`3`),
-  pr(R`print(int("3.5"))`, 'What happens?', ['3','4','ValueError'], 2, 'int() only accepts text that looks like a whole number. First use float("3.5"), then int() if you need it.'),
-  pr(R`print(int(3.99))`, 'What does this print?', ['3','4','3.99'], 0, 'int() on a float cuts off the decimal part. It does not round.'),
+    print("Please type a number, like 4")
+    team_size = 1
+print(team_size)`, R`Please type a number, like 4
+1`),
+  pr(R`print(int("8.5"))`, 'A CGPA of "8.5" comes from a form. What does int("8.5") do?', ['8','9','ValueError'], 2, 'int() only accepts text that looks like a whole number. Use float("8.5") first, then int() if you need it.'),
+  pr(R`print(int(8.99))`, 'What does this print?', ['8','9','8.99'], 0, 'int() on a float cuts off the decimal part. It does not round.'),
+  rd('Now in an AI agent', `<p>Settings for an AI agent come from environment variables, which are always text. The same conversions turn them into numbers.</p>`, R`settings = {"MAX_RETRIES": "3", "TEMPERATURE": "0.2"}
+retries = int(settings["MAX_RETRIES"])
+temperature = float(settings["TEMPERATURE"])
+print(retries + 1, temperature)`, R`4 0.2`),
   lab('Game: Conversion scanner', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_4'),
-  task('Read a temperature from text the user typed, safely.', R`text = input("Temperature: ")
+  task('Read a UPI amount the user typed, safely.', R`text = input("Amount in rupees: ")
 try:
-    temperature = float(text)
+    amount = float(text)
 except ValueError:
-    print("Please type a number, for example 0.2")
-    temperature = 0.2
-print(type(temperature), temperature)`)
+    print("Please type a number, for example 250")
+    amount = 0.0
+print(type(amount), amount)`)
  ],
- sum:[['int("42")','Text to whole number'],['float("0.2")','Text to decimal'],['str(500)','Anything to text'],['bool(x)','Empty or zero is False; else True'],['ValueError','Text cannot be converted']]};
+ sum:[['int("42")','Text to whole number'],['float("149.5")','Text to decimal'],['str(500)','Anything to text'],['bool(x)','Empty or zero is False; else True'],['ValueError','Text cannot be converted']]};
 
-L[5] = {t:'Truthy, falsy, and is vs ==', d:'How if decides, and how to check None.', mins:10, core:true,
- goals:['Know which values Python treats as False','Write short checks like if reply.get("tool_call"):','Know when to use is and when to use =='],
+L[5] = {t:'Truthy, falsy, and is vs ==', d:'How if decides, and how to check None.', mins:22, core:true,
+ goals:['Know which values Python treats as False','Write short checks like if coupon:','Know when to use is and when to use =='],
  steps:[
   lab('Story: The if gate', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_5'),
-  lab('Hands-on: The if gate', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_5'),
-  rd('Every value is truthy or falsy', `<p>An <code>if</code> does not need a bool. Python asks each value: are you truthy or falsy?</p><p>Falsy values: <code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>[]</code>, <code>{}</code>, <code>set()</code>. Everything else is truthy.</p>`, R`messages = []
-if not messages:
-    print("No history yet")`, R`No history yet`),
+  lab('Hands-on: The if gate', ``, 'play_5'),
+  rd('Every value is truthy or falsy', `<p>An <code>if</code> does not need True or False. Python asks each value: are you truthy or falsy?</p><p>Falsy values: <code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>[]</code>, <code>{}</code>, <code>set()</code>. Everything else is truthy.</p>`, R`cart = []
+if not cart:
+    print("Your cart is empty")`, R`Your cart is empty`),
   lab('Does the if block run?', `<p>Pick a value. See whether <code>if value:</code> runs its block.</p>`, 'truthy'),
-  rd('== compares values, is compares identity', `<p><code>==</code> asks: do these two objects have the same value? <code>is</code> asks: are these the same object in memory?</p>`, R`a = [1, 2]
-b = a          # same object
-c = [1, 2]     # new object, same value
-print(a == c, a is c)
-print(a == b, a is b)`, R`True False
-True True`),
-  rd('Use is only for None, True, False', `<p>There is only one <code>None</code> object, so <code>is None</code> is the correct check. For numbers and strings, use <code>==</code>.</p>`, R`count = 0
-if count is None:    # correct: "has it been set?"
-    print("not set")
-if not count:        # True for 0 too!
-    print("zero or not set")`, R`zero or not set`, {note:'if not x treats 0 and "" like None. When 0 is a valid value, write if x is None.'}),
-  pr(R`reply = {"content": "Hi", "tool_call": None}
-if reply.get("tool_call"):
-    print("call tool")
+  rd('Short checks with truthy values', `<p>An empty coupon code is falsy, so <code>if coupon:</code> reads like plain English.</p>`, R`coupon = ""
+if coupon:
+    print("Applying", coupon)
 else:
-    print("final answer")`, 'What does this print?', ['call tool','final answer','KeyError'], 1, 'tool_call is None, and None is falsy. So the else block runs.'),
-  pr(R`x = [0]
-print(bool(x))`, 'What does this print?', ['True','False','0'], 0, 'The list is not empty. It has one item. An item that is 0 does not make the list falsy.'),
+    print("No coupon, full price")`, R`No coupon, full price`),
+  rd('== compares values, is compares identity', `<p><code>==</code> asks: do these have the same value? <code>is</code> asks: are these the same object? Two playlists with the same songs are equal, but they are still two separate lists.</p>`, R`mine = ["Kaavaalaa", "Naatu Naatu"]
+yours = ["Kaavaalaa", "Naatu Naatu"]
+shared = mine
+print(mine == yours, mine is yours)
+print(mine == shared, mine is shared)`, R`True False
+True True`),
+  rd('Use is only for None', `<p>There is only one <code>None</code>, so <code>is None</code> is the right check. Watch the trap: 0 runs is a real score, but <code>if not runs</code> treats it like "no score".</p>`, R`runs = 0
+if runs is None:
+    print("Score not entered yet")
+if not runs:
+    print("Out for a duck, or not entered?")`, R`Out for a duck, or not entered?`, {note:'if not x treats 0 and "" like None. When 0 is a real value, write if x is None.'}),
+  pr(R`seat = None
+if seat:
+    print("Seat booked")
+else:
+    print("Pick a seat")`, 'What does this print?', ['Seat booked','Pick a seat','An error'], 1, 'seat is None, and None is falsy. So the else block runs.'),
+  pr(R`orders = [0]
+print(bool(orders))`, 'What does this print?', ['True','False','0'], 0, 'The list is not empty. It has one item. An item that is 0 does not make the list falsy.'),
+  rd('Now in an AI agent', `<p>An AI agent checks whether the model asked for a tool in exactly this way.</p>`, R`reply = {"content": "It is 31 C in Chennai.", "tool_call": None}
+if reply["tool_call"] is None:
+    print("Final answer:", reply["content"])`, R`Final answer: It is 31 C in Chennai.`),
   lab('Game: Truthy or falsy?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_5'),
-  task('Write a check that prints a different message for None, an empty list, and a list with items.', R`def describe(results):
+  task('Print a different message for no search, no results, and some results.', R`def describe(results):
     if results is None:
         return "search did not run"
     if not results:
-        return "search ran, found nothing"
-    return f"found {len(results)} documents"
+        return "no restaurants found"
+    return f"found {len(results)} restaurants"
 
 print(describe(None))
 print(describe([]))
-print(describe(["doc1", "doc2"]))`)
+print(describe(["Saravana Bhavan", "Paradise"]))`)
  ],
  sum:[['falsy','False, None, 0, 0.0, "", [], {}, set()'],['truthy','Everything else'],['==','Same value?'],['is','Same object?'],['is None','The correct way to check None']]};
 
-L[6] = {t:'Strings, slicing and f-strings', d:'Prompts are strings. Learn to cut, join and fill them.', mins:15, core:true,
- goals:['Slice strings with start, stop and step','Use split, join, strip and replace','Build prompts with f-strings and multi-line strings'],
+L[6] = {t:'Strings, slicing and f-strings', d:'Cut, clean and fill text, from movie tickets to prompts.', mins:28, core:true,
+ goals:['Slice strings with start, stop and step','Use split, join, strip and replace','Build messages with f-strings and multi-line strings'],
  steps:[
-  lab('Story: Cutting a prompt', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_6'),
-  lab('Hands-on: Slice ruler', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_6'),
-  rd('A string is a sequence of characters', `<p>Each character has a position called an index. Indexes start at <code>0</code>. Negative indexes count from the end: <code>-1</code> is the last character.</p>`, R`s = "Python"
-print(s[0], s[-1], len(s))`, R`P n 6`),
+  lab('Story: Printing a movie ticket', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_6'),
+  lab('Hands-on: Slice ruler', ``, 'play_6'),
+  rd('A string is a row of characters', `<p>Each character has a position called an index. Indexes start at <code>0</code>. Negative indexes count from the end: <code>-1</code> is the last character.</p>`, R`movie = "Jailer"
+print(movie[0], movie[-1], len(movie))`, R`J r 6`),
   lab('Slicing playground', `<p>A slice is <code>s[start:stop:step]</code>. The start is included. The stop is not. Change the numbers, or click a preset.</p>`, 'slice'),
-  rd('split, join, strip, replace', `<p>These four methods do most text cleaning in RAG pipelines. They return a <b>new</b> string. The original string does not change.</p>`, R`raw = "  RAG, agents, tools  "
-clean = raw.strip()               # "RAG, agents, tools"
-parts = clean.split(", ")         # ['RAG', 'agents', 'tools']
-joined = " | ".join(parts)        # "RAG | agents | tools"
-fixed = joined.replace("RAG", "Retrieval")
-print(fixed)`, R`Retrieval | agents | tools`),
-  rd('f-strings fill a template', `<p>Put <code>f</code> before the quotes. Then write any variable or expression inside <code>{}</code>.</p>`, R`city = "Hyderabad"
-temp = 31.456
-print(f"Weather in {city}: {temp:.1f} C")`, R`Weather in Hyderabad: 31.5 C`),
-  rd('Multi-line strings are prompt templates', `<p>Three quotes let a string go over many lines. Combine this with an f-string, and you have a prompt template.</p>`, R`question = "What is RAG?"
-context = "RAG adds retrieved documents to the prompt."
-
-prompt = f"""You are a helpful tutor.
+  rd('Hide a phone number with slicing', `<p>Slices make a <b>new</b> string. Show only the first and last digits of a phone number on a ticket.</p>`, R`phone = "9876543210"
+masked = phone[:2] + "XXXXXX" + phone[-2:]
+print(masked)`, R`98XXXXXX10`),
+  rd('split, join, strip, replace', `<p>These four methods do most text cleaning. They return a new string; the original does not change.</p>`, R`raw = "  idli, dosa, vada  "
+clean = raw.strip()              # remove outer spaces
+items = clean.split(", ")        # ['idli', 'dosa', 'vada']
+menu = " | ".join(items)
+print(menu.replace("dosa", "masala dosa"))`, R`idli | masala dosa | vada`),
+  rd('f-strings fill a template', `<p>Put <code>f</code> before the quotes, then write any variable inside <code>{}</code>. <code>:.2f</code> shows two decimals.</p>`, R`movie = "Leo"
+row, seat = "H", 12
+price = 190
+print(f"{movie} | Seat {row}{seat} | Rs {price:.2f}")`, R`Leo | Seat H12 | Rs 190.00`),
+  pr(R`code = "TN09"
+print(code[::-1])`, 'What does this print?', ['TN09','90NT','T'], 1, 'A step of -1 walks backwards through the whole string.'),
+  pr(R`items = "idli,dosa,,vada".split(",")
+print(len(items))`, 'How many items does split give?', ['3','4','5'], 1, 'The empty text between the two commas becomes an empty item: ["idli", "dosa", "", "vada"].'),
+  rd('Now in an AI agent', `<p>A prompt for an AI model is just a string. Multi-line f-strings are how agents fill a prompt template.</p>`, R`question = "Which trains go from Chennai to Bengaluru?"
+context = "Shatabdi Express and Brindavan Express run daily."
+prompt = f"""You are a helpful travel assistant.
 Use only the context below.
 
 Context: {context}
-Question: {question}
-"""
-print(prompt)`, null, {ai:'Every agent framework builds its system prompt like this. A prompt is not a special type. It is just a str.'}),
-  pr(R`s = "agent"
-print(s[::-1])`, 'What does this print?', ['agent','tnega','a'], 1, 'A step of -1 walks backwards through the whole string.'),
-  pr(R`words = "a,b,,c".split(",")
-print(len(words))`, 'How many items does split give?', ['3','4','5'], 1, 'The empty text between the two commas becomes an empty string item: ["a", "b", "", "c"].'),
-  lab('Game: String slicer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_6'),
-  task('Build a prompt from a list of retrieved chunks.', R`chunks = ["  RAG retrieves documents. ", "Then the LLM answers.  "]
-clean = [c.strip() for c in chunks]
-context = "\n".join(clean)
-prompt = f"""Answer using this context:
-{context}
+Question: {question}"""
+print(prompt)`, R`You are a helpful travel assistant.
+Use only the context below.
 
-Question: How does RAG work?"""
-print(prompt)`)
+Context: Shatabdi Express and Brindavan Express run daily.
+Question: Which trains go from Chennai to Bengaluru?`),
+  lab('Game: String slicer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_6'),
+  task('Clean messy dish names from a menu and print a neat bill line.', R`dishes = ["  Ghee Roast  ", "filter coffee", " PAROTTA"]
+clean = [d.strip().title() for d in dishes]
+print(" + ".join(clean))
+total = 120 + 40 + 60
+print(f"Total: Rs {total}")`)
  ],
  sum:[['s[a:b:c]','Slice: start included, stop excluded'],['split / join','Text to list / list to text'],['strip','Remove spaces at both ends'],['replace','Return a copy with text replaced'],['f"{x}"','Fill a template'],['"""..."""','Multi-line string, prompt templates']]};
 
-L[7] = {t:'Control flow: if, for, while, break, continue', d:'An agent is a bounded loop that checks for tool calls.', mins:15, core:true,
+L[7] = {t:'Control flow: if, for, while, break, continue', d:'Make decisions and repeat steps, ball by ball.', mins:28, core:true,
  goals:['Make decisions with if / elif / else','Loop with for and while, and control them with break and continue','Understand the rare for ... else'],
  steps:[
-  lab('Story: The agent loop', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_7'),
-  lab('Hands-on: Robot loop', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_7'),
-  rd('if, elif, else', `<p>Python runs the first block whose condition is true. Indentation (4 spaces) shows which lines belong to the block.</p>`, R`score = 0.72
-if score > 0.8:
-    print("high relevance")
-elif score > 0.5:
-    print("medium relevance")
+  lab('Story: The tatkal booking loop', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_7'),
+  lab('Hands-on: Robot loop', ``, 'play_7'),
+  rd('if, elif, else', `<p>Python runs the first block whose condition is true. Indentation (4 spaces) shows which lines belong to the block.</p>`, R`attendance = 72
+if attendance >= 85:
+    print("Great attendance")
+elif attendance >= 75:
+    print("Safe for exams")
 else:
-    print("drop this chunk")`, R`medium relevance`),
-  rd('for and while', `<p><code>for</code> repeats once for each item. <code>while</code> repeats as long as a condition is true. Use <code>for</code> when you know the items. Use <code>while</code> when you wait for a condition.</p>`, R`for i in range(3):
-    print("attempt", i)
-
-step = 0
-while step < 2:
-    step += 1
-print("steps:", step)`, R`attempt 0
-attempt 1
-attempt 2
-steps: 2`),
+    print("Short of attendance: below 75%")`, R`Short of attendance: below 75%`),
+  rd('for: one over, ball by ball', `<p><code>for</code> repeats once for each item. An over has 6 balls, so <code>range(6)</code> gives 0 to 5.</p>`, R`runs = [1, 4, 0, 6, 2, 1]
+total = 0
+for ball in range(6):
+    total += runs[ball]
+print("Runs in the over:", total)`, R`Runs in the over: 14`),
   lab('Step through a loop', `<p>Press <b>Step</b> to run one line at a time. Watch <code>continue</code> skip an item and <code>break</code> stop the loop. Then remove the <code>"stop"</code> item and see the <code>else</code> block run.</p>`, 'loop'),
-  rd('The agent loop is a for loop', `<p>A real agent asks the LLM, runs a tool if needed, and repeats. A <code>for</code> loop with <code>range(max_steps)</code> stops it from looping forever.</p>`, R`for step in range(5):            # max-steps guard
-    reply = call_llm(history)
-    if reply.get("tool_call"):
-        history.append(run_tool(reply))
-        continue                     # ask the LLM again
-    print(reply["content"])
-    break                            # final answer
-else:
-    print("Stopped: too many steps")`, null, {ai:'This is the most important loop in the course. You will write it by hand at the end.'}),
-  pr(R`for n in [1, 2, 3, 4]:
-    if n == 2:
+  rd('while, break and continue', `<p><code>while</code> repeats as long as a condition is true. Booking a tatkal ticket: keep trying, <code>break</code> when it works, and always stop after a few tries.</p>`, R`seats_free = [0, 0, 2]   # free seats on each try
+attempt = 0
+while attempt < 5:
+    if seats_free[attempt] > 0:
+        print("Booked on try", attempt + 1)
+        break
+    print("Try", attempt + 1, "failed, trying again")
+    attempt += 1`, R`Try 1 failed, trying again
+Try 2 failed, trying again
+Booked on try 3`),
+  pr(R`for ball in [1, 4, 0, 6]:
+    if ball == 0:
         continue
-    if n == 4:
+    if ball == 6:
         break
-    print(n)`, 'What does this print?', ['1 2 3','1 3','1 3 4'], 1, 'continue skips 2. break stops the loop at 4 before print runs.'),
-  pr(R`for doc in ["a", "b"]:
-    if doc == "z":
+    print(ball)`, 'What does this print?', ['1 4 0','1 4','1 4 6'], 1, 'continue skips the dot ball (0). break stops the loop at the six, before print runs.'),
+  pr(R`for player in ["Gill", "Kohli"]:
+    if player == "Dhoni":
         break
 else:
-    print("not found")`, 'What does this print?', ['Nothing','not found','z'], 1, 'The loop finished without break, so the else block runs. Read for ... else as "for ... if no break".'),
+    print("not in the squad")`, 'What does this print?', ['Nothing','not in the squad','Dhoni'], 1, 'The loop finished without break, so the else block runs. Read for ... else as "for ... if no break".'),
+  rd('Now in an AI agent', `<p>An AI agent is a loop: ask the model, run a tool if it asks for one, repeat, and stop when it gives a final answer. This version uses a pretend model so you can run it.</p>`, R`replies = [{"tool": "get_weather"}, {"tool": None, "content": "It is 31 C in Chennai."}]
+
+for step in range(5):                  # guard: at most 5 steps
+    reply = replies[step]              # pretend call to the model
+    if reply["tool"]:
+        print("Running tool:", reply["tool"])
+        continue                       # ask the model again
+    print("Final answer:", reply["content"])
+    break
+else:
+    print("Stopped: too many steps")`, R`Running tool: get_weather
+Final answer: It is 31 C in Chennai.`, {ai:'This is the most important loop in the course. You will write it with a real model at the end.'}),
   lab('Game: Loop tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_7'),
-  task('Write a search loop that uses for ... else.', R`docs = ["intro.md", "rag.md", "agents.md"]
-target = "rag.md"
-for doc in docs:
-    if doc == target:
-        print("Found", doc)
+  task('Search a squad list with for ... else.', R`squad = ["Rohit", "Gill", "Jadeja", "Bumrah"]
+target = "Jadeja"
+for player in squad:
+    if player == target:
+        print("Found", player)
         break
 else:
-    print(target, "is not in the index")`)
+    print(target, "is not in the squad")`)
  ],
  sum:[['if / elif / else','Run the first true branch'],['for','Repeat for each item'],['while','Repeat while a condition is true'],['break','Stop the loop now'],['continue','Skip to the next item'],['for ... else','else runs only if no break happened']]};
 
-L[8] = {t:'Collections: list, tuple, dict, set', d:'Which container to use, and how fast each one is.', mins:18, core:true,
- goals:['Choose between list, tuple, dict and set','Use the common methods of each','Understand O(1) vs O(n) lookups'],
+L[8] = {t:'Collections: list, tuple, dict, set', d:'Playlists, menus and unique viewers: which container to use.', mins:28, core:true,
+ goals:['Choose between list, tuple, dict and set','Use the common methods of each','Understand why dict and set lookups are fast'],
  steps:[
   lab('Story: Four kinds of shelves', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_8'),
-  lab('Hands-on: Container sandbox', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_8'),
-  rd('Four containers', `<p>Each collection answers a different need.</p>`, null, null, {table:[['Type','Looks like','Ordered','Changeable','Use it for'],['list','[1, 2, 3]','yes','yes','chat history, results'],['tuple','(1, 2)','yes','no','fixed pairs, dict keys'],['dict','{"role": "user"}','yes (3.7+)','yes','JSON payloads, configs'],['set','{"a", "b"}','no','yes','unique IDs, fast "in"']]}),
-  rd('list and dict in agent code', `<p>A list keeps items in order. A dict maps keys to values. Chat history is a list of dicts.</p>`, R`messages = []
-messages.append({"role": "user", "content": "Hi"})
-messages.append({"role": "assistant", "content": "Hello!"})
+  lab('Hands-on: Container sandbox', ``, 'play_8'),
+  rd('Four containers', `<p>Each collection answers a different need.</p>`, null, null, {table:[['Type','Looks like','Ordered','Changeable','Use it for'],['list','["Kaavaalaa", "Hukum"]','yes','yes','a playlist, a queue'],['tuple','(17.38, 78.48)','yes','no','a location, fixed pairs'],['dict','{"Mon": "Idli"}','yes','yes','a menu by day, JSON'],['set','{"arjun", "meera"}','no','yes','unique viewers, fast "in"']]}),
+  rd('list and dict', `<p>A list keeps items in order and can grow. A dict maps keys to values, like a hostel mess menu by day.</p>`, R`playlist = ["Kaavaalaa", "Hukum"]
+playlist.append("Naatu Naatu")
 
-config = {"model": "gpt-4o-mini", "temperature": 0.2}
-config["temperature"] = 0.0
-print(len(messages), config.get("top_p", 1.0))`, R`2 1.0`, {note:'config["top_p"] raises KeyError when the key is missing. config.get("top_p", 1.0) returns the default instead.'}),
-  rd('tuple and set', `<p>A tuple cannot change, so Python can hash it. That is why a tuple can be a dict key and a list cannot. A set keeps only unique items.</p>`, R`cache = {("gpt-4o", "What is RAG?"): "RAG is ..."}
+menu = {"Mon": "Idli", "Tue": "Pongal"}
+menu["Wed"] = "Poori"
+print(len(playlist), menu["Wed"])
+print(menu.get("Sun", "Biryani special"))`, R`3 Poori
+Biryani special`, {note:'menu["Sun"] raises KeyError when the key is missing. menu.get("Sun", default) returns the default instead.'}),
+  rd('tuple and set', `<p>A tuple cannot change, so it is good for fixed things like a location. A set keeps only unique items: count how many different people watched a reel.</p>`, R`charminar = (17.3616, 78.4747)    # latitude, longitude
+viewers = ["arjun", "meera", "arjun", "sai", "meera"]
+unique = set(viewers)
+print(charminar[0])
+print(len(unique), "sai" in unique)`, R`17.3616
+3 True`),
+  lab('Why sets are fast', `<p>To find an item, a list checks items one by one. A set jumps to the right place. Press <b>Search</b> and move the size slider.</p>`, 'bigo'),
+  pr(R`liked = {"arjun", "meera"}
+liked.add("arjun")
+print(len(liked))`, 'Arjun likes the reel twice. What does this print?', ['2','3','An error'], 0, 'A set keeps only unique items. Adding arjun again does nothing.'),
+  pr(R`seat = ["H", 12]
+booked = {seat: "Divya"}`, 'What happens?', ['It works','TypeError: unhashable type','KeyError'], 1, 'A list can change, so it cannot be a dict key. Use a tuple: ("H", 12).'),
+  rd('Now in an AI agent', `<p>An AI agent keeps chat history as a list of dicts, and skips duplicate documents with a set.</p>`, R`history = []
+history.append({"role": "user", "content": "Best biryani in Hyderabad?"})
+history.append({"role": "assistant", "content": "Try Paradise or Shah Ghouse."})
 
-retrieved = ["d1", "d7", "d1", "d3", "d7"]
-unique = set(retrieved)
-print(len(unique), "d7" in unique)`, R`3 True`),
-  lab('Why sets are fast', `<p>To find an item, a list checks items one by one. A set jumps to the right place with a hash. Press <b>Search</b> and move the size slider.</p>`, 'bigo'),
-  pr(R`seen = {"d1", "d2"}
-seen.add("d1")
-print(len(seen))`, 'What does this print?', ['2','3','An error'], 0, 'A set keeps only unique items. Adding d1 again does nothing.'),
-  pr(R`key = ["gpt-4o", "hi"]
-cache = {key: "hello"}`, 'What happens?', ['It works','TypeError: unhashable type','KeyError'], 1, 'A list can change, so it cannot be hashed. Use a tuple: ("gpt-4o", "hi").'),
-  lab('Game: Container picker', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_8'),
-  task('Remove duplicate chunk IDs but keep their first order.', R`ids = ["c3", "c1", "c3", "c2", "c1"]
 seen = set()
-ordered = []
-for i in ids:
-    if i not in seen:      # O(1) check
-        seen.add(i)
-        ordered.append(i)
-print(ordered)             # ['c3', 'c1', 'c2']`)
+for doc in ["d1", "d7", "d1"]:
+    seen.add(doc)
+print(len(history), len(seen))`, R`2 2`),
+  lab('Game: Container picker', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_8'),
+  task('Remove repeated songs from a playlist but keep their order.', R`songs = ["Hukum", "Kaavaalaa", "Hukum", "Arabic Kuthu", "Kaavaalaa"]
+seen = set()
+playlist = []
+for s in songs:
+    if s not in seen:      # fast check
+        seen.add(s)
+        playlist.append(s)
+print(playlist)`)
  ],
  sum:[['list','Ordered, changeable sequence'],['tuple','Ordered, fixed; can be a dict key'],['dict','Key to value; JSON shape'],['set','Unique items; fast membership'],['O(1)','Same speed for any size (dict, set lookup)'],['O(n)','Slower as size grows (list search)']]};
 
-L[9] = {t:'Nested structures: chat history and LLM responses', d:'Lists of dicts in, nested dicts out.', mins:12, core:true,
- goals:['Read deep values with chained [ ] access','Add messages to chat history','Avoid KeyError and IndexError on real responses'],
+L[9] = {t:'Nested structures: orders, scorecards and replies', d:'Lists inside dicts inside lists, and how to reach any value.', mins:25, core:true,
+ goals:['Read deep values with chained [ ] access','Loop over a list of dicts','Avoid KeyError and IndexError on real data'],
  steps:[
-  lab('Story: Walking a nested reply', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_9'),
-  lab('Hands-on: Path finder', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_9'),
-  rd('Chat history is a list of dicts', `<p>Each message is a dict with a <code>role</code> and <code>content</code>. The history is a list of these dicts, in order.</p>`, R`history = [
-    {"role": "system", "content": "You are a tutor."},
-    {"role": "user", "content": "What is RAG?"},
+  lab('Story: Walking a food order', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_9'),
+  lab('Hands-on: Path finder', ``, 'play_9'),
+  rd('A food order is nested data', `<p>A food delivery order is a dict. Inside it, <code>items</code> is a list, and each item is another dict.</p>`, R`order = {
+    "restaurant": "Paradise, Secunderabad",
+    "items": [
+        {"dish": "Chicken Biryani", "qty": 2},
+        {"dish": "Double Ka Meetha", "qty": 1},
+    ],
+}
+print(order["items"][1]["dish"])`, R`Double Ka Meetha`),
+  rd('Read the access path left to right', `<p>Each <code>[ ]</code> goes one level deeper. <code>order["items"]</code> gives a list. <code>[1]</code> gives a dict from that list. <code>["dish"]</code> gives the text.</p><p>Use a number for a list position. Use a key for a dict.</p>`),
+  lab('Click your way into a real response', `<p>This is the shape of a real AI model response. Click any key or value. The page writes the Python path for you. Then try the three challenges.</p>`, 'json'),
+  rd('Loop over a scorecard', `<p>Use a loop or a comprehension to pull out the parts you need.</p>`, R`batting = [
+    {"name": "Gaikwad", "runs": 72, "balls": 48},
+    {"name": "Dube", "runs": 18, "balls": 20},
+    {"name": "Dhoni", "runs": 28, "balls": 11},
 ]
-print(history[1]["content"])`, R`What is RAG?`),
-  rd('Read the access path left to right', `<p>Each <code>[ ]</code> goes one level deeper. <code>history[1]</code> gives a dict. <code>["content"]</code> gives a string from that dict.</p><p>Use a number for a list position. Use a key for a dict.</p>`),
-  lab('Click your way into a real response', `<p>This is the shape of a real chat completion response. Click any key or value. The page writes the Python path for you. Then try the three challenges.</p>`, 'json'),
-  rd('Loop over nested data', `<p>Use a loop or a comprehension to pull out the parts you need.</p>`, R`results = [
-    {"text": "RAG adds context", "score": 0.91},
-    {"text": "Agents call tools", "score": 0.42},
-]
-good = [r["text"] for r in results if r["score"] > 0.5]
-print(good)`, R`['RAG adds context']`),
-  pr(R`resp = {"choices": [{"message": {"content": "Hi"}}]}
-print(resp["choices"]["message"])`, 'What happens?', ['Hi','TypeError','{"content": "Hi"}'], 1, 'resp["choices"] is a list. You must pick an index first: resp["choices"][0]["message"].'),
-  pr(R`msg = {"role": "user"}
-print(msg.get("content", ""))`, 'What does this print?', ['None','An empty line','KeyError'], 1, '.get returns the default "" when the key is missing. print("") prints an empty line.'),
+quick = [b["name"] for b in batting if b["runs"] > b["balls"]]
+print(quick)`, R`['Gaikwad', 'Dhoni']`),
+  pr(R`order = {"items": [{"dish": "Dosa"}]}
+print(order["items"]["dish"])`, 'What happens?', ['Dosa','TypeError','KeyError'], 1, 'order["items"] is a list. Pick a position first: order["items"][0]["dish"].'),
+  pr(R`item = {"dish": "Idli"}
+print(item.get("note", ""))`, 'What does this print?', ['None','An empty line','KeyError'], 1, '.get returns the default "" when the key is missing. print("") prints an empty line.'),
+  rd('Now in an AI agent', `<p>A real AI model reply is nested the same way. The answer text sits four levels deep.</p>`, R`resp = {"choices": [{"message": {"role": "assistant", "content": "Paradise is famous for biryani."}}]}
+print(resp["choices"][0]["message"]["content"])`, R`Paradise is famous for biryani.`),
   lab('Game: Path finder', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_9'),
-  task('Print only the user messages from a chat history.', R`history = [
-    {"role": "system", "content": "Be brief."},
-    {"role": "user", "content": "Hi"},
-    {"role": "assistant", "content": "Hello!"},
-    {"role": "user", "content": "Explain RAG"},
-]
-for m in history:
-    if m["role"] == "user":
-        print(m["content"])`)
+  task('Print each dish and the total number of plates in an order.', R`order = {
+    "restaurant": "Murugan Idli Shop",
+    "items": [
+        {"dish": "Idli", "qty": 4},
+        {"dish": "Pongal", "qty": 1},
+        {"dish": "Filter Coffee", "qty": 2},
+    ],
+}
+total = 0
+for item in order["items"]:
+    print(item["dish"], "x", item["qty"])
+    total += item["qty"]
+print("Plates:", total)`)
  ],
- sum:[['list of dicts','The shape of chat history'],['x[0]["key"]','Index for lists, key for dicts'],['.get(k, d)','Safe read with a default'],['KeyError','Dict key is missing'],['IndexError','List position does not exist']]};
+ sum:[['list of dicts','Orders, scorecards, chat history'],['x[0]["key"]','Index for lists, key for dicts'],['.get(k, d)','Safe read with a default'],['KeyError','Dict key is missing'],['IndexError','List position does not exist']]};
 
-L[10] = {t:'Mutable vs immutable, references and copies', d:'Why one change can appear in two places.', mins:15, core:true,
- goals:['Know which types can change in place','Understand that = copies the reference, not the object','Choose between a shallow and a deep copy'],
+L[10] = {t:'Mutable vs immutable, references and copies', d:'Why one friend\'s edit shows up for everyone.', mins:25, core:true,
+ goals:['Know which types can change in place','Understand that = copies the reference, not the value','Choose between a shallow and a deep copy'],
  steps:[
-  lab('Story: Shared boxes', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_10'),
-  lab('Hands-on: Copy lab', `<p>Do it yourself: this activity is built around this lesson's main idea.</p>`, 'play_10'),
-  rd('Mutable and immutable', `<p>A <b>mutable</b> object can change in place: list, dict, set. An <b>immutable</b> object cannot: int, float, str, bool, None, tuple.</p><p>When you "change" a string, Python makes a new string.</p>`, R`s = "hi"
-t = s.upper()     # new object
-print(s, t)
+  lab('Story: The shared trip list', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_10'),
+  lab('Hands-on: Copy lab', ``, 'play_10'),
+  rd('Mutable and immutable', `<p>A <b>mutable</b> value can change in place: list, dict, set. An <b>immutable</b> value cannot: int, float, str, bool, None, tuple. "Changing" a string makes a new one.</p>`, R`city = "kochi"
+loud = city.upper()      # a new string
+print(city, loud)
 
-items = [1, 2]
-items.append(3)   # same object, changed
-print(items)`, R`hi HI
-[1, 2, 3]`),
-  rd('= copies the reference', `<p><code>b = a</code> does not copy the list. It makes a second name for the <b>same</b> list. A change through <code>b</code> is visible through <code>a</code>.</p>`, R`a = ["hi"]
-b = a
-b.append("bye")
-print(a)`, R`['hi', 'bye']`),
-  lab('Copy lab', `<p>Pick how <code>b</code> is made from <code>a</code>. Then change <code>b</code>. Watch what happens to <code>a</code>. The tags show which objects are shared.</p>`, 'copy'),
-  rd('Shallow vs deep copy', `<p>A <b>shallow copy</b> makes a new outer list, but the dicts inside are still shared. A <b>deep copy</b> copies everything, all the way down.</p>`, R`import copy
-history = [{"role": "user", "content": "hi"}]
-shallow = history.copy()
-deep = copy.deepcopy(history)
-shallow[0]["content"] = "CHANGED"
-print(history[0]["content"])   # CHANGED (shared dict)
-print(deep[0]["content"])      # hi`, null, {ai:'If two user sessions share one history list, one user can see the other user\'s messages. Give each session its own list.'}),
-  pr(R`a = [1, 2]
+packing = ["charger", "towel"]
+packing.append("umbrella")   # same list, changed
+print(packing)`, R`kochi KOCHI
+['charger', 'towel', 'umbrella']`),
+  rd('= copies the reference', `<p>Four friends plan a trip to Munnar. <code>arjun_list = trip</code> does not copy the list. Both names point to the <b>same</b> list, so Arjun's edit shows up for everyone.</p>`, R`trip = ["tickets"]
+arjun_list = trip
+arjun_list.append("snacks")
+print(trip)`, R`['tickets', 'snacks']`),
+  lab('Copy lab', `<p>Pick how <code>b</code> is made from <code>a</code>. Then change <code>b</code>. Watch what happens to <code>a</code>. The tags show which values are shared.</p>`, 'copy'),
+  rd('Shallow vs deep copy', `<p>A <b>shallow copy</b> makes a new outer list, but the dicts inside are still shared. A <b>deep copy</b> copies everything.</p>`, R`import copy
+expenses = [{"item": "cab", "amount": 1200}]
+shallow = expenses.copy()
+deep = copy.deepcopy(expenses)
+shallow[0]["amount"] = 9999
+print(expenses[0]["amount"])   # changed: the dict is shared
+print(deep[0]["amount"])       # safe`, R`9999
+1200`),
+  pr(R`a = ["tickets"]
 b = a[:]
-b.append(3)
-print(a)`, 'What does this print?', ['[1, 2]','[1, 2, 3]','An error'], 0, 'a[:] makes a new list (a shallow copy). Changing b does not change a.'),
-  pr(R`x = (1, [2])
-x[1].append(3)
-print(x)`, 'What happens?', ['TypeError: tuple is immutable','(1, [2, 3])','(1, [2])'], 1, 'The tuple cannot change which objects it holds. But the list inside it is mutable and can change.'),
+b.append("snacks")
+print(a)`, 'What does this print?', ["['tickets']","['tickets', 'snacks']",'An error'], 0, 'a[:] makes a new list (a shallow copy). Changing b does not change a.'),
+  pr(R`trip = ("Munnar", ["tea"])
+trip[1].append("spices")
+print(trip)`, 'What happens?', ['TypeError: tuple is immutable',"('Munnar', ['tea', 'spices'])","('Munnar', ['tea'])"], 1, 'The tuple cannot change which values it holds. But the list inside it can change.'),
+  rd('Now in an AI agent', `<p>If two users of a chat app share one history list, one user sees the other's messages. Give each session its own copy.</p>`, R`import copy
+template = [{"role": "system", "content": "You are a travel helper."}]
+divya = copy.deepcopy(template)
+karthik = copy.deepcopy(template)
+divya.append({"role": "user", "content": "Trains to Kochi?"})
+print(len(divya), len(karthik))`, R`2 1`),
   lab('Game: Reference tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_10'),
-  task('Prove the shallow copy trap to yourself with id().', R`import copy
-a = [{"k": 1}]
+  task('Prove the shallow copy trap to yourself with is.', R`import copy
+a = [{"item": "cab"}]
 b = a.copy()
 c = copy.deepcopy(a)
 print(a is b, a[0] is b[0])   # False True
 print(a is c, a[0] is c[0])   # False False`)
  ],
- sum:[['mutable','list, dict, set: change in place'],['immutable','int, str, tuple, ...: never change'],['b = a','Same object, two names'],['.copy() / [:]','Shallow: new outer, shared inner'],['copy.deepcopy','New objects all the way down']]};
+ sum:[['mutable','list, dict, set: change in place'],['immutable','int, str, tuple, ...: never change'],['b = a','Same value, two names'],['.copy() / [:]','Shallow: new outer, shared inner'],['copy.deepcopy','New values all the way down']]};
 /* ================= PART II ================= */
 L[11] = {t:'Functions, return values and defaults', d:'Every agent tool is a function.', mins:14, core:true,
  goals:['Define functions with parameters and return values','Know the difference between return and print','Avoid the mutable default argument trap'],
