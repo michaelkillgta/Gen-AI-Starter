@@ -1,0 +1,88 @@
+/* Hands-on activities for Parts VI and VII (play2.js). Shared basics live in play.css. */
+.pyc .pl2-src, .pyc .pl2-out, .pyc .pl2-term, .pyc .pl2-logs, .pyc .pl2-res, .pyc .pl2-prompt, .pyc .pl2-reply { margin: 0; white-space: pre-wrap; word-break: break-word; }
+.pyc .pl2-out:empty { display: none; }
+.pyc .pl2-out { margin-top: 10px; }
+
+/* 39 · hall door */
+.pyc .pl2-door { position: relative; height: 120px; border-radius: var(--r-m); background: var(--sunk); border: 2px solid var(--line-2); display: flex; align-items: flex-end; justify-content: center; overflow: hidden; perspective: 400px; }
+.pyc .pl2-leaf { position: absolute; left: 50%; top: 14px; width: 70px; height: 92px; margin-left: -35px; border-radius: 6px 6px 0 0; background: color-mix(in srgb, var(--amber) 22%, var(--sheet)); border: 2px solid var(--amber); transform-origin: left center; transition: transform .35s; }
+.pyc .pl2-door[data-st="open"] .pl2-leaf { transform: rotateY(-70deg); }
+.pyc .pl2-door[data-st="open"] { border-color: var(--good); }
+.pyc .pl2-dl { position: relative; z-index: 1; margin-bottom: 6px; font: 700 11px var(--f-mono); color: var(--ink-2); background: var(--sheet); padding: 2px 8px; border-radius: 999px; }
+.pyc .pl2-ask { margin: 12px 0 4px; font-weight: 600; color: var(--ink); }
+
+/* 40 · kitchen timeline */
+.pyc .pl2-mcode { display: inline-block; margin: 2px 0 10px; font: 600 13px var(--f-mono); background: var(--code-bg); color: var(--code-fg); padding: 4px 10px; border-radius: 6px; }
+.pyc .pl2-gantt { padding: 12px; border-radius: var(--r-m); background: var(--sunk); }
+.pyc .pl2-lane { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 8px; margin: 6px 0; font: 600 13px var(--f-mono); color: var(--ink-2); }
+.pyc .pl2-track { position: relative; height: 22px; border-radius: 6px; background: var(--sheet); border: 1px solid var(--line); }
+.pyc .pl2-track b { position: absolute; top: 2px; bottom: 2px; border-radius: 4px; border: 1.5px dashed var(--line-2); }
+.pyc .pl2-track i { position: absolute; top: 2px; bottom: 2px; border-radius: 4px; background: var(--amber); }
+.pyc .pl2-axis { position: relative; height: 18px; margin-left: 104px; font: 11px var(--f-mono); color: var(--ink-3); }
+.pyc .pl2-axis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.pyc .pl2-axis span:first-child { transform: none; }
+.pyc .pl2-axis span:last-child { transform: translateX(-100%); }
+.pyc .pl2-guess { display: flex; flex-wrap: wrap; gap: 8px; }
+.pyc .pl2-guess .btn { padding: 7px 13px; font-size: 13.5px; }
+
+/* 41 · terminal */
+.pyc .pl2-cmds { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.pyc .pl2-cmd { all: unset; box-sizing: border-box; cursor: pointer; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--sheet); font: 600 13px var(--f-mono); color: var(--ink); overflow-wrap: anywhere; }
+.pyc .pl2-cmd span { color: var(--ink-3); }
+.pyc .pl2-cmd:hover, .pyc .pl2-cmd:focus-visible { border-color: var(--amber); background: var(--amber-soft); }
+.pyc .pl2-term { max-height: 220px; overflow-y: auto; }
+.pyc .pl2-tree { padding: 10px 12px; border-radius: var(--r-m); background: var(--sunk); font: 13px var(--f-mono); color: var(--ink); }
+.pyc .pl2-f { padding: 3px 0 3px 14px; border-left: 2px solid var(--line-2); margin-left: 4px; }
+.pyc .pl2-f small { display: block; color: var(--ink-3); font-size: 11.5px; }
+.pyc .pl2-v { border-left-color: var(--good); }
+.pyc .pl2-g { margin-top: 8px; border-left-color: var(--bad); }
+.pyc .pl2-goals { list-style: none; padding: 0; margin: 10px 0; font-size: 14px; color: var(--ink-2); }
+.pyc .pl2-goals li { margin: 4px 0; }
+.pyc .pl2-goals li.on { color: var(--good); font-weight: 600; }
+.pyc .pl2-goals.pl2-row { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+
+/* 42 · log dial */
+.pyc .pl2-dial { display: flex; flex-wrap: wrap; gap: 0; margin: 10px 0; border: 1px solid var(--line-2); border-radius: 999px; overflow: hidden; width: fit-content; max-width: 100%; }
+.pyc .pl2-lv { all: unset; cursor: pointer; padding: 7px 12px; font: 700 12px var(--f-mono); color: var(--ink-2); background: var(--sheet); border-right: 1px solid var(--line); }
+.pyc .pl2-lv:last-child { border-right: 0; }
+.pyc .pl2-lv.on { background: var(--fill); color: var(--on-fill); }
+.pyc .pl2-hid { opacity: .28; text-decoration: line-through; }
+.pyc .pl2-lvl2 { color: var(--code-str); }
+.pyc .pl2-lvl3, .pyc .pl2-lvl4 { color: var(--code-err); font-weight: 700; }
+
+/* 43 · request builder */
+.pyc .pl2-req { padding: 12px; border-radius: var(--r-m); background: var(--sunk); margin-bottom: 10px; }
+.pyc .pl2-req select, .pyc .pl2-req input { font: 600 13.5px var(--f-mono); padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--sheet); color: var(--ink); max-width: 100%; }
+.pyc .pl2-req code { font: 13px var(--f-mono); color: var(--ink-2); }
+.pyc .pl2-req .btn { margin-top: 4px; }
+
+/* 44 / 46 · message cards */
+.pyc .pl2-pool { display: flex; flex-direction: column; gap: 8px; }
+.pyc .pl2-stack, .pyc .pl2-hist { margin: 4px 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; min-height: 60px; }
+.pyc .pl2-msg { all: unset; box-sizing: border-box; display: block; padding: 8px 10px; border-radius: 10px; border: 1.5px solid var(--line-2); background: var(--sheet); font-size: 13.5px; line-height: 1.45; color: var(--ink); overflow-wrap: anywhere; }
+button.pl2-msg { cursor: pointer; }
+.pyc li.pl2-msg { display: list-item; }
+.pyc .pl2-msg b { display: block; font: 700 11px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); margin-bottom: 2px; }
+.pyc .pl2-user { border-color: var(--blue); }
+.pyc .pl2-assistant { border-color: var(--amber); background: var(--amber-soft); }
+.pyc .pl2-tool { border-color: var(--good); }
+.pyc .pl2-empty { color: var(--ink-3); }
+.pyc .pl2-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.pyc .pl2-acts .btn { padding: 8px 12px; font-size: 13.5px; }
+
+/* 45 · retriever */
+.pyc .pl2-qtext { margin: 0 0 8px; font-style: italic; color: var(--ink-2); }
+.pyc .pl2-rank { position: relative; padding: 6px 8px; margin: 4px 0; border-radius: 8px; border: 1px solid var(--line); font-size: 13.5px; color: var(--ink-3); overflow: hidden; }
+.pyc .pl2-rank > * { position: relative; }
+.pyc .pl2-rank b { font-family: var(--f-mono); margin-right: 4px; }
+.pyc .pl2-rank.in { color: var(--ink); border-color: var(--amber); }
+.pyc .pl2-bar { position: absolute !important; left: 0; top: 0; bottom: 0; background: color-mix(in srgb, var(--amber) 16%, transparent); }
+.pyc .pl2-k { width: 160px; accent-color: var(--amber); }
+.pyc .pl2-prompt { font-size: 12.5px; max-height: 320px; overflow-y: auto; }
+@media (max-width: 600px) {
+  .pyc .pl2-axis span:nth-child(2n) { display: none; }
+  .pyc .pl2-lane { grid-template-columns: 72px 1fr; }
+  .pyc .pl2-axis { margin-left: 80px; }
+  .pyc .pl2-dial { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100%; border-radius: 10px; }
+  .pyc .pl2-lv { padding: 8px 2px; font-size: 10.5px; text-align: center; }
+}

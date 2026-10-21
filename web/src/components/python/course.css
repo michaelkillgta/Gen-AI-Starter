@@ -3,7 +3,7 @@
  * dark block mirrors the site's midnight + mint theme on <html data-theme="dark">.
  */
 
-/* Layout: the Field Tested site shell (header + nav) around a study notebook. Home = map of 5 parts → lessons; a lesson opens a player with two modes: Interactive and Full notes. */
+/* Layout: the Field Tested site shell (header + nav) around a study notebook. Home = map of 7 parts → lessons; a lesson opens a player with two modes: Interactive and Full notes. */
 .pyc{
   /* Light palette: plain white with a calm blue accent (Uma, 18 Oct). Dark mode below is unchanged. */
   --paper:#ffffff; --sheet:#ffffff; --sunk:#f3f6fa; --grid:transparent;
@@ -482,9 +482,9 @@
 .pyc .hero .rule{margin:16px 0 0;padding:8px 12px;gap:10px;align-items:center;border-radius:var(--r-m)}
 .pyc .hero .rule p{font-size:13.5px;line-height:1.45}
 .pyc .stack{height:400px}
-.pyc .stack-inner{transform:translateY(56px) rotateX(56deg) rotateZ(-36deg)}
+.pyc .stack-inner{transform:translateY(100px) rotateX(56deg) rotateZ(-36deg)}
 .pyc #roadmap{margin-top:12px}
-@media (max-width:860px){.pyc .stack{height:330px}.pyc .stack-inner{transform:translateY(20px) rotateX(56deg) rotateZ(-36deg)}}
+@media (max-width:860px){.pyc .stack{height:330px}.pyc .stack-inner{transform:translateY(60px) rotateX(56deg) rotateZ(-36deg)}}
 @media (max-width:640px){.pyc .hero .rule{display:block}.pyc .hero .rule .tag{display:inline-block;margin:0 8px 4px 0}.pyc .hero .rule p{display:inline}}
 
 /* ---------- Code runner (Pyodide in the browser): code left, output right ---------- */

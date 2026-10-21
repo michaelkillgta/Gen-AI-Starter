@@ -12,13 +12,12 @@ const PARTS = [
   {id:2, roman:'II', title:'Functions', desc:'The heart of agent code. Every tool an agent calls is a Python function.', ch:[11,12,13,14,15,16,17,18,19]},
   {id:3, roman:'III', title:'Object-Oriented Programming', desc:'Needed to read any framework. Frameworks expect you to subclass their classes.', ch:[20,21,22,23,24,25,26,27]},
   {id:4, roman:'IV', title:'Typing and Data Modelling', desc:'Type hints, dataclasses, enums and Pydantic. The layer that makes agent code readable.', ch:[28,29,30,31]},
-  {id:5, roman:'V', title:'Practical Python for AI', desc:'LLM calls fail often. Robust agents are mostly good error handling, JSON and HTTP.', ch:[32,33,34,35,36,37,38]}
+  {id:5, roman:'V', title:'Practical Python for AI', desc:'LLM calls fail often. Robust agents are mostly good error handling, JSON and HTTP.', ch:[32,33,34,35,36,37,38]},
+  {id:6, roman:'VI', title:'Engineering Practices', desc:'Clean-up with with, async for many calls at once, project setup, logs and tests. What turns a script into an app.', ch:[39,40,41,42]},
+  {id:7, roman:'VII', title:'Gen AI Ecosystem', desc:'APIs, LLM SDKs, RAG and the agent loop. With functions and classes solid, every framework is readable in a day.', ch:[43,44,45,46]}
 ];
 
-const NEXT_PARTS = [
-  {roman:'VI', title:'Engineering Practices', desc:'Not in your notes yet. Plan these after Part V.', items:[['Context managers','with, __enter__ / __exit__'],['async / await','event loop, gather, semaphores'],['Environments','venv, pip, uv, pyproject.toml'],['Logging and pytest','levels, fixtures, mocking LLM calls']]},
-  {roman:'VII', title:'Gen AI Ecosystem', desc:'Start after Phases I–VI. With functions and classes solid, a framework is readable in a day.', items:[['FastAPI','Pydantic models, async endpoints, streaming'],['LLM SDKs','messages, tool calling, structured output'],['RAG','chunking, embeddings, a vector DB'],['The agent loop','write it by hand, then use LangGraph']]}
-];
+const NEXT_PARTS = [];
 
 const L = {};
 
@@ -2132,6 +2131,1016 @@ print(Counter(dishes).most_common(1))`)
  ],
  sum:[['re.search / findall / sub','Find, find all, replace'],['re.S','. also matches newlines'],['defaultdict','Dict with automatic defaults'],['Counter','Count items'],['deque(maxlen=n)','Keep only the last n'],['lru_cache','Cache function results'],['uuid4()','Unique id']]};
 
+/* ================= PART VI ================= */
+L[39] = {t:'Context managers and with', d:'Unlock the exam hall, and always lock it again, even during a fire alarm.', mins:25,
+ goals:['Use with to open and always close things','Write __enter__ and __exit__ yourself','Build a context manager from a generator with @contextmanager'],
+ steps:[
+  lab('Story: Priya\'s exam hall', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_39'),
+  lab('Hands-on: Enter, work, exit', ``, 'play_39'),
+  rd('with opens and always closes', `<p>Some things must be closed after use: files, network connections, database sessions. <code>with</code> opens the thing, runs your block, then closes it for you, even if the block fails.</p>`, R`with open("hall_ticket.txt", "w", encoding="utf-8") as f:
+    f.write("Priya, Hall B, Seat 42")
+
+with open("hall_ticket.txt", encoding="utf-8") as f:
+    print(f.read())
+print(f.closed)`, R`Priya, Hall B, Seat 42
+True`, {note:'After the with block ends, the file is already closed. You never call f.close() yourself.'}),
+  rd('Write your own: __enter__ and __exit__', `<p>Any class with <code>__enter__</code> and <code>__exit__</code> works with <code>with</code>. <code>__enter__</code> runs at the start, and what it returns goes to the name after <code>as</code>. <code>__exit__</code> runs at the end.</p>`, R`class ExamHall:
+    def __init__(self, name):
+        self.name = name
+
+    def __enter__(self):
+        print(f"Unlock {self.name}")
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        print(f"Lock {self.name}")
+        return False
+
+with ExamHall("Hall B") as hall:
+    print(f"Writing the exam in {hall.name}")`, R`Unlock Hall B
+Writing the exam in Hall B
+Lock Hall B`),
+  pr(R`class ExamHall:
+    def __enter__(self):
+        print("unlock")
+    def __exit__(self, exc_type, exc, tb):
+        print("lock")
+
+try:
+    with ExamHall():
+        print("exam starts")
+        raise RuntimeError("fire alarm")
+except RuntimeError:
+    print("everyone out")`, 'What does this print?', ['unlock, exam starts, everyone out','unlock, exam starts, lock, everyone out','unlock, exam starts, lock'], 1, '__exit__ runs before the error leaves the with block, so the hall is locked even during a fire alarm. Then the outer except catches the error.'),
+  rd('__exit__ sees the error', `<p>The three arguments of <code>__exit__</code> describe any error that happened inside the block. They are all <code>None</code> when the block finished normally. Returning <code>True</code> means "I handled it, do not pass it on".</p>`, R`class ExamHall:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        if exc_type is None:
+            print("Exam over, papers collected")
+        else:
+            print(f"Stopped early: {exc}")
+        return True          # True means "I handled it"
+
+with ExamHall():
+    raise RuntimeError("power cut")
+print("Students go home safely")`, R`Stopped early: power cut
+Students go home safely`, {note:'Return True only when you really handled the error. Returning False or nothing lets the error keep going up, which is usually what you want.'}),
+  rd('@contextmanager: a with block from a generator', `<p>Writing a whole class is a lot of typing. <code>@contextmanager</code> turns a generator into a context manager: the code before <code>yield</code> is the enter part, the code after is the exit part. Put <code>yield</code> inside <code>try/finally</code> so the exit part runs even on errors.</p>`, R`from contextlib import contextmanager
+
+@contextmanager
+def hall(name):
+    print(f"Unlock {name}")
+    try:
+        yield name
+    finally:
+        print(f"Lock {name}")
+
+with hall("Hall C") as h:
+    print(f"Exam in {h}")`, R`Unlock Hall C
+Exam in Hall C
+Lock Hall C`),
+  rd('A timer you can reuse', `<p>A context manager can measure whatever runs inside it. This one times the answer sheet scanner.</p>`, R`import time
+from contextlib import contextmanager
+
+@contextmanager
+def timer(label):
+    start = time.perf_counter()
+    yield
+    took = time.perf_counter() - start
+    print(f"{label}: {took:.1f} s")
+
+with timer("Answer sheet scan"):
+    time.sleep(0.5)`, R`Answer sheet scan: 0.5 s`),
+  pr(null, 'Where is the best place to close a database connection?', ['At the end of the try block','In __exit__, or after yield inside finally','Only when the program ends'], 1, 'Code after the risky part never runs if an error happens first. __exit__ and finally always run.'),
+  rd('Now in an AI agent', `<p>An agent run opens things that must be closed or reported: an HTTP client, a database, a token budget. A context manager makes sure the clean-up and the report always happen.</p>`, R`from contextlib import contextmanager
+
+@contextmanager
+def token_budget(limit):
+    spent = []
+    yield spent
+    total = sum(spent)
+    status = "OK" if total <= limit else "over budget"
+    print(f"Used {total} of {limit} tokens: {status}")
+
+with token_budget(1000) as spent:
+    spent.append(420)   # plan the trip
+    spent.append(380)   # check train times`, R`Used 800 of 1000 tokens: OK`),
+  lab('Game: with-block tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_39'),
+  task('Write a context manager that prints "started" and "saved" around a lecture recording, even if the class ends with an error.', R`from contextlib import contextmanager
+
+@contextmanager
+def recording(subject):
+    print(f"Recording {subject} started")
+    try:
+        yield
+    finally:
+        print(f"Recording {subject} saved")
+
+with recording("DBMS lecture"):
+    print("Professor explains joins")`)
+ ],
+ sum:[['with x as y:','Set up, run the block, always clean up'],['__enter__','Runs first; its return value goes to as'],['__exit__(exc_type, exc, tb)','Always runs; sees any error'],['return True in __exit__','Swallow the error (rarely)'],['@contextmanager','Before yield = enter, after yield = exit'],['try/finally around yield','Clean up even on errors']]};
+
+L[40] = {t:'async and await', d:'One person at the food court counter, many orders cooking at once.', mins:30, core:true,
+ goals:['Know why waiting one by one is slow','Write async functions and await them','Run many waits together with gather, and limit them with a Semaphore'],
+ steps:[
+  lab('Story: Lakshmi\'s food court counter', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_40'),
+  lab('Hands-on: Kitchen timeline', ``, 'play_40'),
+  rd('Waiting one by one is slow', `<p>Lakshmi runs a counter at a Velachery food court. If she waits at the stove for each dish before taking the next order, the queue grows. Here 1 minute of cooking is 0.1 seconds.</p>`, R`import time
+
+def cook(dish, minutes):
+    time.sleep(minutes / 10)       # 1 minute = 0.1 s here
+    return f"{dish} ready"
+
+start = time.perf_counter()
+for dish, m in [("Dosa", 5), ("Biryani", 10), ("Filter coffee", 3)]:
+    print(cook(dish, m))
+print(f"Took {time.perf_counter() - start:.1f} s")`, R`Dosa ready
+Biryani ready
+Filter coffee ready
+Took 1.8 s`),
+  rd('async def and await', `<p><code>async def</code> makes a <b>coroutine</b>: a function that can pause. <code>await</code> pauses it while it waits, so Python can do other work meanwhile. <code>asyncio.run</code> starts the <b>event loop</b>, the part that switches between paused coroutines.</p>`, R`import asyncio
+
+async def cook(dish, minutes):
+    await asyncio.sleep(minutes / 10)
+    return f"{dish} ready"
+
+async def main():
+    result = await cook("Dosa", 5)
+    print(result)
+
+asyncio.run(main())`, R`Dosa ready`, {note:'In this page, a last line of asyncio.run(main()) runs as await main(), because the browser already has an event loop. On your laptop it runs exactly as written.'}),
+  pr(R`import asyncio
+
+async def greet():
+    return "Hello"
+
+print(greet())`, 'What does this print?', ['Hello','<coroutine object greet at ...>','An error'], 1, 'Calling an async function only creates a coroutine. Nothing runs until you await it or hand it to asyncio.run. Python also warns that it was never awaited.'),
+  rd('gather runs them together', `<p><code>asyncio.gather</code> starts several coroutines and waits for all of them. The three dishes cook at the same time, so the total is the longest one, not the sum.</p>`, R`import asyncio, time
+
+async def cook(dish, minutes):
+    await asyncio.sleep(minutes / 10)
+    return f"{dish} ready"
+
+async def main():
+    start = time.perf_counter()
+    results = await asyncio.gather(
+        cook("Dosa", 5), cook("Biryani", 10), cook("Filter coffee", 3))
+    print(results)
+    print(f"Took {time.perf_counter() - start:.1f} s")
+
+asyncio.run(main())`, R`['Dosa ready', 'Biryani ready', 'Filter coffee ready']
+Took 1.0 s`, {note:'gather returns results in the order you passed them in, not the order they finished.'}),
+  pr(null, 'Three tasks wait 0.2, 0.5 and 0.3 seconds, run with gather. About how long does it take in total?', ['1.0 s','0.5 s','0.2 s'], 1, 'They wait at the same time, so the total is the longest wait.'),
+  rd('A Semaphore limits how many run at once', `<p>The kitchen has only 2 stoves. A <code>Semaphore(2)</code> lets 2 dishes cook and makes the rest wait their turn. AI APIs have rate limits, and this is how agents respect them.</p>`, R`import asyncio, time
+
+stoves = asyncio.Semaphore(2)        # only 2 stoves
+
+async def cook(dish):
+    async with stoves:
+        await asyncio.sleep(0.5)
+        return dish
+
+async def main():
+    start = time.perf_counter()
+    done = await asyncio.gather(*(cook(d) for d in ["Dosa", "Idli", "Vada", "Pongal"]))
+    print(done)
+    print(f"Took {time.perf_counter() - start:.1f} s")
+
+asyncio.run(main())`, R`['Dosa', 'Idli', 'Vada', 'Pongal']
+Took 1.0 s`),
+  rd('Never block the loop', `<p><code>time.sleep</code> inside an async function freezes the whole event loop, so nothing else can run. Use <code>await asyncio.sleep</code>, and async libraries such as httpx, inside async code.</p>`, R`import asyncio, time
+
+async def bad_cook(dish):
+    time.sleep(0.3)               # blocks the whole loop
+    return dish
+
+async def main():
+    start = time.perf_counter()
+    await asyncio.gather(bad_cook("Dosa"), bad_cook("Idli"), bad_cook("Vada"))
+    print(f"Took {time.perf_counter() - start:.1f} s")
+
+asyncio.run(main())`, R`Took 0.9 s`),
+  rd('Now in an AI agent', `<p>When the model asks for two tools at once, a good agent runs them together with <code>gather</code> instead of one after another.</p>`, R`import asyncio
+
+async def search_trains(city):
+    await asyncio.sleep(0.3)
+    return f"3 trains to {city}"
+
+async def get_weather(city):
+    await asyncio.sleep(0.2)
+    return f"{city}: 29 C, clear"
+
+async def plan_trip(city):
+    trains, weather = await asyncio.gather(search_trains(city), get_weather(city))
+    print(trains)
+    print(weather)
+
+asyncio.run(plan_trip("Madurai"))`, R`3 trains to Madurai
+Madurai: 29 C, clear`),
+  lab('Game: Event loop quiz', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_40'),
+  task('Fetch three live cricket scores at once with gather and print how long it took.', R`import asyncio, time
+
+async def score(match, delay):
+    await asyncio.sleep(delay)
+    return f"{match}: live"
+
+async def main():
+    start = time.perf_counter()
+    scores = await asyncio.gather(
+        score("CSK vs MI", 0.4), score("RCB vs SRH", 0.2), score("KKR vs RR", 0.3))
+    for s in scores:
+        print(s)
+    print(f"Took {time.perf_counter() - start:.1f} s")
+
+asyncio.run(main())`)
+ ],
+ sum:[['async def','Defines a coroutine'],['await x','Pause here until x is done'],['asyncio.run(main())','Start the event loop'],['asyncio.gather(...)','Run many at once; results in order'],['asyncio.Semaphore(n)','At most n at a time'],['time.sleep in async code','Blocks everything; use asyncio.sleep']]};
+
+L[41] = {t:'Environments: venv, pip, uv, pyproject.toml', d:'Two projects on one laptop that need different versions of the same library.', mins:20,
+ goals:['Make and use a virtual environment','Read version rules like >=2.5,<3','Describe a project in pyproject.toml and set it up with uv'],
+ steps:[
+  lab('Story: Arjun\'s two projects', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_41'),
+  lab('Hands-on: Set up a project', ``, 'play_41'),
+  rd('Which Python is running?', `<p>Arjun's final-year project needs pydantic 2. His friend's old hackathon code needs pydantic 1. If both install into the same Python, one of them breaks. First, check which Python you are in.</p>`, R`import sys
+
+print(sys.version_info.major)
+print(sys.version_info >= (3, 10))
+in_venv = sys.prefix != sys.base_prefix
+print("Inside a venv:", in_venv)`, R`3
+True
+Inside a venv: False`, {note:'On your laptop, inside an activated venv, the last line says True.'}),
+  rd('Make a venv (in your terminal)', `<p>A <b>virtual environment</b> is a private folder of packages for one project. Make one per project, activate it, then install. Lines starting with <code>$</code> go in the terminal, not in Python.</p>`, R`$ python -m venv .venv
+$ source .venv/bin/activate        # Windows: .venv\Scripts\activate
+(.venv) $ python -m pip install "pydantic>=2.5,<3"
+(.venv) $ python -m pip freeze > requirements.txt`, null, {note:'Add .venv to .gitignore. Anyone can rebuild it from your requirements file.'}),
+  pr(null, 'Arjun installs pydantic 2 inside project A\'s venv. What happens to project B, which has its own venv with pydantic 1?', ['It also gets pydantic 2','Nothing; each venv has its own packages','pip refuses to install'], 1, 'That is the whole point of a venv: each project keeps its own versions.'),
+  rd('Version numbers are not text', `<p>Comparing versions as text goes wrong: "2.10" looks smaller than "2.9" letter by letter. pip compares each part as a number.</p>`, R`print("2.10" > "2.9")                       # compares text, letter by letter
+
+def version(v):
+    return tuple(int(x) for x in v.split("."))
+
+print(version("2.10") > version("2.9"))     # compares numbers
+print(version("2.10.1"))`, R`False
+True
+(2, 10, 1)`),
+  rd('What does >=2.5,<3 allow?', `<p><code>pydantic>=2.5,<3</code> means version 2.5 or newer, but not 3. Version 3 may change things and break your code, so you stop just before it.</p>`, R`def version(v):
+    return tuple(int(x) for x in v.split("."))
+
+def allowed(v, low="2.5", high="3.0"):
+    return version(low) <= version(v) < version(high)
+
+for v in ["2.4", "2.5", "2.11.3", "3.0"]:
+    print(v, allowed(v))`, R`2.4 False
+2.5 True
+2.11.3 True
+3.0 False`),
+  rd('pyproject.toml describes the project', `<p>Modern projects keep their name, Python version and dependencies in one file, <code>pyproject.toml</code>. Python can read it with <code>tomllib</code>.</p>`, R`import tomllib
+
+text = """
+[project]
+name = "hostel-bot"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2.5,<3", "httpx>=0.27"]
+"""
+project = tomllib.loads(text)["project"]
+print(project["name"], project["version"])
+for dep in project["dependencies"]:
+    print("needs", dep)`, R`hostel-bot 0.1.0
+needs pydantic>=2.5,<3
+needs httpx>=0.27`),
+  rd('uv: the fast way (in your terminal)', `<p><code>uv</code> makes the venv, writes pyproject.toml and keeps a lock file, <code>uv.lock</code>, with the exact versions. A teammate runs <code>uv sync</code> and gets the same setup.</p>`, R`$ uv init hostel-bot
+$ cd hostel-bot
+$ uv add pydantic httpx
+$ uv run main.py`),
+  pr(null, 'Which one should you NOT commit to GitHub?', ['pyproject.toml','uv.lock','The .venv folder'], 2, 'The venv is big and only works on your machine. Commit pyproject.toml and the lock file; anyone can rebuild the venv from them.'),
+  rd('Now in an AI agent', `<p>Every agent project starts the same way: a venv, the AI SDK, pydantic and an HTTP client listed in pyproject.toml.</p>`, R`import re, tomllib
+
+text = """
+[project]
+name = "trip-agent"
+dependencies = ["anthropic>=0.40", "pydantic>=2.5", "httpx>=0.27"]
+"""
+deps = tomllib.loads(text)["project"]["dependencies"]
+names = [re.split(r"[<>=]", d)[0] for d in deps]
+print("This agent needs:", ", ".join(names))`, R`This agent needs: anthropic, pydantic, httpx`),
+  lab('Game: Setup check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_41'),
+  task('Read a requirements list and print each package with its lowest allowed version.', R`import re
+
+requirements = """
+pydantic>=2.5,<3
+httpx>=0.27
+python-dotenv>=1.0
+"""
+for line in requirements.strip().splitlines():
+    name = re.split(r"[<>=]", line)[0]
+    low = re.search(r">=([\d.]+)", line).group(1)
+    print(f"{name}: at least {low}")`)
+ ],
+ sum:[['python -m venv .venv','A private folder of packages'],['activate','Use that venv in this terminal'],['pip install / freeze','Add packages / list exact versions'],['>=2.5,<3','At least 2.5, below 3'],['pyproject.toml','Name, Python version, dependencies'],['uv add / uv run / uv sync','Fast installs with a lock file'],['.gitignore .venv','Never commit the venv']]};
+
+L[42] = {t:'Logging and pytest', d:'Find out why the cab app broke at midnight, and prove the fix works.', mins:30,
+ goals:['Log with levels instead of print','Write tests as plain functions with assert','Replace a real AI call with a Mock in tests'],
+ steps:[
+  lab('Story: The cab app at midnight', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_42'),
+  lab('Hands-on: Log level dial', ``, 'play_42'),
+  rd('Log with levels', `<p>Kavya's cab app in Bengaluru failed at midnight and nobody knew why. <code>print</code> shows everything or nothing. <code>logging</code> gives each message a <b>level</b>, and you choose which levels to see.</p>`, R`import logging, sys
+
+logging.basicConfig(level=logging.INFO, stream=sys.stdout, force=True,
+                    format="%(levelname)s %(name)s: %(message)s")
+log = logging.getLogger("cab")
+
+log.debug("fare formula details")      # hidden at INFO
+log.info("Ride booked: Koramangala to Indiranagar")
+log.warning("Driver is 12 minutes away")
+log.error("Payment failed for ride R-104")`, R`INFO cab: Ride booked: Koramangala to Indiranagar
+WARNING cab: Driver is 12 minutes away
+ERROR cab: Payment failed for ride R-104`, {note:'The levels from least to most serious: DEBUG, INFO, WARNING, ERROR, CRITICAL. A level shows itself and everything more serious.'}),
+  pr(R`import logging, sys
+logging.basicConfig(level=logging.WARNING, stream=sys.stdout, force=True,
+                    format="%(levelname)s: %(message)s")
+logging.info("searching for drivers")
+logging.warning("surge pricing on")`, 'What does this print?', ['Both lines','Only the WARNING line','Nothing'], 1, 'The level is WARNING, so INFO messages are hidden.'),
+  rd('Log the error, keep the app running', `<p>Catch the error, log it with the details, and carry on. In real apps <code>log.exception("...")</code> also adds the full traceback.</p>`, R`import logging, sys
+
+logging.basicConfig(level=logging.INFO, stream=sys.stdout, force=True,
+                    format="%(levelname)s: %(message)s")
+
+def fare(km):
+    return 50 + 18 * km
+
+try:
+    fare("12")
+except TypeError as e:
+    logging.error("Could not compute fare: %s", e)
+logging.info("App still running")`, R`ERROR: Could not compute fare: unsupported operand type(s) for +: 'int' and 'str'
+INFO: App still running`),
+  rd('Tests are functions that assert', `<p>A test calls your code and checks the answer with <code>assert</code>. If the check is false, it fails loudly. <b>pytest</b> finds functions named <code>test_...</code> in files named <code>test_....py</code> and runs them for you. Here we call them by hand.</p>`, R`def fare(km, surge=1.0):
+    return round((50 + 18 * km) * surge)
+
+def test_short_ride():
+    assert fare(2) == 86
+
+def test_surge():
+    assert fare(2, surge=1.5) == 129
+
+test_short_ride()
+test_surge()
+print("2 tests passed")`, R`2 tests passed`),
+  rd('pytest in your terminal', `<p>Save the tests in <code>test_fare.py</code> and run pytest. Each dot is a passing test.</p>`, R`$ pip install pytest
+$ pytest -q
+..                                                       [100%]
+2 passed in 0.01s`),
+  pr(R`def fare(km):
+    return 50 + 18 * km
+
+def test_fare():
+    assert fare(3) == 100
+
+test_fare()`, 'What happens?', ['Nothing prints, the test passes','AssertionError','TypeError'], 1, 'fare(3) is 104, not 100, so the assert fails. pytest would show both numbers.'),
+  rd('Fixtures: shared setup (run with pytest on your laptop)', `<p>A <b>fixture</b> builds test data once and hands it to every test that asks for it by name. pytest matches the parameter name to the fixture.</p>`, R`import pytest
+
+@pytest.fixture
+def rider():
+    return {"name": "Kavya", "wallet": 300}
+
+def test_can_pay(rider):
+    assert rider["wallet"] >= 250
+
+def test_name(rider):
+    assert rider["name"] == "Kavya"`),
+  rd('Mock the AI call', `<p>Tests must not call a real AI model: it is slow, costs money and answers differently each time. A <code>Mock</code> pretends to be the model and remembers how it was called.</p>`, R`from unittest.mock import Mock
+
+def suggest_route(llm, start, end):
+    reply = llm(f"Fastest route from {start} to {end}?")
+    return reply.strip().title()
+
+fake_llm = Mock(return_value="  via outer ring road  ")
+print(suggest_route(fake_llm, "Whitefield", "HSR Layout"))
+print(fake_llm.call_count)
+print(fake_llm.call_args.args[0])`, R`Via Outer Ring Road
+1
+Fastest route from Whitefield to HSR Layout?`),
+  pr(null, 'Why use a Mock instead of the real AI model in a test?', ['Mocks give smarter answers','The test is fast, free and gives the same result every time','pytest cannot import AI SDKs'], 1, 'A good test gives the same result on every run. A real model costs money and can answer differently each time.'),
+  rd('Now in an AI agent', `<p><code>side_effect</code> lets a Mock fail first and then succeed, so you can test your retry code without waiting for a real timeout.</p>`, R`from unittest.mock import Mock
+
+def ask_with_retry(llm, prompt, tries=3):
+    for attempt in range(1, tries + 1):
+        try:
+            return llm(prompt)
+        except TimeoutError:
+            print(f"try {attempt} timed out")
+    return "Sorry, the assistant is busy"
+
+llm = Mock(side_effect=[TimeoutError(), TimeoutError(), "Book the 7:10 AM cab"])
+print(ask_with_retry(llm, "When should I leave for the airport?"))
+print("calls:", llm.call_count)`, R`try 1 timed out
+try 2 timed out
+Book the 7:10 AM cab
+calls: 3`),
+  lab('Game: Log or test?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_42'),
+  task('Write two tests: one for a fare function, and one that uses a Mock instead of a real AI model.', R`from unittest.mock import Mock
+
+def fare(km):
+    return 50 + 18 * km
+
+def summary(llm, km):
+    return f"{llm('Describe the trip')} for Rs {fare(km)}"
+
+def test_fare():
+    assert fare(5) == 140
+
+def test_summary():
+    llm = Mock(return_value="Airport drop")
+    assert summary(llm, 5) == "Airport drop for Rs 140"
+    llm.assert_called_once()
+
+test_fare()
+test_summary()
+print("all tests passed")`)
+ ],
+ sum:[['logging.getLogger(name)','One logger per module'],['DEBUG < INFO < WARNING < ERROR','The level filters what shows'],['log.exception(...)','Log with the traceback'],['test_*.py / def test_*()','What pytest runs'],['@pytest.fixture','Shared setup for tests'],['Mock(return_value=...)','A fake AI model'],['side_effect=[...]','Fail first, then succeed']]};
+
+/* ================= PART VII ================= */
+L[43] = {t:'FastAPI', d:'Build the API behind a metro card recharge app.', mins:30,
+ goals:['Read a FastAPI app: routes, path parameters and JSON','Validate request bodies with Pydantic and know when you get 422','Stream a reply bit by bit'],
+ steps:[
+  lab('Story: Rahul\'s metro card API', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_43'),
+  lab('Hands-on: Send a request', ``, 'play_43'),
+  rd('Your first API (run on your laptop)', `<p>Rahul builds the server for a Kochi Metro card app. <code>@app.get</code> registers a function for a URL. <code>{code}</code> in the path becomes a parameter, and the dict you return is sent back as JSON. FastAPI also builds a docs page at <code>/docs</code> for free.</p>`, R`from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/stations/{code}")
+async def station(code: str):
+    return {"code": code, "name": "Edappally", "line": "Aluva to Thripunithura"}
+
+# terminal: uvicorn main:app --reload
+# browser:  http://127.0.0.1:8000/stations/EDP`),
+  rd('How the decorator works (runs here)', `<p>There is no magic in <code>@app.get</code>. It is a decorator, like lesson 17, that saves your function in a table of routes.</p>`, R`ROUTES = {}
+
+def get(path):
+    def register(fn):
+        ROUTES[("GET", path)] = fn
+        return fn
+    return register
+
+@get("/balance")
+def balance():
+    return {"card": "KM-2231", "balance": 140}
+
+handler = ROUTES[("GET", "/balance")]
+print(handler())`, R`{'card': 'KM-2231', 'balance': 140}`),
+  rd('Pydantic checks the request body', `<p>A recharge request carries JSON. FastAPI checks it with a Pydantic model before your code runs. A bad body never reaches your function.</p>`, R`from pydantic import BaseModel, Field, ValidationError
+
+class Recharge(BaseModel):
+    card: str
+    amount: int = Field(gt=0, le=3000)
+
+print(Recharge(card="KM-2231", amount=500))
+try:
+    Recharge(card="KM-2231", amount=-50)
+except ValidationError as e:
+    print(e.errors()[0]["msg"])`, R`card='KM-2231' amount=500
+Input should be greater than 0`),
+  rd('The full endpoint (run on your laptop)', `<p>Three outcomes: <b>200</b> with the new balance, <b>404</b> when the card does not exist, and <b>422</b> when the body is wrong, sent by FastAPI itself.</p>`, R`from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
+
+app = FastAPI()
+cards = {"KM-2231": 140}
+
+class Recharge(BaseModel):
+    card: str
+    amount: int = Field(gt=0, le=3000)
+
+@app.post("/recharge")
+async def recharge(body: Recharge):
+    if body.card not in cards:
+        raise HTTPException(status_code=404, detail="Card not found")
+    cards[body.card] += body.amount
+    return {"card": body.card, "balance": cards[body.card]}`),
+  pr(null, 'A client posts {"card": "KM-2231", "amount": "five hundred"}. What does FastAPI return?', ['200 with the balance','422 Unprocessable Entity','500 Server Error'], 1, 'Pydantic cannot turn "five hundred" into an int, so FastAPI answers 422 before your function runs.'),
+  rd('The same flow, simulated (runs here)', `<p>This plain function does what FastAPI does for <code>POST /recharge</code>: validate, look up, answer with a status code.</p>`, R`from pydantic import BaseModel, Field, ValidationError
+
+class Recharge(BaseModel):
+    card: str
+    amount: int = Field(gt=0, le=3000)
+
+cards = {"KM-2231": 140}
+
+def post_recharge(body: dict):
+    try:
+        req = Recharge(**body)
+    except ValidationError:
+        return 422, {"detail": "bad request body"}
+    if req.card not in cards:
+        return 404, {"detail": "Card not found"}
+    cards[req.card] += req.amount
+    return 200, {"card": req.card, "balance": cards[req.card]}
+
+print(post_recharge({"card": "KM-2231", "amount": 500}))
+print(post_recharge({"card": "KM-9999", "amount": 100}))
+print(post_recharge({"card": "KM-2231", "amount": "five hundred"}))`, R`(200, {'card': 'KM-2231', 'balance': 640})
+(404, {'detail': 'Card not found'})
+(422, {'detail': 'bad request body'})`),
+  rd('Streaming: send the answer bit by bit', `<p>Chat apps show the reply as it is written. In FastAPI you return <code>StreamingResponse(stream_reply())</code>, and each piece the generator yields goes to the phone straight away.</p>`, R`import time
+
+def stream_reply():
+    for word in ["Next", "train", "to", "Aluva", "in", "4", "minutes"]:
+        time.sleep(0.1)
+        yield word + " "
+
+for chunk in stream_reply():
+    print(chunk, end="", flush=True)
+print()`, R`Next train to Aluva in 4 minutes`),
+  pr(null, 'Which status code means "your request body was in the wrong shape"?', ['200','404','422'], 2, '404 means the thing was not found. 422 means the body failed validation.'),
+  rd('Now in an AI agent', `<p>Most agent products are a FastAPI app with one <code>/chat</code> endpoint: a Pydantic model in, a Pydantic model out, and the agent loop inside.</p>`, R`from pydantic import BaseModel
+
+class ChatIn(BaseModel):
+    user_id: str
+    message: str
+
+class ChatOut(BaseModel):
+    reply: str
+    tools_used: list[str]
+
+def fake_agent(msg):
+    if "train" in msg.lower():
+        return "The 6:40 PM metro has seats.", ["metro_timetable"]
+    return "How can I help?", []
+
+def chat(body: ChatIn) -> ChatOut:
+    reply, tools = fake_agent(body.message)
+    return ChatOut(reply=reply, tools_used=tools)
+
+out = chat(ChatIn(user_id="u7", message="Next train from Edappally?"))
+print(out.model_dump_json())`, R`{"reply":"The 6:40 PM metro has seats.","tools_used":["metro_timetable"]}`),
+  lab('Game: Request or response?', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_43'),
+  task('Build a tiny route table with a decorator and answer three requests.', R`ROUTES = {}
+
+def route(method, path):
+    def register(fn):
+        ROUTES[(method, path)] = fn
+        return fn
+    return register
+
+@route("GET", "/fare")
+def fare():
+    return {"from": "Aluva", "to": "Kaloor", "fare": 40}
+
+@route("GET", "/health")
+def health():
+    return {"ok": True}
+
+for key in [("GET", "/fare"), ("GET", "/health"), ("GET", "/oops")]:
+    fn = ROUTES.get(key)
+    print(key[1], 200 if fn else 404, fn() if fn else {"detail": "Not Found"})`)
+ ],
+ sum:[['app = FastAPI()','The web app'],['@app.get / @app.post','Register a route'],['{code} in the path','Path parameter'],['BaseModel body','Validated JSON; bad input gives 422'],['HTTPException(404)','Answer with an error status'],['StreamingResponse','Send text as it is made'],['uvicorn main:app','Run the server']]};
+
+L[44] = {t:'LLM SDKs: messages, tools, structured output', d:'Talk to an AI model from Python and let it ask for your functions.', mins:30, core:true,
+ goals:['Send a list of messages and read the reply','Describe a tool and handle a tool_use / tool_result round trip','Check structured output with Pydantic'],
+ steps:[
+  lab('Story: Sai\'s Vizag trip assistant', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_44'),
+  lab('Hands-on: Build the conversation', ``, 'play_44'),
+  rd('A chat is a list of messages', `<p>Sai is building a trip assistant for a weekend in Vizag. The model has no memory between calls: you send the whole conversation every time, as a list of dicts with a <code>role</code> and <code>content</code>.</p>`, R`messages = [
+    {"role": "user", "content": "Plan one day in Vizag on a student budget."},
+]
+messages.append({"role": "assistant", "content": "Morning RK Beach, noon Kailasagiri, evening submarine museum."})
+messages.append({"role": "user", "content": "Make it cheaper."})
+
+for m in messages:
+    print(f"{m['role']:>9}: {m['content'][:34]}")`, R`     user: Plan one day in Vizag on a student
+assistant: Morning RK Beach, noon Kailasagiri
+     user: Make it cheaper.`),
+  rd('Calling the model (run on your laptop)', `<p>Every SDK looks like this: a client, a model name, a system prompt and the messages. The reply is a list of content blocks. <code>usage</code> tells you how many tokens went in and out, which is what you pay for.</p>`, R`import anthropic
+
+client = anthropic.Anthropic()       # reads ANTHROPIC_API_KEY from the environment
+
+response = client.messages.create(
+    model="claude-opus-5-5",
+    max_tokens=1000,
+    system="You are a friendly travel guide for students in India.",
+    messages=[{"role": "user", "content": "Plan one day in Vizag under Rs 1000."}],
+)
+for block in response.content:
+    if block.type == "text":
+        print(block.text)
+print(response.usage.input_tokens, response.usage.output_tokens)`, null, {note:'Keep the key in .env (lesson 36), never in the code. The OpenAI and Gemini SDKs look almost the same.'}),
+  rd('A pretend client (runs here)', `<p>To practise without a key, this class answers in the same shape: text plus token counts.</p>`, R`from dataclasses import dataclass
+
+@dataclass
+class Reply:
+    text: str
+    input_tokens: int
+    output_tokens: int
+
+class FakeClient:
+    def create(self, model, messages, max_tokens=500):
+        last = messages[-1]["content"]
+        words = len(" ".join(m["content"] for m in messages).split())
+        return Reply(f"(answer to: {last})", input_tokens=words, output_tokens=12)
+
+client = FakeClient()
+r = client.create(model="any-model", messages=[{"role": "user", "content": "Best time to visit Araku?"}])
+print(r.text)
+print("tokens in/out:", r.input_tokens, r.output_tokens)`, R`(answer to: Best time to visit Araku?)
+tokens in/out: 5 12`),
+  pr(R`messages = [{"role": "user", "content": "Hi"}]
+messages.append({"role": "assistant", "content": "Hello! Where to?"})
+messages.append({"role": "user", "content": "Vizag"})
+print(len(messages), messages[-2]["role"])`, 'What does this print?', ['2 user','3 assistant','3 user'], 1, 'Three messages; the second from the end is the assistant\'s reply.'),
+  rd('Tools: describe a function to the model', `<p>A tool is a name, a description and a JSON schema for its arguments. The model never runs your code. It replies "please call get_weather with city Vizag", and your code runs it.</p>`, R`import json
+
+weather_tool = {
+    "name": "get_weather",
+    "description": "Current weather for a city in India",
+    "input_schema": {
+        "type": "object",
+        "properties": {"city": {"type": "string"}},
+        "required": ["city"],
+    },
+}
+print(json.dumps(weather_tool["input_schema"]["properties"]))
+print(weather_tool["input_schema"]["required"])`, R`{"city": {"type": "string"}}
+['city']`),
+  rd('Handle a tool call (runs here)', `<p>When the model wants a tool, its reply holds a <code>tool_use</code> block with an id, a name and the input. You run the function and send back a <code>tool_result</code> with the same id, inside a user message.</p>`, R`def get_weather(city):
+    return f"{city}: 30 C, humid, sea breeze"
+
+TOOLS = {"get_weather": get_weather}
+
+# the block the model sent back (simplified)
+block = {"type": "tool_use", "id": "toolu_01", "name": "get_weather", "input": {"city": "Vizag"}}
+
+result = TOOLS[block["name"]](**block["input"])
+reply_to_model = {"role": "user", "content": [
+    {"type": "tool_result", "tool_use_id": block["id"], "content": result}]}
+print(result)
+print(reply_to_model["content"][0]["tool_use_id"])`, R`Vizag: 30 C, humid, sea breeze
+toolu_01`),
+  pr(null, 'The model replies with a tool_use block for get_weather. Who runs get_weather?', ['The model, on its servers','Your Python code','Nobody; the model guesses the weather'], 1, 'The model only asks. Your code runs the function and sends the result back as a tool_result.'),
+  rd('Structured output: check it with Pydantic', `<p>When you need data, not prose, ask for JSON and check it with a Pydantic model. If the shape is wrong, you know at once instead of crashing later.</p>`, R`from pydantic import BaseModel, ValidationError
+
+class DayPlan(BaseModel):
+    city: str
+    places: list[str]
+    budget_rs: int
+
+raw = '{"city": "Vizag", "places": ["RK Beach", "Kailasagiri"], "budget_rs": 800}'
+plan = DayPlan.model_validate_json(raw)
+print(plan.places[0], plan.budget_rs)
+
+try:
+    DayPlan.model_validate_json('{"city": "Vizag", "places": "RK Beach"}')
+except ValidationError as e:
+    print(len(e.errors()), "problems")`, R`RK Beach 800
+2 problems`),
+  rd('Now in an AI agent', `<p>Every call costs tokens. Agents add up <code>usage</code> from each response so the team knows the bill. These prices are only an example.</p>`, R`PRICE_PER_MILLION = {"input": 4.00, "output": 20.00}   # example prices in US dollars
+RUPEES_PER_DOLLAR = 84
+
+def cost_rs(input_tokens, output_tokens):
+    usd = (input_tokens * PRICE_PER_MILLION["input"]
+           + output_tokens * PRICE_PER_MILLION["output"]) / 1_000_000
+    return round(usd * RUPEES_PER_DOLLAR, 2)
+
+one = cost_rs(1200, 400)
+print(one, "rupees for one trip plan")
+print(round(one * 1000), "rupees for 1000 students")`, R`1.08 rupees for one trip plan
+1080 rupees for 1000 students`),
+  lab('Game: SDK check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_44'),
+  task('Keep a running conversation: add each question, a pretend reply, and print the history.', R`history = []
+
+def fake_model(messages):
+    last = messages[-1]["content"]
+    return f"Tip for: {last}"
+
+for question in ["What to eat in Vizag?", "Where to stay near RK Beach?"]:
+    history.append({"role": "user", "content": question})
+    history.append({"role": "assistant", "content": fake_model(history)})
+
+for m in history:
+    print(m["role"], "->", m["content"])
+print(len(history), "messages")`)
+ ],
+ sum:[['messages=[{role, content}]','The whole chat, sent every call'],['system=','Instructions for the model'],['max_tokens','Upper limit on the reply'],['tools=[{name, input_schema}]','Functions the model may ask for'],['tool_use → tool_result','You run it and send the result back'],['model_validate_json','Check structured output'],['usage','Tokens in and out: the cost']]};
+
+L[45] = {t:'RAG: chunking, embeddings, a vector DB', d:'A bot that answers from the college rulebook, not from guesses.', mins:30, core:true,
+ goals:['Split a document into chunks','Turn text into vectors and compare them','Retrieve the top chunks and build a grounded prompt'],
+ steps:[
+  lab('Story: Nithya\'s rulebook bot', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_45'),
+  lab('Hands-on: Tune the retriever', ``, 'play_45'),
+  rd('Step 1: split the document into chunks', `<p>Nithya's college in Mysuru has a long student handbook. An AI model does not know these rules, and the whole book is too long to send every time. <b>RAG</b> (retrieval-augmented generation) finds the few parts that matter and puts only those in the prompt. First, cut the book into chunks.</p>`, R`handbook = """Attendance: students need 75% attendance in each subject to write the final exam.
+Medical leave: up to 10% extra attendance is allowed with a doctor's certificate.
+Library: books can be borrowed for 14 days. Late fee is Rs 2 per day.
+Hostel: gates close at 9:30 PM. Late entry needs the warden's permission.
+Canteen: open from 7 AM to 9 PM, closed on Sundays."""
+chunks = handbook.split("\n")
+print(len(chunks), "chunks")
+print(chunks[0])`, R`5 chunks
+Attendance: students need 75% attendance in each subject to write the final exam.`),
+  rd('Chunks with overlap', `<p>Real documents are not one rule per line. Cut them into pieces of a fixed number of words, with a small <b>overlap</b> so a sentence cut in half still appears whole in one chunk.</p>`, R`def chunk(text, size, overlap):
+    words = text.split()
+    step = size - overlap
+    return [" ".join(words[i:i + size]) for i in range(0, len(words), step)]
+
+text = "Hostel gates close at 9:30 PM and late entry needs the warden's permission in writing"
+for c in chunk(text, size=6, overlap=2):
+    print(c)`, R`Hostel gates close at 9:30 PM
+9:30 PM and late entry needs
+entry needs the warden's permission in
+permission in writing`),
+  rd('Step 2: turn text into numbers', `<p>An <b>embedding</b> is a list of numbers that stands for a text. Real embeddings come from a model and have hundreds of numbers that capture meaning, so "sick" lands near "medical". Here, word counts show the idea.</p>`, R`import re
+from collections import Counter
+
+def embed(text):
+    words = re.findall(r"[a-z]+", text.lower())
+    return Counter(words)
+
+print(embed("Attendance rules: 75% attendance needed"))`, R`Counter({'attendance': 2, 'rules': 1, 'needed': 1})`),
+  rd('Step 3: measure how close two texts are', `<p><b>Cosine similarity</b> gives 1.0 for texts pointing the same way, and 0 for texts with nothing in common.</p>`, R`import math, re
+from collections import Counter
+
+def embed(text):
+    return Counter(re.findall(r"[a-z]+", text.lower()))
+
+def cosine(a, b):
+    dot = sum(a[w] * b[w] for w in a)
+    na = math.sqrt(sum(v * v for v in a.values()))
+    nb = math.sqrt(sum(v * v for v in b.values()))
+    return dot / (na * nb) if na and nb else 0.0
+
+q = embed("how much attendance do students need")
+print(round(cosine(q, embed("students need 75% attendance in each subject")), 2))
+print(round(cosine(q, embed("canteen is closed on sundays")), 2))`, R`0.5
+0.0`),
+  pr(null, 'Two chunks score 0.62 and 0.05 for the question. Which one goes into the prompt?', ['The 0.05 one','The 0.62 one','Both, always'], 1, 'A higher score means closer meaning. Retrieval keeps the top few chunks.'),
+  rd('Step 4: search the store', `<p>Store every chunk with its vector. To answer, embed the question, rank all chunks by similarity and keep the top <b>k</b>. That is all a vector database does, only much faster.</p>`, R`import math, re
+from collections import Counter
+
+def embed(text):
+    return Counter(re.findall(r"[a-z]+", text.lower()))
+
+def cosine(a, b):
+    dot = sum(a[w] * b[w] for w in a)
+    na = math.sqrt(sum(v * v for v in a.values()))
+    nb = math.sqrt(sum(v * v for v in b.values()))
+    return dot / (na * nb) if na and nb else 0.0
+
+chunks = [
+    "Attendance: students need 75% attendance in each subject to write the exam.",
+    "Medical leave: 10% extra attendance is allowed with a doctor's certificate.",
+    "Library: books can be borrowed for 14 days.",
+    "Hostel: gates close at 9:30 PM.",
+]
+store = [(c, embed(c)) for c in chunks]          # a tiny vector database
+
+def search(question, k=2):
+    q = embed(question)
+    ranked = sorted(store, key=lambda item: cosine(q, item[1]), reverse=True)
+    return [c for c, _ in ranked[:k]]
+
+for c in search("I was on medical leave, is my attendance enough for the exam?"):
+    print("-", c)`, R`- Medical leave: 10% extra attendance is allowed with a doctor's certificate.
+- Attendance: students need 75% attendance in each subject to write the exam.`),
+  rd('Step 5: put the chunks in the prompt', `<p>Give the model the chunks and tell it to answer only from them and cite the rule number. This is a <b>grounded</b> prompt: the answer comes from your document, not from a guess.</p>`, R`question = "Can I write the exam with 70% attendance if I was sick?"
+found = [
+    "Attendance: students need 75% attendance in each subject to write the exam.",
+    "Medical leave: 10% extra attendance is allowed with a doctor's certificate.",
+]
+context = "\n".join(f"[{i}] {c}" for i, c in enumerate(found, 1))
+prompt = f"""Answer using only the rules below. Cite the rule number.
+
+{context}
+
+Question: {question}"""
+print(prompt)`, R`Answer using only the rules below. Cite the rule number.
+
+[1] Attendance: students need 75% attendance in each subject to write the exam.
+[2] Medical leave: 10% extra attendance is allowed with a doctor's certificate.
+
+Question: Can I write the exam with 70% attendance if I was sick?`),
+  rd('A real vector database (run on your laptop)', `<p>Chroma, pgvector and Qdrant store real embeddings and find the nearest ones fast, even for millions of chunks. Chroma makes the embeddings for you.</p>`, R`import chromadb
+
+client = chromadb.Client()
+rules = client.create_collection("college_rules")
+rules.add(ids=["a1", "h1"], documents=[
+    "Students need 75% attendance in each subject to write the exam.",
+    "Hostel gates close at 9:30 PM.",
+])
+hits = rules.query(query_texts=["How much attendance do I need?"], n_results=1)
+print(hits["documents"][0][0])`),
+  pr(null, 'The bot answers a hostel question with a made-up rule. What is the most likely cause?', ['The chunks were too short','The hostel chunk was not retrieved, so the model guessed','The model is too small'], 1, 'If the right chunk is not in the prompt, the model has nothing to ground on. Check what retrieval returned first.'),
+  rd('Now in an AI agent', `<p>In an agent, RAG is often just one more tool. The model decides when to search the handbook, reads the result and answers with a citation.</p>`, R`RULES = {
+    "attendance": "75% attendance per subject; 10% extra with a medical certificate.",
+    "library": "Books for 14 days; Rs 2 per day late fee.",
+}
+
+def search_rules(query: str) -> str:
+    hits = [text for key, text in RULES.items() if key in query.lower()]
+    return "\n".join(hits) or "No matching rule found."
+
+print(search_rules("What is the attendance rule?"))
+print(search_rules("Can I keep a pet in the hostel?"))`, R`75% attendance per subject; 10% extra with a medical certificate.
+No matching rule found.`),
+  lab('Game: Retrieval check', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_45'),
+  task('Rank three chunks for a question by counting the words they share with it.', R`import re
+
+def words(text):
+    return set(re.findall(r"[a-z]+", text.lower()))
+
+chunks = [
+    "Library books can be borrowed for 14 days",
+    "Canteen opens at 7 AM and closes at 9 PM",
+    "Hostel gates close at 9:30 PM",
+]
+question = "When do the hostel gates close?"
+scores = [(len(words(question) & words(c)), c) for c in chunks]
+for score, c in sorted(scores, reverse=True):
+    print(score, c)`)
+ ],
+ sum:[['Chunk','Small, overlapping pieces of the document'],['Embed','Turn each chunk into a vector'],['Cosine similarity','How close two vectors point'],['Vector DB','Store vectors; find the nearest fast'],['Top k','Keep the best few chunks'],['Grounded prompt','"Answer only from these; cite [n]"']]};
+
+L[46] = {t:'The agent loop, by hand and with LangGraph', d:'Write the loop that lets a model check your PNR, the weather and then answer.', mins:35, core:true,
+ goals:['Write the agent loop yourself: model, tool, result, repeat','Guard it with max steps and turn tool errors into messages','Map the same loop onto LangGraph nodes and edges'],
+ steps:[
+  lab('Story: Vikram\'s train trip agent', `<p>Press <b>Next</b> to play each scene and watch what the code does inside Python. Drag the room to look around.</p>`, 'story_46'),
+  lab('Hands-on: Be the agent loop', ``, 'play_46'),
+  rd('A pretend model that asks for tools', `<p>Vikram is taking the train from Chennai to Bengaluru. His agent must check the PNR, then the weather, then answer. A real model decides which tool to ask for. This pretend one follows a script, so you can see the loop clearly.</p>`, R`def fake_model(history):
+    tool_msgs = [m for m in history if m["role"] == "tool"]
+    if len(tool_msgs) == 0:
+        return {"tool": "check_pnr", "args": {"pnr": "4521876390"}}
+    if len(tool_msgs) == 1:
+        return {"tool": "weather", "args": {"city": "Bengaluru"}}
+    return {"answer": "All set."}
+
+print(fake_model([]))
+print(fake_model([{"role": "tool", "content": "CNF"}]))`, R`{'tool': 'check_pnr', 'args': {'pnr': '4521876390'}}
+{'tool': 'weather', 'args': {'city': 'Bengaluru'}}`),
+  rd('Tools are plain functions in a dict', `<p>Look the tool up by name and call it with the model's arguments, using <code>**</code> from lesson 12.</p>`, R`def check_pnr(pnr):
+    return f"PNR {pnr}: CNF, coach S4, berth 32"
+
+def weather(city):
+    return f"{city}: 24 C, light drizzle"
+
+TOOLS = {"check_pnr": check_pnr, "weather": weather}
+call = {"tool": "weather", "args": {"city": "Bengaluru"}}
+print(TOOLS[call["tool"]](**call["args"]))`, R`Bengaluru: 24 C, light drizzle`),
+  rd('The whole loop, by hand', `<p>Ask the model. If it wants a tool, run it, add the result to the history and ask again. If it gives an answer, stop. <code>max_steps</code> stops a model that never finishes.</p>`, R`def check_pnr(pnr):
+    return f"PNR {pnr}: CNF, coach S4, berth 32"
+
+def weather(city):
+    return f"{city}: 24 C, light drizzle"
+
+TOOLS = {"check_pnr": check_pnr, "weather": weather}
+
+def fake_model(history):
+    tool_msgs = [m for m in history if m["role"] == "tool"]
+    if len(tool_msgs) == 0:
+        return {"tool": "check_pnr", "args": {"pnr": "4521876390"}}
+    if len(tool_msgs) == 1:
+        return {"tool": "weather", "args": {"city": "Bengaluru"}}
+    return {"answer": "Confirmed in S4, berth 32. Bengaluru has drizzle, so carry a jacket."}
+
+def run_agent(question, max_steps=5):
+    history = [{"role": "user", "content": question}]
+    for step in range(1, max_steps + 1):
+        reply = fake_model(history)
+        if "answer" in reply:
+            return reply["answer"]
+        result = TOOLS[reply["tool"]](**reply["args"])
+        print(f"step {step}: {reply['tool']} -> {result}")
+        history.append({"role": "tool", "content": result})
+    return "Stopped: too many steps"
+
+print(run_agent("Is my ticket confirmed, and what should I pack?"))`, R`step 1: check_pnr -> PNR 4521876390: CNF, coach S4, berth 32
+step 2: weather -> Bengaluru: 24 C, light drizzle
+Confirmed in S4, berth 32. Bengaluru has drizzle, so carry a jacket.`),
+  pr(R`def model(history):
+    return {"tool": "weather", "args": {"city": "Ooty"}}
+
+def run(max_steps=3):
+    for step in range(max_steps):
+        reply = model([])
+        if "answer" in reply:
+            return reply["answer"]
+    return "Stopped: too many steps"
+
+print(run())`, 'This model never gives an answer. What does run() print?', ['It loops forever','Stopped: too many steps','KeyError'], 1, 'The max_steps guard stops a model that never finishes. Every real agent needs one.'),
+  rd('Tools fail: send the error back', `<p>A wrong PNR or a missing tool must not crash the agent. Turn the problem into a message, and the model can fix its request on the next step.</p>`, R`def check_pnr(pnr):
+    if len(pnr) != 10:
+        raise ValueError("PNR must have 10 digits")
+    return "CNF"
+
+TOOLS = {"check_pnr": check_pnr}
+
+def run_tool(name, args):
+    if name not in TOOLS:
+        return f"Tool error: no tool called {name}"
+    try:
+        return TOOLS[name](**args)
+    except Exception as e:
+        return f"Tool error: {e}"
+
+print(run_tool("check_pnr", {"pnr": "45218"}))
+print(run_tool("book_flight", {}))
+print(run_tool("check_pnr", {"pnr": "4521876390"}))`, R`Tool error: PNR must have 10 digits
+Tool error: no tool called book_flight
+CNF`),
+  pr(null, 'The weather tool raises an exception mid-run. What should the loop do?', ['Crash the program','Turn it into a "Tool error: ..." message and let the model decide','Skip it without telling the model'], 1, 'The model can only react to what it sees. An error message lets it retry, try another tool or explain the problem.'),
+  rd('Nodes and edges (runs here)', `<p>LangGraph describes the same loop as a graph. Each <b>node</b> is a function that takes the state dict and returns it. An <b>edge</b> decides which node runs next. The edge from tools back to model is what makes it a loop.</p>`, R`def model_node(state):
+    if "weather" not in state:
+        state["next"] = "tools"
+    else:
+        state["answer"] = f"Pack for {state['weather']}."
+        state["next"] = "end"
+    return state
+
+def tools_node(state):
+    state["weather"] = "24 C, drizzle"
+    state["next"] = "model"
+    return state
+
+NODES = {"model": model_node, "tools": tools_node}
+state, node = {"question": "What should I pack for Bengaluru?"}, "model"
+while node != "end":
+    print("run", node)
+    state = NODES[node](state)
+    node = state["next"]
+print(state["answer"])`, R`run model
+run tools
+run model
+Pack for 24 C, drizzle.`),
+  rd('The same graph in LangGraph (run on your laptop)', `<p>Once you can write the loop by hand, LangGraph is just names for the parts: <code>StateGraph</code>, <code>add_node</code>, <code>add_edge</code> and a conditional edge that picks the next node.</p>`, R`from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+class State(TypedDict, total=False):
+    question: str
+    weather: str
+    answer: str
+
+def model_node(state: State) -> dict:
+    if "weather" not in state:
+        return {}
+    return {"answer": f"Pack for {state['weather']}."}
+
+def tools_node(state: State) -> dict:
+    return {"weather": "24 C, drizzle"}
+
+def route(state: State) -> str:
+    return "end" if "answer" in state else "tools"
+
+g = StateGraph(State)
+g.add_node("model", model_node)
+g.add_node("tools", tools_node)
+g.add_edge(START, "model")
+g.add_conditional_edges("model", route, {"tools": "tools", "end": END})
+g.add_edge("tools", "model")
+app = g.compile()
+print(app.invoke({"question": "What should I pack?"})["answer"])`),
+  rd('Now in an AI agent', `<p>Production agents add one more guard: tools that spend money or book things wait for the user to approve.</p>`, R`NEEDS_APPROVAL = {"book_cab", "pay"}
+
+def run_tool(name, args, approved=False):
+    if name in NEEDS_APPROVAL and not approved:
+        return f"Waiting for the user to approve {name}({args})"
+    return f"Done: {name}"
+
+print(run_tool("weather", {"city": "Bengaluru"}))
+print(run_tool("book_cab", {"to": "Majestic"}))
+print(run_tool("book_cab", {"to": "Majestic"}, approved=True))`, R`Done: weather
+Waiting for the user to approve book_cab({'to': 'Majestic'})
+Done: book_cab`),
+  lab('Game: Loop tracer', `<p>Answer each one before the scanner reveals it. Every answer comes with the reason.</p>`, 'game_46'),
+  task('Write the loop yourself: a pretend model, two tools and a max-steps guard.', R`def bus_times(city):
+    return f"Buses to {city}: 6 AM, 9 AM, 1 PM"
+
+def fare(city):
+    return f"Fare to {city}: Rs 450"
+
+TOOLS = {"bus_times": bus_times, "fare": fare}
+PLAN = [("bus_times", {"city": "Mysuru"}), ("fare", {"city": "Mysuru"})]
+
+def model(history):
+    used = len([m for m in history if m["role"] == "tool"])
+    if used < len(PLAN):
+        name, args = PLAN[used]
+        return {"tool": name, "args": args}
+    return {"answer": "Take the 6 AM bus to Mysuru. It costs Rs 450."}
+
+history = [{"role": "user", "content": "How do I get to Mysuru tomorrow?"}]
+for step in range(5):
+    reply = model(history)
+    if "answer" in reply:
+        print(reply["answer"])
+        break
+    result = TOOLS[reply["tool"]](**reply["args"])
+    print("tool:", result)
+    history.append({"role": "tool", "content": result})`)
+ ],
+ sum:[['history','The list of messages so far'],['model → tool call','The model asks; your code runs it'],['TOOLS[name](**args)','Dispatch by name'],['max_steps','Stop a loop that never ends'],['"Tool error: ..."','Send failures back to the model'],['Approval gate','Ask before spending or booking'],['LangGraph','Nodes, edges and state for the same loop']]};
+
 /* ============ Agent x-ray ============ */
 const AGENT = [
   ['import asyncio, json', 38, 'stdlib modules'],
@@ -2180,7 +3189,7 @@ const WEEKS = [
   ['Week 4','Part III: classes, attributes, methods, dunders, protocols.', 20],
   ['Week 5','Part IV: type hints, dataclasses, enums and a lot of Pydantic.', 28],
   ['Week 6','Part V: exceptions, retry, JSON, files, env vars, HTTP. Build a CLI chatbot with retries.', 32],
-  ['Weeks 7–8','Phases VI–VII: async, FastAPI, RAG, then write the agent loop by hand.', 0],
+  ['Weeks 7–8','Parts VI and VII: context managers, async, tests, FastAPI, LLM SDKs, RAG, then the agent loop by hand.', 39],
   ['Ongoing','Interview concept questions, plus 3 to 4 DSA problems each week.', 0]
 ];
 

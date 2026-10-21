@@ -69,11 +69,11 @@ export function mountCourse(root, { toggleTheme }) {
     // 3D stack: Part I at the bottom
     $('#stack').innerHTML = PARTS.map((p, i) => {
       const d = p.ch.filter(n => S.done[n]).length;
-      return `<div class="plate" tabindex="0" role="button" data-part="${p.id}" style="transform:translateZ(${i*62}px)" aria-label="Part ${p.roman}: ${esc(p.title)}">
+      return `<div class="plate" tabindex="0" role="button" data-part="${p.id}" style="transform:translateZ(${i*46}px)" aria-label="Part ${p.roman}: ${esc(p.title)}">
         <div class="pm"><b>PART ${p.roman}</b><span>${d}/${p.ch.length} learned · ${p.ch.reduce((a,n)=>a+L[n].mins,0)} min</span></div><div class="pt">${esc(p.title)}</div><div class="pbar"><i style="width:${d/p.ch.length*100}%"></i></div></div>`;
     }).join('');
     $$('#stack .plate').forEach((pl, i) => {
-      const base = i * 62;
+      const base = i * 46;
       const up = () => pl.style.transform = `translateZ(${base + 30}px) translateX(-10px)`;
       const down = () => pl.style.transform = `translateZ(${base}px)`;
       pl.onmouseenter = up; pl.onmouseleave = down; pl.onfocus = up; pl.onblur = down;

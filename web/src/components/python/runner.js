@@ -70,9 +70,13 @@ function limits(code){
   if (/\b(requests|httpx|urllib\.request|aiohttp)\b/.test(code)) out.push('Network calls are blocked in the browser runner. The rest of the code runs, but run the HTTP part on your laptop.');
   if (/\binput\s*\(/.test(code)) out.push('This code reads input. Type the input lines in the box below the editor.');
   if (/\bopen\s*\(|Path\(|read_text|load_dotenv/.test(code)) out.push('The browser has its own empty folder. Create the file first in your code (for example with Path("notes.txt").write_text("hi")), or run it on your laptop.');
-  if (/asyncio\.run\s*\(/.test(code)) out.push('In the browser, use "await main()" at the top level instead of asyncio.run(main()).');
+  if (/^\s*(import|from)\s+(fastapi|uvicorn|anthropic|openai|chromadb|langgraph)\b/m.test(code)) out.push('This library needs a server, an API key or a big download, so run this one on your laptop. The examples marked "runs here" work in the browser.');
+  if (/^\s*(import|from)\s+pytest\b/m.test(code)) out.push('Save this as test_something.py and run pytest in your terminal. Here it only defines the tests.');
   return out;
 }
+
+/** The browser already runs an event loop, so a top-level asyncio.run(x) becomes await x. */
+const forBrowser = code => code.replace(/^asyncio\.run\((.*)\)[ \t]*$/gm, 'await $1');
 
 /**
  * Mounts a runner into `el`.
@@ -168,7 +172,7 @@ export function mountRunner(el, { example, key, inline = false, autorun = false,
       else if (m.type === 'error'){ write(m.text, 'run-err'); finish('Error'); }
       else if (m.type === 'done'){ if (!out.textContent) write('(no output)', 'run-dim'); finish(`Done · ${m.ms} ms`); }
     });
-    try { getWorker().postMessage({ id: myId, code, stdin: input ? input.value : '' }); }
+    try { getWorker().postMessage({ id: myId, code: forBrowser(code), stdin: input ? input.value : '' }); }
     catch (e) { write('Could not start Python in this browser: ' + e.message, 'run-err'); finish(''); }
   }
   const reset = () => { ed.value = inline ? example : ''; save(); out.innerHTML = `<span class="run-dim">${DIM}</span>`; state.textContent = ''; ed.focus(); };
