@@ -3,7 +3,17 @@
 import { useState } from "react";
 
 import { Badge, BottomSheet, Button, StatusDot } from "@/components/ui";
-import { AUTOMATION, GROUPS, KIND_LABEL, STATUS_LABEL, monogram, type GroupFilter } from "@/features/toolkit/filter";
+import {
+  AUTOMATION,
+  GROUPS,
+  KIND_LABEL,
+  RECENT,
+  STATUS_LABEL,
+  inArea,
+  monogram,
+  recentTools,
+  type GroupFilter,
+} from "@/features/toolkit/filter";
 import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 import { site } from "@/lib/site";
 import { ToolDetail } from "./ToolDetail";
@@ -15,6 +25,11 @@ type Props = {
   grouped: boolean;
   /** The picked area; Automation spans the groups, so it shows as one section of its own. */
   area?: GroupFilter;
+  /**
+   * The full, unfiltered list: add "Recently added" on top and an Automation section at the end.
+   * Those tools also stay in their own area, so a tool can show up twice.
+   */
+  extras?: boolean;
   view: "cards" | "list";
   selected: string | null;
   onSelect: (slug: string) => void;
@@ -33,7 +48,7 @@ const TABLET = "(min-width: 640px) and (max-width: 1023px)";
  * The tool grid (or list) plus the details, which show up differently per screen:
  * desktop: sticky side panel · tablet: bottom sheet · phone: the card opens in place.
  */
-export function ToolResults({ tools, grouped, area, view, selected, onSelect, onClear, limit }: Props) {
+export function ToolResults({ tools, grouped, area, extras, view, selected, onSelect, onClear, limit }: Props) {
   const [openInline, setOpenInline] = useState<string | null>(null);
   const [sheet, setSheet] = useState<string | null>(null);
   // Areas opened with "Show all", and how many extra rows of the flat list are showing.
@@ -44,7 +59,11 @@ export function ToolResults({ tools, grouped, area, view, selected, onSelect, on
     ? [{ value: "all", title: "", sub: "", label: "", items: tools }]
     : area === "automation"
       ? [{ ...AUTOMATION, items: tools }]
-      : GROUPS.map((g) => ({ ...g, items: tools.filter((t) => t.group === g.value) })).filter((g) => g.items.length);
+      : [
+          ...(extras ? [{ ...RECENT, items: recentTools(tools) }] : []),
+          ...GROUPS.map((g) => ({ ...g, items: tools.filter((t) => t.group === g.value) })),
+          ...(extras ? [{ ...AUTOMATION, items: tools.filter((t) => inArea(t, "automation")) }] : []),
+        ].filter((g) => g.items.length);
   const visible = (g: (typeof groups)[number]) => {
     if (!limit) return g.items;
     if (!grouped) return g.items.slice(0, flatShown);

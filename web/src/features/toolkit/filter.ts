@@ -59,6 +59,19 @@ export const GROUP_CHIPS: { value: GroupFilter; label: string }[] = [
   { value: AUTOMATION.value, label: AUTOMATION.label },
 ];
 
+/** The newest tools (highest position = added last), shown first on the unfiltered Toolkit. */
+export const RECENT = {
+  value: "recent" as const,
+  label: "Recently added",
+  title: "Recently added",
+  sub: "The newest tools in the toolkit.",
+};
+export const RECENT_COUNT = 3;
+
+export function recentTools(tools: ToolWithDives[]): ToolWithDives[] {
+  return [...tools].sort((a, b) => b.position - a.position).slice(0, RECENT_COUNT);
+}
+
 /** Is the tool in this area? Automation goes by tag, the other areas by the tool's group. */
 export function inArea(t: ToolWithDives, area: GroupFilter): boolean {
   if (area === "all") return true;
