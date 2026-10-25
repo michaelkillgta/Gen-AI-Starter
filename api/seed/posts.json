@@ -1,5 +1,411 @@
 [
   {
+    "slug": "ai-automation-explained",
+    "category": "agents",
+    "title": "AI Automation Explained: Make AI Do the Busywork",
+    "excerpt": "Rules, AI agents, agent teams, RAG and browser automation: the 5 types of automation you should know, what each one is best for, and where to start.",
+    "cover": {
+      "text": "AI Automation",
+      "bg": "#211913",
+      "fg": "#F2A93B",
+      "image": {
+        "src": "/blog/ai-automation/traditional.webp",
+        "width": 1536,
+        "height": 1024,
+        "alt": "What is automation? A trigger (new email, form submitted, scheduled time or new data in an app) starts an automated process (read data, check rules, process it with AI if needed, prepare output), which performs actions (update a database, send an email, notify the team, create a record in another app). The outcome: faster, fewer errors, time saved. Below, the manual way (check email, copy data, update a file, send an email, repeat) next to the automated way (email arrives, the system does all the steps, work done)."
+      }
+    },
+    "featured": {
+      "stat": "AI Automation",
+      "caption": "the 5 types of automation, and where to start"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Imagine waking up and finding your emails sorted, your reports ready, your research done, and the boring, repetitive tasks already finished."
+      },
+      {
+        "type": "paragraph",
+        "text": "Sounds good, right? That's the idea behind ==AI automation==. Instead of doing every task by hand, you let technology handle the repetitive work while ==you focus on the things that actually need you==."
+      },
+      {
+        "type": "paragraph",
+        "text": "Let's break down the ==5 types of automation== you should know. 👇"
+      },
+      {
+        "type": "paragraph",
+        "text": "▶ My walkthrough video for this post is coming soon."
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "The goal isn't to use AI everywhere. It's to ==stop wasting human time on work that technology can handle reliably==: rules where rules work, AI only where understanding is needed."
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "n8n",
+            "href": "/toolkit/n8n"
+          },
+          {
+            "label": "LangGraph",
+            "href": "/toolkit/langgraph"
+          },
+          {
+            "label": "CrewAI",
+            "href": "/toolkit/crewai"
+          },
+          {
+            "label": "LlamaIndex",
+            "href": "/toolkit/llamaindex"
+          },
+          {
+            "label": "Playwright",
+            "href": "/toolkit/playwright"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Traditional automation",
+        "id": "part-1"
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-automation/traditional.webp",
+        "alt": "What is automation? A trigger (new email, form submitted, scheduled time or new data in an app) starts an automated process (read data, check rules, process it with AI if needed, prepare output), which performs actions (update a database, send an email, notify the team, create a record in another app). The outcome: faster, fewer errors, time saved. Below, the manual way (check email, copy data, update a file, send an email, repeat) next to the automated way (email arrives, the system does all the steps, work done).",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Think: \"If this happens, do that.\"** You set the rules once, and the system follows them every time."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Example:** A student in Coimbatore fills the college fest registration form. Their details are saved to a sheet, and a confirmation email goes out."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Form submitted",
+          "Save details",
+          "Send confirmation email"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "No AI required. Just ==predefined rules doing their job==. A workflow tool like n8n is made for this, and it can add an AI step when one is needed (see [CrewAI vs n8n](/blog/crewai-vs-n8n))."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Best for:** notifications, scheduled tasks, data entry and repetitive workflows."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "If the steps never change, you don't need AI. You need rules."
+      },
+      {
+        "type": "heading",
+        "text": "AI agent automation",
+        "id": "part-2"
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-automation/ai-agent.webp",
+        "alt": "AI agent automation: you give a goal in plain language (\"Summarize my unread emails and create a to-do list for today\"). The agent understands, plans, uses tools such as email, calendar, documents, web search, chat, a database or running code, then checks its results. You get an email summary, tasks added to your to-do list, a meeting scheduled if needed and the team notified.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Think: give AI a goal, not a list of every click.** An AI agent can understand your request, ==plan the steps, use tools== and work towards finishing the task."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Example:** Tell an agent, \"Summarize my important emails and create today's to-do list.\" It reads the emails you've allowed it to see, picks out what matters (the exam timetable, the internship reply) and prepares your list."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Understand",
+          "Plan",
+          "Use tools",
+          "Check results"
+        ],
+        "repeat": "Not done yet"
+      },
+      {
+        "type": "paragraph",
+        "text": "New to agents? Read [An AI Agent Is More Than a Chatbot](/blog/an-ai-agent-is-more-than-a-chatbot), then [LangGraph](/blog/langgraph-ai-agents-workflow) to see how the steps are built."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Best for:** research, personal assistants and multi-step tasks."
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Rules follow steps. An agent decides the steps."
+      },
+      {
+        "type": "heading",
+        "text": "Multi-agent automation",
+        "id": "part-3"
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-automation/multi-agent.webp",
+        "alt": "Multi-agent automation: you ask \"Research the top 3 competitors, analyze their features and pricing, and create a final report.\" A planner agent splits the work between a research agent (web search, reading pages), an analysis agent (compares features and pricing) and a writer agent (writes and formats the report). The result is a competitor analysis report with key findings, a feature comparison, pricing analysis and recommendations.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Think: one AI team, different jobs.** Instead of one agent handling everything, ==several specialised agents work together==."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Example:** You're starting a tiffin delivery service in Hyderabad and want to know how the three biggest competitors work."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "🔎 **Research agent** collects their menus, prices and reviews.",
+          "📊 **Analysis agent** compares features and pricing.",
+          "📝 **Writer agent** creates the final report."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Each agent has a role, and their results are combined. CrewAI is built around exactly this idea of roles ([CrewAI vs n8n](/blog/crewai-vs-n8n))."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Best for:** market research, complex analysis and content workflows."
+      },
+      {
+        "type": "callout",
+        "label": "Careful",
+        "text": "More agents means more cost and more ways to fail. Agents that share the same model can also share the same mistake ([Five Agents Agreeing Can Still Be One Mistake](/blog/five-agents-agreeing-can-still-be-one-mistake))."
+      },
+      {
+        "type": "heading",
+        "text": "Knowledge and RAG automation",
+        "id": "part-4"
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-automation/rag.webp",
+        "alt": "Knowledge and RAG automation: your knowledge sources (documents, websites, databases, Notion or Drive) are prepared (text extracted and split into chunks), stored as embeddings in a vector database, the most relevant chunks are retrieved for each question, and the AI generates an answer with sources. Example: \"What is our refund policy for international orders?\" answered with the policy PDF, the help centre and the company wiki as sources.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Think: give AI an open-book exam instead of making it guess.** RAG stands for ==Retrieval-Augmented Generation==. The system finds the relevant parts of your documents or knowledge base ==before== the AI answers."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Example:** A B.Tech student in Chennai asks, \"Explain Unit 3 of Operating Systems.\" The system pulls the matching pages from the course notes and uses them to write an answer grounded in that material."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "Prepare documents",
+          "Store",
+          "Retrieve relevant parts",
+          "Answer with sources"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "paragraph",
+        "text": "Good answers start with good parsing: see [Docling](/blog/docling-pdf-is-not-just-text) for turning PDFs into clean text, and [RAG-Anything](/blog/rag-anything-multimodal-rag) for documents full of images and tables."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Best for:** AI tutors, customer support, company knowledge bases and document search."
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "RAG improves access to the right information, but ==the answers still need checking==."
+      },
+      {
+        "type": "heading",
+        "text": "Browser and computer-use automation",
+        "id": "part-5"
+      },
+      {
+        "type": "image",
+        "src": "/blog/ai-automation/browser.webp",
+        "alt": "Browser and computer-use automation: you give a goal (\"Book a flight from Hyderabad to Bangalore next Friday and save the details in a sheet\"). The agent opens websites and apps, clicks, types and navigates like a person, fills the forms and finishes the task. You get the result: flight booked, details saved to a spreadsheet and a confirmation sent to your email.",
+        "width": 1536,
+        "height": 1024,
+        "caption": "An illustration of the idea."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Think: AI using your computer to get things done.** With the right tools and permissions, an AI agent can ==open websites, click buttons, fill forms and collect information==."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Example:** Tell an agent, \"Find the low-rated reviews of my restaurant in Madurai, sort them by rating and summarize the common complaints.\" It visits the review pages, gathers what it finds and prepares the summary."
+      },
+      {
+        "type": "paragraph",
+        "text": "Under the hood this is often Playwright. See [Playwright MCP](/blog/playwright-mcp-ai-controls-a-browser) to set it up in one line."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Best for:** browser tasks, form filling, research and website testing."
+      },
+      {
+        "type": "callout",
+        "label": "Use it responsibly",
+        "text": "Some websites don't allow automated browsing. Check their terms, start with your own site or a demo site, and never let an agent pay or book without your say-so."
+      },
+      {
+        "type": "heading",
+        "text": "How are they different?",
+        "id": "part-6"
+      },
+      {
+        "type": "cards",
+        "items": [
+          {
+            "title": "Traditional automation",
+            "text": "Follows predefined rules."
+          },
+          {
+            "title": "AI agent",
+            "text": "Works towards a goal using tools."
+          },
+          {
+            "title": "Multi-agent",
+            "text": "Divides the work among specialised agents."
+          },
+          {
+            "title": "RAG",
+            "text": "Finds the relevant information for the AI."
+          },
+          {
+            "title": "Browser automation",
+            "text": "Uses websites and apps for you."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "These aren't competing technologies. ==You can combine them==: a rule triggers an agent, the agent looks things up with RAG and finishes the job in a browser."
+      },
+      {
+        "type": "flow",
+        "items": [
+          "New email (rule)",
+          "Agent reads it",
+          "RAG finds the policy",
+          "Browser updates the order"
+        ],
+        "repeat": null
+      },
+      {
+        "type": "callout",
+        "label": "Takeaway",
+        "text": "Five tools in one box, not five rivals."
+      },
+      {
+        "type": "heading",
+        "text": "Tools worth exploring",
+        "id": "part-7"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[n8n](/toolkit/n8n): connect apps and automate workflows.",
+          "[LangGraph](/toolkit/langgraph): build multi-step AI agent systems.",
+          "[CrewAI](/toolkit/crewai): give a team of agents clear roles.",
+          "[LlamaIndex](/toolkit/llamaindex): build apps that use your own documents and data.",
+          "[Playwright](/toolkit/playwright): automate browsers and test websites.",
+          "**LLM APIs:** add language-model intelligence to your workflows (and [route between models](/blog/llm-routers-model-routing) to save cost)."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't need all of them. ==Pick tools based on the problem you're solving==. See them side by side in the [Automation area of the Toolkit](/toolkit?track=automation)."
+      },
+      {
+        "type": "heading",
+        "text": "Where should you start?",
+        "id": "part-8"
+      },
+      {
+        "type": "paragraph",
+        "text": "Start small:"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          "Automate ==one== repetitive task.",
+          "Add AI where understanding or summarizing is needed.",
+          "Connect tools so the system can take useful actions.",
+          "Add testing, monitoring and safety checks ([Promptfoo](/blog/ai-red-teaming-promptfoo), [Phoenix](/blog/arize-phoenix-ai-observability), and [knowing when to stop](/blog/why-your-agent-should-know-when-to-stop)).",
+          "Expand only when the workflow proves useful."
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Remember",
+        "text": "The goal isn't to use AI everywhere. It's to ==stop wasting human time on work that technology can handle reliably==: rules where rules work, AI only where understanding is needed."
+      },
+      {
+        "type": "paragraph",
+        "text": "Less busywork. More building. ⚡"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [CrewAI vs n8n](/blog/crewai-vs-n8n), [LangGraph](/blog/langgraph-ai-agents-workflow), [RAG-Anything](/blog/rag-anything-multimodal-rag) and [Playwright MCP](/blog/playwright-mcp-ai-controls-a-browser)."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[n8n docs](https://docs.n8n.io/): workflows, triggers and AI agent nodes.",
+          "[LangGraph docs](https://docs.langchain.com/oss/python/langgraph/overview): building agents as graphs.",
+          "[CrewAI docs](https://docs.crewai.com/): agents, tasks and crews.",
+          "[LlamaIndex docs](https://developers.llamaindex.ai/python/framework/): RAG over your own data.",
+          "[Playwright docs](https://playwright.dev/): browser automation and testing.",
+          "[Automation tools in our Toolkit](/toolkit?track=automation): our quick verdicts."
+        ]
+      }
+    ],
+    "published_on": "2026-10-26",
+    "learn": [
+      "The 5 types of automation, from simple rules to AI using a browser",
+      "When you need AI, and when plain rules are enough",
+      "Which tools fit each type",
+      "How to start small and grow safely"
+    ]
+  },
+  {
     "slug": "how-ai-actually-learns",
     "category": "learning-with-ai",
     "title": "How AI Actually Learns: I Taught a Computer With My Own Images",
@@ -2057,10 +2463,7 @@
         "alt": "Context7 MCP, one server, many AI tools: coding agents like Antigravity, Cursor, Codex and Claude connect to the Context7 MCP server, which looks up current library documentation and hands the relevant part back before the agent writes code."
       }
     },
-    "featured": {
-      "stat": "Context7",
-      "caption": "let your AI check the docs before coding"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {

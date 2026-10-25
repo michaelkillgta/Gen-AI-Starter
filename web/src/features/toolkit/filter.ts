@@ -5,7 +5,8 @@ import type { ToolStatus } from "@/lib/api-types/ToolStatus";
 import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 
 export type KindFilter = "all" | ToolKind;
-export type GroupFilter = "all" | ToolGroup;
+/** An area chip: one of the four groups, or "automation", which cuts across them (tools tagged "automation"). */
+export type GroupFilter = "all" | ToolGroup | "automation";
 export type SortOrder = "picks" | "az" | "type" | "cost";
 
 export const KIND_LABEL: Record<ToolKind, string> = {
@@ -44,10 +45,26 @@ export const GROUPS: { value: ToolGroup; label: string; title: string; sub: stri
   { value: "ship", label: "Build and ship", title: "Build, host and connect", sub: "Databases, deploys, UI and MCP servers." },
 ];
 
+/** The cross-cutting Automation area: workflows, agents, RAG and browser tools from any group. */
+export const AUTOMATION = {
+  value: "automation" as const,
+  label: "Automation",
+  title: "Automate the busywork",
+  sub: "Workflows, agents, RAG and browsers that do repetitive work for you.",
+};
+
 export const GROUP_CHIPS: { value: GroupFilter; label: string }[] = [
   { value: "all", label: "All" },
   ...GROUPS.map((g) => ({ value: g.value as GroupFilter, label: g.label })),
+  { value: AUTOMATION.value, label: AUTOMATION.label },
 ];
+
+/** Is the tool in this area? Automation goes by tag, the other areas by the tool's group. */
+export function inArea(t: ToolWithDives, area: GroupFilter): boolean {
+  if (area === "all") return true;
+  if (area === "automation") return t.tags.includes("automation");
+  return t.group === area;
+}
 
 const STATUS_RANK: Record<ToolStatus, number> = { using: 0, tested: 1, notes: 2 };
 
@@ -74,7 +91,7 @@ export function baseFilter(tools: ToolWithDives[], startLists: StartList[], quer
   return tools.filter(
     (t) =>
       (!start || start.tools.includes(t.slug)) &&
-      (!query.group || query.group === "all" || t.group === query.group) &&
+      inArea(t, query.group ?? "all") &&
       matchesSearch(t, query.q ?? ""),
   );
 }
@@ -127,8 +144,11 @@ export function groupCounts(tools: ToolWithDives[], startLists: StartList[], que
   const base = baseFilter(tools, startLists, { ...query, group: "all" }).filter(
     (t) => !query.kind || query.kind === "all" || t.kind === query.kind,
   );
-  const counts: Record<GroupFilter, number> = { all: base.length, foundations: 0, rag: 0, agents: 0, ship: 0 };
-  for (const t of base) counts[t.group] += 1;
+  const counts: Record<GroupFilter, number> = { all: base.length, foundations: 0, rag: 0, agents: 0, ship: 0, automation: 0 };
+  for (const t of base) {
+    counts[t.group] += 1;
+    if (inArea(t, "automation")) counts.automation += 1;
+  }
   return counts;
 }
 
@@ -142,6 +162,6 @@ export function isKind(v: string | null | undefined): v is ToolKind {
   return v === "tool" || v === "library" || v === "package" || v === "mcp";
 }
 
-export function isGroup(v: string | null | undefined): v is ToolGroup {
-  return v === "foundations" || v === "rag" || v === "agents" || v === "ship";
+export function isGroup(v: string | null | undefined): v is Exclude<GroupFilter, "all"> {
+  return v === "foundations" || v === "rag" || v === "agents" || v === "ship" || v === "automation";
 }

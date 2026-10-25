@@ -134,6 +134,7 @@ export function ToolkitExplorer({ tools, startLists, initial }: Props) {
         key={`${q}|${kind}|${group}|${sort}`}
         tools={shown}
         grouped={sort === "picks"}
+        area={group}
         view="cards"
         selected={selected}
         onSelect={setSelected}

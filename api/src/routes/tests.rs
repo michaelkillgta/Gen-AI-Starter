@@ -118,7 +118,7 @@ async fn health_is_ok() {
 async fn tools_include_deep_dive_links() {
     let (s, body) = get("/tools").await;
     assert_eq!(s, StatusCode::OK);
-    assert_eq!(body["tools"].as_array().unwrap().len(), 29);
+    assert_eq!(body["tools"].as_array().unwrap().len(), 31);
     let langgraph = body["tools"]
         .as_array()
         .unwrap()
@@ -203,9 +203,9 @@ async fn weekly_issue_has_tally() {
 #[tokio::test]
 async fn blog_filters_by_category() {
     let (_, all) = get("/posts").await;
-    assert_eq!(all["posts"].as_array().unwrap().len(), 34);
+    assert_eq!(all["posts"].as_array().unwrap().len(), 35);
     let (_, agents) = get("/posts?category=agents").await;
-    assert_eq!(agents["posts"].as_array().unwrap().len(), 15);
+    assert_eq!(agents["posts"].as_array().unwrap().len(), 16);
     assert_eq!(get("/posts?category=nope").await.0, StatusCode::NOT_FOUND);
     let (s, post) = get("/posts/memory-is-not-truth").await;
     assert_eq!(s, StatusCode::OK);

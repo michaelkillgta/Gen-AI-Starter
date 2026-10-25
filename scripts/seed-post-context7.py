@@ -193,8 +193,8 @@ POST = {
                "first. Here's how it works and how to connect it to Antigravity, Cursor, Codex and ChatGPT.",
     "cover": {"text": "Context7", "bg": "#211913", "fg": "#F2A93B",
               "image": {"src": f"{IMG}/one-server.webp", "width": 1536, "height": 1024, "alt": COVER_ALT}},
-    # Newest post with a "featured" line = the Featured box on /blog and the homepage card.
-    "featured": {"stat": "Context7", "caption": "let your AI check the docs before coding"},
+    # Was featured until the AI Automation post (26 Oct 2026).
+    "featured": None,
     "dive": None,
     "body": BODY,
     "published_on": "2026-10-09",

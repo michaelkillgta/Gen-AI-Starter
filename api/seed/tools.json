@@ -108,7 +108,8 @@
       "agents",
       "orchestration",
       "graph",
-      "state"
+      "state",
+      "automation"
     ],
     "position": 5
   },
@@ -129,7 +130,8 @@
     "tags": [
       "multi-agent",
       "roles",
-      "teams"
+      "teams",
+      "automation"
     ],
     "position": 6
   },
@@ -630,5 +632,50 @@
       "connector"
     ],
     "position": 29
+  },
+  {
+    "slug": "llamaindex",
+    "name": "LlamaIndex",
+    "kind": "library",
+    "group": "rag",
+    "short": "Connect an LLM to your own documents and data.",
+    "plain": "A framework for RAG apps: it loads your PDFs, notes and databases, splits and indexes them, and finds the right parts for the AI to answer from.",
+    "use_when": "You want a chatbot or agent that answers from your own notes, docs or company data.",
+    "skip_when": "Your data fits in one prompt. Just paste it in.",
+    "runs_on": "Your laptop, any server",
+    "cost": "Free, MIT licence; paid cloud parsing is optional",
+    "get_it": "pip install llama-index",
+    "status": "notes",
+    "note": "Uses OpenAI by default; you can switch to another provider or a free local model.",
+    "tags": [
+      "rag",
+      "documents",
+      "retrieval",
+      "index",
+      "automation"
+    ],
+    "position": 30
+  },
+  {
+    "slug": "playwright",
+    "name": "Playwright",
+    "kind": "library",
+    "group": "ship",
+    "short": "Code that drives a real browser: click, type, check.",
+    "plain": "Microsoft's browser automation library. Your script opens Chromium, Firefox or WebKit, clicks, types and reads the page, so you can test a site or automate a browser task.",
+    "use_when": "You want to test your web app's flows, or repeat the same browser steps every day.",
+    "skip_when": "The site has an API for what you need, or its terms don't allow automated browsing.",
+    "runs_on": "Your laptop, CI servers",
+    "cost": "Free, Apache 2.0",
+    "get_it": "npm init playwright@latest",
+    "status": "notes",
+    "note": "Also for Python (pip install playwright). Playwright MCP lets an AI agent use it for you.",
+    "tags": [
+      "browser",
+      "testing",
+      "automation",
+      "scraping"
+    ],
+    "position": 31
   }
 ]
