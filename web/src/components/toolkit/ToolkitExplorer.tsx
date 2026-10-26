@@ -84,7 +84,16 @@ export function ToolkitExplorer({ tools, startLists, initial }: Props) {
 
   return (
     <section className={`container ${styles.wrap}`} aria-labelledby="toolkit-results">
-      <KindExplainer value={kind} counts={counts} onChange={setKind} />
+      <KindExplainer
+        value={kind}
+        counts={counts}
+        onChange={setKind}
+        automation={{
+          on: group === "automation",
+          count: areaCounts.automation,
+          onToggle: () => setGroup(group === "automation" ? "all" : "automation"),
+        }}
+      />
 
       <div className={styles.toolbar}>
         <div className={styles.searchRow} ref={searchRef}>

@@ -12,17 +12,21 @@ const kinds: { tone: ToolKind; label: string; plural: string; text: string }[] =
   { tone: "mcp", label: "MCP server", plural: "MCP servers", text: "A plug that lets your AI assistant use another app, like GitHub or Notion." },
 ];
 
+/** Not a fifth type: a shortcut to the Automation area (tools, libraries and MCP servers that do busywork for you). */
+const AUTOMATION_TEXT = "Tools, libraries and MCP servers that do repetitive work for you, from workflows to browsers.";
+
 type Props = {
   value: KindFilter;
   counts: Record<KindFilter, number>;
   onChange: (kind: KindFilter) => void;
+  automation: { on: boolean; count: number; onToggle: () => void };
 };
 
 /**
- * What "Tool", "Library", "Package" and "MCP server" mean, in plain words.
- * Each card doubles as the type filter: click to show only that kind, again to show all.
+ * What "Tool", "Library", "Package" and "MCP server" mean, in plain words, plus an
+ * Automation card. Each card doubles as a filter: click to show only those, again to show all.
  */
-export function KindExplainer({ value, counts, onChange }: Props) {
+export function KindExplainer({ value, counts, onChange, automation }: Props) {
   return (
     <div className={styles.wrap}>
       <div role="group" aria-label="Filter by type" className={styles.grid}>
@@ -49,6 +53,23 @@ export function KindExplainer({ value, counts, onChange }: Props) {
             </button>
           );
         })}
+        <button
+          type="button"
+          aria-pressed={automation.on}
+          onClick={automation.onToggle}
+          className={automation.on ? `${styles.item} ${styles.wide} ${styles.on}` : `${styles.item} ${styles.wide}`}
+        >
+          <span className={styles.top}>
+            <Badge tone="automation">Automation</Badge>
+            <span className={styles.count}>
+              {automation.count} {automation.count === 1 ? "tool" : "tools"}
+            </span>
+          </span>
+          <span className={styles.text}>{AUTOMATION_TEXT}</span>
+          <span className={styles.cta} aria-hidden="true">
+            {automation.on ? "Showing only these · show all" : "Show only automation"}
+          </span>
+        </button>
       </div>
     </div>
   );

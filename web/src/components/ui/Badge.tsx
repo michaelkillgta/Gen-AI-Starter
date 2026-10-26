@@ -4,7 +4,7 @@ import { cx } from "./cx";
 import styles from "./Badge.module.css";
 
 export type BadgeTone =
-  | "tool" | "library" | "package" | "mcp"
+  | "tool" | "library" | "package" | "mcp" | "automation"
   | "use" | "wait" | "skip"
   | "neutral" | "dark" | "accent";
 
