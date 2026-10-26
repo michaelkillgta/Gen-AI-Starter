@@ -1,6 +1,5 @@
 """Adds (or updates) Uma's post "AI Automation Explained" in api/seed/posts.json, with her 5 infographics in
-web/public/blog/ai-automation/ (converted to WebP on 26 Oct 2026). Her video isn't out yet, so the post says it's
-coming soon; add a video block with its YouTube id when it is.
+web/public/blog/ai-automation/ (converted to WebP on 26 Oct 2026) and her walkthrough video (YouTube, added 26 Oct).
 
 Text: Uma's draft kept close, with Indian examples, links to the related posts and her comparison table shown as
 cards (the blog has no tables, and cards read better on phones). Facts checked on 26 Oct 2026 against PyPI and npm:
@@ -26,6 +25,9 @@ ROUTER_POST = "/blog/llm-routers-model-routing"
 PROMPTFOO_POST = "/blog/ai-red-teaming-promptfoo"
 PHOENIX_POST = "/blog/arize-phoenix-ai-observability"
 STOP_POST = "/blog/why-your-agent-should-know-when-to-stop"
+# Uma's own recording (YouTube title "Full Automation Vedio").
+VIDEO = "_mbnafGEW84"
+VIDEO_URL = f"https://youtu.be/{VIDEO}"
 
 
 def p(*lines):
@@ -82,7 +84,7 @@ BODY = [
        "Sounds good, right? That's the idea behind ==AI automation==. Instead of doing every task by hand, you let "
        "technology handle the repetitive work while ==you focus on the things that actually need you==.",
        "Let's break down the ==5 types of automation== you should know. 👇",
-       "▶ My walkthrough video for this post is coming soon."),
+       f"▶ [Watch my AI automation walkthrough](#video-{VIDEO})"),
     box("The one idea to remember", BIG_IDEA),
 
     h("Traditional automation", "part-1"),
@@ -179,6 +181,9 @@ BODY = [
        "things up with RAG and finishes the job in a browser."),
     flow("New email (rule)", "Agent reads it", "RAG finds the policy", "Browser updates the order"),
     takeaway("Five tools in one box, not five rivals."),
+    *p(f"**Watch it.** I walk through all five types in my video. You can also [watch it on YouTube]({VIDEO_URL})."),
+    {"type": "video", "youtube_id": VIDEO, "title": "AI Automation Explained (Uma's walkthrough video)",
+     "caption": "AI automation walkthrough"},
 
     h("Tools worth exploring", "part-7"),
     ul("[n8n](/toolkit/n8n): connect apps and automate workflows.",
@@ -210,6 +215,7 @@ BODY = [
        "[CrewAI docs](https://docs.crewai.com/): agents, tasks and crews.",
        "[LlamaIndex docs](https://developers.llamaindex.ai/python/framework/): RAG over your own data.",
        "[Playwright docs](https://playwright.dev/): browser automation and testing.",
+       f"[My walkthrough video]({VIDEO_URL}): all five types of automation, explained.",
        "[Automation tools in our Toolkit](/toolkit?track=automation): our quick verdicts."),
 ]
 

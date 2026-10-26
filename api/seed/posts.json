@@ -35,7 +35,7 @@
       },
       {
         "type": "paragraph",
-        "text": "▶ My walkthrough video for this post is coming soon."
+        "text": "▶ [Watch my AI automation walkthrough](#video-_mbnafGEW84)"
       },
       {
         "type": "callout",
@@ -326,6 +326,16 @@
         "text": "Five tools in one box, not five rivals."
       },
       {
+        "type": "paragraph",
+        "text": "**Watch it.** I walk through all five types in my video. You can also [watch it on YouTube](https://youtu.be/_mbnafGEW84)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "_mbnafGEW84",
+        "title": "AI Automation Explained (Uma's walkthrough video)",
+        "caption": "AI automation walkthrough"
+      },
+      {
         "type": "heading",
         "text": "Tools worth exploring",
         "id": "part-7"
@@ -393,6 +403,7 @@
           "[CrewAI docs](https://docs.crewai.com/): agents, tasks and crews.",
           "[LlamaIndex docs](https://developers.llamaindex.ai/python/framework/): RAG over your own data.",
           "[Playwright docs](https://playwright.dev/): browser automation and testing.",
+          "[My walkthrough video](https://youtu.be/_mbnafGEW84): all five types of automation, explained.",
           "[Automation tools in our Toolkit](/toolkit?track=automation): our quick verdicts."
         ]
       }
