@@ -12,21 +12,34 @@ const kinds: { tone: ToolKind; label: string; plural: string; text: string }[] =
   { tone: "mcp", label: "MCP server", plural: "MCP servers", text: "A plug that lets your AI assistant use another app, like GitHub or Notion." },
 ];
 
-/** Not a fifth type: a shortcut to the Automation area (tools, libraries and MCP servers that do busywork for you). */
-const AUTOMATION_TEXT = "Tools, libraries and MCP servers that do repetitive work for you, from workflows to browsers.";
+/** Not more types: shortcuts to the Automation and Security areas, which span the four types. */
+const AREAS = [
+  {
+    key: "automation",
+    label: "Automation",
+    text: "Tools, libraries and MCP servers that do repetitive work for you, from workflows to browsers.",
+  },
+  {
+    key: "security",
+    label: "Security",
+    text: "Tools that find leaked keys, insecure code and attack paths, and keep your AI agents safe.",
+  },
+] as const;
+
+type AreaToggle = { on: boolean; count: number; onToggle: () => void };
 
 type Props = {
   value: KindFilter;
   counts: Record<KindFilter, number>;
   onChange: (kind: KindFilter) => void;
-  automation: { on: boolean; count: number; onToggle: () => void };
+  areas: Record<(typeof AREAS)[number]["key"], AreaToggle>;
 };
 
 /**
- * What "Tool", "Library", "Package" and "MCP server" mean, in plain words, plus an
- * Automation card. Each card doubles as a filter: click to show only those, again to show all.
+ * What "Tool", "Library", "Package" and "MCP server" mean, in plain words, plus Automation
+ * and Security cards. Each card doubles as a filter: click to show only those, again to show all.
  */
-export function KindExplainer({ value, counts, onChange, automation }: Props) {
+export function KindExplainer({ value, counts, onChange, areas }: Props) {
   return (
     <div className={styles.wrap}>
       <div role="group" aria-label="Filter by type" className={styles.grid}>
@@ -53,23 +66,29 @@ export function KindExplainer({ value, counts, onChange, automation }: Props) {
             </button>
           );
         })}
-        <button
-          type="button"
-          aria-pressed={automation.on}
-          onClick={automation.onToggle}
-          className={automation.on ? `${styles.item} ${styles.wide} ${styles.on}` : `${styles.item} ${styles.wide}`}
-        >
-          <span className={styles.top}>
-            <Badge tone="automation">Automation</Badge>
-            <span className={styles.count}>
-              {automation.count} {automation.count === 1 ? "tool" : "tools"}
-            </span>
-          </span>
-          <span className={styles.text}>{AUTOMATION_TEXT}</span>
-          <span className={styles.cta} aria-hidden="true">
-            {automation.on ? "Showing only these · show all" : "Show only automation"}
-          </span>
-        </button>
+        {AREAS.map((a) => {
+          const { on, count, onToggle } = areas[a.key];
+          return (
+            <button
+              key={a.key}
+              type="button"
+              aria-pressed={on}
+              onClick={onToggle}
+              className={on ? `${styles.item} ${styles.on}` : styles.item}
+            >
+              <span className={styles.top}>
+                <Badge tone={a.key}>{a.label}</Badge>
+                <span className={styles.count}>
+                  {count} {count === 1 ? "tool" : "tools"}
+                </span>
+              </span>
+              <span className={styles.text}>{a.text}</span>
+              <span className={styles.cta} aria-hidden="true">
+                {on ? "Showing only these · show all" : `Show only ${a.label.toLowerCase()}`}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

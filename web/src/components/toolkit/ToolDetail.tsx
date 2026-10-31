@@ -79,7 +79,8 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
       {blog && (
         <div className={styles.fromBlog}>
           <span className={styles.label}>From {site.author.name}&rsquo;s blog</span>
-          <Link href={links.post(blog.slug)} className={styles.blogCard}>
+          {/* Straight to the post's section about this tool, when it has one. */}
+          <Link href={links.post(blog.slug) + (blog.anchor ? `#${blog.anchor}` : "")} className={styles.blogCard}>
             <span className={styles.blogIcon} aria-hidden="true">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
                 <path

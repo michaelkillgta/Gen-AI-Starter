@@ -131,6 +131,34 @@ function renderBlock(b: Block, i: number, stepTotal: number) {
           ))}
         </ul>
       );
+    case "table":
+      return (
+        // Phones: each row is a card, each cell labelled with its column (data-label).
+        <div key={i} className={styles.tableWrap}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                {b.header.map((h) => (
+                  <th key={h} scope="col">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {b.rows.map((row) => (
+                <tr key={row.join("|")}>
+                  {row.map((cell, n) => (
+                    <td key={n} data-label={b.header[n]}>
+                      <InlineText text={cell} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
     case "callout":
       return (
         // A paragraph reads better in body text than in the big display font.

@@ -67,6 +67,7 @@
   --type-package-bg: #f1f5f9; --type-package-fg: #334155;
   --type-mcp-bg: #f1eafe;     --type-mcp-fg: #6d28d9;
   --type-automation-bg: #ffedd5; --type-automation-fg: #9a3412;
+  --type-security-bg: #fee2e2; --type-security-fg: #991b1b;
 
   /* Tool status dots */
   --status-using: #15803d;
@@ -201,6 +202,7 @@
   --type-package-bg: #2a2f45; --type-package-fg: #c7d2fe;
   --type-mcp-bg: #3b1d3a;     --type-mcp-fg: #f9a8d4;
   --type-automation-bg: #3d2410; --type-automation-fg: #fdba74;
+  --type-security-bg: #3f1418; --type-security-fg: #fca5a5;
 
   /* Tool status dots */
   --status-using: #6ee7b7;

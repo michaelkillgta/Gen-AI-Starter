@@ -5,8 +5,11 @@ import type { ToolStatus } from "@/lib/api-types/ToolStatus";
 import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 
 export type KindFilter = "all" | ToolKind;
-/** An area chip: one of the four groups, or "automation", which cuts across them (tools tagged "automation"). */
-export type GroupFilter = "all" | ToolGroup | "automation";
+/**
+ * An area chip: one of the four groups, or "automation" / "security", which cut across them
+ * (tools tagged "automation" or "security").
+ */
+export type GroupFilter = "all" | ToolGroup | "automation" | "security";
 export type SortOrder = "picks" | "az" | "type" | "cost";
 
 export const KIND_LABEL: Record<ToolKind, string> = {
@@ -53,10 +56,21 @@ export const AUTOMATION = {
   sub: "Workflows, agents, RAG and browsers that do repetitive work for you.",
 };
 
+/** The cross-cutting Security area: tools that check your code, your app and your AI setup for holes. */
+export const SECURITY = {
+  value: "security" as const,
+  label: "Security",
+  title: "Check it before someone else does",
+  sub: "Find leaked keys, insecure code and attack paths, and keep your AI agents safe.",
+};
+
+/** The cross-cutting areas, each picked by its tag. */
+export const TAG_AREAS = [AUTOMATION, SECURITY];
+
 export const GROUP_CHIPS: { value: GroupFilter; label: string }[] = [
   { value: "all", label: "All" },
   ...GROUPS.map((g) => ({ value: g.value as GroupFilter, label: g.label })),
-  { value: AUTOMATION.value, label: AUTOMATION.label },
+  ...TAG_AREAS.map((a) => ({ value: a.value as GroupFilter, label: a.label })),
 ];
 
 /** The newest tools (highest position = added last), shown first on the unfiltered Toolkit. */
@@ -66,16 +80,21 @@ export const RECENT = {
   title: "Recently added",
   sub: "The newest tools in the toolkit.",
 };
-export const RECENT_COUNT = 3;
+/** The latest batch: the 10 security tools from Uma's security post. */
+export const RECENT_COUNT = 10;
 
+/** The newest tools, in the order they were added (so a batch reads like its blog post). */
 export function recentTools(tools: ToolWithDives[]): ToolWithDives[] {
-  return [...tools].sort((a, b) => b.position - a.position).slice(0, RECENT_COUNT);
+  return [...tools]
+    .sort((a, b) => b.position - a.position)
+    .slice(0, RECENT_COUNT)
+    .sort((a, b) => a.position - b.position);
 }
 
-/** Is the tool in this area? Automation goes by tag, the other areas by the tool's group. */
+/** Is the tool in this area? Automation and Security go by tag, the other areas by the tool's group. */
 export function inArea(t: ToolWithDives, area: GroupFilter): boolean {
   if (area === "all") return true;
-  if (area === "automation") return t.tags.includes("automation");
+  if (area === "automation" || area === "security") return t.tags.includes(area);
   return t.group === area;
 }
 
@@ -157,10 +176,18 @@ export function groupCounts(tools: ToolWithDives[], startLists: StartList[], que
   const base = baseFilter(tools, startLists, { ...query, group: "all" }).filter(
     (t) => !query.kind || query.kind === "all" || t.kind === query.kind,
   );
-  const counts: Record<GroupFilter, number> = { all: base.length, foundations: 0, rag: 0, agents: 0, ship: 0, automation: 0 };
+  const counts: Record<GroupFilter, number> = {
+    all: base.length,
+    foundations: 0,
+    rag: 0,
+    agents: 0,
+    ship: 0,
+    automation: 0,
+    security: 0,
+  };
   for (const t of base) {
     counts[t.group] += 1;
-    if (inArea(t, "automation")) counts.automation += 1;
+    for (const a of TAG_AREAS) if (inArea(t, a.value)) counts[a.value] += 1;
   }
   return counts;
 }
@@ -176,5 +203,7 @@ export function isKind(v: string | null | undefined): v is ToolKind {
 }
 
 export function isGroup(v: string | null | undefined): v is Exclude<GroupFilter, "all"> {
-  return v === "foundations" || v === "rag" || v === "agents" || v === "ship" || v === "automation";
+  return (
+    v === "foundations" || v === "rag" || v === "agents" || v === "ship" || v === "automation" || v === "security"
+  );
 }

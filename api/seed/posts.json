@@ -1,5 +1,833 @@
 [
   {
+    "slug": "open-source-security-tools",
+    "category": "staying-safe",
+    "title": "Your App Is Built. But Is It Secure? 10 Open-Source Security Tools",
+    "excerpt": "Your app works, but can you trust it? 10 open-source tools for AI code audits, pentesting, leaked keys, insecure code and AI agent safety, and which ones to start with.",
+    "cover": {
+      "text": "Security tools",
+      "bg": "#0F1B33",
+      "fg": "#7CB3FF",
+      "image": {
+        "src": "/blog/security-tools/ten-tools.webp",
+        "width": 1672,
+        "height": 941,
+        "alt": "10 open-source security tools: one security ecosystem, five different jobs. 1, AI-assisted code auditing: Cloudflare Security Audit (multi-agent code auditing), OWASP AppSec Agent (AI security reviews and fixes) and Trail of Bits (specialist security analysis). 2, AI agent and infrastructure security: NVIDIA SkillSpector (inspect AI skills before installation) and AI-Infra-Guard (assess AI infrastructure and agents). 3, source code security: Gitleaks (detect exposed secrets) and Semgrep (find insecure code patterns, like a possible SQL injection). 4, AI penetration testing: Strix (AI-powered application testing) and Shannon (autonomous exploit validation). 5, vulnerability scanning: Nuclei (scan for known vulnerabilities, with findings marked high, medium and low)."
+      }
+    },
+    "featured": {
+      "stat": "10 security tools",
+      "caption": "to check your app before someone else does"
+    },
+    "dive": null,
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "By **SecuRadar** · Discover. Understand. Experiment. Secure."
+      },
+      {
+        "type": "paragraph",
+        "text": "You've spent weeks on your app. Maybe it's your final-year project, a hackathon build or your first client work. Login works. The APIs answer. The database is connected. Your AI chatbot replies. ==Everything looks ready for launch.=="
+      },
+      {
+        "type": "paragraph",
+        "text": "Now the uncomfortable question: **what happens when someone tries to break it?**"
+      },
+      {
+        "type": "paragraph",
+        "text": "Can one user see another user's private data? Can someone steal your API keys? Can an attacker trick your AI agent into doing something it shouldn't?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Passing your tests doesn't make an app secure. And now that AI coding agents help us build faster, ==security needs the same attention as building==. The good news: there are some genuinely useful open-source tools for this. We explored 10 of them: what each one does, and where it fits in your workflow. 👇"
+      },
+      {
+        "type": "callout",
+        "label": "The one idea to remember",
+        "text": "Passing your tests doesn't make your app safe. ==Check what you build before someone else does.=="
+      },
+      {
+        "type": "links",
+        "label": "Tools used",
+        "items": [
+          {
+            "label": "Cloudflare Security Audit",
+            "href": "/toolkit/cloudflare-audit"
+          },
+          {
+            "label": "Strix",
+            "href": "/toolkit/strix"
+          },
+          {
+            "label": "Shannon",
+            "href": "/toolkit/shannon"
+          },
+          {
+            "label": "OWASP AppSec Agent",
+            "href": "/toolkit/owasp-appsec-agent"
+          },
+          {
+            "label": "Trail of Bits",
+            "href": "/toolkit/trailofbits-skills"
+          },
+          {
+            "label": "NVIDIA SkillSpector",
+            "href": "/toolkit/skillspector"
+          },
+          {
+            "label": "AI-Infra-Guard",
+            "href": "/toolkit/ai-infra-guard"
+          },
+          {
+            "label": "Gitleaks",
+            "href": "/toolkit/gitleaks"
+          },
+          {
+            "label": "Semgrep",
+            "href": "/toolkit/semgrep"
+          },
+          {
+            "label": "Nuclei",
+            "href": "/toolkit/nuclei"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "⚡ The 30-second overview",
+        "id": "overview"
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't need ten tools running at once. ==Each one solves a different problem.== Tap a tool to jump to it."
+      },
+      {
+        "type": "table",
+        "header": [
+          "What do you want to protect?",
+          "Tool to explore"
+        ],
+        "rows": [
+          [
+            "Your source code",
+            "[Cloudflare Security Audit](#cloudflare)"
+          ],
+          [
+            "Your running app",
+            "[Strix](#strix)"
+          ],
+          [
+            "Your app against real exploits",
+            "[Shannon](#shannon)"
+          ],
+          [
+            "Your pull requests and security design",
+            "[OWASP AppSec Agent](#owasp-appsec-agent)"
+          ],
+          [
+            "Advanced security research",
+            "[Trail of Bits](#trailofbits-skills)"
+          ],
+          [
+            "AI coding-agent skills",
+            "[NVIDIA SkillSpector](#skillspector)"
+          ],
+          [
+            "AI infrastructure and MCP servers",
+            "[AI-Infra-Guard](#ai-infra-guard)"
+          ],
+          [
+            "API keys and passwords",
+            "[Gitleaks](#gitleaks)"
+          ],
+          [
+            "Insecure coding patterns",
+            "[Semgrep](#semgrep)"
+          ],
+          [
+            "Exposed services and known bugs",
+            "[Nuclei](#nuclei)"
+          ]
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "🧠 1. Cloudflare Security Audit: give your coding agent a security team",
+        "id": "cloudflare"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Ask one AI agent to check your app and it might find a bug. But what if it misread the code?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Cloudflare's open-source ==security-audit skill== runs a structured audit with several agents instead:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "One phase maps your app: its architecture and where data comes in.",
+          "Other agents hunt for vulnerabilities, each in its own area.",
+          "Every possible finding goes to a ==fresh agent that tries to disprove it==.",
+          "The results become a structured report.",
+          "A coverage tracker shows which parts still need a look."
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/blog/security-tools/cloudflare-workflow.webp",
+        "alt": "Inside Cloudflare's multi-agent security audit, in 5 steps. 1, reconnaissance: understand the codebase, its architecture, data flow and trust boundaries. 2, vulnerability hunting: agents A (authentication), B (API endpoints and database access) and C (input validation and secrets) investigate in parallel. 3, candidate findings with evidence, such as a possible authorization bypass, a possible SQL injection and a hard-coded API key. 4, independent verification: a separate agent tries to disprove each finding, marking it confirmed or rejected. 5, final report: 5 confirmed, 3 need validation, 7 rejected, with details, code references, reproduction steps and fixes. Below, a coverage tracker shows which areas were checked and which were not.",
+        "width": 1672,
+        "height": 941,
+        "caption": "How Cloudflare's skill finds, checks and reports security issues."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Example:** an agent thinks a normal user can open another user's private records. A separate verifier checks whether that's really possible, or whether the first agent misunderstood the login rules."
+      },
+      {
+        "type": "paragraph",
+        "text": "Every finding ends up in one of three groups:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "**Confirmed:** the evidence shows a real vulnerability.",
+          "**Needs validation:** more evidence is needed.",
+          "**Rejected:** the suspected issue didn't hold up."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Why care?** Finding a problem is only half the job. ==Knowing whether it's real matters just as much.== (It's the same lesson as [Five Agents Agreeing Can Still Be One Mistake](/blog/five-agents-agreeing-can-still-be-one-mistake).)"
+      },
+      {
+        "type": "paragraph",
+        "text": "**What you need:** a coding agent (like Claude Code or Codex) whose model can use tools and run sub-agents, and Node.js for checking the report. No Cloudflare account needed."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Try it yourself.** Open PowerShell or the VS Code terminal and check that Node.js is installed:"
+      },
+      {
+        "type": "code",
+        "language": "powershell",
+        "code": "node -v\nnpm -v"
+      },
+      {
+        "type": "paragraph",
+        "text": "Install the skill (pick your coding agent if the installer asks):"
+      },
+      {
+        "type": "code",
+        "language": "powershell",
+        "code": "npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global"
+      },
+      {
+        "type": "paragraph",
+        "text": "Go to your project and start your coding agent there:"
+      },
+      {
+        "type": "code",
+        "language": "powershell",
+        "code": "cd C:\\Users\\YourName\\Desktop\\your-project"
+      },
+      {
+        "type": "paragraph",
+        "text": "Then ask it for an audit:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "Perform a security audit of this repository\nusing the Cloudflare security-audit skill.\n\nFocus on:\n1. Authentication and authorization.\n2. API security.\n3. Database access and user isolation.\n4. Secret management.\n5. Input validation.\n6. Dependency vulnerabilities.\n\nDo not modify application source code.\nDo not access production services.\nDo not expose credentials.\n\nSeparate confirmed findings from issues\nthat need further validation.\n\nGenerate a structured security report."
+      },
+      {
+        "type": "callout",
+        "label": "Safety note",
+        "text": "Reading the source is safe. But running builds, tests or the project's own scripts needs a real sandbox: no internet, a clean set of environment variables, read-only source and resource limits. PowerShell on its own is not that sandbox. Without one, ask the agent to leave those findings as \"needs validation\"."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Our take:** ==the best place to start==. It's the tool for our first hands-on experiment."
+      },
+      {
+        "type": "heading",
+        "text": "🕵️ 2. Strix: what if someone actually attacks your app?",
+        "id": "strix"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [usestrix/strix](https://github.com/usestrix/strix)"
+      },
+      {
+        "type": "paragraph",
+        "text": "A normal code review reads your source code. ==Strix goes further: it uses your running app and tries to break in==, like a real attacker would."
+      },
+      {
+        "type": "paragraph",
+        "text": "Take a login page. Can someone skip the login? Change a request to see data they shouldn't? Reach pages meant only for admins? Strix's AI agents test exactly these things and report what they could exploit."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** testing how your app behaves, not just how its code looks."
+      },
+      {
+        "type": "paragraph",
+        "text": "**What you need:** Docker and an API key from a supported AI provider. On Windows, run it inside WSL."
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "pipx install strix-agent\nstrix --target ./your-app"
+      },
+      {
+        "type": "heading",
+        "text": "💥 3. Shannon: can AI find and prove an exploit?",
+        "id": "shannon"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [KeygraphHQ/shannon](https://github.com/KeygraphHQ/shannon)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Shannon is an ==autonomous AI pentester== for web apps and APIs. It reads your source code to find attack paths, then tries real exploits against your app."
+      },
+      {
+        "type": "paragraph",
+        "text": "So instead of saying \"there might be a login bug here\", it tries to ==prove== the bug can be used, and gives you the evidence."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** a deeper test before a big release."
+      },
+      {
+        "type": "paragraph",
+        "text": "**What you need:** Docker, Node.js 18+ and a key for a supported AI model."
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "npx @keygraph/shannon@latest setup"
+      },
+      {
+        "type": "callout",
+        "label": "Careful",
+        "text": "Shannon really runs attacks. ==Use it only on apps you own, in a safe test copy==, never on a live site."
+      },
+      {
+        "type": "heading",
+        "text": "🛡️ 4. OWASP AppSec Agent: security reviews while you build",
+        "id": "owasp-appsec-agent"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [OWASP/appsec-agent](https://github.com/OWASP/appsec-agent)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Security shouldn't wait until launch day. OWASP AppSec Agent gives you ready-made AI agents for everyday security work:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Full repository security reviews.",
+          "Pull request security reviews.",
+          "Threat modelling (what could go wrong, and how).",
+          "Checking whether a finding is real.",
+          "Writing a fix, then testing that it didn't break anything."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The clever part is the ==adversarial review==: one agent finds possible problems, another challenges them and drops the ones without a real attack path."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** making security part of every pull request."
+      },
+      {
+        "type": "paragraph",
+        "text": "**What you need:** Node.js 18+ and a model API key (Claude, Codex or DeepInfra)."
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "npm install -g appsec-agent\nagent-run -r code_reviewer -s ./src"
+      },
+      {
+        "type": "heading",
+        "text": "🔬 5. Trail of Bits: specialist tools for serious investigation",
+        "id": "trailofbits-skills"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [trailofbits/skills](https://github.com/trailofbits/skills)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Sometimes a general review isn't enough. You found one bug, and now you're wondering: ==does the same mistake exist anywhere else in my code?=="
+      },
+      {
+        "type": "paragraph",
+        "text": "Trail of Bits, a well-known security audit firm, shares skills and plugins for exactly this kind of deeper work:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Code auditing.",
+          "Static analysis (with tools like CodeQL and Semgrep).",
+          "Variant analysis: finding similar bugs across your code.",
+          "Security testing.",
+          "Smart contract audits.",
+          "GitHub Actions security."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** developers and security researchers who want specialist techniques."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Install in Claude Code:**"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "/plugin marketplace add trailofbits/skills"
+      },
+      {
+        "type": "paragraph",
+        "text": "Using Codex? The repo shows the matching Codex command too."
+      },
+      {
+        "type": "heading",
+        "text": "🤖 6. NVIDIA SkillSpector: check that AI skill before you install it",
+        "id": "skillspector"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [NVIDIA/skillspector](https://github.com/NVIDIA/skillspector)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Here's a risk many AI developers miss. You find a useful-looking AI skill on GitHub and install it. It can now ==run commands and touch your project files==. But did you check what's inside?"
+      },
+      {
+        "type": "paragraph",
+        "text": "NVIDIA SkillSpector scans agent skills ==before== you install them. It looks for suspicious code, malicious patterns, prompt injection, data leaks and other risks."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** Claude Code, Codex, MCP and other skill-based setups."
+      },
+      {
+        "type": "paragraph",
+        "text": "**What you need:** Python 3.12+. The quick static scan needs ==no AI key==; an optional deeper scan can use a model."
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "uv tool install git+https://github.com/NVIDIA/skillspector.git\nskillspector scan ./my-skill/ --no-llm"
+      },
+      {
+        "type": "heading",
+        "text": "🧩 7. AI-Infra-Guard: protect the AI setup itself",
+        "id": "ai-infra-guard"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [Tencent/AI-Infra-Guard](https://github.com/Tencent/AI-Infra-Guard)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Your app might be safe. But what about the AI around it? Say your agent connects to:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "MCP servers.",
+          "External APIs.",
+          "Databases.",
+          "Other AI agents.",
+          "Third-party skills."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "==Every connection is one more door to guard.== (New to MCP? Read [MCP Explained](/blog/mcp-explained).)"
+      },
+      {
+        "type": "paragraph",
+        "text": "AI-Infra-Guard, from Tencent, is an AI red-teaming platform with one dashboard for scanning agents, skills and MCP servers, checking AI infrastructure for known bugs and testing how easily a model can be jailbroken."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** anyone building AI agents, MCP apps or LLM infrastructure."
+      },
+      {
+        "type": "paragraph",
+        "text": "**What you need:** Docker (4 GB RAM, 10 GB disk). Some AI checks need a model key, but not every scanner does."
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "git clone https://github.com/Tencent/AI-Infra-Guard.git\ncd AI-Infra-Guard\ndocker compose -f docker-compose.images.yml up -d\n# then open http://localhost:8088"
+      },
+      {
+        "type": "callout",
+        "label": "Careful",
+        "text": "The repo warns that the platform ==has no login yet==. Keep it on your own machine or a private network, and never put it on the public internet."
+      },
+      {
+        "type": "heading",
+        "text": "🔑 8. Gitleaks: did you accidentally publish your API keys?",
+        "id": "gitleaks"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [gitleaks/gitleaks](https://github.com/gitleaks/gitleaks)"
+      },
+      {
+        "type": "paragraph",
+        "text": "This is one of the simplest checks every developer should use. Imagine pushing this file to GitHub:"
+      },
+      {
+        "type": "code",
+        "language": "text",
+        "code": "OPENAI_API_KEY=your-real-key\nDATABASE_PASSWORD=your-password\nSUPABASE_SERVICE_ROLE_KEY=your-secret"
+      },
+      {
+        "type": "paragraph",
+        "text": "Deleting it later ==doesn't remove it from your Git history==. Anyone who clones the repo can still find it."
+      },
+      {
+        "type": "paragraph",
+        "text": "Gitleaks scans your repo, folders and old commits for leaked keys, tokens and passwords."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** every developer, from day one. (Also read [Don't Let AI Generate Your Passwords](/blog/dont-let-ai-generate-your-passwords).)"
+      },
+      {
+        "type": "paragraph",
+        "text": "**No AI key needed.**"
+      },
+      {
+        "type": "code",
+        "language": "powershell",
+        "code": "winget install Gitleaks.Gitleaks\ngitleaks git ."
+      },
+      {
+        "type": "heading",
+        "text": "🧪 9. Semgrep: find insecure patterns in your code",
+        "id": "semgrep"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [semgrep/semgrep](https://github.com/semgrep/semgrep)"
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't always need an AI agent to find a security bug. Sometimes ==clear, repeatable rules== are exactly right."
+      },
+      {
+        "type": "paragraph",
+        "text": "Semgrep scans your code in 30+ languages and flags patterns linked to vulnerabilities, such as:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "SQL injection patterns.",
+          "Unsafe handling of user input.",
+          "Dangerous functions.",
+          "Hard-coded secrets.",
+          "Other weak spots."
+        ]
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "pip install semgrep\nsemgrep scan --config auto ."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** regular checks, your daily workflow and CI/CD pipelines."
+      },
+      {
+        "type": "paragraph",
+        "text": "The free open-source version is great for starting out. It checks one file at a time, so it misses some bugs that Semgrep's paid platform can follow across files."
+      },
+      {
+        "type": "heading",
+        "text": "🌐 10. Nuclei: check your running app for known bugs",
+        "id": "nuclei"
+      },
+      {
+        "type": "paragraph",
+        "text": "**GitHub:** [projectdiscovery/nuclei](https://github.com/projectdiscovery/nuclei)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Your code might look clean, but your running app could still expose:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Old software with known bugs.",
+          "Misconfigured endpoints.",
+          "Exposed services and admin panels.",
+          "Known CVEs (publicly listed vulnerabilities).",
+          "Other easy-to-spot problems."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Nuclei is a ==template-based scanner==. It uses thousands of community-written templates to check the targets you choose."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Try it on your own staging site:**"
+      },
+      {
+        "type": "code",
+        "language": "bash",
+        "code": "nuclei -u https://your-authorized-staging-domain.com"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Useful for:** infrastructure checks and finding known bugs in running apps. **No AI key needed.**"
+      },
+      {
+        "type": "callout",
+        "label": "Careful",
+        "text": "==Never scan a site or server you don't own or have permission to test.== It can be illegal."
+      },
+      {
+        "type": "heading",
+        "text": "🔄 How do all 10 tools work together?",
+        "id": "workflow"
+      },
+      {
+        "type": "paragraph",
+        "text": "Now let's put them into a real workflow. Say you're building a Next.js app with Supabase, a Python API and an AI assistant. Here's how you could protect it:"
+      },
+      {
+        "type": "image",
+        "src": "/blog/security-tools/workflow.webp",
+        "alt": "From first commit to secure release, a workflow with 10 open-source tools. 1, before installation: trust your development tools, check AI skills with NVIDIA SkillSpector. 2, during development: protect the code, Gitleaks finds exposed API keys and Semgrep finds insecure patterns. 3, review and investigate: Cloudflare Security Audit, OWASP AppSec Agent and Trail of Bits. 4, AI infrastructure: AI-Infra-Guard checks agents, MCP servers, APIs, databases and tools. 5, pre-release testing: Strix, Shannon and Nuclei. The loop: develop, commit, read the security findings, fix, re-test, then release with confidence.",
+        "width": 1672,
+        "height": 941,
+        "caption": "From first commit to secure release: where each tool fits."
+      },
+      {
+        "type": "table",
+        "header": [
+          "Stage",
+          "Tool",
+          "What happens"
+        ],
+        "rows": [
+          [
+            "Before installing AI skills",
+            "[NVIDIA SkillSpector](#skillspector)",
+            "Check outside skills"
+          ],
+          [
+            "Every commit",
+            "[Gitleaks](#gitleaks)",
+            "Catch leaked secrets"
+          ],
+          [
+            "While coding",
+            "[Semgrep](#semgrep)",
+            "Find insecure code patterns"
+          ],
+          [
+            "During development",
+            "[OWASP AppSec Agent](#owasp-appsec-agent)",
+            "Review code and threats"
+          ],
+          [
+            "Deep code review",
+            "[Cloudflare](#cloudflare)",
+            "Multi-agent security audit"
+          ],
+          [
+            "Specialist investigation",
+            "[Trail of Bits](#trailofbits-skills)",
+            "Find related bugs"
+          ],
+          [
+            "AI infrastructure checks",
+            "[AI-Infra-Guard](#ai-infra-guard)",
+            "Check agents and MCP"
+          ],
+          [
+            "Before release",
+            "[Strix](#strix) or [Shannon](#shannon)",
+            "Try controlled attacks"
+          ],
+          [
+            "Staging check",
+            "[Nuclei](#nuclei)",
+            "Look for known bugs"
+          ]
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "You don't need everything on every commit. ==Start with Gitleaks and Semgrep==, add Cloudflare for deeper reviews, and bring in the specialist tools as your app grows."
+      },
+      {
+        "type": "heading",
+        "text": "💡 Which tools should you start with?",
+        "id": "start-here"
+      },
+      {
+        "type": "paragraph",
+        "text": "Don't install ten tools just because they're on this list. Choose by what you're building:"
+      },
+      {
+        "type": "table",
+        "header": [
+          "Your situation",
+          "Start here"
+        ],
+        "rows": [
+          [
+            "Building a normal web app",
+            "[Gitleaks](#gitleaks) + [Semgrep](#semgrep)"
+          ],
+          [
+            "Building with Claude Code or Codex",
+            "[Cloudflare](#cloudflare)"
+          ],
+          [
+            "Building AI agents or MCP servers",
+            "[SkillSpector](#skillspector) + [AI-Infra-Guard](#ai-infra-guard)"
+          ],
+          [
+            "Testing a running website",
+            "[Strix](#strix)"
+          ],
+          [
+            "Doing a deeper penetration test",
+            "[Shannon](#shannon)"
+          ],
+          [
+            "Digging into tricky code bugs",
+            "[Trail of Bits](#trailofbits-skills)"
+          ],
+          [
+            "Adding security to code reviews",
+            "[OWASP AppSec Agent](#owasp-appsec-agent)"
+          ],
+          [
+            "Checking exposed servers",
+            "[Nuclei](#nuclei)"
+          ]
+        ]
+      },
+      {
+        "type": "callout",
+        "label": "Our starter stack",
+        "text": "==Gitleaks + Semgrep + Cloudflare.== Fixed rules plus an AI-assisted code audit, without paying for a separate AI pentesting platform on day one."
+      },
+      {
+        "type": "heading",
+        "text": "🧪 Want to experiment with us?",
+        "id": "experiment"
+      },
+      {
+        "type": "paragraph",
+        "text": "We're starting with Cloudflare Security Audit. The plan is simple:"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          "Pick a local app you own.",
+          "Install the security-audit skill.",
+          "Run a read-only source audit.",
+          "Understand the findings.",
+          "Check which issues can really be exploited.",
+          "Write down the results and possible fixes."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "We'll share the setup, commands, screenshots, what we saw and what we learned. You can run the same experiment on your own project. **Start here:** [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill)."
+      },
+      {
+        "type": "heading",
+        "text": "The final thought",
+        "id": "final-thought"
+      },
+      {
+        "type": "paragraph",
+        "text": "Security isn't something to think about only after something goes wrong. You don't need a big company's security team to build safer software. ==You need the right tools, a little curiosity and the habit of checking what you build.=="
+      },
+      {
+        "type": "paragraph",
+        "text": "AI helps us build faster. Let's make sure it also helps us build safer."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Build fast. Check carefully. Ship responsibly.** 🔐"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Also read:** [Red Teaming with Promptfoo](/blog/ai-red-teaming-promptfoo), [MCP Explained](/blog/mcp-explained) and [Don't Let AI Generate Your Passwords](/blog/dont-let-ai-generate-your-passwords)."
+      },
+      {
+        "type": "callout",
+        "label": "Disclaimer",
+        "text": "This post is for learning and defensive security. Tools and their requirements change, so always check the official docs. ==Test only systems you own or have permission to test==, and check every finding yourself."
+      },
+      {
+        "type": "heading",
+        "text": "Resources",
+        "id": null
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Cloudflare Security Audit](https://github.com/cloudflare/security-audit-skill): multi-agent code audit skill.",
+          "[Strix](https://github.com/usestrix/strix): AI penetration testing for running apps.",
+          "[Shannon](https://github.com/KeygraphHQ/shannon): autonomous AI pentester that proves exploits.",
+          "[OWASP AppSec Agent](https://github.com/OWASP/appsec-agent): AI agents for code, PR and threat-model reviews.",
+          "[Trail of Bits](https://github.com/trailofbits/skills): specialist security skills and plugins.",
+          "[NVIDIA SkillSpector](https://github.com/NVIDIA/skillspector): scan AI agent skills before installing them.",
+          "[AI-Infra-Guard](https://github.com/Tencent/AI-Infra-Guard): AI red-teaming platform for agents, MCP and skills.",
+          "[Gitleaks](https://github.com/gitleaks/gitleaks): find leaked secrets in Git.",
+          "[Semgrep](https://github.com/semgrep/semgrep): rule-based code scanning.",
+          "[Nuclei](https://github.com/projectdiscovery/nuclei): template-based vulnerability scanner.",
+          "[All 10 in our Toolkit](/toolkit?track=security): our quick notes on each tool."
+        ]
+      }
+    ],
+    "published_on": "2026-10-31",
+    "learn": [
+      "Why a working app isn't the same as a secure one",
+      "What each of the 10 tools checks, and what it needs",
+      "Where each tool fits, from first commit to release",
+      "Which 2 or 3 tools to start with"
+    ]
+  },
+  {
     "slug": "ai-automation-explained",
     "category": "agents",
     "title": "AI Automation Explained: Make AI Do the Busywork",
@@ -15,10 +843,7 @@
         "alt": "What is automation? A trigger (new email, form submitted, scheduled time or new data in an app) starts an automated process (read data, check rules, process it with AI if needed, prepare output), which performs actions (update a database, send an email, notify the team, create a record in another app). The outcome: faster, fewer errors, time saved. Below, the manual way (check email, copy data, update a file, send an email, repeat) next to the automated way (email arrives, the system does all the steps, work done)."
       }
     },
-    "featured": {
-      "stat": "AI Automation",
-      "caption": "the 5 types of automation, and where to start"
-    },
+    "featured": null,
     "dive": null,
     "body": [
       {

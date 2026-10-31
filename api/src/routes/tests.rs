@@ -118,7 +118,7 @@ async fn health_is_ok() {
 async fn tools_include_deep_dive_links() {
     let (s, body) = get("/tools").await;
     assert_eq!(s, StatusCode::OK);
-    assert_eq!(body["tools"].as_array().unwrap().len(), 31);
+    assert_eq!(body["tools"].as_array().unwrap().len(), 41);
     let langgraph = body["tools"]
         .as_array()
         .unwrap()
@@ -128,6 +128,17 @@ async fn tools_include_deep_dive_links() {
     assert!(!langgraph["dives"].as_array().unwrap().is_empty());
     assert_eq!(get("/tools/docling").await.0, StatusCode::OK);
     assert_eq!(get("/tools/nope").await.0, StatusCode::NOT_FOUND);
+}
+
+#[tokio::test]
+async fn tool_post_links_jump_to_the_tools_section() {
+    // The security post has a section per tool (heading id = tool slug); Cloudflare opens at the top.
+    let (_, gitleaks) = get("/tools/gitleaks").await;
+    assert_eq!(gitleaks["posts"][0]["slug"], "open-source-security-tools");
+    assert_eq!(gitleaks["posts"][0]["anchor"], "gitleaks");
+    let (_, cloudflare) = get("/tools/cloudflare-audit").await;
+    assert_eq!(cloudflare["posts"][0]["slug"], "open-source-security-tools");
+    assert!(cloudflare["posts"][0]["anchor"].is_null());
 }
 
 #[tokio::test]
@@ -203,7 +214,7 @@ async fn weekly_issue_has_tally() {
 #[tokio::test]
 async fn blog_filters_by_category() {
     let (_, all) = get("/posts").await;
-    assert_eq!(all["posts"].as_array().unwrap().len(), 35);
+    assert_eq!(all["posts"].as_array().unwrap().len(), 36);
     let (_, agents) = get("/posts?category=agents").await;
     assert_eq!(agents["posts"].as_array().unwrap().len(), 16);
     assert_eq!(get("/posts?category=nope").await.0, StatusCode::NOT_FOUND);

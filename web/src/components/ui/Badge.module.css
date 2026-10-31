@@ -17,6 +17,7 @@
 .package { background: var(--type-package-bg); color: var(--type-package-fg); }
 .mcp     { background: var(--type-mcp-bg);     color: var(--type-mcp-fg); }
 .automation { background: var(--type-automation-bg); color: var(--type-automation-fg); }
+.security { background: var(--type-security-bg); color: var(--type-security-fg); }
 .use     { background: var(--verdict-use-bg);  color: var(--verdict-use-fg); }
 .wait    { background: var(--verdict-wait-bg); color: var(--verdict-wait-fg); }
 .skip    { background: var(--verdict-skip-bg); color: var(--verdict-skip-fg); }

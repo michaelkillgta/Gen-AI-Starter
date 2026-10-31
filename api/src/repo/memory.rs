@@ -271,7 +271,7 @@ mod tests {
     fn repo_seed_files_load_and_link_up() {
         let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("seed");
         let store = SeedStore::load(&dir).expect("seed should load");
-        assert_eq!(store.tools.len(), 31);
+        assert_eq!(store.tools.len(), 41);
         assert_eq!(store.tracks.len(), 2);
         assert_eq!(
             store.tracks.iter().map(|t| t.stages.len()).sum::<usize>(),

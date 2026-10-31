@@ -88,10 +88,17 @@ export function ToolkitExplorer({ tools, startLists, initial }: Props) {
         value={kind}
         counts={counts}
         onChange={setKind}
-        automation={{
-          on: group === "automation",
-          count: areaCounts.automation,
-          onToggle: () => setGroup(group === "automation" ? "all" : "automation"),
+        areas={{
+          automation: {
+            on: group === "automation",
+            count: areaCounts.automation,
+            onToggle: () => setGroup(group === "automation" ? "all" : "automation"),
+          },
+          security: {
+            on: group === "security",
+            count: areaCounts.security,
+            onToggle: () => setGroup(group === "security" ? "all" : "security"),
+          },
         }}
       />
 

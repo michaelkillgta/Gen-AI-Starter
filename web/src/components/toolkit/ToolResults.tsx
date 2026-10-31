@@ -4,11 +4,11 @@ import { useState } from "react";
 
 import { Badge, BottomSheet, Button, StatusDot } from "@/components/ui";
 import {
-  AUTOMATION,
   GROUPS,
   KIND_LABEL,
   RECENT,
   STATUS_LABEL,
+  TAG_AREAS,
   inArea,
   monogram,
   recentTools,
@@ -23,10 +23,10 @@ type Props = {
   tools: ToolWithDives[];
   /** Split the grid into the four toolkit groups with headings. */
   grouped: boolean;
-  /** The picked area; Automation spans the groups, so it shows as one section of its own. */
+  /** The picked area; Automation and Security span the groups, so each shows as one section of its own. */
   area?: GroupFilter;
   /**
-   * The full, unfiltered list: add "Recently added" on top and an Automation section at the end.
+   * The full, unfiltered list: add "Recently added" on top and Automation and Security sections at the end.
    * Those tools also stay in their own area, so a tool can show up twice.
    */
   extras?: boolean;
@@ -55,14 +55,15 @@ export function ToolResults({ tools, grouped, area, extras, view, selected, onSe
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [flatShown, setFlatShown] = useState(limit ? limit * 4 : Infinity);
 
+  const tagArea = TAG_AREAS.find((a) => a.value === area);
   const groups = !grouped
     ? [{ value: "all", title: "", sub: "", label: "", items: tools }]
-    : area === "automation"
-      ? [{ ...AUTOMATION, items: tools }]
+    : tagArea
+      ? [{ ...tagArea, items: tools }]
       : [
           ...(extras ? [{ ...RECENT, items: recentTools(tools) }] : []),
           ...GROUPS.map((g) => ({ ...g, items: tools.filter((t) => t.group === g.value) })),
-          ...(extras ? [{ ...AUTOMATION, items: tools.filter((t) => inArea(t, "automation")) }] : []),
+          ...(extras ? TAG_AREAS.map((a) => ({ ...a, items: tools.filter((t) => inArea(t, a.value)) })) : []),
         ].filter((g) => g.items.length);
   const visible = (g: (typeof groups)[number]) => {
     if (!limit) return g.items;

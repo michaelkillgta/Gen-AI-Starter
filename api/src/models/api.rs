@@ -86,6 +86,9 @@ pub struct TrackDetail {
 pub struct PostRef {
     pub slug: String,
     pub title: String,
+    /// On a tool's posts: the post's section about that tool (a heading whose id is the
+    /// tool's slug), so the link can jump straight to it. None opens the post at the top.
+    pub anchor: Option<String>,
 }
 
 /// GET /dives/:slug

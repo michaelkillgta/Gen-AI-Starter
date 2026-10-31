@@ -99,6 +99,125 @@
   color: var(--color-muted);
 }
 
+/*
+ * Tables. Phones: each row is a card and each cell shows its column name
+ * above it. Wider: a normal table in a rounded box.
+ */
+.tableWrap {
+  margin: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.table thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.table tbody {
+  display: grid;
+  gap: 10px;
+}
+
+.table tr {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-edge);
+}
+
+.table td {
+  display: grid;
+  gap: 2px;
+}
+
+.table td::before {
+  content: attr(data-label);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.table td:first-child {
+  font-weight: 600;
+}
+
+.table a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 640px) {
+  .tableWrap {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-edge);
+    overflow: hidden;
+  }
+
+  .table thead {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    display: table-header-group;
+  }
+
+  .table tbody {
+    display: table-row-group;
+  }
+
+  .table tr {
+    display: table-row;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .table th,
+  .table td {
+    display: table-cell;
+    padding: 12px 16px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .table td::before {
+    content: none;
+  }
+
+  .table th {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-muted);
+    border-bottom: 1px solid var(--color-line-card);
+  }
+
+  .table tbody tr + tr td {
+    border-top: 1px solid var(--color-line-card);
+  }
+}
+
 .callout {
   background: var(--color-dark);
   color: var(--color-on-dark);

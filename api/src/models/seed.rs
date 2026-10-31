@@ -300,6 +300,12 @@ pub enum Block {
     Cards {
         items: Vec<CardItem>,
     },
+    /// A table with a header row. On phones each row becomes a small card,
+    /// with each cell under its column's name. Cells may contain links.
+    Table {
+        header: Vec<String>,
+        rows: Vec<Vec<String>>,
+    },
     Callout {
         label: String,
         text: String,

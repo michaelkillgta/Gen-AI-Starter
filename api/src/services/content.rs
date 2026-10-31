@@ -49,6 +49,11 @@ fn blocks_words(blocks: &[Block]) -> usize {
                 .iter()
                 .map(|p| p.label.as_deref().map_or(0, words) + words(&p.text))
                 .sum(),
+            Block::Table { header, rows } => header
+                .iter()
+                .chain(rows.iter().flatten())
+                .map(|x| words(x))
+                .sum(),
             Block::Callout { label, text } => words(label) + words(text),
             Block::Compare { left, right } => [left, right]
                 .iter()
@@ -113,6 +118,7 @@ pub async fn tools(state: &AppState) -> ApiResult<ToolsResponse> {
                 .map(|(_, p)| PostRef {
                     slug: p.slug.clone(),
                     title: p.title.clone(),
+                    anchor: section_id(p, &tool.slug),
                 })
                 .collect();
             ToolWithDives { tool, dives, posts }
@@ -121,6 +127,14 @@ pub async fn tools(state: &AppState) -> ApiResult<ToolsResponse> {
     Ok(ToolsResponse {
         tools,
         start_lists: state.repos.tools.start_lists().await?,
+    })
+}
+
+/// The id of the post's heading for this tool, when it has one (`id` = the tool's slug).
+fn section_id(p: &Post, slug: &str) -> Option<String> {
+    p.body.iter().find_map(|b| match b {
+        Block::Heading { id: Some(id), .. } if id == slug => Some(id.clone()),
+        _ => None,
     })
 }
 
@@ -234,6 +248,7 @@ pub async fn dive(state: &AppState, slug: &str) -> ApiResult<DiveDetail> {
         .map(|p| PostRef {
             slug: p.slug,
             title: p.title,
+            anchor: None,
         });
 
     Ok(DiveDetail {
