@@ -42,12 +42,12 @@ for (const width of [375, 1440]) {
       if (width < 768) expect(second.y).toBeGreaterThan(box.y + box.height - 1);
       else expect(Math.abs(second.y - box.y)).toBeLessThan(2);
 
-      // Blue accent border on keyboard focus.
+      // Amber border on keyboard focus.
       await first.focus();
       await page.keyboard.press("Shift+Tab");
       await page.keyboard.press("Tab");
       await expect.poll(async () => (await computed(first, ["outline-style"]))["outline-style"]).toBe("solid");
-      await expect.poll(async () => (await computed(first, ["border-top-color"]))["border-top-color"]).toBe("rgb(37, 99, 235)");
+      await expect.poll(async () => (await computed(first, ["border-top-color"]))["border-top-color"]).toBe("rgb(242, 169, 59)");
 
       await page.screenshot({ path: `tests/screens/output/tools-used-${width}.png`, fullPage: true });
     });

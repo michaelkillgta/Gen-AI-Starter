@@ -143,21 +143,18 @@ textarea::placeholder {
   background-repeat: no-repeat;
 }
 
-/* A faint grid behind the top of the page that fades out as you scroll down. */
-:root[data-theme="dark"] body::before {
+/* A faint square grid behind every page, in both themes. It stays put while the page scrolls. */
+body::before {
   content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 640px;
+  position: fixed;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(170, 200, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(170, 200, 255, 0.045) 1px, transparent 1px);
-  background-size: 56px 56px;
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
   background-position: center top;
-  -webkit-mask-image: radial-gradient(ellipse 70% 100% at 50% 0, #000 20%, transparent 75%);
-  mask-image: radial-gradient(ellipse 70% 100% at 50% 0, #000 20%, transparent 75%);
 }
 
 /* Smooth, quiet hover and focus changes on everything clickable. */
