@@ -391,7 +391,12 @@ BODY = [
 TOOLS_USED = {"type": "links", "label": "Tools used", "items": [
     {"label": name, "href": f"/toolkit/{slug}"} for name, slug, _, _ in TOOLS
 ]}
-BODY.insert(next(i for i, b in enumerate(BODY) if b["type"] == "heading"), TOOLS_USED)
+# Jump to a tool: one pill per tool section, right after the Tools used row.
+JUMP = {"type": "links", "label": "Jump to a tool", "items": [
+    {"label": f"{n}. {name}", "href": f"#{anchor}"} for n, (name, _, anchor, _) in enumerate(TOOLS, 1)
+]}
+first = next(i for i, b in enumerate(BODY) if b["type"] == "heading")
+BODY[first:first] = [TOOLS_USED, JUMP]
 
 POST = {
     "slug": "open-source-security-tools",

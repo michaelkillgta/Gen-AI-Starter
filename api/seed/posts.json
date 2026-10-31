@@ -93,6 +93,52 @@
         ]
       },
       {
+        "type": "links",
+        "label": "Jump to a tool",
+        "items": [
+          {
+            "label": "1. Cloudflare Security Audit",
+            "href": "#cloudflare"
+          },
+          {
+            "label": "2. Strix",
+            "href": "#strix"
+          },
+          {
+            "label": "3. Shannon",
+            "href": "#shannon"
+          },
+          {
+            "label": "4. OWASP AppSec Agent",
+            "href": "#owasp-appsec-agent"
+          },
+          {
+            "label": "5. Trail of Bits",
+            "href": "#trailofbits-skills"
+          },
+          {
+            "label": "6. NVIDIA SkillSpector",
+            "href": "#skillspector"
+          },
+          {
+            "label": "7. AI-Infra-Guard",
+            "href": "#ai-infra-guard"
+          },
+          {
+            "label": "8. Gitleaks",
+            "href": "#gitleaks"
+          },
+          {
+            "label": "9. Semgrep",
+            "href": "#semgrep"
+          },
+          {
+            "label": "10. Nuclei",
+            "href": "#nuclei"
+          }
+        ]
+      },
+      {
         "type": "heading",
         "text": "⚡ The 30-second overview",
         "id": "overview"

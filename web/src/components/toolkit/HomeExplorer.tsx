@@ -26,7 +26,7 @@ type Props = {
   thisWeek: ReactNode;
 };
 
-/** Homepage hero + the full toolkit. Everything filters in the browser (28 tools). */
+/** Homepage hero + the full toolkit. Everything filters in the browser. */
 export function HomeExplorer({ tools, startLists, thisWeek }: Props) {
   const [q, setQ] = useState("");
   const [start, setStart] = useState("all");
@@ -128,6 +128,8 @@ export function HomeExplorer({ tools, startLists, thisWeek }: Props) {
         <ToolResults
           tools={shown}
           grouped={sort === "picks"}
+          // Unfiltered: Recently added on top, Automation and Security sections at the end, as on /toolkit.
+          extras={q.trim() === "" && start === "all" && kind === "all"}
           view={view}
           selected={selected}
           onSelect={setSelected}
