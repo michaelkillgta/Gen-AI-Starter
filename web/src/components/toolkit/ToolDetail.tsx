@@ -15,6 +15,12 @@ type Props = {
   headingLevel?: "h1" | "h2" | "h3";
 };
 
+/** Short text reads bigger, long text smaller, so a long command or title never feels heavy. */
+function lengthClass(text: string, short: number, long: number): "short" | "medium" | "long" {
+  if (text.length <= short) return "short";
+  return text.length <= long ? "medium" : "long";
+}
+
 /** Everything we say about one tool: what it is, when to use or skip it, how to get it. */
 export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Props) {
   const Heading = headingLevel;
@@ -70,7 +76,7 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
       <div className={styles.getIt}>
         <span className={styles.label}>Get it</span>
         <div className={styles.codeRow}>
-          <code className={styles.code}>{tool.get_it}</code>
+          <code className={styles.code} data-length={lengthClass(tool.get_it, 28, 52)}>{tool.get_it}</code>
           <CopyButton text={tool.get_it} label={`how to get ${tool.name}`} />
         </div>
       </div>
@@ -91,7 +97,7 @@ export function ToolDetail({ tool, variant = "panel", headingLevel = "h2" }: Pro
                 />
               </svg>
             </span>
-            <span className={styles.blogTitle}>{blog.title}</span>
+            <span className={styles.blogTitle} data-length={lengthClass(blog.title, 40, 70)}>{blog.title}</span>
             <svg className={styles.blogArrow} width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

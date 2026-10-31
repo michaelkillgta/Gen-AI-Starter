@@ -318,9 +318,15 @@
 
 .panel .code {
   padding: 7px 10px;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.45;
 }
+
+/* Command size follows its length: short ones read bigger, long ones smaller. */
+.code[data-length="short"] { font-size: 14px; }
+.code[data-length="long"] { font-size: 12px; }
+.panel .code[data-length="short"] { font-size: 13px; }
+.panel .code[data-length="long"] { font-size: 11px; }
 
 .panel .dive {
   padding: 7px 12px;
@@ -398,6 +404,9 @@
   font-size: 14px;
   line-height: 1.3;
 }
+
+.blogTitle[data-length="short"] { font-size: 15px; }
+.blogTitle[data-length="long"] { font-size: 13px; }
 
 .blogArrow {
   flex-shrink: 0;
