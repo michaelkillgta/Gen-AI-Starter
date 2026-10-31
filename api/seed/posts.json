@@ -94,46 +94,52 @@
       },
       {
         "type": "links",
-        "label": "Jump to a tool",
+        "label": "Start with these 5",
         "items": [
           {
-            "label": "1. Cloudflare Security Audit",
-            "href": "#cloudflare"
-          },
-          {
-            "label": "2. Strix",
-            "href": "#strix"
-          },
-          {
-            "label": "3. Shannon",
-            "href": "#shannon"
-          },
-          {
-            "label": "4. OWASP AppSec Agent",
-            "href": "#owasp-appsec-agent"
-          },
-          {
-            "label": "5. Trail of Bits",
-            "href": "#trailofbits-skills"
-          },
-          {
-            "label": "6. NVIDIA SkillSpector",
-            "href": "#skillspector"
-          },
-          {
-            "label": "7. AI-Infra-Guard",
-            "href": "#ai-infra-guard"
-          },
-          {
-            "label": "8. Gitleaks",
+            "label": "Gitleaks",
             "href": "#gitleaks"
           },
           {
-            "label": "9. Semgrep",
+            "label": "Semgrep",
             "href": "#semgrep"
           },
           {
-            "label": "10. Nuclei",
+            "label": "Cloudflare Security Audit",
+            "href": "#cloudflare"
+          },
+          {
+            "label": "Shannon",
+            "href": "#shannon"
+          },
+          {
+            "label": "Trail of Bits",
+            "href": "#trailofbits-skills"
+          }
+        ]
+      },
+      {
+        "type": "links",
+        "label": "5 more tools",
+        "items": [
+          {
+            "label": "Strix",
+            "href": "#strix"
+          },
+          {
+            "label": "OWASP AppSec Agent",
+            "href": "#owasp-appsec-agent"
+          },
+          {
+            "label": "NVIDIA SkillSpector",
+            "href": "#skillspector"
+          },
+          {
+            "label": "AI-Infra-Guard",
+            "href": "#ai-infra-guard"
+          },
+          {
+            "label": "Nuclei",
             "href": "#nuclei"
           }
         ]
@@ -195,6 +201,25 @@
             "[Nuclei](#nuclei)"
           ]
         ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Start with these 5** (our pick):"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          "[Gitleaks](#gitleaks): catch leaked API keys before you push.",
+          "[Semgrep](#semgrep): find insecure code patterns on every commit.",
+          "[Cloudflare Security Audit](#cloudflare): a careful AI review of your whole repo.",
+          "[Shannon](#shannon): prove which bugs can really be exploited, before a big release.",
+          "[Trail of Bits](#trailofbits-skills): dig deeper when you find one bug and want to find its cousins."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**5 more, when you need them:** [Strix](#strix), [OWASP AppSec Agent](#owasp-appsec-agent), [NVIDIA SkillSpector](#skillspector), [AI-Infra-Guard](#ai-infra-guard) and [Nuclei](#nuclei)."
       },
       {
         "type": "heading",

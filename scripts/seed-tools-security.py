@@ -197,13 +197,20 @@ NEW = [
 ]
 
 
+# Uma's pick (31 Oct 2026): the 5 to start with, in this order. Matches SECURITY_START in web/src/features/toolkit/filter.ts.
+START = ["gitleaks", "semgrep", "cloudflare-audit", "shannon", "trailofbits-skills"]
+
+
 def main():
     with io.open(TOOLS, encoding="utf-8") as f:
         tools = json.load(f)
     slugs = {t["slug"] for t in NEW}
     tools = [t for t in tools if t["slug"] not in slugs]
     start = max(t["position"] for t in tools) + 1
-    for n, t in enumerate(NEW):
+    # The 5 to start with are added last, so they are the newest (the Toolkit's "Recently added").
+    order = [t for t in NEW if t["slug"] not in START] + sorted(
+        (t for t in NEW if t["slug"] in START), key=lambda t: START.index(t["slug"]))
+    for n, t in enumerate(order):
         tools.append({**t, "position": start + n})
     with io.open(TOOLS, "w", encoding="utf-8", newline="\n") as f:
         json.dump(tools, f, ensure_ascii=False, indent=2)

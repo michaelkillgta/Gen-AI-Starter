@@ -64,6 +64,22 @@ export const SECURITY = {
   sub: "Find leaked keys, insecure code and attack paths, and keep your AI agents safe.",
 };
 
+/**
+ * The 5 security tools to start with, in this order (Uma's pick, 31 Oct 2026). The Security
+ * section shows them as cards and the rest as a smaller "More security tools" row.
+ */
+export const SECURITY_START = ["gitleaks", "semgrep", "cloudflare-audit", "shannon", "trailofbits-skills"];
+
+/** Splits an area's tools into its main cards and a smaller "more" row (only Security has one). */
+export function splitArea(area: GroupFilter, tools: ToolWithDives[]): { items: ToolWithDives[]; more: ToolWithDives[] } {
+  if (area !== "security") return { items: tools, more: [] };
+  const rank = (t: ToolWithDives) => SECURITY_START.indexOf(t.slug);
+  return {
+    items: tools.filter((t) => rank(t) >= 0).sort((a, b) => rank(a) - rank(b)),
+    more: tools.filter((t) => rank(t) < 0),
+  };
+}
+
 /** The cross-cutting areas, each picked by its tag. */
 export const TAG_AREAS = [AUTOMATION, SECURITY];
 
@@ -80,8 +96,8 @@ export const RECENT = {
   title: "Recently added",
   sub: "The newest tools in the toolkit.",
 };
-/** The latest batch: the 10 security tools from Uma's security post. */
-export const RECENT_COUNT = 10;
+/** The latest batch: the 5 security tools to start with (see SECURITY_START). */
+export const RECENT_COUNT = 5;
 
 /** The newest tools, in the order they were added (so a batch reads like its blog post). */
 export function recentTools(tools: ToolWithDives[]): ToolWithDives[] {

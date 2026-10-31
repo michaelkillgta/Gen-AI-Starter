@@ -679,28 +679,6 @@
     "position": 31
   },
   {
-    "slug": "cloudflare-audit",
-    "name": "Cloudflare Security Audit",
-    "kind": "package",
-    "group": "agents",
-    "short": "A skill that turns your coding agent into a security team.",
-    "plain": "Cloudflare's open-source skill for coding agents. One agent maps your app, others hunt for bugs, and a fresh agent tries to disprove each finding, so the report sorts issues into confirmed, needs validation and rejected.",
-    "use_when": "You build with Claude Code or Codex and want a careful, read-only review of your own repo.",
-    "skip_when": "Your agent can't run sub-agents, or you need it to run untrusted code without a proper sandbox.",
-    "runs_on": "Your coding agent, on your laptop",
-    "cost": "Free, MIT (your agent's model usage is extra)",
-    "get_it": "npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global",
-    "status": "notes",
-    "note": "Needs Node.js for its report checks. No Cloudflare account needed.",
-    "tags": [
-      "security",
-      "code review",
-      "agents",
-      "audit"
-    ],
-    "position": 32
-  },
-  {
     "slug": "strix",
     "name": "Strix",
     "kind": "package",
@@ -720,29 +698,7 @@
       "agents",
       "testing"
     ],
-    "position": 33
-  },
-  {
-    "slug": "shannon",
-    "name": "Shannon",
-    "kind": "package",
-    "group": "ship",
-    "short": "An AI pentester that proves a bug with a real exploit.",
-    "plain": "Keygraph's autonomous pentester for web apps and APIs. It reads your source code to find attack paths, then runs real exploits against your app to show which weaknesses are genuine.",
-    "use_when": "You're about to release and want a deeper test in a safe copy of your app.",
-    "skip_when": "You can't use an isolated test setup. It really attacks the target, so never point it at production.",
-    "runs_on": "Your laptop with Docker (Windows: WSL2)",
-    "cost": "Free, AGPL-3.0 (you pay for the LLM)",
-    "get_it": "npx @keygraph/shannon@latest setup",
-    "status": "notes",
-    "note": "Needs Docker and Node.js 18+. Test only apps you own.",
-    "tags": [
-      "security",
-      "pentesting",
-      "agents",
-      "testing"
-    ],
-    "position": 34
+    "position": 32
   },
   {
     "slug": "owasp-appsec-agent",
@@ -764,29 +720,7 @@
       "agents",
       "threat modeling"
     ],
-    "position": 35
-  },
-  {
-    "slug": "trailofbits-skills",
-    "name": "Trail of Bits Skills",
-    "kind": "package",
-    "group": "agents",
-    "short": "Specialist security skills from a top audit firm.",
-    "plain": "A marketplace of plugins for Claude Code and Codex from the security firm Trail of Bits: code auditing, static analysis, finding the same bug elsewhere (variant analysis), GitHub Actions checks and smart contract audits.",
-    "use_when": "You found one bug and want to know if the same mistake hides anywhere else.",
-    "skip_when": "You're just starting out. Begin with Gitleaks and Semgrep first.",
-    "runs_on": "Claude Code or Codex",
-    "cost": "Free, CC BY-SA 4.0",
-    "get_it": "/plugin marketplace add trailofbits/skills",
-    "status": "notes",
-    "note": "Codex: codex plugin marketplace add trailofbits/skills",
-    "tags": [
-      "security",
-      "audit",
-      "static analysis",
-      "agents"
-    ],
-    "position": 36
+    "position": 33
   },
   {
     "slug": "skillspector",
@@ -808,7 +742,7 @@
       "skills",
       "mcp"
     ],
-    "position": 37
+    "position": 34
   },
   {
     "slug": "ai-infra-guard",
@@ -830,7 +764,29 @@
       "mcp",
       "red teaming"
     ],
-    "position": 38
+    "position": 35
+  },
+  {
+    "slug": "nuclei",
+    "name": "Nuclei",
+    "kind": "package",
+    "group": "ship",
+    "short": "Scans a running site for known bugs and leaky settings.",
+    "plain": "ProjectDiscovery's template-based scanner. It sends checks from thousands of community templates to find known CVEs, misconfigurations and exposed panels on sites and servers.",
+    "use_when": "Your app is live on staging and you want to check it for known problems.",
+    "skip_when": "You don't own the site. Scanning without permission can be illegal.",
+    "runs_on": "Your laptop, CI",
+    "cost": "Free, MIT",
+    "get_it": "go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest",
+    "status": "notes",
+    "note": "No Go? Download a ready-made file from its GitHub releases page.",
+    "tags": [
+      "security",
+      "scanning",
+      "cve",
+      "infrastructure"
+    ],
+    "position": 36
   },
   {
     "slug": "gitleaks",
@@ -852,7 +808,7 @@
       "git",
       "ci"
     ],
-    "position": 39
+    "position": 37
   },
   {
     "slug": "semgrep",
@@ -874,27 +830,71 @@
       "ci",
       "code review"
     ],
+    "position": 38
+  },
+  {
+    "slug": "cloudflare-audit",
+    "name": "Cloudflare Security Audit",
+    "kind": "package",
+    "group": "agents",
+    "short": "A skill that turns your coding agent into a security team.",
+    "plain": "Cloudflare's open-source skill for coding agents. One agent maps your app, others hunt for bugs, and a fresh agent tries to disprove each finding, so the report sorts issues into confirmed, needs validation and rejected.",
+    "use_when": "You build with Claude Code or Codex and want a careful, read-only review of your own repo.",
+    "skip_when": "Your agent can't run sub-agents, or you need it to run untrusted code without a proper sandbox.",
+    "runs_on": "Your coding agent, on your laptop",
+    "cost": "Free, MIT (your agent's model usage is extra)",
+    "get_it": "npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global",
+    "status": "notes",
+    "note": "Needs Node.js for its report checks. No Cloudflare account needed.",
+    "tags": [
+      "security",
+      "code review",
+      "agents",
+      "audit"
+    ],
+    "position": 39
+  },
+  {
+    "slug": "shannon",
+    "name": "Shannon",
+    "kind": "package",
+    "group": "ship",
+    "short": "An AI pentester that proves a bug with a real exploit.",
+    "plain": "Keygraph's autonomous pentester for web apps and APIs. It reads your source code to find attack paths, then runs real exploits against your app to show which weaknesses are genuine.",
+    "use_when": "You're about to release and want a deeper test in a safe copy of your app.",
+    "skip_when": "You can't use an isolated test setup. It really attacks the target, so never point it at production.",
+    "runs_on": "Your laptop with Docker (Windows: WSL2)",
+    "cost": "Free, AGPL-3.0 (you pay for the LLM)",
+    "get_it": "npx @keygraph/shannon@latest setup",
+    "status": "notes",
+    "note": "Needs Docker and Node.js 18+. Test only apps you own.",
+    "tags": [
+      "security",
+      "pentesting",
+      "agents",
+      "testing"
+    ],
     "position": 40
   },
   {
-    "slug": "nuclei",
-    "name": "Nuclei",
+    "slug": "trailofbits-skills",
+    "name": "Trail of Bits Skills",
     "kind": "package",
-    "group": "ship",
-    "short": "Scans a running site for known bugs and leaky settings.",
-    "plain": "ProjectDiscovery's template-based scanner. It sends checks from thousands of community templates to find known CVEs, misconfigurations and exposed panels on sites and servers.",
-    "use_when": "Your app is live on staging and you want to check it for known problems.",
-    "skip_when": "You don't own the site. Scanning without permission can be illegal.",
-    "runs_on": "Your laptop, CI",
-    "cost": "Free, MIT",
-    "get_it": "go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest",
+    "group": "agents",
+    "short": "Specialist security skills from a top audit firm.",
+    "plain": "A marketplace of plugins for Claude Code and Codex from the security firm Trail of Bits: code auditing, static analysis, finding the same bug elsewhere (variant analysis), GitHub Actions checks and smart contract audits.",
+    "use_when": "You found one bug and want to know if the same mistake hides anywhere else.",
+    "skip_when": "You're just starting out. Begin with Gitleaks and Semgrep first.",
+    "runs_on": "Claude Code or Codex",
+    "cost": "Free, CC BY-SA 4.0",
+    "get_it": "/plugin marketplace add trailofbits/skills",
     "status": "notes",
-    "note": "No Go? Download a ready-made file from its GitHub releases page.",
+    "note": "Codex: codex plugin marketplace add trailofbits/skills",
     "tags": [
       "security",
-      "scanning",
-      "cve",
-      "infrastructure"
+      "audit",
+      "static analysis",
+      "agents"
     ],
     "position": 41
   }

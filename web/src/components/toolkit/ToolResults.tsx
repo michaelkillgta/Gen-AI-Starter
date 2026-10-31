@@ -10,6 +10,7 @@ import {
   STATUS_LABEL,
   TAG_AREAS,
   inArea,
+  splitArea,
   monogram,
   recentTools,
   type GroupFilter,
@@ -56,15 +57,19 @@ export function ToolResults({ tools, grouped, area, extras, view, selected, onSe
   const [flatShown, setFlatShown] = useState(limit ? limit * 4 : Infinity);
 
   const tagArea = TAG_AREAS.find((a) => a.value === area);
-  const groups = !grouped
-    ? [{ value: "all", title: "", sub: "", label: "", items: tools }]
-    : tagArea
-      ? [{ ...tagArea, items: tools }]
-      : [
-          ...(extras ? [{ ...RECENT, items: recentTools(tools) }] : []),
-          ...GROUPS.map((g) => ({ ...g, items: tools.filter((t) => t.group === g.value) })),
-          ...(extras ? TAG_AREAS.map((a) => ({ ...a, items: tools.filter((t) => inArea(t, a.value)) })) : []),
-        ].filter((g) => g.items.length);
+  // `more`: tools shown as a smaller row under the cards (Security's extra tools).
+  const groups: { value: string; title: string; sub: string; label: string; items: ToolWithDives[]; more: ToolWithDives[] }[] =
+    !grouped
+      ? [{ value: "all", title: "", sub: "", label: "", items: tools, more: [] }]
+      : tagArea
+        ? [{ ...tagArea, ...splitArea(tagArea.value, tools) }]
+        : [
+            ...(extras ? [{ ...RECENT, items: recentTools(tools), more: [] }] : []),
+            ...GROUPS.map((g) => ({ ...g, items: tools.filter((t) => t.group === g.value), more: [] })),
+            ...(extras
+              ? TAG_AREAS.map((a) => ({ ...a, ...splitArea(a.value, tools.filter((t) => inArea(t, a.value))) }))
+              : []),
+          ].filter((g) => g.items.length + g.more.length > 0);
   const visible = (g: (typeof groups)[number]) => {
     if (!limit) return g.items;
     if (!grouped) return g.items.slice(0, flatShown);
@@ -72,7 +77,7 @@ export function ToolResults({ tools, grouped, area, extras, view, selected, onSe
   };
   const listTools = limit ? tools.slice(0, flatShown) : tools;
   // Nothing picked yet: show the first card on screen in the side panel.
-  const firstShown = view === "list" ? tools[0] : groups[0]?.items[0];
+  const firstShown = view === "list" ? tools[0] : (groups[0]?.items[0] ?? groups[0]?.more[0]);
   const current = tools.find((t) => t.slug === selected) ?? firstShown;
   const sheetTool = tools.find((t) => t.slug === sheet);
 
@@ -130,7 +135,7 @@ export function ToolResults({ tools, grouped, area, extras, view, selected, onSe
                   <h2 className={styles.groupTitle}>{g.title}</h2>
                   <span className={styles.groupSub}>{g.sub}</span>
                   <span className={styles.groupCount}>
-                    {g.items.length} {g.items.length === 1 ? "tool" : "tools"}
+                    {g.items.length + g.more.length} {g.items.length + g.more.length === 1 ? "tool" : "tools"}
                   </span>
                 </div>
               )}
@@ -183,6 +188,36 @@ export function ToolResults({ tools, grouped, area, extras, view, selected, onSe
                   );
                 })}
               </ul>
+              {g.more.length > 0 && (
+                <div className={styles.moreTools}>
+                  <span className={styles.moreLabel}>More {g.label.toLowerCase()} tools</span>
+                  <ul className={styles.moreRow}>
+                    {g.more.map((t) => (
+                      <li key={t.slug}>
+                        <button
+                          type="button"
+                          className={styles.moreItem}
+                          aria-pressed={t.slug === current?.slug}
+                          aria-expanded={openInline === t.slug}
+                          onClick={() => pick(t.slug)}
+                        >
+                          <span className={styles.moreName}>{t.name}</span>
+                          <span className={styles.moreShort}>{t.short}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  {/* Phones: the picked tool's details open under the row. */}
+                  {g.more.map(
+                    (t) =>
+                      openInline === t.slug && (
+                        <div key={t.slug} className={styles.moreDetail}>
+                          <ToolDetail tool={t} variant="inline" />
+                        </div>
+                      ),
+                  )}
+                </div>
+              )}
               {grouped && visible(g).length < g.items.length && (
                 <button
                   type="button"
