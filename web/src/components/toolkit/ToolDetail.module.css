@@ -317,8 +317,9 @@
 }
 
 .panel .code {
-  padding: 8px 12px;
-  font-size: 12px;
+  padding: 7px 10px;
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .panel .dive {
@@ -394,8 +395,8 @@
   min-width: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 16px;
-  line-height: 1.25;
+  font-size: 14px;
+  line-height: 1.3;
 }
 
 .blogArrow {
