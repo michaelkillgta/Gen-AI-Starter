@@ -166,7 +166,7 @@ BODY = [
        f"{jump('Cloudflare Security Audit')}: a careful AI review of your whole repo.",
        f"{jump('Shannon')}: prove which bugs can really be exploited, before a big release.",
        f"{jump('Trail of Bits')}: dig deeper when you find one bug and want to find its cousins."),
-    *p(f"**5 more, when you need them:** {jump('Strix')}, {jump('OWASP AppSec Agent')}, "
+    *p(f"**Also covered below, for later:** {jump('Strix')}, {jump('OWASP AppSec Agent')}, "
        f"{jump('NVIDIA SkillSpector')}, {jump('AI-Infra-Guard')} and {jump('Nuclei')}."),
 
     # 1
@@ -392,15 +392,17 @@ BODY = [
         "find leaked secrets in Git.",
         "rule-based code scanning.",
         "template-based vulnerability scanner.",
-    ])], "[All 10 in our Toolkit](/toolkit?track=security): our quick notes on each tool."),
+    ])], "[Our 5 picks in the Toolkit](/toolkit?track=security): quick notes on each one."),
 ]
+
+# The 5 tools in the Toolkit (Uma's pick, 1 Nov 2026): the other 5 keep their sections in the post only.
+START = ["Gitleaks", "Semgrep", "Cloudflare Security Audit", "Shannon", "Trail of Bits"]
 
 # Tools used: shown as Toolkit pills just before the first section.
 TOOLS_USED = {"type": "links", "label": "Tools used", "items": [
-    {"label": name, "href": f"/toolkit/{slug}"} for name, slug, _, _ in TOOLS
+    {"label": name, "href": f"/toolkit/{slug}"} for name, slug, _, _ in TOOLS if name in START
 ]}
 # Jump rows, right after the Tools used row: the 5 to start with, then the other 5.
-START = ["Gitleaks", "Semgrep", "Cloudflare Security Audit", "Shannon", "Trail of Bits"]
 
 
 def jump_row(label, names):
@@ -408,9 +410,8 @@ def jump_row(label, names):
 
 
 JUMP_START = jump_row("Start with these 5", START)
-JUMP_MORE = jump_row("5 more tools", [name for name, _, _, _ in TOOLS if name not in START])
 first = next(i for i, b in enumerate(BODY) if b["type"] == "heading")
-BODY[first:first] = [TOOLS_USED, JUMP_START, JUMP_MORE]
+BODY[first:first] = [TOOLS_USED, JUMP_START]
 
 POST = {
     "slug": "open-source-security-tools",

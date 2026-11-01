@@ -55,28 +55,12 @@
             "href": "/toolkit/cloudflare-audit"
           },
           {
-            "label": "Strix",
-            "href": "/toolkit/strix"
-          },
-          {
             "label": "Shannon",
             "href": "/toolkit/shannon"
           },
           {
-            "label": "OWASP AppSec Agent",
-            "href": "/toolkit/owasp-appsec-agent"
-          },
-          {
             "label": "Trail of Bits",
             "href": "/toolkit/trailofbits-skills"
-          },
-          {
-            "label": "NVIDIA SkillSpector",
-            "href": "/toolkit/skillspector"
-          },
-          {
-            "label": "AI-Infra-Guard",
-            "href": "/toolkit/ai-infra-guard"
           },
           {
             "label": "Gitleaks",
@@ -85,10 +69,6 @@
           {
             "label": "Semgrep",
             "href": "/toolkit/semgrep"
-          },
-          {
-            "label": "Nuclei",
-            "href": "/toolkit/nuclei"
           }
         ]
       },
@@ -115,32 +95,6 @@
           {
             "label": "Trail of Bits",
             "href": "#trailofbits-skills"
-          }
-        ]
-      },
-      {
-        "type": "links",
-        "label": "5 more tools",
-        "items": [
-          {
-            "label": "Strix",
-            "href": "#strix"
-          },
-          {
-            "label": "OWASP AppSec Agent",
-            "href": "#owasp-appsec-agent"
-          },
-          {
-            "label": "NVIDIA SkillSpector",
-            "href": "#skillspector"
-          },
-          {
-            "label": "AI-Infra-Guard",
-            "href": "#ai-infra-guard"
-          },
-          {
-            "label": "Nuclei",
-            "href": "#nuclei"
           }
         ]
       },
@@ -219,7 +173,7 @@
       },
       {
         "type": "paragraph",
-        "text": "**5 more, when you need them:** [Strix](#strix), [OWASP AppSec Agent](#owasp-appsec-agent), [NVIDIA SkillSpector](#skillspector), [AI-Infra-Guard](#ai-infra-guard) and [Nuclei](#nuclei)."
+        "text": "**Also covered below, for later:** [Strix](#strix), [OWASP AppSec Agent](#owasp-appsec-agent), [NVIDIA SkillSpector](#skillspector), [AI-Infra-Guard](#ai-infra-guard) and [Nuclei](#nuclei)."
       },
       {
         "type": "heading",
@@ -886,7 +840,7 @@
           "[Gitleaks](https://github.com/gitleaks/gitleaks): find leaked secrets in Git.",
           "[Semgrep](https://github.com/semgrep/semgrep): rule-based code scanning.",
           "[Nuclei](https://github.com/projectdiscovery/nuclei): template-based vulnerability scanner.",
-          "[All 10 in our Toolkit](/toolkit?track=security): our quick notes on each tool."
+          "[Our 5 picks in the Toolkit](/toolkit?track=security): quick notes on each one."
         ]
       }
     ],

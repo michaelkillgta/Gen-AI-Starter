@@ -7,7 +7,7 @@ import type { ToolWithDives } from "@/lib/api-types/ToolWithDives";
 export type KindFilter = "all" | ToolKind;
 /**
  * An area chip: one of the four groups, or "automation" / "security", which cut across them
- * (tools tagged "automation" or "security").
+ * (tools tagged "automation", and the 5 security tools).
  */
 export type GroupFilter = "all" | ToolGroup | "automation" | "security";
 export type SortOrder = "picks" | "az" | "type" | "cost";
@@ -65,19 +65,20 @@ export const SECURITY = {
 };
 
 /**
- * The 5 security tools to start with, in this order (Uma's pick, 31 Oct 2026). The Security
- * section shows them as cards and the rest as a smaller "More security tools" row.
+ * The Security area: these 5 tools, in this order (Uma's pick, 1 Nov 2026). They show only under
+ * Security, not in their group or other areas. Other tools tagged "security" (like Promptfoo) stay
+ * in their own areas only.
  */
-export const SECURITY_START = ["gitleaks", "semgrep", "cloudflare-audit", "shannon", "trailofbits-skills"];
+export const SECURITY_TOOLS = ["gitleaks", "semgrep", "cloudflare-audit", "shannon", "trailofbits-skills"];
 
-/** Splits an area's tools into its main cards and a smaller "more" row (only Security has one). */
-export function splitArea(area: GroupFilter, tools: ToolWithDives[]): { items: ToolWithDives[]; more: ToolWithDives[] } {
-  if (area !== "security") return { items: tools, more: [] };
-  const rank = (t: ToolWithDives) => SECURITY_START.indexOf(t.slug);
-  return {
-    items: tools.filter((t) => rank(t) >= 0).sort((a, b) => rank(a) - rank(b)),
-    more: tools.filter((t) => rank(t) < 0),
-  };
+export function isSecurityTool(t: ToolWithDives): boolean {
+  return SECURITY_TOOLS.includes(t.slug);
+}
+
+/** An area's tools in page order: Security in Uma's order, the rest as given. */
+export function areaOrder(area: GroupFilter, tools: ToolWithDives[]): ToolWithDives[] {
+  if (area !== "security") return tools;
+  return [...tools].sort((a, b) => SECURITY_TOOLS.indexOf(a.slug) - SECURITY_TOOLS.indexOf(b.slug));
 }
 
 /** The cross-cutting areas, each picked by its tag. */
@@ -96,21 +97,29 @@ export const RECENT = {
   title: "Recently added",
   sub: "The newest tools in the toolkit.",
 };
-/** The latest batch: the 5 security tools to start with (see SECURITY_START). */
 export const RECENT_COUNT = 5;
 
-/** The newest tools, in the order they were added (so a batch reads like its blog post). */
+/**
+ * The newest tools, in the order they were added (so a batch reads like its blog post). The
+ * security tools are left out, since they show only under Security.
+ */
 export function recentTools(tools: ToolWithDives[]): ToolWithDives[] {
-  return [...tools]
+  return tools
+    .filter((t) => !isSecurityTool(t))
     .sort((a, b) => b.position - a.position)
     .slice(0, RECENT_COUNT)
     .sort((a, b) => a.position - b.position);
 }
 
-/** Is the tool in this area? Automation and Security go by tag, the other areas by the tool's group. */
+/**
+ * Is the tool in this area? Security goes by Uma's list, Automation by tag, the other areas by group.
+ * The security tools sit in Security only, so each tool shows once.
+ */
 export function inArea(t: ToolWithDives, area: GroupFilter): boolean {
   if (area === "all") return true;
-  if (area === "automation" || area === "security") return t.tags.includes(area);
+  if (area === "security") return isSecurityTool(t);
+  if (isSecurityTool(t)) return false;
+  if (area === "automation") return t.tags.includes(area);
   return t.group === area;
 }
 
@@ -202,8 +211,7 @@ export function groupCounts(tools: ToolWithDives[], startLists: StartList[], que
     security: 0,
   };
   for (const t of base) {
-    counts[t.group] += 1;
-    for (const a of TAG_AREAS) if (inArea(t, a.value)) counts[a.value] += 1;
+    for (const a of [...GROUPS, ...TAG_AREAS]) if (inArea(t, a.value)) counts[a.value] += 1;
   }
   return counts;
 }
