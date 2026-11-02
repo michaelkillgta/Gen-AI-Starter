@@ -21,8 +21,9 @@ export function ogCard({ eyebrow, title, sub, dark = false }: Card) {
       <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: bg, color: ink }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <div style={{ width: 52, height: 52, borderRadius: 14, background: "#F2A93B", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="28" height="28" viewBox="0 0 16 16" fill="none">
-              <path d="M3.5 8.5l2.8 2.8L12.5 5" stroke="#1C1713" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <svg width="52" height="52" viewBox="0 0 32 32" fill="none">
+              <path d="M6.75 10.5L12.25 16L6.75 21.5" stroke="#1C1713" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M20.75 10C21.35 14.5 22.25 15.4 26.75 16C22.25 16.6 21.35 17.5 20.75 22C20.15 17.5 19.25 16.6 14.75 16C19.25 15.4 20.15 14.5 20.75 10Z" fill="#1C1713" />
             </svg>
           </div>
           <span style={{ fontSize: 34, fontWeight: 700, letterSpacing: -1 }}>GenAI Starter</span>
