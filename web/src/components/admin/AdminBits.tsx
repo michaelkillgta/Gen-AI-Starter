@@ -23,7 +23,7 @@ export function NotSetUp() {
       <strong>Admin not set up yet: run pnpm admin:password</strong>
       <span>
         Run it in a terminal in the <code>field-tested</code> folder and choose a password (at least 12 characters), then
-        reload this page.
+        restart the site. On Vercel, add the hash it prints as <code>ADMIN_PASSWORD_HASH</code> and redeploy.
       </span>
     </div>
   );
@@ -32,9 +32,10 @@ export function NotSetUp() {
 export function Unreachable() {
   return (
     <div className={styles.notice} role="alert">
-      <strong>The API isn&apos;t reachable.</strong>
+      <strong>The database isn&apos;t reachable.</strong>
       <span>
-        Start everything with <code>pnpm dev</code> in the <code>field-tested</code> folder, then reload this page.
+        Locally, start it with <code>pnpm dev</code> in the <code>field-tested</code> folder. On Vercel, check{" "}
+        <code>DATABASE_URL</code>. Then reload this page.
       </span>
     </div>
   );

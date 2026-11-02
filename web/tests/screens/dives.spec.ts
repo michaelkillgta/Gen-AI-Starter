@@ -3,11 +3,11 @@ import { expect, test } from "@playwright/test";
 /** Every deep dive has real content, and its tools are links to the Toolkit. */
 test.describe("deep dives", () => {
   test("every deep dive has a full body and a build step", async ({ request }) => {
-    const tracks = await (await request.get("http://127.0.0.1:8090/tracks")).json();
+    const tracks = await (await request.get("/api/tracks")).json();
     for (const t of tracks) {
-      const track = await (await request.get(`http://127.0.0.1:8090/tracks/${t.slug}`)).json();
+      const track = await (await request.get(`/api/tracks/${t.slug}`)).json();
       for (const d of track.dives) {
-        const dive = await (await request.get(`http://127.0.0.1:8090/dives/${d.slug}`)).json();
+        const dive = await (await request.get(`/api/dives/${d.slug}`)).json();
         expect(dive.body.length, d.slug).toBeGreaterThan(3);
         expect(dive.try_it, d.slug).toBeTruthy();
       }

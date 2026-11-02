@@ -8,7 +8,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ table: string 
 
   const result = await getAdminData();
   if (!result.ok) {
-    return new Response(result.reason === "signed-out" ? "Please sign in at /admin/login" : "API not reachable", {
+    return new Response(result.reason === "signed-out" ? "Please sign in at /admin/login" : "Database not reachable", {
       status: result.reason === "signed-out" ? 401 : 503,
       headers: { "cache-control": "no-store" },
     });

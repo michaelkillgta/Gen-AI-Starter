@@ -25,7 +25,10 @@ jobs:
       - run: pnpm test:unit
       - run: pnpm build
 
-  api:
+
+  database:
+    # Migrations and the content seed, on the same Postgres + pgvector as production
+    # (Supabase has pgvector too). Seeded twice to prove it is safe to repeat.
     runs-on: ubuntu-24.04
     services:
       db:
@@ -37,24 +40,15 @@ jobs:
         ports: ["5432:5432"]
         options: >-
           --health-cmd "pg_isready -U fieldtested" --health-interval 3s --health-timeout 3s --health-retries 20
-    defaults:
-      run:
-        working-directory: api
+    env:
+      DATABASE_URL: postgres://fieldtested:fieldtested_dev@localhost:5432/fieldtested_test
     steps:
       - uses: actions/checkout@v7
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          components: clippy, rustfmt
-      - uses: Swatinem/rust-cache@v2.9.2
-        with:
-          workspaces: api
-      - run: cargo fmt --check
-      - run: cargo clippy -- -D warnings
-      - name: Tests (files storage)
-        run: cargo test
-        env:
-          STORAGE: files
-      - name: Tests (Postgres storage)
-        run: cargo test
-        env:
-          TEST_DATABASE_URL: postgres://fieldtested:fieldtested_dev@localhost:5432/fieldtested_test
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/seed.mjs --test-reset
+      - run: node scripts/seed.mjs
