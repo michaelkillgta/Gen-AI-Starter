@@ -11,7 +11,9 @@ export async function GET() {
     await db()`SELECT 1 FROM tools LIMIT 1`;
     return Response.json({ ok: true }, { headers: noStore });
   } catch (e) {
-    const code = (e as { code?: string }).code;
+    const err = e as { code?: string; message?: string };
+    // node-postgres reports timeouts in the message only.
+    const code = err.code ?? (/timeout/i.test(err.message ?? "") ? "ETIMEDOUT" : undefined);
     const problem =
       e instanceof DatabaseUnavailableError
         ? e.message

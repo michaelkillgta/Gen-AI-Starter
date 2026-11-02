@@ -1,18 +1,29 @@
 import "server-only";
 
-import postgres from "postgres";
+import pg from "pg";
 
 /**
  * The database connection (local Postgres, or Supabase in production).
  *
  * On Supabase use the pooled "Transaction" connection string (port 6543): each
- * serverless function then borrows a connection only while it runs. That pooler
- * can't keep prepared statements, so they are off.
+ * serverless function then borrows a connection only while it runs. node-postgres
+ * sends one query at a time per connection and uses no named prepared statements,
+ * which is what that pooler needs. (postgres.js sent several queries at once on a
+ * connection; through the pooler that hung pages and mixed up answers.)
+ *
+ * Queries are written as tagged templates, sql`SELECT … WHERE x = ${value}`; the
+ * values are sent as parameters, never pasted into the SQL.
  */
 
 export class DatabaseUnavailableError extends Error {}
 
-const globalForDb = globalThis as unknown as { sql?: postgres.Sql };
+export type Row = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+export interface Sql {
+  (strings: TemplateStringsArray, ...values: unknown[]): Promise<Row[]>;
+  /** Runs `fn` in a transaction on one connection; rolls back if it throws. */
+  begin<T>(fn: (sql: Sql) => Promise<T>): Promise<T>;
+}
 
 type Target = { host: string; port: number; user: string; password: string; database: string };
 
@@ -46,7 +57,41 @@ export function databaseTarget(): Target | null {
   };
 }
 
-export function db(): postgres.Sql {
+const DATE_OID = 1082;
+// DATE columns as "YYYY-MM-DD" strings, the way the pages expect them.
+const types = {
+  getTypeParser: ((oid: number, format?: string) =>
+    oid === DATE_OID ? (v: string) => v : pg.types.getTypeParser(oid, format as "text")) as typeof pg.types.getTypeParser,
+};
+
+/** sql`…${a}…${b}` → "…$1…$2" and [a, b]. */
+function toQuery(strings: TemplateStringsArray, values: unknown[]) {
+  return { text: strings.reduce((acc, s, i) => acc + `$${i}` + s), values };
+}
+
+function tagFor(run: (q: { text: string; values: unknown[] }) => Promise<Row[]>, pool: pg.Pool): Sql {
+  const sql = ((strings: TemplateStringsArray, ...values: unknown[]) => run(toQuery(strings, values))) as Sql;
+  sql.begin = async (fn) => {
+    const client = await pool.connect();
+    const inTx = tagFor(async (q) => (await client.query(q)).rows, pool);
+    try {
+      await client.query("BEGIN");
+      const out = await fn(inTx);
+      await client.query("COMMIT");
+      return out;
+    } catch (e) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw e;
+    } finally {
+      client.release();
+    }
+  };
+  return sql;
+}
+
+const globalForDb = globalThis as unknown as { sql?: Sql };
+
+export function db(): Sql {
   if (globalForDb.sql) return globalForDb.sql;
   const target = databaseTarget();
   if (!target) {
@@ -56,17 +101,19 @@ export function db(): postgres.Sql {
         : "DATABASE_URL is not set",
     );
   }
-  globalForDb.sql = postgres({
+  const pool = new pg.Pool({
     ...target,
     // Supabase needs encrypted connections; the local database has none.
-    ssl: /^(localhost|127\.0\.0\.1|::1)$/.test(target.host) ? false : "require",
-    prepare: false,
-    max: Number(process.env.DB_POOL_MAX ?? 3),
-    idle_timeout: 20,
-    connect_timeout: 10,
-    // DATE columns as "YYYY-MM-DD" strings, the way the pages expect them.
-    types: { date: { to: 1082, from: [1082], serialize: (v: string) => v, parse: (v: string) => v } },
-    onnotice: () => {},
+    ssl: /^(localhost|127\.0\.0\.1|::1)$/.test(target.host) ? false : { rejectUnauthorized: false },
+    max: Number(process.env.DB_POOL_MAX ?? 5),
+    idleTimeoutMillis: 20_000,
+    connectionTimeoutMillis: 10_000,
+    // Never leave a page waiting forever on one slow query.
+    query_timeout: 20_000,
+    types,
   });
+  // A dropped idle connection must not crash the server.
+  pool.on("error", (e) => console.error("database pool:", e.message));
+  globalForDb.sql = tagFor(async (q) => (await pool.query(q)).rows, pool);
   return globalForDb.sql;
 }
