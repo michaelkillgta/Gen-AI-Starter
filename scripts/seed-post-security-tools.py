@@ -18,6 +18,9 @@ PROMPTFOO_POST = "/blog/ai-red-teaming-promptfoo"
 PASSWORDS_POST = "/blog/dont-let-ai-generate-your-passwords"
 MCP_POST = "/blog/mcp-explained"
 FIVE_AGENTS_POST = "/blog/five-agents-agreeing-can-still-be-one-mistake"
+# Uma's own recording (YouTube title "Security Tools"), added 2 Nov 2026.
+VIDEO = "iphGC6903UU"
+VIDEO_URL = f"https://youtu.be/{VIDEO}"
 
 # name, Toolkit slug, section anchor, GitHub repo
 TOOLS = [
@@ -144,7 +147,8 @@ BODY = [
        "Passing your tests doesn't make an app secure. And now that AI coding agents help us build faster, "
        "==security needs the same attention as building==. The good news: there are some genuinely useful "
        "open-source tools for this. We explored 10 of them: what each one does, and where it fits in your "
-       "workflow. 👇"),
+       "workflow. 👇",
+       f"▶ [Watch my security tools walkthrough](#video-{VIDEO})"),
     box("The one idea to remember", BIG_IDEA),
 
     h("⚡ The 30-second overview", "overview"),
@@ -358,6 +362,9 @@ BODY = [
     box("Our starter stack",
         "==Gitleaks + Semgrep + Cloudflare.== Fixed rules plus an AI-assisted code audit, without paying for a "
         "separate AI pentesting platform on day one."),
+    *p(f"**Watch it.** I walk through these tools in my video. You can also [watch it on YouTube]({VIDEO_URL})."),
+    {"type": "video", "youtube_id": VIDEO, "title": "Security Tools (Uma's walkthrough video)",
+     "caption": "Security tools walkthrough"},
 
     h("🧪 Want to experiment with us?", "experiment"),
     *p("We're starting with Cloudflare Security Audit. The plan is simple:"),
@@ -392,7 +399,8 @@ BODY = [
         "find leaked secrets in Git.",
         "rule-based code scanning.",
         "template-based vulnerability scanner.",
-    ])], "[Our 5 picks in the Toolkit](/toolkit?track=security): quick notes on each one."),
+    ])], f"[My walkthrough video]({VIDEO_URL}): the security tools, explained.",
+       "[Our 5 picks in the Toolkit](/toolkit?track=security): quick notes on each one."),
 ]
 
 # The 5 tools in the Toolkit (Uma's pick, 1 Nov 2026): the other 5 keep their sections in the post only.

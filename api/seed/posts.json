@@ -42,6 +42,10 @@
         "text": "Passing your tests doesn't make an app secure. And now that AI coding agents help us build faster, ==security needs the same attention as building==. The good news: there are some genuinely useful open-source tools for this. We explored 10 of them: what each one does, and where it fits in your workflow. 👇"
       },
       {
+        "type": "paragraph",
+        "text": "▶ [Watch my security tools walkthrough](#video-iphGC6903UU)"
+      },
+      {
         "type": "callout",
         "label": "The one idea to remember",
         "text": "Passing your tests doesn't make your app safe. ==Check what you build before someone else does.=="
@@ -771,6 +775,16 @@
         "text": "==Gitleaks + Semgrep + Cloudflare.== Fixed rules plus an AI-assisted code audit, without paying for a separate AI pentesting platform on day one."
       },
       {
+        "type": "paragraph",
+        "text": "**Watch it.** I walk through these tools in my video. You can also [watch it on YouTube](https://youtu.be/iphGC6903UU)."
+      },
+      {
+        "type": "video",
+        "youtube_id": "iphGC6903UU",
+        "title": "Security Tools (Uma's walkthrough video)",
+        "caption": "Security tools walkthrough"
+      },
+      {
         "type": "heading",
         "text": "🧪 Want to experiment with us?",
         "id": "experiment"
@@ -840,6 +854,7 @@
           "[Gitleaks](https://github.com/gitleaks/gitleaks): find leaked secrets in Git.",
           "[Semgrep](https://github.com/semgrep/semgrep): rule-based code scanning.",
           "[Nuclei](https://github.com/projectdiscovery/nuclei): template-based vulnerability scanner.",
+          "[My walkthrough video](https://youtu.be/iphGC6903UU): the security tools, explained.",
           "[Our 5 picks in the Toolkit](/toolkit?track=security): quick notes on each one."
         ]
       }
