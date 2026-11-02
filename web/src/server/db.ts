@@ -23,7 +23,8 @@ type Target = { host: string; port: number; user: string; password: string; data
  * as the password instead, so it never has to go inside the link.
  */
 export function databaseTarget(): Target | null {
-  const raw = process.env.DATABASE_URL?.trim().replace(/^(['"])(.*)\1$/, "$2");
+  // Also finds the link inside a pasted "DATABASE_URL=..." line or a psql command.
+  const raw = process.env.DATABASE_URL?.match(/postgres(?:ql)?:\/\/[^\s'"]+/)?.[0];
   if (!raw) return null;
   const m = raw.match(/^postgres(?:ql)?:\/\/(.*)@([^@/:?]+)(?::(\d+))?(?:\/([^?]*))?/);
   if (!m) return null;
@@ -51,7 +52,7 @@ export function db(): postgres.Sql {
   if (!target) {
     throw new DatabaseUnavailableError(
       process.env.DATABASE_URL?.trim()
-        ? "DATABASE_URL isn't a postgresql:// link (use the Transaction pooler string)"
+        ? `DATABASE_URL isn't a postgresql:// link: it starts with "${process.env.DATABASE_URL.trim().slice(0, 14)}" (use the Transaction pooler string)`
         : "DATABASE_URL is not set",
     );
   }
