@@ -1,4 +1,4 @@
-import { DatabaseUnavailableError, db } from "@/server/db";
+import { DatabaseUnavailableError, databaseTarget, db } from "@/server/db";
 
 const noStore = { "cache-control": "no-store" };
 
@@ -14,7 +14,7 @@ export async function GET() {
     const code = (e as { code?: string }).code;
     const problem =
       e instanceof DatabaseUnavailableError
-        ? "DATABASE_URL is not set"
+        ? e.message
         : code === "28P01"
           ? "wrong database password"
           : code === "ENOTFOUND"
@@ -24,6 +24,9 @@ export async function GET() {
               : code === "42P01"
                 ? "tables missing (run 1-schema.sql and 2-content.sql)"
                 : `database error ${code ?? "unknown"}`;
-    return Response.json({ ok: false, problem }, { status: 503, headers: noStore });
+    // The address and user it tried (never the password), to compare with Supabase.
+    const t = databaseTarget();
+    const tried = t ? { host: t.host, port: t.port, user: t.user, password_set: t.password !== "" } : null;
+    return Response.json({ ok: false, problem, tried }, { status: 503, headers: noStore });
   }
 }
