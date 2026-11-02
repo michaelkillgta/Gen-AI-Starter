@@ -26,3 +26,10 @@ api/data/
 
 # Python
 __pycache__/
+
+# extra secret guards
+.env.*
+!.env.example
+!.env.production.example
+*.pem
+*.key
