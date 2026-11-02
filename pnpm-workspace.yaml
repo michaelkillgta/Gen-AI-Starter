@@ -1,2 +1,4 @@
 allowBuilds:
   "@embedded-postgres/windows-x64": true
+  # Linux machines (CI, Vercel) only need pg from this folder, not a local Postgres.
+  "@embedded-postgres/linux-x64": false
