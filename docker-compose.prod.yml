@@ -34,6 +34,9 @@ services:
       STORAGE: postgres
       CORS_ORIGINS: ${SITE_URL:?set SITE_URL in .env.production}
       FORM_POSTS_PER_MINUTE: ${FORM_POSTS_PER_MINUTE:-6}
+      # /admin login. Without these the admin area says "not set up" in production.
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-}
+      ADMIN_ORIGINS: ${ADMIN_ORIGINS:-${SITE_URL}}
     depends_on:
       db:
         condition: service_healthy

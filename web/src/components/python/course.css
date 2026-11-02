@@ -481,10 +481,12 @@
 .pyc .hero .lede{margin:14px 0 18px}
 .pyc .hero .rule{margin:16px 0 0;padding:8px 12px;gap:10px;align-items:center;border-radius:var(--r-m)}
 .pyc .hero .rule p{font-size:13.5px;line-height:1.45}
-.pyc .stack{height:400px}
-.pyc .stack-inner{transform:translateY(100px) rotateX(56deg) rotateZ(-36deg)}
+.pyc .stack{height:500px}
+.pyc .stack-inner{transform:translateY(80px) rotateX(56deg) rotateZ(-36deg)}
 .pyc #roadmap{margin-top:12px}
-@media (max-width:860px){.pyc .stack{height:330px}.pyc .stack-inner{transform:translateY(60px) rotateX(56deg) rotateZ(-36deg)}}
+/* Heights leave room for the top plate and keep the caption under the bottom one. */
+@media (max-width:860px){.pyc .stack{height:470px}.pyc .stack-inner{transform:translateY(85px) rotateX(56deg) rotateZ(-36deg)}}
+@media (max-width:420px){.pyc .stack{height:405px}.pyc .stack-inner{transform:translateY(62px) scale(.84) rotateX(56deg) rotateZ(-36deg)}}
 @media (max-width:640px){.pyc .hero .rule{display:block}.pyc .hero .rule .tag{display:inline-block;margin:0 8px 4px 0}.pyc .hero .rule p{display:inline}}
 
 /* ---------- Code runner (Pyodide in the browser): code left, output right ---------- */

@@ -385,6 +385,7 @@
   min-height: var(--tap);
   display: inline-flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .projects {
@@ -536,6 +537,34 @@
   border-radius: var(--radius-pill);
   background: var(--color-panel);
   color: var(--color-ink-soft);
+}
+
+/* Small phones: smaller step circles so the mock cards keep a usable width. */
+@media (max-width: 479px) {
+  .stepsPanel {
+    padding: 28px 18px;
+  }
+
+  .steps::before {
+    left: 19px;
+    top: 20px;
+    bottom: 20px;
+  }
+
+  .step {
+    padding-left: 54px;
+  }
+
+  .stepNum {
+    width: 40px;
+    height: 40px;
+    font-size: 19px;
+  }
+
+  .stepTitle {
+    font-size: 22px;
+    padding-top: 5px;
+  }
 }
 
 @media (min-width: 640px) {

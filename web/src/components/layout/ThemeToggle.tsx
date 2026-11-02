@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 import { THEME_KEY, type Theme } from "./theme";
 import styles from "./ThemeToggle.module.css";
@@ -9,30 +9,33 @@ function currentTheme(): Theme {
   return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
+/** Follow the OS setting until someone picks a theme, and re-render on any data-theme change. */
+function subscribe(onStoreChange: () => void) {
+  const media = matchMedia("(prefers-color-scheme: dark)");
+  const onChange = () => {
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem(THEME_KEY);
+    } catch {}
+    if (saved === "light" || saved === "dark") return;
+    document.documentElement.dataset.theme = media.matches ? "dark" : "light";
+  };
+  media.addEventListener("change", onChange);
+  const observer = new MutationObserver(onStoreChange);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  return () => {
+    media.removeEventListener("change", onChange);
+    observer.disconnect();
+  };
+}
+
 /**
  * Sun/moon button. Both icons are rendered and CSS shows the right one from
  * <html data-theme>, so the server HTML is correct before hydration.
  * Until someone clicks it, the site keeps following the OS setting live.
  */
 export function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = useState<Theme | null>(null);
-
-  useEffect(() => {
-    setTheme(currentTheme());
-    const media = matchMedia("(prefers-color-scheme: dark)");
-    const onChange = () => {
-      let saved: string | null = null;
-      try {
-        saved = localStorage.getItem(THEME_KEY);
-      } catch {}
-      if (saved === "light" || saved === "dark") return;
-      const next: Theme = media.matches ? "dark" : "light";
-      document.documentElement.dataset.theme = next;
-      setTheme(next);
-    };
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
+  const theme = useSyncExternalStore<Theme | null>(subscribe, currentTheme, () => null);
 
   function toggle() {
     const next: Theme = currentTheme() === "dark" ? "light" : "dark";
@@ -40,7 +43,6 @@ export function ThemeToggle({ className }: { className?: string }) {
     try {
       localStorage.setItem(THEME_KEY, next);
     } catch {}
-    setTheme(next);
   }
 
   return (
