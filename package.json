@@ -10,6 +10,7 @@
     "db:docker": "docker compose up -d --wait db",
     "db:migrate": "node scripts/migrate.mjs",
     "db:seed": "node scripts/seed.mjs",
+    "db:sql": "node scripts/export-sql.mjs",
     "admin:password": "node scripts/admin-password.mjs",
     "test": "cd web && pnpm test:unit && pnpm test:screens",
     "check": "pnpm --dir web lint && pnpm --dir web exec tsc --noEmit",

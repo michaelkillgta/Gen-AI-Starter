@@ -33,3 +33,6 @@ __pycache__/
 !.env.production.example
 *.pem
 *.key
+
+# Review screenshots: kept on your laptop, not on GitHub (they were most of the repo size)
+docs/screens/

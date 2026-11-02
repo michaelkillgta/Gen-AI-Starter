@@ -12,7 +12,12 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Allowed image qualities (Next 16 needs the list): 75 default, 85 for screenshots with text.
-  images: { qualities: [75, 85] },
+  // Images live in web/public, or on the media host (MEDIA_URL, e.g. a Cloudflare R2
+  // bucket at https://media.your-domain.in) once they are moved off GitHub.
+  images: {
+    qualities: [75, 85],
+    remotePatterns: process.env.MEDIA_URL ? [new URL(`${process.env.MEDIA_URL.replace(/\/$/, "")}/**`)] : [],
+  },
   // The screen tests build into their own folder, so a test run never overwrites
   // the files (and CSS) a running `next dev` is serving from .next.
   distDir: process.env.NEXT_DIST_DIR || ".next",
