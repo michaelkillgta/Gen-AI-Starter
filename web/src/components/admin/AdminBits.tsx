@@ -1,7 +1,7 @@
 import { site } from "@/lib/site";
 import styles from "./AdminBits.module.css";
 
-/** "Field Tested · Admin", without a link back into the site. */
+/** "GenAI Starter · Admin", without a link back into the site. */
 export function AdminMark() {
   return (
     <span className={styles.mark}>

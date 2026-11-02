@@ -3,7 +3,7 @@
  * that Uma fills in before launch; everything that reads them goes through here.
  */
 export const site = {
-  name: "Field Tested",
+  name: "GenAI Starter",
   tagline: "Find the right AI tool, explained simply.",
   description:
     "What each AI tool does, when to use it, and when to skip it. Made for freshers and students in India.",

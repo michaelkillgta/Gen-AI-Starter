@@ -5,13 +5,13 @@ import { PageIntro } from "@/components/layout/PageIntro";
 import { Prose } from "@/components/layout/Prose";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
-export const metadata: Metadata = { title: "Terms", description: "The simple rules for using Field Tested." };
+export const metadata: Metadata = { title: "Terms", description: "The simple rules for using GenAI Starter." };
 
 // TODO(uma): have this reviewed before launch.
 export default function TermsPage() {
   return (
     <>
-      <PageIntro title="Terms" lead="The simple rules for using Field Tested." />
+      <PageIntro title="Terms" lead="The simple rules for using GenAI Starter." />
       <Prose>
         <p className="note">Last updated: 26 September 2026. Draft, to be reviewed before launch.</p>
 

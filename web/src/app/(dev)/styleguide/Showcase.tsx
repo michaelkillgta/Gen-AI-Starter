@@ -37,7 +37,7 @@ export function Showcase() {
     <>
       <PageIntro
         title="Style guide"
-        lead="The shared building blocks of Field Tested. Resize the window: every piece adapts to phone, tablet and desktop."
+        lead="The shared building blocks of GenAI Starter. Resize the window: every piece adapts to phone, tablet and desktop."
         aside={
           <span className={styles.author}>
             <Avatar initial="U" size={40} /> Curated by Uma

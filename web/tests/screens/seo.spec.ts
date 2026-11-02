@@ -21,7 +21,7 @@ test.describe("seo and basics", () => {
 
   test("pages have titles, descriptions and share images", async ({ page, request }) => {
     await page.goto("/tracks/gen-ai/know-when-to-stop");
-    await expect(page).toHaveTitle("Know when to stop · Field Tested");
+    await expect(page).toHaveTitle("Know when to stop · GenAI Starter");
     await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /agents are built/);
     const og = await page.locator('meta[property="og:image"]').getAttribute("content");
     expect(og).toBeTruthy();

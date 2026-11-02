@@ -3,7 +3,7 @@
  * dark block mirrors the site's midnight + mint theme on <html data-theme="dark">.
  */
 
-/* Layout: the Field Tested site shell (header + nav) around a study notebook. Home = map of 7 parts → lessons; a lesson opens a player with two modes: Interactive and Full notes. */
+/* Layout: the GenAI Starter site shell (header + nav) around a study notebook. Home = map of 7 parts → lessons; a lesson opens a player with two modes: Interactive and Full notes. */
 .pyc{
   /* Light palette: plain white with a calm blue accent (Uma, 18 Oct). Dark mode below is unchanged. */
   --paper:#ffffff; --sheet:#ffffff; --sunk:#f3f6fa; --grid:transparent;
@@ -365,7 +365,7 @@
 .pyc .status-grid button[data-g="5"]{box-shadow:inset 0 -3px 0 var(--bad)}
 .pyc .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fill);color:var(--on-fill);padding:9px 16px;border-radius:10px;font-size:14px;z-index:100;box-shadow:var(--shadow)}
 
-/* ---------- Field Tested brand layer ---------- */
+/* ---------- GenAI Starter brand layer ---------- */
 .pyc{font-size:16px}
 .pyc #home{position:relative;isolation:isolate}
 .pyc #home::before{content:"";position:absolute;inset:0 0 auto;height:620px;z-index:-1;pointer-events:none;
@@ -457,7 +457,7 @@
 
 .pyc [hidden]{display:none!important}
 
-/* ---------- Fit inside the Field Tested site ---------- */
+/* ---------- Fit inside the GenAI Starter site ---------- */
 .pyc{--f-display:var(--font-display);--f-body:var(--font-body);--f-mono:var(--font-mono)}
 .pyc .wrap{max-width:var(--content-max);padding-left:var(--gutter);padding-right:var(--gutter)}
 

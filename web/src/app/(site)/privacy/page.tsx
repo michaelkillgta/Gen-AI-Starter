@@ -5,7 +5,7 @@ import { PageIntro } from "@/components/layout/PageIntro";
 import { Prose } from "@/components/layout/Prose";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
-export const metadata: Metadata = { title: "Privacy", description: "What Field Tested collects and why." };
+export const metadata: Metadata = { title: "Privacy", description: "What GenAI Starter collects and why." };
 
 // TODO(uma): have this reviewed before launch (India's DPDP Act 2023 applies).
 export default function PrivacyPage() {

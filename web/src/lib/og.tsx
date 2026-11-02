@@ -25,7 +25,7 @@ export function ogCard({ eyebrow, title, sub, dark = false }: Card) {
               <path d="M3.5 8.5l2.8 2.8L12.5 5" stroke="#1C1713" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <span style={{ fontSize: 34, fontWeight: 700, letterSpacing: -1 }}>Field Tested</span>
+          <span style={{ fontSize: 34, fontWeight: 700, letterSpacing: -1 }}>GenAI Starter</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <span style={{ fontSize: 30, color: "#F2A93B", fontWeight: 600 }}>{eyebrow}</span>

@@ -9,14 +9,14 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Who curates Field Tested, how tools are chosen, and why nobody pays to be listed.",
+  description: "Who curates GenAI Starter, how tools are chosen, and why nobody pays to be listed.",
 };
 
 export default function AboutPage() {
   return (
     <>
       <PageIntro
-        title="About Field Tested"
+        title="About GenAI Starter"
         lead="Clear paths, the best resources and real projects for freshers and college students in India."
         aside={
           <span style={{ display: "inline-flex", alignItems: "center", gap: 12, fontWeight: 600 }}>
@@ -32,7 +32,7 @@ export default function AboutPage() {
           part that matters in a real job.
         </p>
         <p>
-          Field Tested is the site I wish I had when I started: a short list of tools explained in plain words, clear
+          GenAI Starter is the site I wish I had when I started: a short list of tools explained in plain words, clear
           tracks so you always know what to learn next, and honest verdicts on the new things everyone is talking about.
         </p>
 

@@ -1,6 +1,6 @@
 import { ogCard, ogSize } from "@/lib/og";
 
-export const alt = "Field Tested: find the right AI tool, explained simply";
+export const alt = "GenAI Starter: find the right AI tool, explained simply";
 export const size = ogSize;
 export const contentType = "image/png";
 

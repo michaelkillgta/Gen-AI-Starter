@@ -32,7 +32,7 @@ const cards = [
 /** The three big cards under the toolkit: Tracks, Build challenge, Blog. */
 export function PromoCards() {
   return (
-    <section className={`container ${styles.grid}`} aria-label="More from Field Tested">
+    <section className={`container ${styles.grid}`} aria-label="More from GenAI Starter">
       {cards.map((c) => (
         <Link key={c.href} href={c.href} className={`${styles.card} ${styles[c.tone]}`}>
           <span className={styles.eyebrow}>{c.eyebrow}</span>
