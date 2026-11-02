@@ -1,28 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 
 import { THEME_SCRIPT } from "@/components/layout/theme";
 import { site } from "@/lib/site";
 import "@/styles/globals.css";
 
-const bricolage = Bricolage_Grotesque({
+// The fonts ship with the site (src/fonts, variable weights, latin), so builds never
+// download them from Google; that download made clean builds on Vercel fail.
+const bricolage = localFont({
+  src: "../fonts/BricolageGrotesque-Variable.woff2",
   variable: "--font-bricolage",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "200 800",
   display: "swap",
 });
 
-const geist = Geist({
+const geist = localFont({
+  src: "../fonts/Geist-Variable.woff2",
   variable: "--font-geist",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: "100 900",
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: "../fonts/GeistMono-Variable.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: "100 900",
   display: "swap",
 });
 
