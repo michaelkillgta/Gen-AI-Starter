@@ -39,10 +39,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FBF8F3" },
-    { media: "(prefers-color-scheme: dark)", color: "#1A1712" },
-  ],
+  // The site starts light for everyone, so the browser bar matches the light page.
+  themeColor: "#FBF8F3",
   width: "device-width",
   initialScale: 1,
 };

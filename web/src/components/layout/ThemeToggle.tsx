@@ -9,30 +9,17 @@ function currentTheme(): Theme {
   return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
-/** Follow the OS setting until someone picks a theme, and re-render on any data-theme change. */
+/** Re-render on any data-theme change. */
 function subscribe(onStoreChange: () => void) {
-  const media = matchMedia("(prefers-color-scheme: dark)");
-  const onChange = () => {
-    let saved: string | null = null;
-    try {
-      saved = localStorage.getItem(THEME_KEY);
-    } catch {}
-    if (saved === "light" || saved === "dark") return;
-    document.documentElement.dataset.theme = media.matches ? "dark" : "light";
-  };
-  media.addEventListener("change", onChange);
   const observer = new MutationObserver(onStoreChange);
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  return () => {
-    media.removeEventListener("change", onChange);
-    observer.disconnect();
-  };
+  return () => observer.disconnect();
 }
 
 /**
  * Sun/moon button. Both icons are rendered and CSS shows the right one from
  * <html data-theme>, so the server HTML is correct before hydration.
- * Until someone clicks it, the site keeps following the OS setting live.
+ * The site starts light; dark is only ever the visitor's own choice, and is remembered.
  */
 export function ThemeToggle({ className }: { className?: string }) {
   const theme = useSyncExternalStore<Theme | null>(subscribe, currentTheme, () => null);
